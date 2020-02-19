@@ -315,6 +315,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Gui\TourneesLister.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -339,6 +343,9 @@
     </Compile>
     <Compile Include="Gui\PersonneCreerWpf.xaml.cs">
       <DependentUpon>PersonneCreerWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\TourneesLister.xaml.cs">
+      <DependentUpon>TourneesLister.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modele\ContactDurgence.cs" />
     <Compile Include="Modele\Livraison.cs" />

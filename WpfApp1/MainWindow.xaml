@@ -27,7 +27,7 @@
                 </MenuItem>
                 <MenuItem Header="_Tournées">
                     <MenuItem Header="_Créer" IsEnabled="false" />
-                    <MenuItem Header="_Lister" />
+                    <MenuItem Header="_Lister" Click="MenuItem_Tournees_Lister_Click" />
                 </MenuItem>
                 <MenuItem Header="_Comptes de facturation">
                     <MenuItem Header="_Créer" Click="MenuItem_ComptesDeFacturation_Creer_Click"/>

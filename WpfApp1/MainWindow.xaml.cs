@@ -203,9 +203,8 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Personne_Creer_Click(object sender, RoutedEventArgs e)
         {
-            // ouvrir une boîte de création des personnes
-            var p = new PersonneCreerWpf();
-            p.ShowDialog();
+            PersonneCreerWpf wpf = new PersonneCreerWpf();
+            wpf.ShowDialog();
         }
 
         /// <summary>
@@ -215,9 +214,8 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Personne_Lister_Click(object sender, RoutedEventArgs e)
         {
-            // ouvrir une boîte de création des personnes
-            var p = new PersonneListerWpf();
-            p.ShowDialog();
+            PersonneListerWpf wpf = new PersonneListerWpf();
+            wpf.ShowDialog();
         }
 
         /// <summary>
@@ -227,9 +225,8 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_ComptesDeFacturation_Creer_Click(object sender, RoutedEventArgs e)
         {
-            // ouvrir une boîte de création des comptes de facturation
-            var p = new CompteDeFacturationCreerWpf();
-            p.ShowDialog();
+            CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
+            wpf.ShowDialog();
         }
 
         /// <summary>
@@ -239,9 +236,8 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_ComptesDeFacturation_Lister_Click(object sender, RoutedEventArgs e)
         {
-            // ouvrir une boîte de création des comptes de facturation
-            var p = new CompteDeFacturationListerWpf();
-            p.ShowDialog();
+            CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf();
+            wpf.ShowDialog();
         }
 
         /// <summary>
@@ -253,5 +249,18 @@ namespace TraiteurBernardWPF
         {
             CreatePDF.Start(595.27563F, 841.8898F, 1);
         }
+        
+        /// <summary>
+        /// Ouverture de la fenêtre qui liste les tournées
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Tournees_Lister_Click(object sender, RoutedEventArgs e)
+        {
+            TourneesLister wpf = new TourneesLister();
+            wpf.ShowDialog();
+        }
+
+
     }
 }
