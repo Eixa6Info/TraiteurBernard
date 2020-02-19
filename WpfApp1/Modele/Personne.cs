@@ -54,6 +54,9 @@ namespace TraiteurBernardWPF.Modele
 
         public ContactDurgence ContactDurgence { get; set; }
 
+        public float APAMontantMax { get; set; }
+        public float APALivraisonMax { get; set; }
+
         public override string ToString()
         {
             return $"{Prenom} {Nom} {Tournee}";

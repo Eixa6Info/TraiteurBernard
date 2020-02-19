@@ -119,5 +119,21 @@ namespace TraiteurBernardWPF.Gui
 
 
     }
-}
+
+        private void APA_Checked(object sender, RoutedEventArgs e)
+        {
+            txtAPALivraisonMax.Visibility = Visibility.Visible;
+            txtAPAMontantMax.Visibility = Visibility.Visible;
+        }
+
+        private void APA_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtAPALivraisonMax.Text = "0";
+            txtAPAMontantMax.Text = "0";
+            txtAPALivraisonMax.Visibility = Visibility.Hidden;
+            txtAPAMontantMax.Visibility = Visibility.Hidden;
+            edite.APALivraisonMax = 0.0F;
+            edite.APAMontantMax = 0.0F;
+        }
+    }
 }
