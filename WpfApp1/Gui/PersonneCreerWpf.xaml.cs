@@ -13,8 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Gui;
 
-namespace WpfApp1.Gui
+namespace TraiteurBernardWPF.Gui
 {
     /// <summary>
     /// Logique d'interaction pour PersonneWpf.xaml
@@ -22,7 +23,7 @@ namespace WpfApp1.Gui
     public partial class PersonneCreerWpf : Window
     {
         Personne edite;
-        BaseContext db = new BaseContext();
+        BaseContext db;
 
         public PersonneCreerWpf()
         {
@@ -89,18 +90,34 @@ namespace WpfApp1.Gui
             }
             cbTournee.ItemsSource = data;
 
-            if (edite.CompteDeFacturation != null)
-                lblCompte.Content = edite.CompteDeFacturation.ToString();
-            else
-                lblCompte.Content = "Pas de compte";
+  
+            UpdateStatus(lblContactDurgence, edite.ContactDurgence, "Pas de contact d'urgence"); 
+            UpdateStatus(lblCompte, edite.CompteDeFacturation, "Pas de compte de facturation"); 
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void CompteDeFacturationCreer(object sender, RoutedEventArgs e)
         {
             var wpf = new CompteDeFacturationListerWpf(db);
             wpf.ShowDialog();
             edite.CompteDeFacturation = wpf.CompteAssocie;
-            if (edite.CompteDeFacturation != null)  lblCompte.Content = edite.CompteDeFacturation.ToString();
+            UpdateStatus(lblCompte, edite.CompteDeFacturation, "Pas de compte de facturation");
+
         }
+
+        private void UpdateStatus(Label label, Object obj, String textIfNull)
+        {
+            label.Content = obj != null ? obj.ToString() : textIfNull;
+        }
+
+        private void ContactDurgenceCreer(object sender, RoutedEventArgs e)
+        {
+            ContactDurgenceCreer wpf = new ContactDurgenceCreer(edite.ContactDurgence, db);
+            wpf.ShowDialog();
+            edite.ContactDurgence = wpf.Edite;
+            UpdateStatus(lblContactDurgence, edite.ContactDurgence, "Pas de contact d'urgence");
+
+
+
     }
+}
 }

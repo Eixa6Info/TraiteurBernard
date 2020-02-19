@@ -1,10 +1,10 @@
-﻿<Window x:Class="WpfApp1.Gui.PersonneCreerWpf"
+﻿<Window x:Class="TraiteurBernardWPF.Gui.PersonneCreerWpf"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:WpfApp1.Gui"
+        xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
         x:Name="edition"
         Title="Edition d'une personne" Height="610.345" Width="656.897" Loaded="Window_Loaded" >
@@ -20,8 +20,8 @@
         <TextBox Text="{Binding ComplementAdresse}" materialDesign:HintAssist.Hint="Complément d'adresse"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="32,175,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="422"/>
         <TextBox Text="{Binding Ville}" materialDesign:HintAssist.Hint="Ville"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="491,175,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"/>
         <ComboBox SelectedValue="{Binding Tournee}" x:Name="cbTournee" materialDesign:HintAssist.Hint="Tournée"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Margin="32,237,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.49,-0.485"/>
-        <Button  Content="Contact d'urgence" HorizontalAlignment="Left" Margin="217,256,0,0" VerticalAlignment="Top" Width="158"/>
-        <Button  Content="Compte de facturation" HorizontalAlignment="Left" Margin="444,256,0,0" VerticalAlignment="Top" Width="185" Click="Button_Click_2"/>
+        <Button  Content="Contact d'urgence" HorizontalAlignment="Left" Margin="217,256,0,0" VerticalAlignment="Top" Width="158" Click="ContactDurgenceCreer"/>
+        <Button  Content="Compte de facturation" HorizontalAlignment="Left" Margin="444,256,0,0" VerticalAlignment="Top" Width="185" Click="CompteDeFacturationCreer"/>
         <TextBox Text="" materialDesign:HintAssist.Hint="Commentaires"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="57" Margin="32,431,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="392"/>
         <CheckBox IsChecked="{Binding MSA}" Content="MSA" HorizontalAlignment="Left" Margin="491,445,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.371,-0.261"/>
         <CheckBox IsChecked="{Binding APA}" Content="APA" HorizontalAlignment="Left" Margin="491,473,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.638,-0.979"/>
@@ -29,6 +29,7 @@
         <Button Content="Valider" HorizontalAlignment="Left" Margin="554,521,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
         <Button Content="Fermer" HorizontalAlignment="Left" Margin="444,521,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.38,0.23" Click="Button_Click"/>
         <Label x:Name="lblCompte" Content="" HorizontalAlignment="Left" Margin="444,237,0,0" VerticalAlignment="Top" Width="185"/>
+        <Label x:Name="lblContactDurgence" Content="" HorizontalAlignment="Left" Margin="217,237,0,0" VerticalAlignment="Top" Width="158"/>
         <TextBox Text="{Binding Telephone}" materialDesign:HintAssist.Hint="Téléphone"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="23" Margin="217,337,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
         <TextBox Text="{Binding Mail}" materialDesign:HintAssist.Hint="Courriel"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="23" Margin="444,337,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="185"/>
         <DatePicker  SelectedDate="{Binding DateNaissance, Mode=TwoWay}" HorizontalAlignment="Left" Margin="32,337,0,0" VerticalAlignment="Top"/>

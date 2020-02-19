@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 
-namespace WpfApp1.Gui
+namespace TraiteurBernardWPF.Gui
 {
     /// <summary>
     /// Logique d'interaction pour PersonneListe.xaml
@@ -44,6 +44,7 @@ namespace WpfApp1.Gui
                 //Chargement préalable des données liées, sinon "lazy loading"
                 db.Entry(p).Reference(s => s.Tournee).Load();
                 db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                db.Entry(p).Reference(s => s.ContactDurgence).Load();
 
                 data.Add(p);
             }
