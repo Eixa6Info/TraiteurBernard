@@ -12,7 +12,10 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ComboBox materialDesign:HintAssist.Hint="Civilité"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Margin="32,39,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox Text="{Binding Civilite}" materialDesign:HintAssist.Hint="Civilité"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Margin="32,39,0,0" VerticalAlignment="Top" Width="120">
+            <ComboBoxItem Content="Monsieur" HorizontalAlignment="Left" Width="118"/>
+            <ComboBoxItem Content="Madame" HorizontalAlignment="Left" Width="118"/>
+        </ComboBox>
         <TextBox x:Name="txtPrenom" Text="{Binding Prenom}" materialDesign:HintAssist.Hint="Prénom"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="183,39,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="192"/>
         <TextBox x:Name="txtNom" Text="{Binding Nom}" materialDesign:HintAssist.Hint="Nom"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="407,39,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="222"/>
         <TextBox Text="{Binding Adresse}" materialDesign:HintAssist.Hint="Adresse"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="32,99,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="422"/>
