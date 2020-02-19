@@ -299,15 +299,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\CompteDeFacturationWpf.xaml">
+    <Page Include="Gui\CompteDeFacturationListerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\PersonneListeWpf.xaml">
+    <Page Include="Gui\PersonneListerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\PersonneWpf.xaml">
+    <Page Include="Gui\PersonneCreerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -324,14 +324,14 @@
     <Compile Include="Gui\CompteDeFacturationCreerWpf.xaml.cs">
       <DependentUpon>CompteDeFacturationCreerWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\CompteDeFacturationWpf.xaml.cs">
-      <DependentUpon>CompteDeFacturationWpf.xaml</DependentUpon>
+    <Compile Include="Gui\CompteDeFacturationListerWpf.xaml.cs">
+      <DependentUpon>CompteDeFacturationListerWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\PersonneListeWpf.xaml.cs">
-      <DependentUpon>PersonneListeWpf.xaml</DependentUpon>
+    <Compile Include="Gui\PersonneListerWpf.xaml.cs">
+      <DependentUpon>PersonneListerWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\PersonneWpf.xaml.cs">
-      <DependentUpon>PersonneWpf.xaml</DependentUpon>
+    <Compile Include="Gui\PersonneCreerWpf.xaml.cs">
+      <DependentUpon>PersonneCreerWpf.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modele\Livraison.cs" />
     <Compile Include="Modele\Menu.cs" />

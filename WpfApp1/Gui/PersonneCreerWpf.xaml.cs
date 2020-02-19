@@ -19,12 +19,12 @@ namespace WpfApp1.Gui
     /// <summary>
     /// Logique d'interaction pour PersonneWpf.xaml
     /// </summary>
-    public partial class PersonneWpf : Window
+    public partial class PersonneCreerWpf : Window
     {
         Personne edite;
         BaseContext db = new BaseContext();
 
-        public PersonneWpf()
+        public PersonneCreerWpf()
         {
             InitializeComponent();
             edite = new Personne();
@@ -32,7 +32,7 @@ namespace WpfApp1.Gui
             db = new BaseContext();
         }
 
-        internal PersonneWpf(Personne edite, BaseContext db)
+        internal PersonneCreerWpf(Personne edite, BaseContext db)
         {
             InitializeComponent();
             this.edite = edite;
@@ -97,7 +97,7 @@ namespace WpfApp1.Gui
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            var wpf = new CompteDeFacturationWpf(db);
+            var wpf = new CompteDeFacturationListerWpf(db);
             wpf.ShowDialog();
             edite.CompteDeFacturation = wpf.CompteAssocie;
             if (edite.CompteDeFacturation != null)  lblCompte.Content = edite.CompteDeFacturation.ToString();

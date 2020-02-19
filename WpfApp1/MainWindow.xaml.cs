@@ -44,6 +44,7 @@ namespace TraiteurBernardWPF
                 var l = new Livraison();
                 l.JourLivraison = "samedi";
                 l.JourRepas1 = "samedi";
+
                 l.JourRepas2  =  "dimanche" ;
                 jours.Add(l);
 
@@ -189,14 +190,14 @@ namespace TraiteurBernardWPF
         private void MenuItem_Personne_Creer_Click(object sender, RoutedEventArgs e)
         {
             // ouvrir une boîte de création des personnes
-            var p = new PersonneWpf();
+            var p = new PersonneCreerWpf();
             p.ShowDialog();
         }
 
         private void MenuItem_Personne_Lister_Click(object sender, RoutedEventArgs e)
         {
             // ouvrir une boîte de création des personnes
-            var p = new PersonneListeWpf();
+            var p = new PersonneListerWpf();
             p.ShowDialog();
         }
 

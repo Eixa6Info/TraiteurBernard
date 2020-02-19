@@ -19,19 +19,19 @@ namespace WpfApp1.Gui
     /// <summary>
     /// Logique d'interaction pour CompteDeFacturationWpf.xaml
     /// </summary>
-    public partial class CompteDeFacturationWpf : Window
+    public partial class CompteDeFacturationListerWpf : Window
     {
         private BaseContext db;
 
         public TypeCompteDeFacturation CompteAssocie { get; set; }
 
-        public CompteDeFacturationWpf()
+        public CompteDeFacturationListerWpf()
         {
             InitializeComponent();
             this.db = new BaseContext();
         }
 
-        public CompteDeFacturationWpf(BaseContext db)
+        public CompteDeFacturationListerWpf(BaseContext db)
         {
             InitializeComponent();
             this.db = db;

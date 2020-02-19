@@ -20,11 +20,11 @@ namespace WpfApp1.Gui
     /// <summary>
     /// Logique d'interaction pour PersonneListe.xaml
     /// </summary>
-    public partial class PersonneListeWpf : Window
+    public partial class PersonneListerWpf : Window
     {
         BaseContext db = new BaseContext();
 
-        public PersonneListeWpf()
+        public PersonneListerWpf()
         {
             InitializeComponent();
             dataGridPersonnes.CanUserAddRows = false;
@@ -77,7 +77,7 @@ namespace WpfApp1.Gui
         {
             var p = dataGridPersonnes.SelectedItem as Personne;
 
-            var wpf = new PersonneWpf(p,db);
+            var wpf = new PersonneCreerWpf(p,db);
 
             wpf.ShowDialog();
         }
@@ -86,7 +86,7 @@ namespace WpfApp1.Gui
         {
             var p = dataGridPersonnes.SelectedItem as Personne;
 
-            var wpf = new PersonneWpf(p, db);
+            var wpf = new PersonneCreerWpf(p, db);
 
             wpf.ShowDialog();
         }
