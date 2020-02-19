@@ -30,7 +30,11 @@ namespace TraiteurBernardWPF
             InitializeComponent();
         }
 
-        // Initialisation, création des tournées
+        /// <summary>
+        /// Initialisation, création des tournées
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             using (var db = new BaseContext())
@@ -182,11 +186,21 @@ namespace TraiteurBernardWPF
             }
         }
 
+        /// <summary>
+        /// Fermeture de l'application
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItem_Quitter_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Ouverture de la fenêtre pour créer une personne
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItem_Personne_Creer_Click(object sender, RoutedEventArgs e)
         {
             // ouvrir une boîte de création des personnes
@@ -194,6 +208,11 @@ namespace TraiteurBernardWPF
             p.ShowDialog();
         }
 
+        /// <summary>
+        /// Ouverture de la fenêtre qui liste les personnes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuItem_Personne_Lister_Click(object sender, RoutedEventArgs e)
         {
             // ouvrir une boîte de création des personnes
@@ -201,6 +220,35 @@ namespace TraiteurBernardWPF
             p.ShowDialog();
         }
 
+        /// <summary>
+        /// Ouverture de la fenêtre pour créer un compte de facturation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_ComptesDeFacturation_Creer_Click(object sender, RoutedEventArgs e)
+        {
+            // ouvrir une boîte de création des comptes de facturation
+            var p = new CompteDeFacturationCreerWpf();
+            p.ShowDialog();
+        }
+
+        /// <summary>
+        /// Ouverture de la fenêtre qui liste les comptes de facturations
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_ComptesDeFacturation_Lister_Click(object sender, RoutedEventArgs e)
+        {
+            // ouvrir une boîte de création des comptes de facturation
+            var p = new CompteDeFacturationListerWpf();
+            p.ShowDialog();
+        }
+
+        /// <summary>
+        /// Création d'un PDF
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnCreatePDFSemaine1_Click(object sender, RoutedEventArgs e)
         {
             CreatePDF.Start(595.27563F, 841.8898F, 1);

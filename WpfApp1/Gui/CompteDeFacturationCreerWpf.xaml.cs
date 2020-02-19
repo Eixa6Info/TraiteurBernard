@@ -27,20 +27,36 @@ namespace TraiteurBernardWPF.Gui
 
         public TypeCompteDeFacturation Edite { get; set; }
 
+        /// <summary>
+        /// Constructeur sans paramètres donc sans dépendance donc création 
+        /// </summary>
         public CompteDeFacturationCreerWpf()
         {
             InitializeComponent();
             this.db = new BaseContext();
             this.Edite = new TypeCompteDeFacturation();
+            edition.DataContext = this.Edite;
         }
 
+        /// <summary>
+        /// Construction avec paramètres edite et db donc avec dépendances donc modification
+        /// </summary>
+        /// <param name="edite"></param>
+        /// <param name="db"></param>
         public CompteDeFacturationCreerWpf(TypeCompteDeFacturation edite, BaseContext db)
         {
             InitializeComponent();
             this.db = db;
             this.Edite = edite;
+            edition.DataContext = this.Edite;
         }
 
+        /// <summary>
+        /// Au chargement de la fenêtre on affiche toutes les personnes de la bdd dans la
+        /// liste prévue pour cela
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -57,9 +73,14 @@ namespace TraiteurBernardWPF.Gui
 
             lstPersonnes.ItemsSource = data;
 
+            // Si il y a déjà des personnes dans le groupe (cas de modification), on les affiche
+            // dans le label prévue pour cela
             if(Edite.Personnes!=null) lblListe.Content = string.Join<Personne>("\n", (from p in Edite.Personnes select p).ToArray());
         }
 
+        /// <summary>
+        /// Fonction de vérification des données avant création / édition
+        /// </summary>
         private bool VerifierDonnees()
         {
             bool retval = false;
@@ -71,17 +92,18 @@ namespace TraiteurBernardWPF.Gui
 
             return retval;
         }
-        private void Fermer(object sender, RoutedEventArgs e)
-        {
 
+        /// <summary>
+        /// Valider les changements / la création
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Valider(object sender, RoutedEventArgs e)
+        {
             if (VerifierDonnees())
             {
-                Edite.Nom = txtNom.Text;
-
                 if (Edite.ID == 0) db.Add(Edite);
-
                 db.SaveChanges();
-
                 Close();
             }
             else
@@ -93,6 +115,12 @@ namespace TraiteurBernardWPF.Gui
 
         }
 
+        /// <summary>
+        /// Fonction qui permet de mettre à jour la liste des personnes en fonction des choix
+        /// de l'utilisateur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lstPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selected = lstPersonnes.SelectedItem as Personne;

@@ -25,27 +25,43 @@ namespace TraiteurBernardWPF.Gui
         Personne edite;
         BaseContext db;
 
+        /// <summary>
+        /// Constructeur sans paramètres donc pour la création d'une personne
+        /// </summary>
         public PersonneCreerWpf()
         {
             InitializeComponent();
-            edite = new Personne();
-            edition.DataContext = edite;
-            db = new BaseContext();
+            this.edite = new Personne();
+            this.db = new BaseContext();
+            edition.DataContext = this.edite;
         }
 
-        internal PersonneCreerWpf(Personne edite, BaseContext db)
+        /// <summary>
+        /// Constructeure avec paramètres donc pour la modification d'une personne
+        /// </summary>
+        /// <param name="edite"></param>
+        /// <param name="db"></param>
+        public PersonneCreerWpf(Personne edite, BaseContext db)
         {
             InitializeComponent();
             this.edite = edite;
             this.db = db;
-            edition.DataContext = edite;
+            edition.DataContext = this.edite;
         }
 
+        /// <summary>
+        /// Fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Fermer(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Verifier les données avant de valider l'opération
+        /// </summary>
         private bool VerifierDonnees()
         {
             bool retval = false;
@@ -58,15 +74,17 @@ namespace TraiteurBernardWPF.Gui
             return retval;
         }
 
+        /// <summary>
+        /// Valider l'opération de création / modification
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
             if (VerifierDonnees())
             {
-              
                 if (edite.ID == 0) db.Add(edite);
-
                 db.SaveChanges();
-               
             }
             else
             {
@@ -76,6 +94,12 @@ namespace TraiteurBernardWPF.Gui
             }
         }
 
+        /// <summary>
+        /// Au chargement de la fenêtre, on charge les tournées dans la combobox prévue pour cela
+        /// et on met à jour les status de Contact et de Compte de facturation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var req = from t in db.TypeTournee
@@ -95,37 +119,63 @@ namespace TraiteurBernardWPF.Gui
             UpdateStatus(lblCompte, edite.CompteDeFacturation, "Pas de compte de facturation"); 
         }
 
+        /// <summary>
+        /// Créer un compte de facturation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CompteDeFacturationCreer(object sender, RoutedEventArgs e)
         {
-            var wpf = new CompteDeFacturationListerWpf(db);
+            CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf(db);
             wpf.ShowDialog();
             edite.CompteDeFacturation = wpf.CompteAssocie;
             UpdateStatus(lblCompte, edite.CompteDeFacturation, "Pas de compte de facturation");
 
         }
 
+        /// <summary>
+        /// Mettre à jour le status sur un label, par rapport à un objet et en fournissant un
+        /// string au cas ou l'objet est null
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="obj"></param>
+        /// <param name="textIfNull"></param>
         private void UpdateStatus(Label label, Object obj, String textIfNull)
         {
             label.Content = obj != null ? obj.ToString() : textIfNull;
         }
 
+        /// <summary>
+        /// // Créer un contact d'urgence
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ContactDurgenceCreer(object sender, RoutedEventArgs e)
         {
             ContactDurgenceCreer wpf = new ContactDurgenceCreer(edite.ContactDurgence, db);
             wpf.ShowDialog();
             edite.ContactDurgence = wpf.Edite;
             UpdateStatus(lblContactDurgence, edite.ContactDurgence, "Pas de contact d'urgence");
+        }
 
-
-
-    }
-
+        /// <summary>
+        /// Si la cache APA est coché, on affiche les champs pour rentrer les informations
+        /// associées (livraison max  et montant max)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void APA_Checked(object sender, RoutedEventArgs e)
         {
             txtAPALivraisonMax.Visibility = Visibility.Visible;
             txtAPAMontantMax.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Si la cache APA est décoché, on cache les champs pour rentrer les informations 
+        /// associées et on les remet à 0
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void APA_Unchecked(object sender, RoutedEventArgs e)
         {
             txtAPALivraisonMax.Text = "0";

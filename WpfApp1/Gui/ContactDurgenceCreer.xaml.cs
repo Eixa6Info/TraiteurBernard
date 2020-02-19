@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,15 +27,25 @@ namespace TraiteurBernardWPF.Gui
 
         public ContactDurgence Edite { get; set; }
 
+        /// <summary>
+        /// Un seul constructeur, on peut passer un objet null ou un objet initialisé 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public ContactDurgenceCreer(ContactDurgence edite, BaseContext db)
         {
             InitializeComponent();
             this.db = db;
+            
+            // Si l'objet est null on l'initialise
             this.Edite = edite != null ? edite : new ContactDurgence();
-            edition.DataContext = Edite;
+            edition.DataContext = this.Edite;
 
         }
 
+        /// <summary>
+        /// Fonction de vérification des données avant sauvgarde
+        /// </summary>
         private bool VerifierDonnees()
         {
             bool isValid = false;
@@ -45,10 +56,21 @@ namespace TraiteurBernardWPF.Gui
             {
                 isValid = true;
             }
+            
+            // TODO : gérer les erreurs téléphone invalide REGEX
+            /*if (!Regex.Match(txtTelephone.Text, @"^(\d{ 10})$").Success)
+            {
+                
+            }*/
 
             return isValid;
         }
 
+        /// <summary>
+        /// Valider l'opération de création / modification
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
             if (VerifierDonnees())
@@ -63,6 +85,11 @@ namespace TraiteurBernardWPF.Gui
            
         }
 
+        /// <summary>
+        /// Suppression du contact
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Supprimer(object sender, RoutedEventArgs e)
         {
             if (Edite.ID == 0) return;
