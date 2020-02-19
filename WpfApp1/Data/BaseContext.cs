@@ -6,7 +6,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using TraiteurBernardWPF.Modele;
-using WpfApp1.Modele;
+using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.Data
 {

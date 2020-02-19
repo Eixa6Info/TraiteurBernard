@@ -41,12 +41,12 @@ namespace TraiteurBernardWPF.Gui
             edition.DataContext = edite;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Fermer(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private bool VerifieDonneesIndispensables()
+        private bool VerifierDonnees()
         {
             bool retval = false;
 
@@ -58,9 +58,9 @@ namespace TraiteurBernardWPF.Gui
             return retval;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Valider(object sender, RoutedEventArgs e)
         {
-            if (VerifieDonneesIndispensables())
+            if (VerifierDonnees())
             {
               
                 if (edite.ID == 0) db.Add(edite);

@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.PDF;
-using WpfApp1.Gui;
+using TraiteurBernardWPF.Gui;
 
 namespace TraiteurBernardWPF
 {

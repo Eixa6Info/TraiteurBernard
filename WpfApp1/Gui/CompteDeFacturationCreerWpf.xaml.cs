@@ -13,9 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
-using WpfApp1.Modele;
+using TraiteurBernardWPF.Modele;
 
-namespace WpfApp1.Gui
+namespace TraiteurBernardWPF.Gui
 {
     /// <summary>
     /// Logique d'interaction pour CompteDeFacturationCreerWpf.xaml
@@ -60,7 +60,7 @@ namespace WpfApp1.Gui
             if(Edite.Personnes!=null) lblListe.Content = string.Join<Personne>("\n", (from p in Edite.Personnes select p).ToArray());
         }
 
-        private bool VerifieDonneesIndispensables()
+        private bool VerifierDonnees()
         {
             bool retval = false;
 
@@ -71,10 +71,10 @@ namespace WpfApp1.Gui
 
             return retval;
         }
-        private void btnFermer_Click(object sender, RoutedEventArgs e)
+        private void Fermer(object sender, RoutedEventArgs e)
         {
 
-            if (VerifieDonneesIndispensables())
+            if (VerifierDonnees())
             {
                 Edite.Nom = txtNom.Text;
 

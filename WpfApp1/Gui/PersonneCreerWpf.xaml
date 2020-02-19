@@ -26,8 +26,8 @@
         <CheckBox IsChecked="{Binding MSA}" Content="MSA" HorizontalAlignment="Left" Margin="491,445,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.371,-0.261"/>
         <CheckBox IsChecked="{Binding APA}" Content="APA" HorizontalAlignment="Left" Margin="491,473,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.638,-0.979"/>
         <CheckBox IsChecked="{Binding Actif}" Content="Actif" HorizontalAlignment="Left" Margin="32,527,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.117,-0.454"/>
-        <Button Content="Valider" HorizontalAlignment="Left" Margin="554,521,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
-        <Button Content="Fermer" HorizontalAlignment="Left" Margin="444,521,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.38,0.23" Click="Button_Click"/>
+        <Button Content="Valider" HorizontalAlignment="Left" Margin="554,521,0,0" VerticalAlignment="Top" Width="75" Click="Valider"/>
+        <Button Content="Fermer" HorizontalAlignment="Left" Margin="444,521,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.38,0.23" Click="Fermer"/>
         <Label x:Name="lblCompte" Content="" HorizontalAlignment="Left" Margin="444,237,0,0" VerticalAlignment="Top" Width="185"/>
         <Label x:Name="lblContactDurgence" Content="" HorizontalAlignment="Left" Margin="217,237,0,0" VerticalAlignment="Top" Width="158"/>
         <TextBox Text="{Binding Telephone}" materialDesign:HintAssist.Hint="Téléphone"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="23" Margin="217,337,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>

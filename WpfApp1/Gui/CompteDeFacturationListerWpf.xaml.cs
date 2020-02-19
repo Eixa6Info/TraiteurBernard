@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
-using WpfApp1.Modele;
+using TraiteurBernardWPF.Modele;
 
-namespace WpfApp1.Gui
+namespace TraiteurBernardWPF.Gui
 {
     /// <summary>
     /// Logique d'interaction pour CompteDeFacturationWpf.xaml
@@ -37,18 +37,18 @@ namespace WpfApp1.Gui
             this.db = db;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Fermer(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void btnAssocier_Click(object sender, RoutedEventArgs e)
+        private void Associer(object sender, RoutedEventArgs e)
         {
             CompteAssocie = dataGridComptes.SelectedItem as TypeCompteDeFacturation ;
            
         }
 
-        private void btnNouveau_Click(object sender, RoutedEventArgs e)
+        private void Nouveau(object sender, RoutedEventArgs e)
         {
             var wpf = new CompteDeFacturationCreerWpf();
             wpf.ShowDialog();

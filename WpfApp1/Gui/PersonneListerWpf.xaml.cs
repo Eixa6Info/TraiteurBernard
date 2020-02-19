@@ -54,7 +54,7 @@ namespace TraiteurBernardWPF.Gui
           
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Fermer(object sender, RoutedEventArgs e)
         {
             db.Dispose();
             Close();
@@ -65,7 +65,7 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void click_personne_delete(object sender, RoutedEventArgs e)
+        private void Supprimer(object sender, RoutedEventArgs e)
         {
            
         }
@@ -74,7 +74,7 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void click_personne_modify(object sender, RoutedEventArgs e)
+        private void Modifier(object sender, RoutedEventArgs e)
         {
             var p = dataGridPersonnes.SelectedItem as Personne;
 

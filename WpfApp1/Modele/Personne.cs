@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
-using WpfApp1.Modele;
+using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.Modele
 {
@@ -51,6 +51,8 @@ namespace TraiteurBernardWPF.Modele
         public TypeCompteDeFacturation CompteDeFacturation { get; set; }
 
         public TypeTournee Tournee { get; set; }
+
+        public ContactDurgence ContactDurgence { get; set; }
 
         public override string ToString()
         {

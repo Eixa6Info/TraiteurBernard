@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TraiteurBernardWPF.Modele;
 
-namespace WpfApp1.Modele
+namespace TraiteurBernardWPF.Modele
 {
     public class TypeCompteDeFacturation
     {
