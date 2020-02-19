@@ -1,0 +1,16 @@
+﻿<Window x:Class="WpfApp1.Gui.CompteDeFacturationWpf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Gui"
+        mc:Ignorable="d"
+        Title="Comptes de facturation" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <ListBox x:Name="dataGridComptes" HorizontalAlignment="Left" Height="346" Margin="10,10,0,0" VerticalAlignment="Top" Width="772"/>
+        <Button Content="Fermer" HorizontalAlignment="Left" Margin="707,377,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button x:Name="btnNouveau" Content="Nouveau compte" HorizontalAlignment="Left" Margin="10,377,0,0" VerticalAlignment="Top" Width="144" Click="btnNouveau_Click"/>
+        <Button x:Name="btnAssocier" Content="Associer à ce compte" HorizontalAlignment="Left" Margin="185,377,0,0" VerticalAlignment="Top" Width="165" RenderTransformOrigin="-4.516,1.001" Click="btnAssocier_Click"/>
+
+    </Grid>
+</Window>

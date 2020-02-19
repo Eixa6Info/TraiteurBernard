@@ -1,0 +1,33 @@
+﻿<Window x:Class="WpfApp1.Gui.PersonneListeWpf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.Gui"
+        mc:Ignorable="d"
+        Title="PersonneListe" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" AutoGenerateColumns="False" SelectionChanged="dataGridPersonnes_SelectionChanged" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>
+                <DataGridTextColumn Header="Prénom" IsReadOnly="True" Binding="{Binding Prenom}"/>
+                <DataGridTextColumn Header="Tournée" IsReadOnly="True" Binding="{Binding Tournee}"/>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="click_personne_delete">Supprimer</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="click_personne_modify">Modifier</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Fermer" HorizontalAlignment="Left" Margin="707,377,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Button_Click" />
+    </Grid>
+</Window>
