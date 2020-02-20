@@ -22,8 +22,8 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class CompteDeFacturationCreerWpf : Window
     {
-        BaseContext db;
-      
+
+        private BaseContext db;
 
         public TypeCompteDeFacturation Edite { get; set; }
 
@@ -60,14 +60,14 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            var req = from t in db.Personnes
+            IQueryable<Personne> req = from t in this.db.Personnes
                       select t;
 
             List<Personne> data = new List<Personne>();
 
-            foreach (var p in req)
+            foreach (Personne p in req)
             {
-                db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
                 data.Add(p);
             }
 
@@ -75,7 +75,7 @@ namespace TraiteurBernardWPF.Gui
 
             // Si il y a déjà des personnes dans le groupe (cas de modification), on les affiche
             // dans le label prévue pour cela
-            if(Edite.Personnes!=null) lblListe.Content = string.Join<Personne>("\n", (from p in Edite.Personnes select p).ToArray());
+            if(this.Edite.Personnes!=null) lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
         }
 
         /// <summary>
@@ -102,8 +102,8 @@ namespace TraiteurBernardWPF.Gui
         {
             if (VerifierDonnees())
             {
-                if (Edite.ID == 0) db.Add(Edite);
-                db.SaveChanges();
+                if (this.Edite.ID == 0) this.db.Add(Edite);
+                this.db.SaveChanges();
                 Close();
             }
             else
@@ -123,22 +123,22 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void lstPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selected = lstPersonnes.SelectedItem as Personne;
+            Personne selected = lstPersonnes.SelectedItem as Personne;
 
-            if (Edite.Personnes == null) Edite.Personnes = new List<Personne>();
+            if (this.Edite.Personnes == null) this.Edite.Personnes = new List<Personne>();
 
-            var found = (from p in Edite.Personnes
+            Personne found = (from p in Edite.Personnes
                         where p.ID == selected.ID
                         select p).FirstOrDefault();
 
             if(found != null)
             {
-                Edite.Personnes.Remove(found);
+                this.Edite.Personnes.Remove(found);
             }
             else
             {
-                Edite.Personnes.Add(selected);
-                lblListe.Content = string.Join<Personne>("\n", (from p in Edite.Personnes select p).ToArray());
+                this.Edite.Personnes.Add(selected);
+                lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
 
             }
         }

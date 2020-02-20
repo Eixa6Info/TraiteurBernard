@@ -22,7 +22,7 @@ namespace TraiteurBernardWPF.Gui
     public partial class TourneesLister : Window
     {
 
-        BaseContext db;
+        private BaseContext db;
 
         /// <summary>
         /// Constructeur
@@ -62,7 +62,7 @@ namespace TraiteurBernardWPF.Gui
                 //Chargement préalable des données liées, sinon "lazy loading"
                 // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
                 // voir pour plus de détails 
-                db.Entry(p).Collection(s => s.JoursLivraisonsRepas).Load();
+                this.db.Entry(p).Collection(s => s.JoursLivraisonsRepas).Load();
                 data.Add(p);
             }
 

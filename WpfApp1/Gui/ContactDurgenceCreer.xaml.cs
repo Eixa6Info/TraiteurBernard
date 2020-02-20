@@ -23,9 +23,10 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class ContactDurgenceCreer : Window
     {
-        BaseContext db;
 
-        private ContactDurgence sauvegardeEdite { get; set; }
+        private BaseContext db;
+
+        private ContactDurgence sauvegardeEdite;
 
         public ContactDurgence Edite { get; set; }
 

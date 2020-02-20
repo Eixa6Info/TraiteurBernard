@@ -21,6 +21,7 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class CompteDeFacturationListerWpf : Window
     {
+
         private BaseContext db;
 
         public TypeCompteDeFacturation CompteAssocie { get; set; }
@@ -69,7 +70,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Associer(object sender, RoutedEventArgs e)
         {
-            CompteAssocie = dataGridComptes.SelectedItem as TypeCompteDeFacturation ;
+            this.CompteAssocie = dataGridComptes.SelectedItem as TypeCompteDeFacturation ;
         }
 
         /// <summary>
@@ -80,7 +81,7 @@ namespace TraiteurBernardWPF.Gui
         private void Modifier(object sender, RoutedEventArgs e)
         {
 
-            var t = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
+            TypeCompteDeFacturation t = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
             CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf(t, db);
             wpf.ShowDialog();
            
@@ -93,7 +94,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Nouveau(object sender, RoutedEventArgs e)
         {
-            var wpf = new CompteDeFacturationCreerWpf();
+            CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
             wpf.ShowDialog();
             RafraichirDataGrid();
            
@@ -115,12 +116,12 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         private void RafraichirDataGrid()
         {
-            var req = from t in db.ComptesDeFacturation
+            IQueryable<TypeCompteDeFacturation> req = from t in this.db.ComptesDeFacturation
                       select t;
 
-            var data = new List<TypeCompteDeFacturation>();
+            List<TypeCompteDeFacturation> data = new List<TypeCompteDeFacturation>();
 
-            foreach (var tt in req)
+            foreach (TypeCompteDeFacturation tt in req)
             {
                 data.Add(tt);
 

@@ -37,7 +37,7 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            using (var db = new BaseContext())
+            using (BaseContext db = new BaseContext())
             {
 
                 db.Database.EnsureDeleted();

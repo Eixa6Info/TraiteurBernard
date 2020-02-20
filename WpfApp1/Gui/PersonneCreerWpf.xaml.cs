@@ -22,8 +22,9 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class PersonneCreerWpf : Window
     {
-        Personne edite;
-        BaseContext db;
+
+        private Personne edite;
+        private BaseContext db;
 
         /// <summary>
         /// Constructeur sans paramètres donc pour la création d'une personne
@@ -83,8 +84,8 @@ namespace TraiteurBernardWPF.Gui
         {
             if (VerifierDonnees())
             {
-                if (edite.ID == 0) db.Add(edite);
-                db.SaveChanges();
+                if (this.edite.ID == 0) this.db.Add(edite);
+                this.db.SaveChanges();
             }
             else
             {
@@ -102,21 +103,21 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var req = from t in db.TypeTournee
+            IQueryable<TypeTournee> req = from t in this.db.TypeTournee
                       select t;
 
-            var data = new List<TypeTournee>();
+            List<TypeTournee> data = new List<TypeTournee>();
 
-            foreach (var tt in req)
+            foreach (TypeTournee tt in req)
             {
-                db.Entry(tt).Collection(s => s.JoursLivraisonsRepas).Load();
+                this.db.Entry(tt).Collection(s => s.JoursLivraisonsRepas).Load();
                 data.Add(tt);
             }
-            cbTournee.ItemsSource = data;
 
+            cbTournee.ItemsSource = data;
   
-            UpdateStatus(lblContactDurgence, edite.ContactDurgence, "Pas de contact d'urgence"); 
-            UpdateStatus(lblCompte, edite.CompteDeFacturation, "Pas de compte de facturation"); 
+            this.UpdateStatus(lblContactDurgence, this.edite.ContactDurgence, "Pas de contact d'urgence"); 
+            this.UpdateStatus(lblCompte, this.edite.CompteDeFacturation, "Pas de compte de facturation"); 
         }
 
         /// <summary>
@@ -128,8 +129,8 @@ namespace TraiteurBernardWPF.Gui
         {
             CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf(db);
             wpf.ShowDialog();
-            edite.CompteDeFacturation = wpf.CompteAssocie;
-            UpdateStatus(lblCompte, edite.CompteDeFacturation, "Pas de compte de facturation");
+            this.edite.CompteDeFacturation = wpf.CompteAssocie;
+            this.UpdateStatus(lblCompte, this.edite.CompteDeFacturation, "Pas de compte de facturation");
 
         }
 
@@ -154,8 +155,8 @@ namespace TraiteurBernardWPF.Gui
         {
             ContactDurgenceCreer wpf = new ContactDurgenceCreer(edite.ContactDurgence, db);
             wpf.ShowDialog();
-            edite.ContactDurgence = wpf.Edite;
-            UpdateStatus(lblContactDurgence, edite.ContactDurgence, "Pas de contact d'urgence");
+            this.edite.ContactDurgence = wpf.Edite;
+            this.UpdateStatus(lblContactDurgence, this.edite.ContactDurgence, "Pas de contact d'urgence");
         }
 
         /// <summary>
@@ -182,8 +183,8 @@ namespace TraiteurBernardWPF.Gui
             txtAPAMontantMax.Text = "0";
             txtAPALivraisonMax.Visibility = Visibility.Hidden;
             txtAPAMontantMax.Visibility = Visibility.Hidden;
-            edite.APALivraisonMax = 0.0F;
-            edite.APAMontantMax = 0.0F;
+            this.edite.APALivraisonMax = 0.0F;
+            this.edite.APAMontantMax = 0.0F;
         }
     }
 }

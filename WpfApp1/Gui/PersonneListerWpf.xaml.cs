@@ -22,7 +22,8 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class PersonneListerWpf : Window
     {
-        BaseContext db = new BaseContext();
+
+        private BaseContext db;
 
         /// <summary>
         /// On bloque la possibilité à l'utilisateur d'ajouter des lignes (note : on peut
@@ -32,6 +33,7 @@ namespace TraiteurBernardWPF.Gui
         {
             InitializeComponent();
             dataGridPersonnes.CanUserAddRows = false;
+            this.db = new BaseContext();
         }
 
         /// <summary>
@@ -43,18 +45,19 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
                   
-            var req = from t in db.Personnes
+            IQueryable<Personne> req = from t in db.Personnes
                         select t;
 
             List<Personne> data = new List<Personne>();
-            foreach(var p in req)
+
+            foreach(Personne p in req)
             {
                 //Chargement préalable des données liées, sinon "lazy loading"
                 // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
                 // voir pour plus de détails 
-                db.Entry(p).Reference(s => s.Tournee).Load();
-                db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
-                db.Entry(p).Reference(s => s.ContactDurgence).Load();
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
 
                 data.Add(p);
             }
@@ -69,7 +72,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Fermer(object sender, RoutedEventArgs e)
         {
-            db.Dispose();
+            this.db.Dispose();
             Close();
         }
 
@@ -90,9 +93,9 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Modifier(object sender, RoutedEventArgs e)
         {
-            var p = dataGridPersonnes.SelectedItem as Personne;
+            Personne p = dataGridPersonnes.SelectedItem as Personne;
 
-            var wpf = new PersonneCreerWpf(p,db);
+            PersonneCreerWpf wpf = new PersonneCreerWpf(p, this.db);
 
             wpf.ShowDialog();
         }
@@ -105,9 +108,9 @@ namespace TraiteurBernardWPF.Gui
         /// // TODO : voir cette fonction
         private void dataGridPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var p = dataGridPersonnes.SelectedItem as Personne;
+            Personne p = dataGridPersonnes.SelectedItem as Personne;
 
-            var wpf = new PersonneCreerWpf(p, db);
+            PersonneCreerWpf wpf = new PersonneCreerWpf(p, this.db);
 
             wpf.ShowDialog();
         }
