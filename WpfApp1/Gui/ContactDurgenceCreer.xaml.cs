@@ -25,6 +25,8 @@ namespace TraiteurBernardWPF.Gui
     {
         BaseContext db;
 
+        private ContactDurgence sauvegardeEdite { get; set; }
+
         public ContactDurgence Edite { get; set; }
 
         /// <summary>
@@ -36,9 +38,26 @@ namespace TraiteurBernardWPF.Gui
         {
             InitializeComponent();
             this.db = db;
-            
-            // Si l'objet est null on l'initialise
-            this.Edite = edite != null ? edite : new ContactDurgence();
+
+            if (edite != null)
+            {
+                // On sauvegarde l'objet en paramètre comme si l'utilisateur ferme la fenêtre sans valider,
+                // on pourra reutiliser la version original
+                this.sauvegardeEdite = new ContactDurgence
+                {
+                    ID = -1,
+                    Prenom = edite.Prenom,
+                    Nom = edite.Nom,
+                    Telephone = edite.Telephone
+                };
+                this.Edite = edite;
+            }
+            else
+            {
+                this.sauvegardeEdite = null;
+                this.Edite = new ContactDurgence();
+            }
+
             edition.DataContext = this.Edite;
 
         }
@@ -75,8 +94,7 @@ namespace TraiteurBernardWPF.Gui
         {
             if (VerifierDonnees())
             {
-                if (Edite.ID == 0) db.Add(Edite);
-                db.SaveChanges();
+                if (this.Edite.ID == 0) this.db.Add(this.Edite);
                 Close();
             }
             else MessageBox.Show("Les informations de nom, prénom et téléphone sont indispensables",
@@ -92,9 +110,28 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Supprimer(object sender, RoutedEventArgs e)
         {
-            if (Edite.ID == 0) return;
-            db.Remove(Edite);
-            Edite = null;
+            if (this.Edite.ID != 0) this.db.Remove(this.Edite);
+            this.Edite = null;
+            Close();
+        }
+
+        /// <summary>
+        /// Fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Fermer(object sender, RoutedEventArgs e)
+        {
+            // Si le contact n'étai pas null, on renvoit l'original sinon on renvoit un contact null
+            if(this.sauvegardeEdite != null)
+            {
+                this.Edite.Nom = this.sauvegardeEdite.Nom;
+                this.Edite.Prenom = this.sauvegardeEdite.Prenom;
+                this.Edite.Telephone = this.sauvegardeEdite.Telephone;
+            }
+            else
+                this.Edite = null;
+            
             Close();
         }
     }
