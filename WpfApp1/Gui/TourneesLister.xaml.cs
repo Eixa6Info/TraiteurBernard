@@ -52,10 +52,11 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            var req = from t in db.TypeTournee
+            var req = from t in this.db.TypeTournee
                       select t;
 
             List<TypeTournee> data = new List<TypeTournee>();
+
             foreach (var p in req)
             {
                 //Chargement préalable des données liées, sinon "lazy loading"
@@ -65,26 +66,6 @@ namespace TraiteurBernardWPF.Gui
             }
 
             dataGridTournees.ItemsSource = data;
-        }
-
-        /// <summary>
-        /// Supprimer la tournée
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Supprimer(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        /// <summary>
-        /// Modifier la tournée
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Modifier(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
     }
