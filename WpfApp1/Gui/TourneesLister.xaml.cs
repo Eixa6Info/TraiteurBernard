@@ -52,7 +52,7 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            var req = from t in this.db.TypeTournee
+            IQueryable<TypeTournee> req = from t in this.db.TypeTournee
                       select t;
 
             List<TypeTournee> data = new List<TypeTournee>();
@@ -62,10 +62,12 @@ namespace TraiteurBernardWPF.Gui
                 //Chargement préalable des données liées, sinon "lazy loading"
                 // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
                 // voir pour plus de détails 
+                db.Entry(p).Collection(s => s.JoursLivraisonsRepas).Load();
                 data.Add(p);
             }
 
             dataGridTournees.ItemsSource = data;
+            
         }
 
     }
