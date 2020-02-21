@@ -71,8 +71,8 @@ namespace TraiteurBernardWPF.Gui
                 foreach(TraiteurBernardWPF.Modele.Menu menu in listeMenus)
                 {
 
-                    // Tableau qui représente les 7 plats hypothétique de la semaine
-                    Plat[] tabPlats = new Plat[7];
+                    // Tableau qui représente les 8 plats hypothétique du jour
+                    Plat[] tabPlats = new Plat[8];
 
                     // Conversion de l'hashset des plats en tableau puis copie dans le tableau précédent
                     menu.Plats.CopyTo(tabPlats);
