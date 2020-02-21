@@ -5,37 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        Title="Liste des menus" Height="733.462" Width="800" Loaded="Window_Loaded">
+        Title="Liste des menus" Height="890.962" Width="1222" Loaded="Window_Loaded">
     <Grid>
-        <DataGrid  x:Name="dataGridTournees" HorizontalAlignment="Left" Height="645" Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" Width="772" AutoGenerateColumns="False"  >
+        <DataGrid  x:Name="dataGridTournees" HorizontalAlignment="Left" Height="803" Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" Width="1194" AutoGenerateColumns="False"  >
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>-->
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Expander x:Name="expanderLivraisons" Header="" >
 
-                                <DataGrid  ItemsSource="{Binding}" x:Name="dataGridLivraisons" HorizontalAlignment="Left"  Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="false"  >
-                                    <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Jour" IsReadOnly="True" Binding="{Binding Jour}"/>
-                                        <DataGridTemplateColumn>
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <DataGrid ItemsSource="{Binding Plats}" x:Name="dataGridLivraisons" HorizontalAlignment="Left"  Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="true"  >
-                                                    </DataGrid>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
+
+                            <Expander x:Name="expanderLivraisons" Header="{Binding Header}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+                                <DataGrid  ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Plats}" x:Name="dataGridLivraisons"  HorizontalAlignment="Left"  Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="false"  >
+                                        <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Jour N°" IsReadOnly="True" Binding="{Binding Jour}"/>
+                                        <DataGridTextColumn Header="Entrée du midi" IsReadOnly="True" Binding="{Binding EntreeMidi}"/>
+                                        <DataGridTextColumn Header="Plat 1 du midi" IsReadOnly="True" Binding="{Binding Plat1Midi}"/>
+                                        <DataGridTextColumn Header="Plat 2 du midi" IsReadOnly="True" Binding="{Binding Plat2Midi}"/>
+                                        <DataGridTextColumn Header="Plat 3 du midi" IsReadOnly="True" Binding="{Binding Plat3Midi}"/>
+                                        <DataGridTextColumn Header="Dessert du midi" IsReadOnly="True" Binding="{Binding DessertMidi}"/>
+                                        <DataGridTextColumn Header="Entrée du soir" IsReadOnly="True" Binding="{Binding EntreeSoir}"/>
+                                        <DataGridTextColumn Header="Plat du soir" IsReadOnly="True" Binding="{Binding PlatSoir}"/>
+                                        <DataGridTextColumn Header="Dessert du soir" IsReadOnly="True" Binding="{Binding DessertSoir}"/>
                                     </DataGrid.Columns>
-                                </DataGrid>
+                                    </DataGrid>
 
                             </Expander>
+
+
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Fermer" HorizontalAlignment="Left" Margin="707,660,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" />
+        <Button Content="Fermer" HorizontalAlignment="Left" Margin="1129,818,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" />
+        
 
     </Grid>
 </Window>
