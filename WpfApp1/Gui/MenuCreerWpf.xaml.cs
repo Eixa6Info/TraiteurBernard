@@ -38,7 +38,41 @@ namespace TraiteurBernardWPF.Gui
             this.Edite = new TraiteurBernardWPF.Modele.Menu { Plats = new HashSet<Plat>() };
             edition.DataContext = this.Edite;     
         }
+        
+        /// <summary>
+        /// Constructeur avec paramètres pour modification
+        /// </summary>
+        public MenuCreerWpf(TraiteurBernardWPF.Modele.Menu edite, BaseContext db)
+        {
+            InitializeComponent();
+            this.db = db;
+            this.Edite = edite;
+            edition.DataContext = this.Edite;
+            this.BinderLesDonnees();
+        }
 
+        /// <summary>
+        /// Fonction pour assigner les données aux textbox (dans le cas d'une mofication)
+        /// </summary>
+        private void BinderLesDonnees()
+        {
+            // Tableau qui représente les 8 plats hypothétique du jour
+            Plat[] tabPlats = new Plat[8];
+
+            // Conversion de l'hashset des plats en tableau puis copie dans le tableau précédent
+            this.Edite.Plats.CopyTo(tabPlats);
+
+            txtEntreeMidi.Text = tabPlats[0] != null ? tabPlats[0].Name : "vide";
+            txtPlat1Midi.Text = tabPlats[1] != null ? tabPlats[1].Name : "vide";
+            txtPlat2Midi.Text = tabPlats[2] != null ? tabPlats[2].Name : "vide";
+            txtPlat3Midi.Text = tabPlats[3] != null ? tabPlats[3].Name : "vide";
+            txtDessertMidi.Text = tabPlats[4] != null ? tabPlats[4].Name : "vide";
+            txtEntreeSoir.Text = tabPlats[5] != null ? tabPlats[5].Name : "vide";
+            txtPlatSoir.Text = tabPlats[6] != null ? tabPlats[6].Name : "vide";
+            txtDessertSoir.Text = tabPlats[7] != null ? tabPlats[7].Name : "vide";
+
+
+        }
         /// <summary>
         /// Fonction de vérification des données avant création / édition
         /// </summary>
@@ -82,6 +116,10 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
+            // On reintialise les plats pour ne pas faire de doublons lors de l'ajout / modification
+            // des plats sur le formulaire
+            this.Edite.Plats = new HashSet<Plat>();
+
             Dictionary<TextBox, int> txt_type = new Dictionary<TextBox, int>
             {
                 { txtEntreeMidi, Plat.ENTREE_MIDI},
@@ -99,7 +137,7 @@ namespace TraiteurBernardWPF.Gui
             // Quelles données sont obligatoires ici ?? demander à Fabien
             if (VerifierDonnees())
             {
-                if (this.Edite.ID == 0) this.db.Add(Edite);
+                if (this.Edite.ID == 0) this.db.Add(this.Edite);
                 this.db.SaveChanges();
                 Close();
             }

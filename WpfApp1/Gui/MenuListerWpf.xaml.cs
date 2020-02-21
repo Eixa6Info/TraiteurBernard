@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -101,8 +102,52 @@ namespace TraiteurBernardWPF.Gui
 
             }
 
-            dataGridTournees.ItemsSource = data;
+            dataGridSemaines.ItemsSource = data;
 
+        }
+
+        /// <summary>
+        /// Suppression d'un menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Supprimer(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Modification d'un menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Modifier(object sender, RoutedEventArgs e)
+        {
+            // Forme : { Header = Semaine INT | Menus INT2, Plats = LIST<OBJECT> }
+            string header = dataGridSemaines.SelectedItem.ToString();
+
+            // Forme : { Jour = 1, EntreeMidi = STRING, Plat1Midi = STRING, 
+            // Plat2Midi = STRING, Plat3Midi = STRING, DessertMidi = STRING, 
+            // EntreeSoir = STRING, PlatSoir = STRING, DessertSoir = STRING }
+            string dataContext = (sender as Button).DataContext.ToString();
+
+            // Regex pour prendre le premier nombre
+            Regex digits = new Regex(@"\d+");
+
+            int semaineId = short.Parse(digits.Match(header).Value);
+            int jourId = short.Parse(digits.Match(dataContext).Value);
+
+            // On récupère le menu associé au clique du bouton
+            TraiteurBernardWPF.Modele.Menu menu = (from t in this.db.Menu where t.Jour == jourId && t.Semaine == semaineId select t).FirstOrDefault();
+            this.db.Entry(menu).Collection(m => m.Plats).Load();
+           
+            MenuCreerWpf wpf = new MenuCreerWpf(menu, this.db);
+
+            wpf.ShowDialog();
+
+            // On recharge les données car il n'y a pas de Binding donc les données ne changent
+            // pas automatiquement
+            this.Window_Loaded(new Object(), new RoutedEventArgs());
         }
 
     }
