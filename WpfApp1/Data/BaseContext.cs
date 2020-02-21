@@ -6,7 +6,6 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using TraiteurBernardWPF.Modele;
-using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.Data
 {
@@ -17,8 +16,10 @@ namespace TraiteurBernardWPF.Data
         internal DbSet<Personne> Personnes { get; set; }
         internal DbSet<TypeTournee> TypeTournee { get; set; }
         internal DbSet<Livraison> Livraisons { get; set; }
-
         internal DbSet<TypeCompteDeFacturation> ComptesDeFacturation { get; set; }
+        internal DbSet<ContactDurgence> ContactDurgence { get; set; }
+        internal DbSet<Menu> Menu { get; set; }
+        internal DbSet<Plat> Plat { get; set; }
 
         // Pour que ceci soit dispo, 
         // Install-Package Microsoft.EntityFrameworkCore.Sqlite

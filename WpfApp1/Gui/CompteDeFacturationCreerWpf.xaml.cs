@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
-using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.Gui
 {

@@ -11,15 +11,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
-using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.Gui
 {
     /// <summary>
-    /// Logique d'interaction pour TourneesLister.xaml
+    /// Logique d'interaction pour MenuListerWpf.xaml
     /// </summary>
-    public partial class TourneesLister : Window
+    public partial class MenuListerWpf : Window
     {
 
         private BaseContext db;
@@ -27,11 +27,12 @@ namespace TraiteurBernardWPF.Gui
         /// <summary>
         /// Constructeur
         /// </summary>
-        public TourneesLister()
+        public MenuListerWpf()
         {
             InitializeComponent();
             this.db = new BaseContext();
         }
+
 
         /// <summary>
         /// Fermer la fenêtre
@@ -51,24 +52,24 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // Utilisation du namespace car la classe Menu existe déjà nativement en C#
+            IQueryable<TraiteurBernardWPF.Modele.Menu> req = from t in this.db.Menu
+                                          select t;
 
-            IQueryable<TypeTournee> req = from t in this.db.TypeTournee
-                      select t;
+            List<List<TraiteurBernardWPF.Modele.Menu>> data = new List<List<TraiteurBernardWPF.Modele.Menu>>();
 
-            List<TypeTournee> data = new List<TypeTournee>();
-
-            foreach (var p in req)
+            for (int i = 1; i < 10; i++)
             {
-                //Chargement préalable des données liées, sinon "lazy loading"
-                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
-                // voir pour plus de détails 
-                this.db.Entry(p).Collection(s => s.JoursLivraisonsRepas).Load();
-                data.Add(p);
+                data.Add(MenuDao.getAllFromWeek(i));
             }
 
             dataGridTournees.ItemsSource = data;
-            
+
         }
 
+        private void DataGridTemplateColumn_SourceUpdated(object sender, DataTransferEventArgs e)
+        {
+
+        }
     }
 }

@@ -303,7 +303,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\ContactDurgenceCreer.xaml">
+    <Page Include="Gui\ContactDurgenceCreerWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\MenuCreerWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\MenuListerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -315,7 +323,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Gui\TourneesLister.xaml">
+    <Page Include="Gui\TourneesListerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,8 +343,14 @@
     <Compile Include="Gui\CompteDeFacturationListerWpf.xaml.cs">
       <DependentUpon>CompteDeFacturationListerWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\ContactDurgenceCreer.xaml.cs">
-      <DependentUpon>ContactDurgenceCreer.xaml</DependentUpon>
+    <Compile Include="Gui\ContactDurgenceCreerWpf.xaml.cs">
+      <DependentUpon>ContactDurgenceCreerWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\MenuCreerWpf.xaml.cs">
+      <DependentUpon>MenuCreerWpf.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Gui\MenuListerWpf.xaml.cs">
+      <DependentUpon>MenuListerWpf.xaml</DependentUpon>
     </Compile>
     <Compile Include="Gui\PersonneListerWpf.xaml.cs">
       <DependentUpon>PersonneListerWpf.xaml</DependentUpon>
@@ -344,8 +358,8 @@
     <Compile Include="Gui\PersonneCreerWpf.xaml.cs">
       <DependentUpon>PersonneCreerWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\TourneesLister.xaml.cs">
-      <DependentUpon>TourneesLister.xaml</DependentUpon>
+    <Compile Include="Gui\TourneesListerWpf.xaml.cs">
+      <DependentUpon>TourneesListerWpf.xaml</DependentUpon>
     </Compile>
     <Compile Include="Modele\ContactDurgence.cs" />
     <Compile Include="Modele\Livraison.cs" />

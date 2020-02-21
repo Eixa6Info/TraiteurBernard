@@ -13,9 +13,12 @@ namespace TraiteurBernardWPF.Modele
 
         public int Jour { get; set; }
 
-
         public HashSet<Plat> Plats { get; set; }
 
+        public override string ToString()
+        {
+            return $"Semaine {Semaine} | Jour {Jour}";
+        }
 
     }
 }

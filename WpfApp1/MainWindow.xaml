@@ -33,6 +33,10 @@
                     <MenuItem Header="_Créer" Click="MenuItem_ComptesDeFacturation_Creer_Click"/>
                     <MenuItem Header="_Lister" Click="MenuItem_ComptesDeFacturation_Lister_Click" />
                 </MenuItem>
+                <MenuItem Header="_Menus">
+                    <MenuItem Header="_Créer" Click="MenuItem_Menus_Creer_Click"/>
+                    <MenuItem Header="_Lister" Click="MenuItem_Menus_Lister_Click" />
+                </MenuItem>
             </Menu>
 
         </DockPanel>

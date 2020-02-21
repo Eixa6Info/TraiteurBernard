@@ -14,14 +14,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
-using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.Gui
 {
     /// <summary>
-    /// Logique d'interaction pour ContactDurgenceCreer.xaml
+    /// Logique d'interaction pour ContactDurgenceCreerWpf.xaml
     /// </summary>
-    public partial class ContactDurgenceCreer : Window
+    public partial class ContactDurgenceCreerWpf : Window
     {
 
         private BaseContext db;
@@ -35,7 +34,7 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public ContactDurgenceCreer(ContactDurgence edite, BaseContext db)
+        public ContactDurgenceCreerWpf(ContactDurgence edite, BaseContext db)
         {
             InitializeComponent();
             this.db = db;

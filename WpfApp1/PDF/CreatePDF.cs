@@ -532,7 +532,8 @@ namespace TraiteurBernardWPF.PDF
     private static void printMenu()
     {
         List<Menu> menus = MenuDao.getAllFromWeek(semaine);
-
+            // Willy
+            Console.WriteLine("Nombre de menus : " + menus.Count);
             foreach(var menu in menus)
      {
 
@@ -546,7 +547,8 @@ namespace TraiteurBernardWPF.PDF
             }
 
             var plats = new List<Plat>(menu.Plats);
-
+            // Willy
+            Console.WriteLine("Nombre de plats : " + plats.Count);
             double column = columnSpace * menu.Jour;
 
             foreach(var plat in plats)
@@ -587,6 +589,7 @@ namespace TraiteurBernardWPF.PDF
                     try
                     {
                             String platString = plat.Name;//.toLowerCase();
+
                             platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.toLowerCase();
                         PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
                     }

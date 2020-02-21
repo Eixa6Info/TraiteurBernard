@@ -153,7 +153,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void ContactDurgenceCreer(object sender, RoutedEventArgs e)
         {
-            ContactDurgenceCreer wpf = new ContactDurgenceCreer(edite.ContactDurgence, db);
+            ContactDurgenceCreerWpf wpf = new ContactDurgenceCreerWpf(edite.ContactDurgence, db);
             wpf.ShowDialog();
             this.edite.ContactDurgence = wpf.Edite;
             this.UpdateStatus(lblContactDurgence, this.edite.ContactDurgence, "Pas de contact d'urgence");

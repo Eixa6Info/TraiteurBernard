@@ -257,10 +257,35 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Tournees_Lister_Click(object sender, RoutedEventArgs e)
         {
-            TourneesLister wpf = new TourneesLister();
+            TourneesListerWpf wpf = new TourneesListerWpf();
+            wpf.ShowDialog();
+        }
+        
+        
+        /// <summary>
+        /// Ouverture de la fenêtre qui liste les menus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Menus_Lister_Click(object sender, RoutedEventArgs e)
+        {
+            MenuListerWpf wpf = new MenuListerWpf();
+            wpf.ShowDialog();
+        }
+       
+        /// <summary>
+        /// Ouverture de la fenêtre pour créer un menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Menus_Creer_Click(object sender, RoutedEventArgs e)
+        {
+            MenuCreerWpf wpf = new MenuCreerWpf();
             wpf.ShowDialog();
         }
 
+
+        
 
     }
 }
