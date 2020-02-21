@@ -43,6 +43,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Fermer(object sender, RoutedEventArgs e)
         {
+            this.db.Dispose();
             Close();
         }
 
@@ -82,14 +83,14 @@ namespace TraiteurBernardWPF.Gui
                     object rowForm = new
                     {
                         Jour = menu.Jour,
-                        EntreeMidi = tabPlats[0] != null ? tabPlats[0].Name : "vide",
-                        Plat1Midi = tabPlats[1] != null ? tabPlats[1].Name : "vide",
-                        Plat2Midi = tabPlats[2] != null ? tabPlats[2].Name : "vide",
-                        Plat3Midi = tabPlats[3] != null ? tabPlats[3].Name : "vide",
-                        DessertMidi = tabPlats[4] != null ? tabPlats[4].Name : "vide",
-                        EntreeSoir = tabPlats[5] != null ? tabPlats[5].Name : "vide",
-                        PlatSoir = tabPlats[6] != null ? tabPlats[6].Name : "vide",
-                        DessertSoir = tabPlats[7] !=null ? tabPlats[7].Name : "vide",
+                        EntreeMidi = tabPlats[0] != null ? tabPlats[0].Name : "",
+                        Plat1Midi = tabPlats[1] != null ? tabPlats[1].Name : "",
+                        Plat2Midi = tabPlats[2] != null ? tabPlats[2].Name : "",
+                        Plat3Midi = tabPlats[3] != null ? tabPlats[3].Name : "",
+                        DessertMidi = tabPlats[4] != null ? tabPlats[4].Name : "",
+                        EntreeSoir = tabPlats[5] != null ? tabPlats[5].Name : "",
+                        PlatSoir = tabPlats[6] != null ? tabPlats[6].Name : "",
+                        DessertSoir = tabPlats[7] !=null ? tabPlats[7].Name : "",
                     };
 
                     rowFormList.Add(rowForm);
@@ -142,8 +143,7 @@ namespace TraiteurBernardWPF.Gui
             int jourId = short.Parse(digits.Match(dataContext).Value);
 
             // On récupère le menu associé au clique du bouton
-            TraiteurBernardWPF.Modele.Menu menu = (from t in this.db.Menu where t.Jour == jourId && t.Semaine == semaineId select t).FirstOrDefault();
-            this.db.Entry(menu).Collection(m => m.Plats).Load();
+            TraiteurBernardWPF.Modele.Menu menu = MenuDao.getFirstFromWeekAndDay(semaineId, jourId, this.db);
 
             return menu;
         }
@@ -161,6 +161,7 @@ namespace TraiteurBernardWPF.Gui
             MenuCreerWpf wpf = new MenuCreerWpf(menu, this.db);
 
             wpf.ShowDialog();
+
 
             // On recharge les données car il n'y a pas de Binding donc les données ne changent
             // pas automatiquement

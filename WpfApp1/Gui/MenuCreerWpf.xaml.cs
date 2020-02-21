@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 
@@ -62,14 +63,14 @@ namespace TraiteurBernardWPF.Gui
             // Conversion de l'hashset des plats en tableau puis copie dans le tableau précédent
             this.Edite.Plats.CopyTo(tabPlats);
 
-            txtEntreeMidi.Text = tabPlats[0] != null ? tabPlats[0].Name : "vide";
-            txtPlat1Midi.Text = tabPlats[1] != null ? tabPlats[1].Name : "vide";
-            txtPlat2Midi.Text = tabPlats[2] != null ? tabPlats[2].Name : "vide";
-            txtPlat3Midi.Text = tabPlats[3] != null ? tabPlats[3].Name : "vide";
-            txtDessertMidi.Text = tabPlats[4] != null ? tabPlats[4].Name : "vide";
-            txtEntreeSoir.Text = tabPlats[5] != null ? tabPlats[5].Name : "vide";
-            txtPlatSoir.Text = tabPlats[6] != null ? tabPlats[6].Name : "vide";
-            txtDessertSoir.Text = tabPlats[7] != null ? tabPlats[7].Name : "vide";
+            txtEntreeMidi.Text = tabPlats[0] != null ? tabPlats[0].Name : "";
+            txtPlat1Midi.Text = tabPlats[1] != null ? tabPlats[1].Name : "";
+            txtPlat2Midi.Text = tabPlats[2] != null ? tabPlats[2].Name : "";
+            txtPlat3Midi.Text = tabPlats[3] != null ? tabPlats[3].Name : "";
+            txtDessertMidi.Text = tabPlats[4] != null ? tabPlats[4].Name : "";
+            txtEntreeSoir.Text = tabPlats[5] != null ? tabPlats[5].Name : "";
+            txtPlatSoir.Text = tabPlats[6] != null ? tabPlats[6].Name : "";
+            txtDessertSoir.Text = tabPlats[7] != null ? tabPlats[7].Name : "";
 
 
         }
@@ -150,7 +151,44 @@ namespace TraiteurBernardWPF.Gui
 
         }
 
+        /// <summary>
+        /// Fonction qui sert à verifier si la semaine et le jour indiqués appartiennent déjà a un menu.
+        /// Si c'est le cas, on bind toutes les valeurs du menu déjà existant en offrant la possibilité
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChargerSiExistant(object sender, TextChangedEventArgs e)
+        {
+            int semaineId = 0;
+            int jourId = 0;
+            if(!String.IsNullOrEmpty(txtNumJour.Text) && !String.IsNullOrEmpty(txtNumSemaine.Text))
+            {
+                semaineId = short.Parse(txtNumSemaine.Text);
+
+                jourId = short.Parse(txtNumJour.Text);
+            }
 
 
+            TraiteurBernardWPF.Modele.Menu menu = MenuDao.getFirstFromWeekAndDay(semaineId, jourId, this.db);
+
+            if (menu != null)
+            {
+                //this.db.Entry(menu).Collection(m => m.Plats).Load();
+                this.Edite = menu;
+            }
+            else
+            {
+                this.Edite = new TraiteurBernardWPF.Modele.Menu
+                {
+                    Jour = jourId,
+                    Semaine = semaineId,
+                    Plats = new HashSet<Plat>()
+                };
+            }
+
+            this.BinderLesDonnees();
+
+        }
     }
 }

@@ -9,8 +9,8 @@
         mc:Ignorable="d"
         Title="Créer un menu" Height="544" Width="446">
     <Grid>
-        <TextBox x:Name="txtNumSemaine" materialDesign:HintAssist.Hint="Semaine N°"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Semaine}" VerticalAlignment="Top" Width="179"/>
-        <TextBox x:Name="txtNumJour" materialDesign:HintAssist.Hint="Jour N°"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="205,10,0,0" TextWrapping="Wrap" Text="{Binding Jour}" VerticalAlignment="Top" Width="179"/>
+        <TextBox x:Name="txtNumSemaine" materialDesign:HintAssist.Hint="Semaine N°" TextChanged="ChargerSiExistant" materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Semaine}" VerticalAlignment="Top" Width="179"/>
+        <TextBox x:Name="txtNumJour" materialDesign:HintAssist.Hint="Jour N°" TextChanged="ChargerSiExistant" materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="205,10,0,0" TextWrapping="Wrap" Text="{Binding Jour}" VerticalAlignment="Top" Width="179"/>
         <TextBox x:Name="txtEntreeMidi" materialDesign:HintAssist.Hint="Entrée du midi"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,55,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="374"/>
         <TextBox x:Name="txtPlat1Midi" materialDesign:HintAssist.Hint="Plat N°1 du midi"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,100,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="374"/>
         <TextBox x:Name="txtPlat2Midi" materialDesign:HintAssist.Hint="Plat N°2 du midi"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="8,145,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="374"/>

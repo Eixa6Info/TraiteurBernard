@@ -9,11 +9,24 @@ namespace TraiteurBernardWPF.DAO
 {
     class MenuDao
     {
+
+        internal static Menu getFirstFromWeekAndDay(int semaine, int jour, BaseContext db)
+        {
+
+
+            TraiteurBernardWPF.Modele.Menu menu = (from t in db.Menu where t.Jour == jour && t.Semaine == semaine select t).FirstOrDefault();
+            if(menu != null) db.Entry(menu).Collection(m => m.Plats).Load();
+
+            //db.Dispose();
+
+            return menu;
+        }
+
         internal static List<Menu> getAllFromWeek(int semaine)
         {
-            BaseContext bd = new BaseContext();
-            //this.db.Entry(p).Reference(s => s.Tournee).Load();
-            IQueryable<Menu> req = from t in bd.Menu
+            BaseContext db = new BaseContext();
+
+            IQueryable<Menu> req = from t in db.Menu
                                    where t.Semaine == semaine
                                        select t;
 
@@ -24,11 +37,14 @@ namespace TraiteurBernardWPF.DAO
                 //Chargement préalable des données liées, sinon "lazy loading"
                 // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
                 // voir pour plus de détails 
-                bd.Entry(p).Collection(s => s.Plats).Load();
+                db.Entry(p).Collection(s => s.Plats).Load();
 
 
                 data.Add(p);
             }
+
+            db.Dispose();
+
             return data;
         }
     }
