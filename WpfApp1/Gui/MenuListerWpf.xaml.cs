@@ -113,15 +113,19 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Supprimer(object sender, RoutedEventArgs e)
         {
-
+            TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
+            this.db.Remove(menu);
+            this.db.SaveChanges();
+            this.Window_Loaded(new object(), new RoutedEventArgs());
         }
 
         /// <summary>
-        /// Modification d'un menu
+        /// Recupérer le menu sur lequel un évènement est déclenché (nottament pour le clique
+        /// des boutons
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Modifier(object sender, RoutedEventArgs e)
+        /// <returns></returns>
+        private TraiteurBernardWPF.Modele.Menu RecupererMenuSelectionne(object sender)
         {
             // Forme : { Header = Semaine INT | Menus INT2, Plats = LIST<OBJECT> }
             string header = dataGridSemaines.SelectedItem.ToString();
@@ -140,7 +144,20 @@ namespace TraiteurBernardWPF.Gui
             // On récupère le menu associé au clique du bouton
             TraiteurBernardWPF.Modele.Menu menu = (from t in this.db.Menu where t.Jour == jourId && t.Semaine == semaineId select t).FirstOrDefault();
             this.db.Entry(menu).Collection(m => m.Plats).Load();
-           
+
+            return menu;
+        }
+
+        /// <summary>
+        /// Modification d'un menu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Modifier(object sender, RoutedEventArgs e)
+        {
+
+            TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
+
             MenuCreerWpf wpf = new MenuCreerWpf(menu, this.db);
 
             wpf.ShowDialog();

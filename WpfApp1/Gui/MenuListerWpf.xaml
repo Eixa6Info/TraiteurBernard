@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        Title="Liste des menus" Height="890.962" Width="1222" Loaded="Window_Loaded">
+        Title="Liste des menus" Height="856.462" Width="1374" Loaded="Window_Loaded">
     <Grid>
-        <DataGrid  x:Name="dataGridSemaines" HorizontalAlignment="Left" Height="803" Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" Width="1194" AutoGenerateColumns="False"  >
+        <DataGrid  x:Name="dataGridSemaines" HorizontalAlignment="Left" Height="803" Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" Width="1346" AutoGenerateColumns="False"  >
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>-->
                 <DataGridTemplateColumn>
@@ -48,7 +48,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Fermer" HorizontalAlignment="Left" Margin="1129,818,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" />
+        <Button Content="Fermer" HorizontalAlignment="Left" Margin="1281,781,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" />
         
 
     </Grid>
