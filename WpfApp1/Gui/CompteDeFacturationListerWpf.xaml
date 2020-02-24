@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        Title="Comptes de facturation" Height="450" Width="800" Loaded="Window_Loaded">
+        ResizeMode="NoResize"
+        Title="Liste des comptes de facturation" Height="500" Width="700" Loaded="Window_Loaded">
     <Grid>
-        <DataGrid  x:Name="dataGridComptes" HorizontalAlignment="Left" Height="346" CanUserAddRows="false"  AutoGenerateColumns="False"  Margin="10,10,0,0" VerticalAlignment="Top" Width="772">
+        <DataGrid  x:Name="dataGridComptes" HorizontalAlignment="Left" Height="346" CanUserAddRows="false"  AutoGenerateColumns="False"  Margin="10,10,0,0" VerticalAlignment="Top" Width="672">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>
 
@@ -27,8 +28,8 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-       
-        <Button Content="Fermer" HorizontalAlignment="Left" Margin="707,377,0,0" VerticalAlignment="Top" Width="75" Click="Fermer"/>
+
+        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="Fermer"/>
         <Button x:Name="btnNouveau" Content="Nouveau compte" HorizontalAlignment="Left" Margin="10,377,0,0" VerticalAlignment="Top" Width="144" Click="Nouveau"/>
         <Button x:Name="btnAssocier" Content="Associer à ce compte" HorizontalAlignment="Left" Margin="185,377,0,0" VerticalAlignment="Top" Width="165" RenderTransformOrigin="-4.516,1.001" Click="Associer"/>
 

@@ -35,6 +35,7 @@ namespace TraiteurBernardWPF.Gui
         public MenuCreerWpf()
         {
             InitializeComponent();
+            Title += "Création d'un menu";
             this.db = new BaseContext();
             this.Edite = new TraiteurBernardWPF.Modele.Menu { Plats = new HashSet<Plat>() };
             edition.DataContext = this.Edite;     
@@ -46,6 +47,7 @@ namespace TraiteurBernardWPF.Gui
         public MenuCreerWpf(TraiteurBernardWPF.Modele.Menu edite, BaseContext db)
         {
             InitializeComponent();
+            Title += "Modification d'un menu";
             this.db = db;
             this.Edite = edite;
             edition.DataContext = this.Edite;

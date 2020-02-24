@@ -17,6 +17,7 @@ using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.PDF;
 using TraiteurBernardWPF.Gui;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF
 {
@@ -27,6 +28,7 @@ namespace TraiteurBernardWPF
     {
         public MainWindow()
         {
+            WinFormWpf.CornerTopLeftToComputer(this);
             InitializeComponent();
         }
 
@@ -204,6 +206,7 @@ namespace TraiteurBernardWPF
         private void MenuItem_Personne_Creer_Click(object sender, RoutedEventArgs e)
         {
             PersonneCreerWpf wpf = new PersonneCreerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
 
@@ -215,6 +218,7 @@ namespace TraiteurBernardWPF
         private void MenuItem_Personne_Lister_Click(object sender, RoutedEventArgs e)
         {
             PersonneListerWpf wpf = new PersonneListerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
 
@@ -226,6 +230,7 @@ namespace TraiteurBernardWPF
         private void MenuItem_ComptesDeFacturation_Creer_Click(object sender, RoutedEventArgs e)
         {
             CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
 
@@ -237,6 +242,7 @@ namespace TraiteurBernardWPF
         private void MenuItem_ComptesDeFacturation_Lister_Click(object sender, RoutedEventArgs e)
         {
             CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
 
@@ -258,6 +264,7 @@ namespace TraiteurBernardWPF
         private void MenuItem_Tournees_Lister_Click(object sender, RoutedEventArgs e)
         {
             TourneesListerWpf wpf = new TourneesListerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
         
@@ -270,6 +277,7 @@ namespace TraiteurBernardWPF
         private void MenuItem_Menus_Lister_Click(object sender, RoutedEventArgs e)
         {
             MenuListerWpf wpf = new MenuListerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
        
@@ -281,6 +289,7 @@ namespace TraiteurBernardWPF
         private void MenuItem_Menus_Creer_Click(object sender, RoutedEventArgs e)
         {
             MenuCreerWpf wpf = new MenuCreerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
 

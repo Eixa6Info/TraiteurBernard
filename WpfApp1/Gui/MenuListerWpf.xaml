@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        Title="Liste des menus" Height="856.462" Width="1374" Loaded="Window_Loaded">
+        ResizeMode="NoResize"
+        Title="Liste des menus" Height="900" Width="1400" Loaded="Window_Loaded">
     <Grid>
-        <DataGrid  x:Name="dataGridSemaines" HorizontalAlignment="Left" Height="803" Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" Width="1346" AutoGenerateColumns="False"  >
+        <DataGrid  x:Name="dataGridSemaines" HorizontalAlignment="Left"  CanUserAddRows="false" AutoGenerateColumns="False" Width="1384" Margin="0,0,0,47"  >
             <DataGrid.Columns>
                 <!--<DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>-->
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Expander x:Name="expanderLivraisons" Header="{Binding Header}" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                                <DataGrid  x:Name="dataGridMenus" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Plats}" HorizontalAlignment="Left"  Margin="10,10,0,0"  CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="false"  >
+                            <Expander x:Name="expanderLivraisons" Header="{Binding Header}" >
+                                <DataGrid  x:Name="dataGridMenus" ItemsSource="{Binding Plats}" HorizontalAlignment="Left"    CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="false"  >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Jour N°" IsReadOnly="True" Binding="{Binding Jour}"/>
                                         <DataGridTextColumn Header="Entrée du midi" IsReadOnly="True" Binding="{Binding EntreeMidi}"/>
@@ -40,7 +41,7 @@
                                             </DataGridTemplateColumn.CellTemplate>
                                         </DataGridTemplateColumn>
                                     </DataGrid.Columns>
-                                   
+
                                 </DataGrid>
                             </Expander>
                         </DataTemplate>
@@ -48,8 +49,8 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Fermer" HorizontalAlignment="Left" Margin="1281,781,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" />
-        
+        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75"  Click="Fermer" />
+
 
     </Grid>
 </Window>

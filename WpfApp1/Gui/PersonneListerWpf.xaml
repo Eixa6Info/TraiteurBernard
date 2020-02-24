@@ -3,11 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        Title="PersonneListe" Height="450" Width="800" Loaded="Window_Loaded">
+        ResizeMode="NoResize"
+        Title="Liste des personnes" Height="500" Width="700" Loaded="Window_Loaded">
     <Grid>
-        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" Width="772" AutoGenerateColumns="False" SelectionChanged="dataGridPersonnes_SelectionChanged" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="600*"/>
+            <ColumnDefinition Width="100*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" AutoGenerateColumns="False" SelectionChanged="dataGridPersonnes_SelectionChanged" Width="672" Grid.ColumnSpan="2" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>
                 <DataGridTextColumn Header="Prénom" IsReadOnly="True" Binding="{Binding Prenom}"/>
@@ -28,6 +35,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Fermer" HorizontalAlignment="Left" Margin="707,377,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" />
+        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" Grid.Column="1" />
     </Grid>
 </Window>

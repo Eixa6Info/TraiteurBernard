@@ -32,6 +32,7 @@ namespace TraiteurBernardWPF.Gui
         public CompteDeFacturationCreerWpf()
         {
             InitializeComponent();
+            Title += "Création d'un compte de facturation";
             this.db = new BaseContext();
             this.Edite = new TypeCompteDeFacturation();
             edition.DataContext = this.Edite;
@@ -45,6 +46,7 @@ namespace TraiteurBernardWPF.Gui
         public CompteDeFacturationCreerWpf(TypeCompteDeFacturation edite, BaseContext db)
         {
             InitializeComponent();
+            Title += "Modification d'un compte de facturation";
             this.db = db;
             this.Edite = edite;
             edition.DataContext = this.Edite;

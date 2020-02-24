@@ -34,7 +34,6 @@ namespace TraiteurBernardWPF.Gui
         {
             InitializeComponent();
             this.db = new BaseContext();
-
             // On cache le bouton d'association car c'est le constructeur sans paramètres donc sans dépendances
             btnAssocier.Visibility = Visibility.Hidden;
             btnAssocier.IsEnabled = false;

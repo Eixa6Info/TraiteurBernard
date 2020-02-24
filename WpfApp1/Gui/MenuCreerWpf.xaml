@@ -6,8 +6,9 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         x:Name="edition"
+        ResizeMode="NoResize"
         mc:Ignorable="d"
-        Title="Créer un menu" Height="544" Width="446">
+        Title="" Height="550" Width="700">
     <Grid>
         <TextBox x:Name="txtNumSemaine" materialDesign:HintAssist.Hint="Semaine N°" TextChanged="ChargerSiExistant" materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Semaine}" VerticalAlignment="Top" Width="179"/>
         <TextBox x:Name="txtNumJour" materialDesign:HintAssist.Hint="Jour N°" TextChanged="ChargerSiExistant" materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="205,10,0,0" TextWrapping="Wrap" Text="{Binding Jour}" VerticalAlignment="Top" Width="179"/>
@@ -21,6 +22,6 @@
         <TextBox x:Name="txtDessertSoir" materialDesign:HintAssist.Hint="Dessert du soir"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,365,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="374"/>
 
         <Button Content="Valider et suivant"  HorizontalAlignment="Left" Height="26" Margin="226,477,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="0.475,2.359" Click="Valider"/>
-        <Button Content="Fermer"  HorizontalAlignment="Left" Height="26" Margin="306,477,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="0.475,2.359"/>
+        <Button Content="Fermer"  HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="76"/>
     </Grid>
 </Window>

@@ -32,6 +32,7 @@ namespace TraiteurBernardWPF.Gui
         public PersonneCreerWpf()
         {
             InitializeComponent();
+            Title += "Création d'une personne";
             this.edite = new Personne();
             this.db = new BaseContext();
             edition.DataContext = this.edite;
@@ -45,6 +46,7 @@ namespace TraiteurBernardWPF.Gui
         public PersonneCreerWpf(Personne edite, BaseContext db)
         {
             InitializeComponent();
+            Title += "Modification d'une personne";
             this.edite = edite;
             this.db = db;
             edition.DataContext = this.edite;

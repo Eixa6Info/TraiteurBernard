@@ -7,12 +7,13 @@
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
         x:Name="edition"
-        Title="Gestion du compte de facturation" Height="450" Width="800" Loaded="Window_Loaded">
-    <Grid>
+        ResizeMode="NoResize"
+        Title="" Height="500" Width="700" Loaded="Window_Loaded">
 
-        <Button x:Name="btnValider" Content="Valider" HorizontalAlignment="Left" Margin="707,377,0,0" VerticalAlignment="Top" Width="75" Click="Valider"/>
+    <Grid>
+        <Button x:Name="btnValider" Content="Valider" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="Valider" />
         <TextBox x:Name="txtNom" materialDesign:HintAssist.Hint="Nom du compte"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,58,0,0" TextWrapping="Wrap" Text="{Binding Nom}" VerticalAlignment="Top" Width="308"/>
-        <ListBox x:Name="lstPersonnes"  HorizontalAlignment="Left" Height="344" Margin="380,10,0,0" VerticalAlignment="Top" Width="402" SelectionChanged="lstPersonnes_SelectionChanged"/>
+        <ListBox x:Name="lstPersonnes"  HorizontalAlignment="Left" Height="344" Margin="380,10,0,0" VerticalAlignment="Top" Width="302" SelectionChanged="lstPersonnes_SelectionChanged"/>
         <Label x:Name="lblListe" materialDesign:HintAssist.Hint="Personnes liées"  materialDesign:HintAssist.IsFloating="True" Content="" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Height="291" Width="344"/>
 
     </Grid>
