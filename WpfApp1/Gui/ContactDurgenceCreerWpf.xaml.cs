@@ -76,12 +76,7 @@ namespace TraiteurBernardWPF.Gui
                 isValid = true;
             }
             
-            // TODO : gérer les erreurs téléphone invalide REGEX
-            /*if (!Regex.Match(txtTelephone.Text, @"^(\d{ 10})$").Success)
-            {
-                
-            }*/
-
+           
             return isValid;
         }
 
@@ -133,6 +128,13 @@ namespace TraiteurBernardWPF.Gui
                 this.Edite = null;
             
             Close();
+        }
+
+        private void VerifierNumeroTelephone(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+
         }
     }
 }
