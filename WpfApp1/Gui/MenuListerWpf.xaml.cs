@@ -64,8 +64,8 @@ namespace TraiteurBernardWPF.Gui
             // Contient le Header ainsi que la liste des lignes (rowFormList)
             List<object> data = new List<object>();
 
-            // Pour les 54 semaines de l'année
-            for (int i = 1; i < 55; i++)
+            // Pour les 52 semaines de l'année
+            for (int i = 1; i < 53; i++)
             {
                 // On récupère tous les menus sur la semaine en itération
                 List<TraiteurBernardWPF.Modele.Menu> listeMenus = MenuDao.getAllFromWeek(i);
