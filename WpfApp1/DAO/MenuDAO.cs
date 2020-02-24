@@ -39,6 +39,45 @@ namespace TraiteurBernardWPF.DAO
                 // voir pour plus de détails 
                 db.Entry(p).Collection(s => s.Plats).Load();
 
+                // Liste de plats
+                List<Plat> tabPlats = new List<Plat>();
+
+                // Tableau de plats de taille 8 (contient que des 'null' pour l'instant)
+                Plat[] arrPlats = new Plat[8];
+
+                // Copy des plats dans le tableau (contient donc des plat et potentiellemetn des
+                // null si jamais il n'y a pas tous les plats d'inscrits
+                p.Plats.CopyTo(arrPlats, 0);
+
+                // Conversion du tableau en liste pour la manipulation des données plus facile
+                tabPlats = arrPlats.ToList();
+                
+                // On trie les plats (ex si on a 4 plats ( type 1, 3, 4 et 5) la liste vaudra :
+                // 1, 3, 4, 5, null, null, null, null
+                tabPlats = tabPlats.OrderBy(x => x != null ? x.Type : 9).ToList();
+
+                for(int i = 0; i < 8 ; i++)
+                {
+                    // Si le plat actuel est inscrit
+                    if (tabPlats[i] != null)
+                        // Si il est a la bonne place (entrée avant des plats, plats avant
+                        // le dessert etc
+                        if (tabPlats[i].Type == i + 1)
+                            continue;
+                        else
+                        {
+                            // Sinon on enlève le dernier plat (forcement un null) et on 
+                            // insert le null au bon index
+                            tabPlats.RemoveAt(7);
+                            tabPlats.Insert(i, null);
+                        }
+                    
+                }
+
+                // Au final de tableau de plats derrangé : 1, 3, 4, 5, null, null, null, null
+                // devant : 1, null, 3, 4, 5, null, null, null
+                // Et on reconvertit le tout en hashset
+                p.Plats = tabPlats.ToHashSet();
 
                 data.Add(p);
             }

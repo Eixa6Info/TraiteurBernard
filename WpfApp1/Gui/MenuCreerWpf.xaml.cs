@@ -61,7 +61,10 @@ namespace TraiteurBernardWPF.Gui
             Plat[] tabPlats = new Plat[8];
 
             // Conversion de l'hashset des plats en tableau puis copie dans le tableau précédent
-            this.Edite.Plats.CopyTo(tabPlats);
+            this.Edite.Plats.CopyTo(tabPlats, 0);
+
+            // Trie du tableau par ordre des plat
+            tabPlats = tabPlats.OrderBy(p => p != null ? p.Type : 9).ToArray();
 
             txtEntreeMidi.Text = tabPlats[0] != null ? tabPlats[0].Name : "";
             txtPlat1Midi.Text = tabPlats[1] != null ? tabPlats[1].Name : "";

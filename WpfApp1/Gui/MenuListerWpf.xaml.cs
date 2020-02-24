@@ -77,7 +77,10 @@ namespace TraiteurBernardWPF.Gui
                     Plat[] tabPlats = new Plat[8];
 
                     // Conversion de l'hashset des plats en tableau puis copie dans le tableau précédent
-                    menu.Plats.CopyTo(tabPlats);
+                    menu.Plats.CopyTo(tabPlats, 0);
+
+                    // Trie du tableau par ordre des plat
+                    //tabPlats = tabPlats.OrderBy(p => p.Type).ToArray();
 
                     // Objet anonyme qui correspond aux données qui vont être bind dans la datagrid
                     object rowForm = new
