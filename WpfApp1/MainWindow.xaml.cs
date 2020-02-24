@@ -292,6 +292,35 @@ namespace TraiteurBernardWPF
             WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
+        
+        /// <summary>
+        /// Ouverture de la fenêtre pour créer une saisie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Saisies_Creer_Click(object sender, RoutedEventArgs e)
+        {
+            SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf();
+            WinFormWpf.CornerTopLeftToParent(wpfPopup, this);
+            wpfPopup.ShowDialog();
+            
+            SaisieCreerWpf wpf = new SaisieCreerWpf(wpfPopup.Edite);
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
+
+        }
+
+        /// <summary>
+        /// Ouverture de la fenêtre pour lister les saisies
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Saisies_Lister_Click(object sender, RoutedEventArgs e)
+        {
+           // SaisieCreerWpf wpf = new SaisieCreerWpf();
+           // WinFormWpf.CornerTopLeftToParent(wpf, this);
+            //wpf.ShowDialog();
+        }
 
 
         

@@ -21,6 +21,9 @@ namespace TraiteurBernardWPF.Data
         internal DbSet<Menu> Menu { get; set; }
         internal DbSet<Plat> Plat { get; set; }
 
+        internal DbSet<Saisie> Saisies { get; set; }
+        internal DbSet<SaisieData> SaisieData { get; set; }
+
         // Pour que ceci soit dispo, 
         // Install-Package Microsoft.EntityFrameworkCore.Sqlite
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite("Data Source=traiteur.db");
