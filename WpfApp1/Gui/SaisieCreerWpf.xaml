@@ -112,13 +112,11 @@
         <TextBox Grid.Row="5" x:Name="txtPlat3MidiJour7" Grid.Column="7" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
         <TextBox Grid.Row="6" x:Name="txtDessertMidiJour7" Grid.Column="7" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
         
-        <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="1" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
-        <Label x:Name="lblJour" Grid.Row="0" Grid.Column="2" Content="Jour : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
+        <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="2" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
         <Label x:Name="lblAnnee" Grid.Row="0" Grid.Column="3" Content="Année : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
         <Label x:Name="lblPersonne" Grid.Row="0" Grid.Column="4" Content="Personne : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="352" Grid.ColumnSpan="2"/>
 
 
-        <Button Click="Button_Click" Content="Button" Grid.Column="7" HorizontalAlignment="Left" Margin="91,14,0,0" Grid.Row="7" VerticalAlignment="Top" Width="75"/>
 
 
     </Grid>

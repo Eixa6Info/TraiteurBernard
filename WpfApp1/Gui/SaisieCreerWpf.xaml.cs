@@ -38,17 +38,24 @@ namespace TraiteurBernardWPF.Gui
             this.db = new BaseContext();
             this.Edite = edite;
             lblSemaine.Content = "Semaine : " + this.Edite.Semaine;
-            lblJour.Content = "Jour : " + this.Edite.Jour;
             lblAnnee.Content = "Année : " + this.Edite.Annee;
             lblPersonne.Content = "Personne : " + this.Edite.Personne;
         }
 
+        /// <summary>
+        /// Au chargement de la page, on charge les menus
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            // Liste des menus par rapport à la semaine en cours
             List<TraiteurBernardWPF.Modele.Menu> req = MenuDao.getAllFromWeek(this.Edite.Semaine);
+
+            // Tableau des plats qui va servir plus tard
             Plat[] plats = new Plat[8];
 
+            // Pour chaque menus, on affiche les plats dans les textbox associé
             foreach(TraiteurBernardWPF.Modele.Menu menu in req)
             {
                 plats = menu.Plats.ToArray();
@@ -62,35 +69,6 @@ namespace TraiteurBernardWPF.Gui
 
             ;
             
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Saisie nede = new Saisie
-            {
-                Annee = 2020,
-                Jour = 21,
-                Personne = new Personne(),
-                Semaine = 7,
-                Tournee = 1,
-                data = new HashSet<SaisieData>{
-                    new SaisieData
-                {
-                    Libelle="cc",
-                    Quantite=1
-                },
-                    new SaisieData
-                {
-                    Libelle="aa",
-                    Quantite=2
-                }
-
-                }
-            };
-
-            this.db.Add(nede);
-            this.db.SaveChanges();
 
         }
 
