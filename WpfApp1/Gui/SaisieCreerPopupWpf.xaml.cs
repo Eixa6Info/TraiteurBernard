@@ -46,7 +46,7 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Chargement des tournées et assignation à la combobox
-            IQueryable<TypeTournee> req1 = from t in this.db.TypeTournee
+           IQueryable<TypeTournee> req1 = from t in this.db.TypeTournee
                                           select t;
 
             List<TypeTournee> data1 = new List<TypeTournee>();
@@ -84,7 +84,7 @@ namespace TraiteurBernardWPF.Gui
         private void Valider(object sender, RoutedEventArgs e)
         {
             Close();
-            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite);
+            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db);
             WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }

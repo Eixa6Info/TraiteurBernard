@@ -7,10 +7,7 @@ namespace TraiteurBernardWPF.Modele
     {
 
         public int ID { get; set; }
-
-
         public int Jour { get; set; }
-
         public int Semaine { get; set; }
         public int Annee { get; set; }
         public TypeTournee Tournee { get; set; }

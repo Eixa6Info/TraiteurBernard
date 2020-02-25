@@ -23,7 +23,6 @@ namespace TraiteurBernardWPF.Gui
         private int tailleColonne = 103;
         private int tailleLigne = 176;
 
-        private TypeTournee pffffff;
 
         private string[] itemNames = new string[5]
         {
@@ -96,12 +95,12 @@ namespace TraiteurBernardWPF.Gui
         /// Constructeur avec en paramètre la saisie qui contient la semaine, le jour, la tournée, l'année et la personne
         /// </summary>
         /// <param name="edite"></param>
-        public SaisieCreerWpf(Saisie edite)
+        public SaisieCreerWpf(Saisie edite, BaseContext db)
         {
             InitializeComponent();
-            this.db = new BaseContext();
+            this.db = db;
             this.Edite = edite;
-            this.pffffff = edite.Tournee;
+            //this.pffffff = edite.Tournee;
             lblSemaine.Content = "Semaine : " + this.Edite.Semaine;
             lblAnnee.Content = "Année : " + this.Edite.Annee;
             lblPersonne.Content = "Personne : " + this.Edite.Personne;
@@ -152,14 +151,14 @@ namespace TraiteurBernardWPF.Gui
 
             // Pour chaque lignes et chaque colonnes, on récupère les valeur des textbos et des comboboxes pour les
             // assigner à une saisie et les enregistrer dans la bdd
-            /*   for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
+            for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
                {
                    Saisie saisie = new Saisie
                    {
                        Annee = this.Edite.Annee,
                        Jour = this.Edite.Jour,
                        Personne = this.Edite.Personne,
-                       Tournee = this.pffffff,
+                       Tournee = this.Edite.Tournee,
                        Semaine = this.Edite.Semaine,
                        data = new HashSet<SaisieData>()
                    };
@@ -173,22 +172,11 @@ namespace TraiteurBernardWPF.Gui
                    }
 
                    this.db.Add(saisie);
-
-
-
+                       
                    indexTxtNames = 0;
                    jour++;
-               }*/
-            Saisie saisie = new Saisie
-            {
-                Annee = this.Edite.Annee,
-                Jour = 2,
-                Personne = this.Edite.Personne,
-                Tournee = this.pffffff,
-                Semaine = this.Edite.Semaine,
-                data = new HashSet<SaisieData>()
-            };
-            this.db.Add(saisie);
+               }
+          
             this.db.SaveChanges();
             Close();
 
