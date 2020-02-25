@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -44,7 +45,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Chargement des tournées et assignation à la combox
+            // Chargement des tournées et assignation à la combobox
             IQueryable<TypeTournee> req1 = from t in this.db.TypeTournee
                                           select t;
 
@@ -83,6 +84,9 @@ namespace TraiteurBernardWPF.Gui
         private void Valider(object sender, RoutedEventArgs e)
         {
             Close();
+            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite);
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
         }
     }
 }

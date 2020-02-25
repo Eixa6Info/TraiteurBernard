@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
         Title="Création d'une saisie" Height="700" Width="1400" Loaded="Window_Loaded">
-    <Grid>
+    <Grid x:Name="gridMain">
         <Grid.Background>
             <ImageBrush ImageSource="TableauSaisieCreer.png" Stretch="Fill"/>
         </Grid.Background>
@@ -20,11 +20,12 @@
             <ColumnDefinition Width="159*"/>
             <ColumnDefinition Width="176*"/>
             <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="177*"/>
             <ColumnDefinition Width="176*"/>
             <ColumnDefinition Width="176*"/>
             <ColumnDefinition Width="176*"/>
             <ColumnDefinition Width="176*"/>
+            <ColumnDefinition Width="176*"/>
+            <ColumnDefinition/>
 
 
 
@@ -39,13 +40,13 @@
 
 
             <RowDefinition Height="56*"/>
-            <RowDefinition Height="42*"/>
-            <RowDefinition Height="103*"/>
-            <RowDefinition Height="101*"/>
-            <RowDefinition Height="105*"/>
+            <RowDefinition Height="41*"/>
             <RowDefinition Height="103*"/>
             <RowDefinition Height="103*"/>
-            <RowDefinition Height="56*"/>
+            <RowDefinition Height="103*"/>
+            <RowDefinition Height="103*"/>
+            <RowDefinition Height="103*"/>
+            <RowDefinition Height="57*"/>
 
 
 
@@ -67,54 +68,12 @@
         <Label Grid.Row="4" Grid.Column="0" Content="Plat 2" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold"  FontSize="14" Height="27" Width="45" />
         <Label Grid.Row="5" Grid.Column="0" Content="Plat 3" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="45" />
         <Label Grid.Row="6" Grid.Column="0" Content="Dessert" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="57" />
-        <!-- lundi -->
-        <TextBox Grid.Row="2" x:Name="txtEntreeMidiJour1" Grid.Column="1" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="3" x:Name="txtPlat1MidiJour1" Grid.Column="1" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="4" x:Name="txtPlat2MidiJour1" Grid.Column="1" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="5 " x:Name="txtPlat3MidiJour1"  Grid.Column="1" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="6" x:Name="txtDessertMidiJour1" Grid.Column="1" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <!-- mardi-->
-        <TextBox Grid.Row="2" x:Name="txtEntreeMidiJour2" Grid.Column="2" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="3" x:Name="txtPlat1MidiJour2" Grid.Column="2" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="4" x:Name="txtPlat2MidiJour2" Grid.Column="2" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="5" x:Name="txtPlat3MidiJour2" Grid.Column="2" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="6" x:Name="txtDessertMidiJour2"  Grid.Column="2" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <!-- mercredi-->
-        <TextBox Grid.Row="2" x:Name="txtEntreeMidiJour3" Grid.Column="3" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="3" x:Name="txtPlat1MidiJour3" Grid.Column="3" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="4" x:Name="txtPlat2MidiJour3" Grid.Column="3" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="5" x:Name="txtPlat3MidiJour3" Grid.Column="3" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="6" x:Name="txtDessertMidiJour3" Grid.Column="3" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <!-- jeudi-->
-        <TextBox Grid.Row="2" x:Name="txtEntreeMidiJour4" Grid.Column="4" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="3" x:Name="txtPlat1MidiJour4" Grid.Column="4" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="4" x:Name="txtPlat2MidiJour4" Grid.Column="4" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="5" x:Name="txtPlat3MidiJour4" Grid.Column="4" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="6" x:Name="txtDessertMidiJour4" Grid.Column="4" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <!-- vendredi-->
-        <TextBox Grid.Row="2" x:Name="txtEntreeMidiJour5" Grid.Column="5" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="3" x:Name="txtPlat1MidiJour5" Grid.Column="5" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="4" x:Name="txtPlat2MidiJour5" Grid.Column="5" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="5" x:Name="txtPlat3MidiJour5" Grid.Column="5" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="6" x:Name="txtDessertMidiJour5" Grid.Column="5" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <!-- vendredi-->
-        <!--samedi-->
-        <TextBox Grid.Row="2" x:Name="txtEntreeMidiJour6" Grid.Column="6" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="3" x:Name="txtPlat1MidiJour6" Grid.Column="6" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="4" x:Name="txtPlat2MidiJour6" Grid.Column="6" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="5" x:Name="txtPlat3MidiJour6" Grid.Column="6" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="6" x:Name="txtDessertMidiJour6" Grid.Column="6" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <!--samedi-->
-        <!-- dimanche-->
-        <TextBox Grid.Row="2" x:Name="txtEntreeMidiJour7" Grid.Column="7" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="3" x:Name="txtPlat1MidiJour7" Grid.Column="7" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="4" x:Name="txtPlat2MidiJour7" Grid.Column="7" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="5" x:Name="txtPlat3MidiJour7" Grid.Column="7" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        <TextBox Grid.Row="6" x:Name="txtDessertMidiJour7" Grid.Column="7" materialDesign:HintAssist.Hint=""  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Center" Height="40"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="70"/>
-        
+
+
         <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="2" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
         <Label x:Name="lblAnnee" Grid.Row="0" Grid.Column="3" Content="Année : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
         <Label x:Name="lblPersonne" Grid.Row="0" Grid.Column="4" Content="Personne : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="352" Grid.ColumnSpan="2"/>
+        <Button Content="Valider" Click="Valider" HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="76" Grid.Column="7" Grid.Row="7"/>
 
 
 

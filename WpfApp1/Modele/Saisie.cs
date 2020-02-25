@@ -13,7 +13,7 @@ namespace TraiteurBernardWPF.Modele
 
         public int Semaine { get; set; }
         public int Annee { get; set; }
-        public int Tournee { get; set; }
+        public TypeTournee Tournee { get; set; }
         public Personne Personne { get; set; }
         public HashSet<SaisieData> data { get; set; }
     }

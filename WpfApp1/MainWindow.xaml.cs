@@ -303,11 +303,6 @@ namespace TraiteurBernardWPF
             SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf();
             WinFormWpf.CornerTopLeftToParent(wpfPopup, this);
             wpfPopup.ShowDialog();
-            
-            SaisieCreerWpf wpf = new SaisieCreerWpf(wpfPopup.Edite);
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
-
         }
 
         /// <summary>

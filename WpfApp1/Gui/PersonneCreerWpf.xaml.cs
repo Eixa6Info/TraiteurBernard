@@ -86,7 +86,7 @@ namespace TraiteurBernardWPF.Gui
         {
             if (VerifierDonnees())
             {
-                if (this.edite.ID == 0) this.db.Add(edite);
+                if (this.edite.ID == 0) this.db.Add(this.edite);
                 this.db.SaveChanges();
                 Close();
             }

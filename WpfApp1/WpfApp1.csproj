@@ -301,6 +301,9 @@
     <Compile Include="Gui\SaisieCreerWpf.xaml.cs">
       <DependentUpon>SaisieCreerWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\SaisieListerWpf.xaml.cs">
+      <DependentUpon>SaisieListerWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Modele\SaisieData.cs" />
     <Compile Include="Modele\Saisie.cs" />
     <Compile Include="Utils\WinFormWpf.cs" />
@@ -337,6 +340,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\SaisieCreerWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\SaisieListerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
