@@ -295,6 +295,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DAO\SaisieDAO.cs" />
     <Compile Include="Gui\SaisieCreerPopupWpf.xaml.cs">
       <DependentUpon>SaisieCreerPopupWpf.xaml</DependentUpon>
     </Compile>
@@ -306,6 +307,7 @@
     </Compile>
     <Compile Include="Modele\SaisieData.cs" />
     <Compile Include="Modele\Saisie.cs" />
+    <Compile Include="Security\ControlsVerification.cs" />
     <Compile Include="Utils\WinFormWpf.cs" />
     <Page Include="Gui\CompteDeFacturationCreerWpf.xaml">
       <SubType>Designer</SubType>

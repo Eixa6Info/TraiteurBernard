@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Security;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -92,7 +93,7 @@ namespace TraiteurBernardWPF.Gui
                 if (this.Edite.ID == 0) this.db.Add(this.Edite);
                 Close();
             }
-            else MessageBox.Show("Les informations de nom, prénom et téléphone sont indispensables",
+            else MessageBox.Show("Le nom le prenom et le numéro de téléphone sont indispensables",
                     "Informations indispensables",
                     MessageBoxButton.OK, MessageBoxImage.Error);
            
@@ -132,8 +133,7 @@ namespace TraiteurBernardWPF.Gui
 
         private void VerifierNumeroTelephone(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            ControlsVerification.DigitsOnly(e);
 
         }
     }

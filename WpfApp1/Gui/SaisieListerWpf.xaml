@@ -5,11 +5,56 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        Title="SaisieListerWpf" Height="450" Width="800">
+        ResizeMode="NoResize"
+        Title="Liste des saisies" Height="900" Width="1400" Loaded="Window_Loaded">
     <Grid>
-        <Expander Header="Expander" HorizontalAlignment="Left" Height="409" VerticalAlignment="Top" Width="782">
-            <Grid Background="#FFE5E5E5"/>
-        </Expander>
+        <DataGrid  x:Name="dataGridAnnee" HorizontalAlignment="Left"  CanUserAddRows="false" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False" Width="1384" Margin="0,0,0,47"  >
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>-->
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Expander x:Name="expanderAnnee" Header="{Binding HeaderAnnee}" >
+                                <DataGrid  x:Name="dataGridSemaine" ItemsSource="{Binding Semaine}" HorizontalAlignment="Left"    CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="False"  >
+                                    <DataGrid.Columns>
+                                        <!--<DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>-->
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Expander x:Name="expanderSemaine" Header="{Binding HeaderSemaine}" >
+                                                        <DataGrid  x:Name="dataGridSemaine" ItemsSource="{Binding Personne}" HorizontalAlignment="Left"    CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="False"  >
+                                                            <DataGrid.Columns>
+                                                                <!--<DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>-->
+                                                                <DataGridTemplateColumn>
+                                                                    <DataGridTemplateColumn.CellTemplate>
+                                                                        <DataTemplate>
+                                                                            <Expander x:Name="expanderPersonne" Header="{Binding HeaderPersonne}" >
+                                                                                <DataGrid  x:Name="dataGridPersonne" ItemsSource="{Binding Data}" HorizontalAlignment="Left"    CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="False"  >
+                                                                                    <DataGrid.Columns>
+                                                                                        <DataGridTextColumn Header="Jour" IsReadOnly="True" Binding="{Binding Jour}"/>
+                                                                                    </DataGrid.Columns>
+                                                                                
+                                                                                </DataGrid>
+                                                                            </Expander>
+                                                                        </DataTemplate>
+                                                                    </DataGridTemplateColumn.CellTemplate>
+                                                                </DataGridTemplateColumn>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Expander>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75"  Click="Fermer" />
+
 
     </Grid>
 </Window>

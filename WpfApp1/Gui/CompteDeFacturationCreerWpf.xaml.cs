@@ -109,8 +109,8 @@ namespace TraiteurBernardWPF.Gui
             }
             else
             {
-                MessageBox.Show("Les informations de nom, prénom et tournée sont indispensables",
-                    "Informations indispensables",
+                MessageBox.Show("Le nom est indispensable",
+                    "Information indispensable",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
 

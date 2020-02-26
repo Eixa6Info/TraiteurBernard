@@ -92,7 +92,7 @@ namespace TraiteurBernardWPF.Gui
             }
             else
             {
-                MessageBox.Show("Les informations de nom, prénom et tournée sont indispensables",
+                MessageBox.Show("Le nom, le prénom et la tournée sont indisensables",
                     "Informations indispensables",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }

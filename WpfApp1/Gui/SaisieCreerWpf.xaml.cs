@@ -156,7 +156,7 @@ namespace TraiteurBernardWPF.Gui
                    Saisie saisie = new Saisie
                    {
                        Annee = this.Edite.Annee,
-                       Jour = this.Edite.Jour,
+                       Jour = jour,
                        Personne = this.Edite.Personne,
                        Tournee = this.Edite.Tournee,
                        Semaine = this.Edite.Semaine,
@@ -178,6 +178,7 @@ namespace TraiteurBernardWPF.Gui
                }
           
             this.db.SaveChanges();
+            this.db.Dispose();
             Close();
 
         }

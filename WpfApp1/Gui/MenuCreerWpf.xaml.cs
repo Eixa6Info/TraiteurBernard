@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Security;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -86,12 +87,12 @@ namespace TraiteurBernardWPF.Gui
         {
             bool retval = false;
 
-            /*if (txtNom.Text.Length != 0)
+            if (txtNumSemaine.Text.Length != 0 && txtNumJour.Text.Length != 0)
             {
                 retval = true;
             }
 
-            return retval;*/
+            return retval;
             return true;
         }
 
@@ -149,7 +150,7 @@ namespace TraiteurBernardWPF.Gui
             }
             else
             {
-                MessageBox.Show("Les informations de nom, prénom et tournée sont indispensables",
+                MessageBox.Show("Le numéro de la semaine et le numéro du jour sont indispensables",
                     "Informations indispensables",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -193,6 +194,27 @@ namespace TraiteurBernardWPF.Gui
             }
 
             this.BinderLesDonnees();
+
+        }
+
+        /// <summary>
+        /// Verifier que la saisie est bien un nombre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VerifierFormatSemaine(object sender, TextCompositionEventArgs e)
+        {
+            ControlsVerification.DigitsOnly(e);
+        }
+
+        /// <summary>
+        ///  Verifier que la saisie est bien un nombre 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VerifierFormatJour(object sender, TextCompositionEventArgs e)
+        {
+            ControlsVerification.DigitsOnly(e);
 
         }
     }

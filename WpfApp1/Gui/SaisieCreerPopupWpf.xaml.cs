@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Security;
 using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
@@ -77,16 +78,70 @@ namespace TraiteurBernardWPF.Gui
         }
 
         /// <summary>
+        /// Verifier les données avant de valider l'opération
+        /// </summary>
+        private bool VerifierDonnees()
+        {
+            bool retval = false;
+
+            if (txtSemaine.Text.Length != 0 && txtAnnee.Text.Length != 0 && cbTournee.SelectedItem != null && cbPersonne.SelectedItem != null)
+            {
+                retval = true;
+            }
+
+            return retval;
+        }
+
+        /// <summary>
         /// Bouton valider, ferme la fenetre et ouvre la fenetre de creation principal
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
+            if (this.VerifierDonnees()){
+                Close();
+                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("L'année, la semaine, la tournée et la personne sont indispensables",
+                    "Informations indispensables",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
+        }
+
+        /// <summary>
+        /// Fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Fermer(object sender, RoutedEventArgs e)
+        {
             Close();
-            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db);
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+        }
+
+        /// <summary>
+        /// Verifier que le format entré est bien une semaine
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VerifierFormatSemaine(object sender, TextCompositionEventArgs e)
+        {
+            ControlsVerification.DigitsOnly(e);
+        }
+        
+        /// <summary>
+        /// Verifier que la saisie correspond bien a une année
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void VerifierFormatAnnee(object sender, TextCompositionEventArgs e)
+        {
+            ControlsVerification.DigitsOnly(e);
         }
     }
 }
