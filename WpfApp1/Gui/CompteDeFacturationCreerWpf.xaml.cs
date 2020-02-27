@@ -124,6 +124,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void lstPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Console.WriteLine("ccc");
             Personne selected = lstPersonnes.SelectedItem as Personne;
 
             if (this.Edite.Personnes == null) this.Edite.Personnes = new List<Personne>();
@@ -139,9 +140,10 @@ namespace TraiteurBernardWPF.Gui
             else
             {
                 this.Edite.Personnes.Add(selected);
-                lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
-
             }
+            lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
+
+            //lstPersonnes.UnselectAll();
         }
     }
 }

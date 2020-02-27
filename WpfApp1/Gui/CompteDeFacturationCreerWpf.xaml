@@ -12,9 +12,11 @@
 
     <Grid>
         <Button x:Name="btnValider" Content="Valider" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="Valider" />
-        <TextBox x:Name="txtNom" materialDesign:HintAssist.Hint="Nom du compte"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,58,0,0" TextWrapping="Wrap" Text="{Binding Nom}" VerticalAlignment="Top" Width="308"/>
-        <ListBox x:Name="lstPersonnes"  HorizontalAlignment="Left" Height="344" Margin="380,10,0,0" VerticalAlignment="Top" Width="302" SelectionChanged="lstPersonnes_SelectionChanged"/>
-        <Label x:Name="lblListe" materialDesign:HintAssist.Hint="Personnes liées"  materialDesign:HintAssist.IsFloating="True" Content="" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Height="291" Width="344"/>
+        <TextBox x:Name="txtNom" materialDesign:HintAssist.Hint="Nom du compte"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Nom}" VerticalAlignment="Top" Width="308"/>
+        <ListBox x:Name="lstPersonnes"  HorizontalAlignment="Left" Height="345" Margin="380,79,0,0" VerticalAlignment="Top" Width="304"  SelectionChanged="lstPersonnes_SelectionChanged"/>
+        <Label x:Name="lblListe" materialDesign:HintAssist.Hint="Personnes liées"  materialDesign:HintAssist.IsFloating="True" Content="" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="377" Width="344"/>
+        <Label Content="Membres du compte :" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top"/>
+        <Label Content="Personnes :&#xD;&#xA;(Cliquez sur une personne pour ajouter ou enlever &#xD;&#xA;le membre selectionné)&#xD;&#xA;" HorizontalAlignment="Left" Margin="380,10,0,0" VerticalAlignment="Top" Width="304" Height="69"/>
 
     </Grid>
 </Window>
