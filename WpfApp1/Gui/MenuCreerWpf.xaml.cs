@@ -38,7 +38,7 @@ namespace TraiteurBernardWPF.Gui
             InitializeComponent();
             Title += "Création d'un menu";
             this.db = new BaseContext();
-            this.Edite = new TraiteurBernardWPF.Modele.Menu { Plats = new HashSet<Plat>() };
+            this.Edite = new TraiteurBernardWPF.Modele.Menu { Plats = new HashSet<Plat>(), Jour = 1, Semaine = 1};
             edition.DataContext = this.Edite;     
         }
         

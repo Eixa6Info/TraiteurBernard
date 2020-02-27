@@ -83,7 +83,11 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Supprimer(object sender, RoutedEventArgs e)
         {
-           
+            Personne p = dataGridPersonnes.SelectedItem as Personne;
+            
+            this.db.Remove(p);
+
+            
         }
 
         /// <summary>
@@ -100,19 +104,6 @@ namespace TraiteurBernardWPF.Gui
             wpf.ShowDialog();
         }
 
-        /// <summary>
-        /// ???
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// // TODO : voir cette fonction
-        private void dataGridPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Personne p = dataGridPersonnes.SelectedItem as Personne;
 
-            PersonneCreerWpf wpf = new PersonneCreerWpf(p, this.db);
-
-            wpf.ShowDialog();
-        }
     }
 }

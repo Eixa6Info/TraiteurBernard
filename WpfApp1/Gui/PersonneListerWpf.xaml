@@ -14,7 +14,7 @@
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" AutoGenerateColumns="False" SelectionChanged="dataGridPersonnes_SelectionChanged" Width="672" Grid.ColumnSpan="2" >
+        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" AutoGenerateColumns="False"  Width="672" Grid.ColumnSpan="2" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>
                 <DataGridTextColumn Header="Prénom" IsReadOnly="True" Binding="{Binding Prenom}"/>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using java.util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,7 @@ namespace TraiteurBernardWPF.Gui
         {
             InitializeComponent();
             this.db = new BaseContext();
-            this.Edite = new Saisie();
+            this.Edite = new Saisie { Semaine = 1 , Annee = DateTime.Now.Year };
             edition.DataContext = this.Edite;
         }
 
@@ -46,19 +47,6 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Chargement des tournées et assignation à la combobox
-           IQueryable<TypeTournee> req1 = from t in this.db.TypeTournee
-                                          select t;
-
-            List<TypeTournee> data1 = new List<TypeTournee>();
-
-            foreach (TypeTournee tt in req1)
-            {
-                this.db.Entry(tt).Collection(s => s.JoursLivraisonsRepas).Load();
-                data1.Add(tt);
-            }
-
-            cbTournee.ItemsSource = data1;
 
             // Chargement des personnes et assignation à la combobox
             IQueryable<Personne> req2 = from t in this.db.Personnes
@@ -84,7 +72,7 @@ namespace TraiteurBernardWPF.Gui
         {
             bool retval = false;
 
-            if (txtSemaine.Text.Length != 0 && txtAnnee.Text.Length != 0 && cbTournee.SelectedItem != null && cbPersonne.SelectedItem != null)
+            if (txtSemaine.Text.Length != 0 && txtAnnee.Text.Length != 0 && cbPersonne.SelectedItem != null)
             {
                 retval = true;
             }
@@ -100,6 +88,7 @@ namespace TraiteurBernardWPF.Gui
         private void Valider(object sender, RoutedEventArgs e)
         {
             if (this.VerifierDonnees()){
+                this.Edite.Tournee = this.Edite.Personne.Tournee;
                 Close();
                 SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);

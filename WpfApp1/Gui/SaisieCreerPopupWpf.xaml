@@ -7,12 +7,12 @@
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
         x:Name="edition"
-        Title="Créer une saisie" Height="316.5" Width="247" Loaded="Window_Loaded">
+        Title="Créer une saisie" Height="245.5" Width="247" Loaded="Window_Loaded">
     <Grid>
         <TextBox x:Name="txtSemaine" PreviewTextInput="VerifierFormatSemaine" materialDesign:HintAssist.Hint="Semaine"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Semaine}" VerticalAlignment="Top" Width="179"/>
         <TextBox x:Name="txtAnnee" PreviewTextInput="VerifierFormatAnnee" materialDesign:HintAssist.Hint="Année"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,55,0,0" TextWrapping="Wrap" Text="{Binding Annee}" VerticalAlignment="Top" Width="179"/>
-        <ComboBox SelectedValue="{Binding Tournee}" x:Name="cbTournee" materialDesign:HintAssist.Hint="Tournée"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="179"/>
-        <ComboBox SelectedValue="{Binding Personne}" x:Name="cbPersonne" materialDesign:HintAssist.Hint="Personne"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="179"/>
+        
+        <ComboBox SelectedValue="{Binding Personne}" x:Name="cbPersonne" materialDesign:HintAssist.Hint="Personne"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="179"/>
 
 
         <Button Content="Valider" Click="Valider" HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75"  />
