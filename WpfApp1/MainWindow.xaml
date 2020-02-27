@@ -39,8 +39,8 @@
                     <MenuItem Header="_Génerer PDF" Click="btnCreatePDFSemaine1_Click" />
                 </MenuItem> 
                 <MenuItem Header="_Saisies">
-                    <MenuItem Header="_Créer" Click="MenuItem_Saisies_Creer_Click"/>
-                    <MenuItem Header="_Lister" Click="MenuItem_Saisies_Lister_Click" />
+                    <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
+                    <!--<MenuItem Header="_Lister" Click="MenuItem_Saisies_Lister_Click" />-->
                 </MenuItem>
             </Menu>
 

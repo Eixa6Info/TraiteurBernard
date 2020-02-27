@@ -115,26 +115,72 @@ namespace TraiteurBernardWPF.Gui
         {
             this.GenererLinterface();
 
-            // Liste des menus par rapport à la semaine en cours
-            List<TraiteurBernardWPF.Modele.Menu> req = MenuDao.getAllFromWeek(this.Edite.Semaine);
+            // On regarde si il y a déjà une saisie existante pour cette personne a cette semaine
+            // et cette année
+            IEnumerable<Saisie> saisiesDejaExistantes = from s in this.db.Saisies
+                      where
+                        s.Annee == this.Edite.Annee &&
+                        s.Personne == this.Edite.Personne &&
+                        s.Semaine == this.Edite.Semaine
+                      select s;
 
-            // Tableau des plats qui va servir plus tard
-            Plat[] plats = new Plat[8];
+            
 
-            // Pour chaque menus, on affiche les plats dans les textbox associé
-            foreach (TraiteurBernardWPF.Modele.Menu menu in req)
+            if(saisiesDejaExistantes.Any())
             {
-                plats = menu.Plats.ToArray();
-                for (int i = 0; i < 5; i++)
-                {
-                    if (plats[i] != null)
-                        (gridMain.FindName("txt" + this.itemNames[i] + menu.Jour) as TextBox).Text = plats[i].Name;
 
+                List<Saisie> req = new List<Saisie>();
+
+                foreach (Saisie saisie in saisiesDejaExistantes)
+                {
+                    this.db.Entry(saisie).Collection(s => s.data).Load();
+                    req.Add(saisie);
                 }
 
+                // On va afficher les plats dans les textboxs et les quantité dans les combobox
+                // Tableau des plats qui va servir plus tard
+                SaisieData[] data = new SaisieData[8];
+
+                foreach(Saisie saisie in req)
+                {
+                    data = saisie.data.ToArray();
+                    for(int i = 0; i < 5; i++)
+                    {
+                        if (data[i] != null)
+                        {
+                            (gridMain.FindName("txt" + this.itemNames[i] + saisie.Jour) as TextBox).Text = data[i].Libelle;
+                            (gridMain.FindName("cb" + this.itemNames[i] + saisie.Jour) as ComboBox).SelectedItem = data[i].Quantite;
+                        }
+                            
+                    }
+                }
+            }
+            else
+            {
+                // On affiche les plats par défaut dans les checkbox
+                // Liste des menus par rapport à la semaine en cours
+                List<TraiteurBernardWPF.Modele.Menu> req = MenuDao.getAllFromWeek(this.Edite.Semaine);
+
+                // Tableau des plats qui va servir plus tard
+                Plat[] plats = new Plat[8];
+
+                // Pour chaque menus, on affiche les plats dans les textbox associé
+                foreach (TraiteurBernardWPF.Modele.Menu menu in req)
+                {
+                    plats = menu.Plats.ToArray();
+                    for (int i = 0; i < 5; i++)
+                    {
+                        if (plats[i] != null)
+                            (gridMain.FindName("txt" + this.itemNames[i] + menu.Jour) as TextBox).Text = plats[i].Name;
+
+                    }
+
+                }
             }
 
-            ;
+            
+
+            
 
 
         }

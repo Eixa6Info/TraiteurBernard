@@ -79,6 +79,17 @@ namespace TraiteurBernardWPF.Gui
             if(this.Edite.Personnes!=null) lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
         }
 
+
+        /// <summary>
+        /// Fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Fermer(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
         /// <summary>
         /// Fonction de vérification des données avant création / édition
         /// </summary>

@@ -310,12 +310,12 @@ namespace TraiteurBernardWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MenuItem_Saisies_Lister_Click(object sender, RoutedEventArgs e)
+      /*  private void MenuItem_Saisies_Lister_Click(object sender, RoutedEventArgs e)
         {
             SaisieListerWpf wpf = new SaisieListerWpf();
             WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
-        }
+        }*/
 
 
         

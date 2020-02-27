@@ -138,7 +138,7 @@ namespace TraiteurBernardWPF.Gui
             };*/
         
 
-            dataGridAnnee.ItemsSource = data;
+            //dataGridAnnee.ItemsSource = data;
 
         }
     }
