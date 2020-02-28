@@ -84,8 +84,44 @@ namespace TraiteurBernardWPF.Gui
         private void Supprimer(object sender, RoutedEventArgs e)
         {
             Personne p = dataGridPersonnes.SelectedItem as Personne;
-            
+
+            // Suppression des saisies liés à la personne
+            IEnumerable<Saisie> req = from s in this.db.Saisies where s.Personne == p select s;
+            foreach(Saisie saisie in req)
+            {
+                this.db.Entry(saisie).Collection(s => s.data).Load();
+
+                // On supprime les saisies data associées
+                if(saisie.data != null)
+                    foreach (SaisieData saisieData in saisie.data)
+                        if (saisieData != null)
+                            this.db.Remove(saisieData);
+
+                this.db.Remove(saisie);
+            }
+
+            // On enlève la personne des comptes de facturations
+           IEnumerable<TypeCompteDeFacturation> req2 = from t in this.db.ComptesDeFacturation select t;
+            foreach(TypeCompteDeFacturation typeCompteFacturation in req2)
+            {
+                this.db.Entry(typeCompteFacturation).Collection(tc => tc.Personnes).Load();
+
+                // On supprime la personne d'eventuels comptes de facturations
+                if(typeCompteFacturation.Personnes != null)
+                    foreach (Personne personne in typeCompteFacturation.Personnes)
+                        if (personne == p) 
+                            typeCompteFacturation.Personnes.Remove(p);
+                    
+                
+               
+
+            }
+
+            // Enfin on enllève la personne et on sauvegarde le tout 
+            // puis on reaffiche la nouvelle liste de personnes
             this.db.Remove(p);
+            this.db.SaveChanges();
+            this.Window_Loaded(new object(), new RoutedEventArgs());
 
             
         }
