@@ -120,9 +120,7 @@ namespace TraiteurBernardWPF.Gui
             }
             else
             {
-                MessageBox.Show("Le nom est indispensable",
-                    "Information indispensable",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                new MessageBoxWpf("Information indispensable", "Le nom est indispensable", MessageBoxButton.OK).ShowDialog();
             }
 
         }

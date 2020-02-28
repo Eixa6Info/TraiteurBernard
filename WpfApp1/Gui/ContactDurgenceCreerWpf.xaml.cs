@@ -93,9 +93,10 @@ namespace TraiteurBernardWPF.Gui
                 if (this.Edite.ID == 0) this.db.Add(this.Edite);
                 Close();
             }
-            else MessageBox.Show("Le nom le prenom et le numéro de téléphone sont indispensables",
-                    "Informations indispensables",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+                new MessageBoxWpf("Information indispensable", "Le nom le prenom et le numéro de téléphone sont indispensables", MessageBoxButton.OK).ShowDialog();
+            
+
            
         }
 

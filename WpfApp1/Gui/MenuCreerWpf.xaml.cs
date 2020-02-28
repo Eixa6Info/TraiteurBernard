@@ -149,11 +149,8 @@ namespace TraiteurBernardWPF.Gui
                 Close();
             }
             else
-            {
-                MessageBox.Show("Le numéro de la semaine et le numéro du jour sont indispensables",
-                    "Informations indispensables",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                new MessageBoxWpf("Information indispensable", "Le numéro de la semaine et le numéro du jour sont indispensables", MessageBoxButton.OK).ShowDialog();
+
 
         }
 

@@ -36,7 +36,7 @@
     <InstallUrl>http://eixa6.com/portage/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -312,6 +312,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DAO\SaisieDAO.cs" />
+    <Compile Include="Gui\MessageBoxWpf.xaml.cs">
+      <DependentUpon>MessageBoxWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\SaisieCreerPopupWpf.xaml.cs">
       <DependentUpon>SaisieCreerPopupWpf.xaml</DependentUpon>
     </Compile>
@@ -342,6 +345,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\MenuListerWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\MessageBoxWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

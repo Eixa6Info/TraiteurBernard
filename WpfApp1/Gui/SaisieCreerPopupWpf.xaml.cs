@@ -95,11 +95,8 @@ namespace TraiteurBernardWPF.Gui
                 wpf.ShowDialog();
             }
             else
-            {
-                MessageBox.Show("L'année, la semaine, la tournée et la personne sont indispensables",
-                    "Informations indispensables",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                new MessageBoxWpf("Informations indispensables", "L'année, la semaine et la personne sont indispensables", MessageBoxButton.OK).ShowDialog();
+
             
         }
 
