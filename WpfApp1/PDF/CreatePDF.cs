@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using TraiteurBernardWPF.DAO;
+using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.PDF
@@ -53,7 +54,7 @@ namespace TraiteurBernardWPF.PDF
          * @return boolean
          * @throws Exception ...
          */
-        public static bool Start(float width, float height, int semaine)
+        public static bool Start(float width, float height, int semaine, bool printSaisieBool)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -78,10 +79,10 @@ namespace TraiteurBernardWPF.PDF
         document = new PDDocument();
 
         //Print de tout les page du midi
-        printMidi();
+        printMidi(printSaisieBool);
 
         //Print de tout les page du soir
-        printSoir();
+        printSoir(printSaisieBool);
 
         //Saving the document
         document.save(output);
@@ -103,11 +104,11 @@ namespace TraiteurBernardWPF.PDF
      *
      * @throws IOException ...
      */
-    private static void printMidi() 
+    private static void printMidi(bool printSaisieBool) 
     {
 
         //Création d'une nouvelle page
-        newPageAndPrintAllForMidi();
+        newPageAndPrintAllForMidi(printSaisieBool);
 
         //Ajout de toute les infirmation
         printJoursT1();
@@ -117,7 +118,7 @@ namespace TraiteurBernardWPF.PDF
 
 
         //Création d'une nouvelle page
-        newPageAndPrintAllForMidi();
+        newPageAndPrintAllForMidi(printSaisieBool);
 
         //Définition des jour de livraison
         jour1Livraison = "lundi après midi";
@@ -135,7 +136,7 @@ namespace TraiteurBernardWPF.PDF
 
 
         //Création d'une nouvelle page
-        newPageAndPrintAllForMidi();
+        newPageAndPrintAllForMidi(printSaisieBool);
 
         //Définition des jour de livraison
         jour1Livraison = "samedi";
@@ -157,11 +158,11 @@ namespace TraiteurBernardWPF.PDF
      *
      * @throws IOException ...
      */
-    private static void printSoir()
+    private static void printSoir(bool printSaisieBool)
     {
 
         //Création d'une nouvelle page
-        newPageAndPrintAllForSoir();
+        newPageAndPrintAllForSoir(printSaisieBool);
 
         //Ajout de toute les infirmation
         printSoirT1();
@@ -171,7 +172,7 @@ namespace TraiteurBernardWPF.PDF
 
 
         //Création d'une nouvelle page
-        newPageAndPrintAllForSoir();
+        newPageAndPrintAllForSoir(printSaisieBool);
 
         //Définition des jour de livraison
         jour1Livraison = "lundi après midi";
@@ -189,7 +190,7 @@ namespace TraiteurBernardWPF.PDF
 
 
         //Création d'une nouvelle page
-        newPageAndPrintAllForSoir();
+        newPageAndPrintAllForSoir(printSaisieBool);
 
         //Définition des jour de livraison
         jour1Livraison = "samedi";
@@ -208,10 +209,11 @@ namespace TraiteurBernardWPF.PDF
 
     /**
      * Function identique a toute les page du midi
-     *
+     * si l'argument est true, on print les saies
+     * sinon on print les menu
      * @throws IOException ...
      */
-    private static void newPageAndPrintAllForMidi() 
+    private static void newPageAndPrintAllForMidi(bool printSaisieBool) 
     {
         //Récup du document
         getDocument();
@@ -240,8 +242,9 @@ namespace TraiteurBernardWPF.PDF
         //Ajout des description a gauche du tableaux
         printDescLine();
 
-        //Ajout des menus dans les case
-        printMenu();
+        //Ajout des menus ou des saisies dans les case
+        if (printSaisieBool) printSaisie();
+        else printMenu();
 
         //Ajout de la date en haut
         printDateOnTop();
@@ -252,7 +255,7 @@ namespace TraiteurBernardWPF.PDF
      *
      * @throws IOException ...
      */
-    private static void newPageAndPrintAllForSoir() 
+    private static void newPageAndPrintAllForSoir(bool printSaisieBool) 
     {
         //Récup du document
         getDocument();
@@ -281,8 +284,9 @@ namespace TraiteurBernardWPF.PDF
         //Ajout des description a gauche du tableaux
         printDescLineSoir();
 
-        //Ajout des menus dans les case
-        printMenuSoir();
+        //Ajout des menus ou des saisies dans les case
+        if (printSaisieBool) printSaisieSoir();
+        else printMenuSoir();
 
         //Ajout de la date en haut
         printDateOnTop();
@@ -532,8 +536,7 @@ namespace TraiteurBernardWPF.PDF
     private static void printMenu()
     {
         List<Menu> menus = MenuDao.getAllFromWeek(semaine);
-            // Willy
-            Console.WriteLine("Nombre de menus : " + menus.Count);
+
             foreach(var menu in menus)
      {
 
@@ -547,8 +550,7 @@ namespace TraiteurBernardWPF.PDF
             }
 
             var plats = new List<Plat>(menu.Plats);
-            // Willy
-            Console.WriteLine("Nombre de plats : " + plats.Count);
+
             double column = columnSpace * menu.Jour;
 
             foreach(var plat in plats)
@@ -604,10 +606,96 @@ namespace TraiteurBernardWPF.PDF
         };
     }
 
-    /**
-     * Function pour print les Plats de tout les Menus
-     */
-    private static void printMenuSoir()
+        /**
+         * Fonctio, pout ptiny les plats et quantités de toutes les saises
+        */
+        private static void printSaisie()
+        {
+            BaseContext db = new BaseContext();
+            List<Saisie> saisies = SaisieDAO.getAllFromYearWeek(2020, semaine, db);
+            db.Dispose();
+
+            foreach (Saisie saisie in saisies)
+            {
+
+                if (saisie == null)
+                {
+                    return;
+                }
+                if (saisie.data.Count == 0)
+                {
+                    return;
+                }
+
+                List<SaisieData> data = new List<SaisieData>();
+
+                foreach(SaisieData sd in saisie.data)
+                {
+                    data.Add(sd);
+                }
+
+                double column = columnSpace * saisie.Jour;
+
+                foreach (var plat in data)
+                {
+
+                    if (plat == null)
+                    {
+                        return;
+                    }
+                    if (plat.Libelle == null)
+                    {
+                        return;
+                    }
+
+                    double line = 0;
+
+                    switch(data.IndexOf(plat) + 1)
+                    {
+                        case Plat.ENTREE_MIDI:
+                            line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_MIDI_1:
+                            line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_MIDI_2:
+                            line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_MIDI_3:
+                            line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
+                            break;
+                        case Plat.DESSERT_MIDI:
+                            line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
+                            break;
+
+
+                    }
+
+
+                    if (line != 0)
+                    {
+                        try
+                        {
+                            String platString = plat.Libelle + " | " + plat.Quantite;//.toLowerCase();
+
+                            platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.toLowerCase();
+                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                        }
+                        catch (IOException e)
+                        {
+                            throw e;
+                        }
+                    }
+
+                };
+
+            };
+        }
+
+        /**
+         * Function pour print les Plats de tout les Menus
+         */
+        private static void printMenuSoir()
     {
         List<Menu> menus = MenuDao.getAllFromWeek(semaine);
 
@@ -673,8 +761,84 @@ namespace TraiteurBernardWPF.PDF
         };
     }
 
-  
-    private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font)
+        /**
+         * Function pour print les Plats de tout les Menus
+         */
+        private static void printSaisieSoir()
+        {
+            BaseContext db = new BaseContext();
+            List<Saisie> saisies = SaisieDAO.getAllFromYearWeek(2020, semaine, db);
+            db.Dispose();
+
+            foreach (Saisie saisie in saisies)
+            //menus.forEach(menu-> {
+            {
+                if (saisie == null)
+                {
+                    return;
+                }
+                if (saisie.data.Count == 0)
+                {
+                    return;
+                }
+
+                List<SaisieData> data = new List<SaisieData>();
+
+                foreach (SaisieData sd in saisie.data)
+                {
+                    data.Add(sd);
+                }
+
+                double column = columnSpace * saisie.Jour;
+
+                foreach (var plat in data)
+                {
+
+                    if (plat == null)
+                    {
+                        return;
+                    }
+                    if (plat.Libelle == null)
+                    {
+                        return;
+                    }
+
+                    double line = 0;
+
+                    switch (data.IndexOf(plat) + 1)
+                    {
+                        case Plat.ENTREE_SOIR:
+                            line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_SOIR_1:
+                            line = getMiddelofYBetweenTowPoint(27, 63, NORMAL, 11);
+                            break;
+                        case Plat.DESSERT_SOIR:
+                            line = getMiddelofYBetweenTowPoint(18, 27, NORMAL, 11);
+                            break;
+                    }
+
+                    if (line != 0)
+                    {
+                        try
+                        {
+                            String platString = plat.Libelle +" | " + plat.Quantite;//.ToLower();
+                            platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.ToLower();
+                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                        }
+                        catch (IOException e)
+                        {
+                            throw e;
+                        }
+                    }
+
+                };
+
+            };
+        }
+
+
+        private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font)
     {
         double width = (font.getStringWidth(str) / 1000 * fontSize);
 

@@ -251,9 +251,9 @@ namespace TraiteurBernardWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnCreatePDFSemaine1_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Menus_Pdf_Click(object sender, RoutedEventArgs e)
         {
-            PdfCreerWpf wpf = new PdfCreerWpf();
+            PdfCreerWpf wpf = new PdfCreerWpf(false);
             WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
@@ -306,21 +306,34 @@ namespace TraiteurBernardWPF
             WinFormWpf.CornerTopLeftToParent(wpfPopup, this);
             wpfPopup.ShowDialog();
         }
+        
+
+        /// <summary>
+        /// Création d'un PDF
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Saisies_Pdf_Click(object sender, RoutedEventArgs e)
+        {
+            PdfCreerWpf wpf = new PdfCreerWpf(true);
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
+        }
 
         /// <summary>
         /// Ouverture de la fenêtre pour lister les saisies
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-      /*  private void MenuItem_Saisies_Lister_Click(object sender, RoutedEventArgs e)
-        {
-            SaisieListerWpf wpf = new SaisieListerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
-        }*/
+        /*  private void MenuItem_Saisies_Lister_Click(object sender, RoutedEventArgs e)
+          {
+              SaisieListerWpf wpf = new SaisieListerWpf();
+              WinFormWpf.CornerTopLeftToParent(wpf, this);
+              wpf.ShowDialog();
+          }*/
 
 
-        
+
 
     }
 }

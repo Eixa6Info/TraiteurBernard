@@ -21,7 +21,7 @@
         <TextBox x:Name="txtPlatSoir" materialDesign:HintAssist.Hint="Plat du soir"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,320,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="374"/>
         <TextBox x:Name="txtDessertSoir" materialDesign:HintAssist.Hint="Dessert du soir"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,365,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="374"/>
 
-        <Button Content="Valider et suivant"  HorizontalAlignment="Right" Height="26" Margin="0,0,96,10" VerticalAlignment="Bottom" Width="76" RenderTransformOrigin="0.475,2.359" Click="Valider"/>
-        <Button Content="Fermer"  HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="76"/>
+        <Button Content="Valider et suivant"  HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="76" RenderTransformOrigin="0.475,2.359" Click="Valider"/>
+        <Button Content="Fermer"  HorizontalAlignment="Right" Height="26" Margin="0,0,96,10" VerticalAlignment="Bottom" Width="76" Click="Fermer"/>
     </Grid>
 </Window>

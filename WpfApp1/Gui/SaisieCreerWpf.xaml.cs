@@ -22,8 +22,8 @@ namespace TraiteurBernardWPF.Gui
         private int ligneDepart = 2;
         private int tailleColonne = 103;
         private int tailleLigne = 176;
-
-
+        private int[] IDs;
+            
         private string[] itemNames = new string[5]
         {
             "EntreeMidiJour",
@@ -95,7 +95,7 @@ namespace TraiteurBernardWPF.Gui
         /// Constructeur avec en paramètre la saisie qui contient la semaine, le jour, la tournée, l'année et la personne
         /// </summary>
         /// <param name="edite"></param>
-        public SaisieCreerWpf(Saisie edite, BaseContext db)
+        public SaisieCreerWpf(Saisie edite, BaseContext db, int[] IDs)
         {
             InitializeComponent();
             this.db = db;
@@ -104,6 +104,7 @@ namespace TraiteurBernardWPF.Gui
             lblSemaine.Content = "Semaine : " + this.Edite.Semaine;
             lblAnnee.Content = "Année : " + this.Edite.Annee;
             lblPersonne.Content = "Personne : " + this.Edite.Personne;
+            this.IDs = IDs;
         }
 
         /// <summary>
@@ -194,22 +195,43 @@ namespace TraiteurBernardWPF.Gui
         {
             int jour = 1;
             int indexTxtNames = 0;
+            int indexSaisies = 0;
+
+            // On recupère toutes les saisies de la semaine année et personne
+            List<Saisie> req = SaisieDAO.getAllFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+
+            // Conversion en array pour la manipulation par index
+            Saisie[] saisies = req.ToArray();
 
             // Pour chaque lignes et chaque colonnes, on récupère les valeur des textbos et des comboboxes pour les
             // assigner à une saisie et les enregistrer dans la bdd
             for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
                {
-                   Saisie saisie = new Saisie
-                   {
-                       Annee = this.Edite.Annee,
-                       Jour = jour,
-                       Personne = this.Edite.Personne,
-                       Tournee = this.Edite.Tournee,
-                       Semaine = this.Edite.Semaine,
-                       data = new HashSet<SaisieData>()
-                   };
 
-                   for (int ligne = this.ligneDepart; ligne < this.ligneDepart + 5; ligne++)
+                Saisie saisie;
+
+                // Si il y a déjà une saisie qui existe pour le jour donné, on la recupèren, sinn on en créer ne autre
+                if(saisies.Length - 1 >= indexSaisies && saisies[indexSaisies] != null)
+                {
+                   saisie = saisies[indexSaisies];
+                   saisie.data = new HashSet<SaisieData>();
+                }
+                else
+                {
+                    saisie = new Saisie
+                    {
+                        ID = this.IDs[indexTxtNames],
+                        Annee = this.Edite.Annee,
+                        Jour = jour,
+                        Personne = this.Edite.Personne,
+                        Tournee = this.Edite.Tournee,
+                        Semaine = this.Edite.Semaine,
+                        data = new HashSet<SaisieData>()
+                    };
+                }
+
+
+                for (int ligne = this.ligneDepart; ligne < this.ligneDepart + 5; ligne++)
                    {
                        string txtValue = (gridMain.FindName("txt" + this.itemNames[indexTxtNames] + jour) as TextBox).Text;
                        string cbValue = (gridMain.FindName("cb" + this.itemNames[indexTxtNames++] + jour) as ComboBox).SelectedItem.ToString();
@@ -217,13 +239,14 @@ namespace TraiteurBernardWPF.Gui
 
                    }
 
-                   this.db.Add(saisie);
-                       
-                   indexTxtNames = 0;
+                   if(saisie.ID == 0) this.db.Add(saisie);
+
+                indexTxtNames = 0;
                    jour++;
+                indexSaisies++;
                }
-          
-            this.db.SaveChanges();
+                   this.db.SaveChanges();
+
             this.db.Dispose();
             Close();
 

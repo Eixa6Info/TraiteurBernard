@@ -21,9 +21,12 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class PdfCreerWpf : Window
     {
-        public PdfCreerWpf()
+        bool printSaisieBool;
+
+        public PdfCreerWpf(bool printSaisieBool)
         {
             InitializeComponent();
+            this.printSaisieBool = printSaisieBool;
             txtSemaine.Text = "1";
         }
 
@@ -44,7 +47,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text));
+            CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), this.printSaisieBool);
             Close();
         }
 

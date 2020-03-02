@@ -31,7 +31,38 @@ namespace TraiteurBernardWPF.DAO
 
             return saisies;
         }
-        
+
+
+        /// <summary>
+        /// Retourne l'id de la saisie ou 0 si il n'y en a pas
+        /// </summary>
+        /// <param name="anneee"></param>
+        /// <param name="semaine"></param>
+        /// <param name="personne"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        internal static int[] getIdsFromYearWeekPersonne(int anneee, int semaine, Personne personne, BaseContext db)
+        {
+            IQueryable<Saisie> req = from s in db.Saisies where s.Personne == personne && s.Annee == anneee && s.Semaine == semaine select s;
+            int[] tabId = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+            List<Saisie> saisies = new List<Saisie>();
+            foreach(Saisie s in req)
+            {
+                saisies.Add(s);
+            }
+
+            if (req.Any())
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    if (saisies[i] != null) tabId[i] = saisies[i].ID;
+                }
+            }
+
+            return tabId;
+
+        }
+
         internal static List<Saisie> getAllFromYearWeek(int annee, int semaine, BaseContext db)
         {
 

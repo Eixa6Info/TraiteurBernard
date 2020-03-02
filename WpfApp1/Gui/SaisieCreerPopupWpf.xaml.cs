@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Security;
@@ -90,7 +91,8 @@ namespace TraiteurBernardWPF.Gui
             if (this.VerifierDonnees()){
                 this.Edite.Tournee = this.Edite.Personne.Tournee;
                 Close();
-                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db);
+                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }

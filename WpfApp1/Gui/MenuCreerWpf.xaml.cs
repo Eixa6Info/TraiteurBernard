@@ -97,6 +97,16 @@ namespace TraiteurBernardWPF.Gui
         }
 
         /// <summary>
+        /// Fermer la fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Fermer(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        /// <summary>
         /// Ajouter UN plat dans la hashset des plats
         /// </summary>
         /// <param name="txt"></param>
@@ -212,6 +222,11 @@ namespace TraiteurBernardWPF.Gui
         private void VerifierFormatJour(object sender, TextCompositionEventArgs e)
         {
             ControlsVerification.DigitsOnly(e);
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }
