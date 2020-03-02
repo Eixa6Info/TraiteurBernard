@@ -253,9 +253,11 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void btnCreatePDFSemaine1_Click(object sender, RoutedEventArgs e)
         {
-            CreatePDF.Start(595.27563F, 841.8898F, 1);
+            PdfCreerWpf wpf = new PdfCreerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
         }
-        
+
         /// <summary>
         /// Ouverture de la fenêtre qui liste les tournées
         /// </summary>

@@ -315,6 +315,9 @@
     <Compile Include="Gui\MessageBoxWpf.xaml.cs">
       <DependentUpon>MessageBoxWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\PdfCreerWpf.xaml.cs">
+      <DependentUpon>PdfCreerWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\SaisieCreerPopupWpf.xaml.cs">
       <DependentUpon>SaisieCreerPopupWpf.xaml</DependentUpon>
     </Compile>
@@ -349,6 +352,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\MessageBoxWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PdfCreerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

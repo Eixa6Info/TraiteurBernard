@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
         x:Name="edition"
+        ResizeMode="NoResize"
         Title="Créer une saisie" Height="245.5" Width="247" Loaded="Window_Loaded">
     <Grid>
         <TextBox x:Name="txtSemaine" PreviewTextInput="VerifierFormatSemaine" materialDesign:HintAssist.Hint="Semaine"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Semaine}" VerticalAlignment="Top" Width="179"/>

@@ -11,7 +11,9 @@ namespace TraiteurBernardWPF.Security
     class ControlsVerification
     {
         /// <summary>
-        /// Place une fenêtre en haut à gauche d'une autre fenetre
+        /// Verifie que la saisie tappée dans le textboxest un chiffre (0-9)
+        /// Si c'est le cas, le chiffre est écrit dans le textbox
+        /// dans le cas contraire, rien n'est ecrit dans le textbox
         /// </summary>
         /// <param name="wpf"></param>
         /// <param name="parent"></param>
