@@ -112,11 +112,9 @@ namespace TraiteurBernardWPF.Gui
                 this.db.Entry(typeCompteFacturation).Collection(tc => tc.Personnes).Load();
 
                 // On supprime la personne d'eventuels comptes de facturations
-                if(typeCompteFacturation.Personnes != null)
-                    foreach (Personne personne in typeCompteFacturation.Personnes)
-                        if (personne == p) 
-                            typeCompteFacturation.Personnes.Remove(p);
-                    
+                if (typeCompteFacturation.Personnes != null)
+                    if (typeCompteFacturation.Personnes.Contains(p)) typeCompteFacturation.Personnes.Remove(p);
+                   
                 
                
 

@@ -13,9 +13,9 @@
         <TextBox x:Name="txtPrenom" materialDesign:HintAssist.Hint="Prénom du contact"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Prenom}" VerticalAlignment="Top" Width="179"/>
         <TextBox x:Name="txtNom" materialDesign:HintAssist.Hint="Nom du contact"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,55,0,0" TextWrapping="Wrap" Text="{Binding Nom}" VerticalAlignment="Top" Width="179"/>
         <TextBox x:Name="txtTelephone" PreviewTextInput="VerifierNumeroTelephone" materialDesign:HintAssist.Hint="Téléphone"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,100,0,0" TextWrapping="Wrap" Text="{Binding Telephone}" VerticalAlignment="Top" Width="179"/>
-        <Button Content="Valider"  HorizontalAlignment="Left" Height="26" Margin="114,198,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.475,2.359" Click="Valider"/>
-        <Button Content="Supprimer"  HorizontalAlignment="Left" Height="26" Margin="10,198,0,0" VerticalAlignment="Top" Width="99" RenderTransformOrigin="0.475,2.359" Click="Supprimer"/>
-        <Button Content="Fermer"  HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="0.475,2.359" Click="Fermer"/>
+        <Button Content="Valider"  HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75"  Click="Valider"/>
+        <Button Content="Supprimer"  HorizontalAlignment="Right" Height="26" Margin="0,0,95,10" VerticalAlignment="Bottom" Width="99"  Click="Supprimer"/>
+        <Button Content="Fermer"  HorizontalAlignment="Right" Height="26" Margin="0,0,204,10" VerticalAlignment="Bottom" Width="75" Click="Fermer"/>
 
 
     </Grid>
