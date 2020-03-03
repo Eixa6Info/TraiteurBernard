@@ -83,6 +83,11 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Supprimer(object sender, RoutedEventArgs e)
         {
+
+            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de supprimer cette personne, voulez vous continuer ?", MessageBoxButton.YesNo);
+            wpf.ShowDialog();
+            if (!wpf.YesOrNo) return;
+
             Personne p = dataGridPersonnes.SelectedItem as Personne;
 
             // Suppression des saisies liés à la personne

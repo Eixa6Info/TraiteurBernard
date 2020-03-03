@@ -130,7 +130,7 @@ namespace TraiteurBernardWPF.Gui
         {
             CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf(db);
             wpf.ShowDialog();
-            this.edite.CompteDeFacturation = wpf.CompteAssocie;
+            if(wpf.CompteAssocie != null) this.edite.CompteDeFacturation = wpf.CompteAssocie;
             this.UpdateStatus(lblCompte, this.edite.CompteDeFacturation, "Pas de compte de facturation");
 
         }

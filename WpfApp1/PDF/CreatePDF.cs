@@ -612,85 +612,99 @@ namespace TraiteurBernardWPF.PDF
         private static void printSaisie()
         {
             BaseContext db = new BaseContext();
-            List<Saisie> saisies = SaisieDAO.getAllFromYearWeek(2020, semaine, db);
-            db.Dispose();
-
-            foreach (Saisie saisie in saisies)
+               
+            // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
+            // de ce même jour
+            for(int jour = 1; jour < 8; jour++)
             {
+                double column = columnSpace * jour;
+                
+                // Les saisies
+                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDay(2020, semaine, jour, db);
 
-                if (saisie == null)
+                // Les données des saisies
+                List<SaisieData> saisiesDatas = new List<SaisieData>();
+
+                // On remplit les données des saisies
+                foreach (Saisie saisie in saisiesList)
                 {
-                    return;
-                }
-                if (saisie.data.Count == 0)
-                {
-                    return;
-                }
-
-                List<SaisieData> data = new List<SaisieData>();
-
-                foreach(SaisieData sd in saisie.data)
-                {
-                    data.Add(sd);
-                }
-
-                double column = columnSpace * saisie.Jour;
-
-                foreach (var plat in data)
-                {
-
-                    if (plat == null)
+                    foreach (SaisieData saisieData in saisie.data)
                     {
-                        return;
+                        saisiesDatas.Add(saisieData);
                     }
-                    if (plat.Libelle == null)
+                }
+
+
+            // Pour tous les repas (entrée, plat1, plat2 etc)
+            for (int repas = 1; repas < 6;repas++)
+            {
+                // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
+                Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
+
+                // Pour toutes les données des saisies du jours et par repas 
+                foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
+                {
+                    string libelle = sd.Libelle;
+                    int quantite = sd.Quantite;
+
+                    // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
+                    if (repasIntituleQuantite.ContainsKey(libelle))
                     {
-                        return;
+                        repasIntituleQuantite[libelle] += quantite;
                     }
-
-                    double line = 0;
-
-                    switch(data.IndexOf(plat) + 1)
+                    else
                     {
-                        case Plat.ENTREE_MIDI:
-                            line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
-                            break;
-                        case Plat.PLAT_MIDI_1:
-                            line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
-                            break;
-                        case Plat.PLAT_MIDI_2:
-                            line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
-                            break;
-                        case Plat.PLAT_MIDI_3:
-                            line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
-                            break;
-                        case Plat.DESSERT_MIDI:
-                            line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
-                            break;
-
-
+                        repasIntituleQuantite.Add(libelle, quantite);
                     }
 
+                }
 
-                    if (line != 0)
+
+                double line = 0;
+
+                switch (repas)
+                {
+                    case Plat.ENTREE_MIDI:
+                        line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                        break;
+                    case Plat.PLAT_MIDI_1:
+                        line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
+                        break;
+                    case Plat.PLAT_MIDI_2:
+                        line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
+                        break;
+                    case Plat.PLAT_MIDI_3:
+                        line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
+                        break;
+                    case Plat.DESSERT_MIDI:
+                        line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
+                        break;
+
+
+                }
+
+                // Ecriture des repas sur le PDF
+                if (line != 0)
+                {
+                    string platString = "";
+                    foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
                     {
-                        try
+                        if (!String.IsNullOrEmpty(entry.Key))
                         {
-                            String platString = plat.Libelle + " | " + plat.Quantite;//.toLowerCase();
+                            platString += " " + entry.Value + "*" + entry.Key + " ";
 
-                            platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.toLowerCase();
-                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
                         }
-                        catch (IOException e)
-                        {
-                            throw e;
-                        }
+
                     }
-
-                };
-
-            };
+                    PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                }
+            }
+   
         }
+
+        db.Dispose();
+  
+    }
 
         /**
          * Function pour print les Plats de tout les Menus

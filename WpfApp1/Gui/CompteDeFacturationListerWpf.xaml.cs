@@ -128,5 +128,34 @@ namespace TraiteurBernardWPF.Gui
 
             dataGridComptes.ItemsSource = data;
         }
+
+        /// <summary>
+        /// Supprimer le compte de facturation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Supprimer(object sender, RoutedEventArgs e)
+        {
+
+            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de supprimer ce compte de facturation, voulez vous continuer ?", MessageBoxButton.YesNo);
+            wpf.ShowDialog();
+            if (!wpf.YesOrNo) return;
+
+            TypeCompteDeFacturation t = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
+
+            IQueryable<Personne> personnesDansLeCompte = from p in this.db.Personnes where p.CompteDeFacturation == t select p;
+
+            // On enlève les personnes du compte de facturation
+            foreach(Personne p in personnesDansLeCompte)
+            {
+                p.CompteDeFacturation = null;
+            }
+
+            // On enlève le compte de facturation
+            this.db.Remove(t);
+            this.db.SaveChanges();
+
+            this.Window_Loaded(new object(), new RoutedEventArgs());
+        }
     }
 }

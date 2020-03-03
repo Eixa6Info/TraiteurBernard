@@ -117,6 +117,11 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Supprimer(object sender, RoutedEventArgs e)
         {
+
+            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de supprimer ce menu, voulez vous continuer ?", MessageBoxButton.YesNo);
+            wpf.ShowDialog();
+            if (!wpf.YesOrNo) return;
+
             TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
             this.db.Remove(menu);
             this.db.SaveChanges();

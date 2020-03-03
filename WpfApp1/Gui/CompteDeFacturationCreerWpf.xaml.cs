@@ -133,7 +133,7 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void lstPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Console.WriteLine("ccc");
+
             Personne selected = lstPersonnes.SelectedItem as Personne;
 
             if (this.Edite.Personnes == null) this.Edite.Personnes = new List<Personne>();

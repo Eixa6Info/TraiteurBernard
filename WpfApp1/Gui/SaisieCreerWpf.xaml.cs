@@ -34,6 +34,18 @@ namespace TraiteurBernardWPF.Gui
 
         };
 
+        private int[] types = new int[8]
+        {
+            SaisieData.ENTREE_MIDI,
+            SaisieData.PLAT_MIDI_1,
+            SaisieData.PLAT_MIDI_2,
+            SaisieData.PLAT_MIDI_3,
+            SaisieData.DESSERT_MIDI,
+            SaisieData.ENTREE_SOIR,
+            SaisieData.PLAT_SOIR_1,
+            SaisieData.DESSERT_SOIR
+        };
+
         /// <summary>
         /// Permet de générer tous les éléments (textboxs et comboboxs)
         /// </summary>
@@ -144,7 +156,8 @@ namespace TraiteurBernardWPF.Gui
 
                 foreach(Saisie saisie in req)
                 {
-                    data = saisie.data.ToArray();
+                    data = saisie.data.OrderBy(sd => sd.Type).ToArray();
+                    
                     for(int i = 0; i < 5; i++)
                     {
                         if (data[i] != null)
@@ -168,7 +181,7 @@ namespace TraiteurBernardWPF.Gui
                 // Pour chaque menus, on affiche les plats dans les textbox associé
                 foreach (TraiteurBernardWPF.Modele.Menu menu in req)
                 {
-                    plats = menu.Plats.ToArray();
+                    plats = menu.Plats.OrderBy(p => p.Type).ToArray();
                     for (int i = 0; i < 5; i++)
                     {
                         if (plats[i] != null)
@@ -206,7 +219,7 @@ namespace TraiteurBernardWPF.Gui
             // Pour chaque lignes et chaque colonnes, on récupère les valeur des textbos et des comboboxes pour les
             // assigner à une saisie et les enregistrer dans la bdd
             for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
-               {
+            {
 
                 Saisie saisie;
 
@@ -230,23 +243,26 @@ namespace TraiteurBernardWPF.Gui
                     };
                 }
 
-
+                // Pour toutes les lignes (les repas entree, plat1, plat2 etc)
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + 5; ligne++)
-                   {
-                       string txtValue = (gridMain.FindName("txt" + this.itemNames[indexTxtNames] + jour) as TextBox).Text;
-                       string cbValue = (gridMain.FindName("cb" + this.itemNames[indexTxtNames++] + jour) as ComboBox).SelectedItem.ToString();
-                       saisie.data.Add(new SaisieData { Quantite = short.Parse(cbValue), Libelle = txtValue }); ;
+                {
+                    // On recup_re le type (entree, plat1, dessert etc), le libelle (le menu) et la quantité
+                    // puis on l'ajoute dans la liste des saisies
+                    string txtValue = (gridMain.FindName("txt" + this.itemNames[indexTxtNames] + jour) as TextBox).Text;
+                    string cbValue = (gridMain.FindName("cb" + this.itemNames[indexTxtNames] + jour) as ComboBox).SelectedItem.ToString();
+                    int type = this.types[indexTxtNames++];
+                    saisie.data.Add(new SaisieData { Quantite = short.Parse(cbValue), Libelle = txtValue, Type = type }); ;
 
-                   }
+                }
 
-                   if(saisie.ID == 0) this.db.Add(saisie);
+                if(saisie.ID == 0) this.db.Add(saisie);
 
                 indexTxtNames = 0;
-                   jour++;
+                jour++;
                 indexSaisies++;
-               }
-                   this.db.SaveChanges();
+            }
 
+            this.db.SaveChanges();
             this.db.Dispose();
             Close();
 

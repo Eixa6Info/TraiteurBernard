@@ -63,6 +63,32 @@ namespace TraiteurBernardWPF.DAO
 
         }
 
+        /// <summary>
+        /// Retourne toutes les saisies en fonction de l'anée, de la semaine et du jour
+        /// </summary>
+        /// <param name="anneee"></param>
+        /// <param name="semaine"></param>
+        /// <param name="jour"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        internal static List<Saisie> getAllFromYearWeekDay(int anneee, int semaine, int jour, BaseContext db)
+        {
+            IQueryable<Saisie> req = from s in db.Saisies where s.Jour == jour && s.Annee == anneee && s.Semaine == semaine select s;
+
+            List<Saisie> saisies = new List<Saisie>();
+            foreach(Saisie saisie in req)
+            {
+                db.Entry(saisie).Collection(s => s.data).Load();
+                saisies.Add(saisie);
+            }
+
+
+
+            return saisies;
+
+        }
+        
+
         internal static List<Saisie> getAllFromYearWeek(int annee, int semaine, BaseContext db)
         {
 
@@ -126,6 +152,8 @@ namespace TraiteurBernardWPF.DAO
 
             return saisies;
         }
+        
+      
 
 
     }

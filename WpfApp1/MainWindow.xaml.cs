@@ -30,6 +30,7 @@ namespace TraiteurBernardWPF
         {
             WinFormWpf.CornerTopLeftToComputer(this);
             InitializeComponent();
+            Console.WriteLine(DateTime.Now.DayOfYear / 7);
         }
 
         /// <summary>
@@ -37,8 +38,13 @@ namespace TraiteurBernardWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ReinitialiserBdd(object sender, RoutedEventArgs e)
         {
+
+            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de remettre à zéro toutes les données, voulez vous continuer ?", MessageBoxButton.YesNo);
+            wpf.ShowDialog();
+            if (!wpf.YesOrNo) return;
+            
             using (BaseContext db = new BaseContext())
             {
 
@@ -318,6 +324,11 @@ namespace TraiteurBernardWPF
             PdfCreerWpf wpf = new PdfCreerWpf(true);
             WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         /// <summary>

@@ -19,6 +19,11 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3">
             <Menu DockPanel.Dock="Top">
+                <Menu.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
+                </Menu.ItemsPanel>
                 <MenuItem Header="_Fichier">
                     <MenuItem Header="_Quitter" Click="MenuItem_Quitter_Click" />
                 </MenuItem>
@@ -41,13 +46,15 @@
                 <MenuItem Header="_Saisies">
                     <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
                     <MenuItem Header="_Génerer PDF" Click="MenuItem_Saisies_Pdf_Click" />
-
                     <!--<MenuItem Header="_Lister" Click="MenuItem_Saisies_Lister_Click" />-->
+                </MenuItem>
+                <MenuItem Header="_Options" HorizontalAlignment="Right">
+                    <MenuItem Header="_Importer un fichier JSON"/>
+                    <MenuItem Header="_Reinitialiser la base de données" Click="ReinitialiserBdd"/>
                 </MenuItem>
             </Menu>
 
         </DockPanel>
         <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="10,0,2,0" VerticalAlignment="Stretch"/>
-        <Button Grid.Row="1" Grid.Column="2" Content="Init DB " HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Button_Click" Width="180" Margin="10,0,0,0"/>
     </Grid>
 </Window>
