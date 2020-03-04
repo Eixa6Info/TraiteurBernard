@@ -20,17 +20,22 @@ namespace TraiteurBernardWPF.Gui
 
         private int colonneDepart = 1;
         private int ligneDepart = 2;
-        private int tailleColonne = 103;
+        // Hauteur entre les lignes
+        private int tailleColonne = 5;
+        // Largeur entre les colonnes
         private int tailleLigne = 176;
         private int[] IDs;
             
-        private string[] itemNames = new string[5]
+        private string[] itemNames = new string[8]
         {
             "EntreeMidiJour",
             "Plat1MidiJour",
             "Plat2MidiJour",
             "Plat3MidiJour",
-            "DessertMidiJour"
+            "DessertMidiJour",
+            "EntreeSoirJour",
+            "Plat1SoirJour",
+            "DessertSoirJour",
 
         };
 
@@ -57,7 +62,7 @@ namespace TraiteurBernardWPF.Gui
             // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
             for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
             {
-                for (int ligne = this.ligneDepart; ligne < this.ligneDepart + 5; ligne++)
+                for (int ligne = this.ligneDepart; ligne < this.ligneDepart + 8; ligne++)
                 {
                     // Textbox
                     TextBox txt = new TextBox
@@ -158,7 +163,7 @@ namespace TraiteurBernardWPF.Gui
                 {
                     data = saisie.data.OrderBy(sd => sd.Type).ToArray();
                     
-                    for(int i = 0; i < 5; i++)
+                    for(int i = 0; i < 8; i++)
                     {
                         if (data[i] != null)
                         {
@@ -182,7 +187,7 @@ namespace TraiteurBernardWPF.Gui
                 foreach (TraiteurBernardWPF.Modele.Menu menu in req)
                 {
                     plats = menu.Plats.OrderBy(p => p.Type).ToArray();
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 8; i++)
                     {
                         if (plats[i] != null)
                             (gridMain.FindName("txt" + this.itemNames[i] + menu.Jour) as TextBox).Text = plats[i].Name;
@@ -244,7 +249,7 @@ namespace TraiteurBernardWPF.Gui
                 }
 
                 // Pour toutes les lignes (les repas entree, plat1, plat2 etc)
-                for (int ligne = this.ligneDepart; ligne < this.ligneDepart + 5; ligne++)
+                for (int ligne = this.ligneDepart; ligne < this.ligneDepart + 8; ligne++)
                 {
                     // On recup_re le type (entree, plat1, dessert etc), le libelle (le menu) et la quantité
                     // puis on l'ajoute dans la liste des saisies
