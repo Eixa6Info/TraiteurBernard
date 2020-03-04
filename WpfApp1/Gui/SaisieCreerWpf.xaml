@@ -9,14 +9,13 @@
         mc:Ignorable="d"
          ResizeMode="NoResize"
         Title="Création d'une saisie" Height="1030" Width="1400" Loaded="Window_Loaded">
-    <Window.Resources>
-        <BitmapImage x:Key="TableauSaisieCreer" >/Traiteur;component/Assets/TableauSaisieCreer..png</BitmapImage>
-    </Window.Resources>
+
 
     <Grid x:Name="gridMain">
         <Grid.Background>
-            <ImageBrush ImageSource="{DynamicResource TableauSaisieCreer}"/>
+            <ImageBrush ImageSource="{DynamicResource TableauSaisie}"/>
         </Grid.Background>
+
 
 
 

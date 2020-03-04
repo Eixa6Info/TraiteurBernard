@@ -32,7 +32,10 @@ namespace TraiteurBernardWPF
             WinFormWpf.CornerTopLeftToComputer(this);
             InitializeComponent();
             Console.WriteLine(DateTime.Now.DayOfYear / 7);
-        }
+            BaseContext db = new BaseContext();
+            db.Database.EnsureCreated();
+            db.Dispose();
+        }   
 
         /// <summary>
         /// Initialisation, création des tournées

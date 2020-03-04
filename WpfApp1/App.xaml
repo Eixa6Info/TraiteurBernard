@@ -11,6 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <BitmapImage x:Key="TableauSaisie" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="C:\Users\Docker\Desktop\TraiteurBernard\WpfApp1\Assets\TableauSaisieCreer.png"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
