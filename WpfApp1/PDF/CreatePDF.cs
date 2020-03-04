@@ -667,19 +667,24 @@ namespace TraiteurBernardWPF.PDF
                 switch (repas)
                 {
                     case Plat.ENTREE_MIDI:
-                        line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                       // line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                        line = getMiddelofYBetweenTowPoint(66, 76, NORMAL, 11);
                         break;
                     case Plat.PLAT_MIDI_1:
-                        line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
+                        //line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
+                        line = getMiddelofYBetweenTowPoint(54, 66, NORMAL, 11);
                         break;
                     case Plat.PLAT_MIDI_2:
-                        line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
+                        //line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
+                        line = getMiddelofYBetweenTowPoint(42, 54, NORMAL, 11);
                         break;
                     case Plat.PLAT_MIDI_3:
-                        line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
+                        //line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
+                        line = getMiddelofYBetweenTowPoint(30, 42, NORMAL, 11);
                         break;
                     case Plat.DESSERT_MIDI:
-                        line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
+                        //line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
+                        line = getMiddelofYBetweenTowPoint(17, 27, NORMAL, 11);
                         break;
 
 
@@ -688,17 +693,21 @@ namespace TraiteurBernardWPF.PDF
                 // Ecriture des repas sur le PDF
                 if (line != 0)
                 {
-                    string platString = "";
+
                     foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
                     {
                         if (!String.IsNullOrEmpty(entry.Key))
                         {
-                            platString += " " + entry.Value + "*" + entry.Key + " ";
+                            //platString += " " + entry.Value + "*" + entry.Key + " ";
 
-                        }
+                            PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                            PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                            line -= 10;
+
+                            }
 
                     }
-                    PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                    
                 }
             }
    
@@ -838,13 +847,18 @@ namespace TraiteurBernardWPF.PDF
                     switch (repas)
                     {
                         case Plat.ENTREE_SOIR:
-                            line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                            //line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(66, 76, NORMAL, 11);
                             break;
+
                         case Plat.PLAT_SOIR_1:
-                            line = getMiddelofYBetweenTowPoint(27, 63, NORMAL, 11);
+                            //line = getMiddelofYBetweenTowPoint(27, 63, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(30, 66, NORMAL, 11);
                             break;
+
                         case Plat.DESSERT_SOIR:
-                            line = getMiddelofYBetweenTowPoint(18, 27, NORMAL, 11);
+                            //line = getMiddelofYBetweenTowPoint(18, 27, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11);
                             break;
 
 
@@ -853,17 +867,19 @@ namespace TraiteurBernardWPF.PDF
                     // Ecriture des repas sur le PDF
                     if (line != 0)
                     {
-                        string platString = "";
+
                         foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
                         {
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
-                                platString += " " + entry.Value + "*" + entry.Key + " ";
+                                //platString += " " + entry.Value + "*" + entry.Key + " ";
+                                PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                                PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                                line -= 10;
 
                             }
 
                         }
-                        PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
                     }
                 }
 
