@@ -246,8 +246,9 @@ namespace TraiteurBernardWPF.PDF
         if (printSaisieBool) printSaisie();
         else printMenu();
 
+        // On enleve le 'a remettre avant le 
         //Ajout de la date en haut
-        printDateOnTop();
+        //printDateOnTop();
     }
 
     /**
@@ -288,8 +289,9 @@ namespace TraiteurBernardWPF.PDF
         if (printSaisieBool) printSaisieSoir();
         else printMenuSoir();
 
+        // On enleve le 'a remettre avant le 
         //Ajout de la date en haut
-        printDateOnTop();
+        //printDateOnTop();
     }
 
         /**
@@ -435,7 +437,7 @@ namespace TraiteurBernardWPF.PDF
             text = "DIMANCHE";
             column = 6;
             laDate = laDate.AddDays(1);
-            printCenterDay(laDate, sdf, text, fontSize, column);
+            fct(laDate, sdf, text, fontSize, column);
 
             text = "LUNDI";
             column = 7;
@@ -1274,7 +1276,7 @@ namespace TraiteurBernardWPF.PDF
 
         String text1 = "Nous nous réservons le droit de modifier la composition des menus en fonction des arrivages";
         String text2 = "Pas de possibilité de changement des plats du soir";
-        String text3 = "6,80€ TTC le Repas du soir UNIQUEMENT livré avec le reps du midi";
+        String text3 = "6,80 euros TTC le Repas du soir UNIQUEMENT livré avec le reps du midi";
         float fontSize = 12;
 
         drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(14, 18, BOLD, fontSize), text2);
