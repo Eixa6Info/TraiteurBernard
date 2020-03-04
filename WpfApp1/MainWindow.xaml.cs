@@ -22,19 +22,30 @@ using System.Diagnostics;
 
 namespace TraiteurBernardWPF
 {
+
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
+            
             WinFormWpf.CornerTopLeftToComputer(this);
             InitializeComponent();
-            Console.WriteLine(DateTime.Now.DayOfYear / 7);
+
+            // Version de l'application
+            Title += "  |  v.1.0.0  |  04/03/2020";
+            // On créé la base de données si elle existe pas
             BaseContext db = new BaseContext();
             db.Database.EnsureCreated();
             db.Dispose();
+
+
+
+
         }   
 
         /// <summary>
