@@ -36,7 +36,7 @@
     <InstallUrl>https://willytardy.com/portage/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>12</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -313,6 +313,9 @@
     </ApplicationDefinition>
     <Compile Include="DAO\saisieDataDAO.cs" />
     <Compile Include="DAO\SaisieDAO.cs" />
+    <Compile Include="Gui\ImporterJson.xaml.cs">
+      <DependentUpon>ImporterJson.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\MessageBoxWpf.xaml.cs">
       <DependentUpon>MessageBoxWpf.xaml</DependentUpon>
     </Compile>
@@ -341,6 +344,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\ContactDurgenceCreerWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\ImporterJson.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

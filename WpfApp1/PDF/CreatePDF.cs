@@ -711,68 +711,97 @@ namespace TraiteurBernardWPF.PDF
          */
         private static void printMenuSoir()
     {
-        List<Menu> menus = MenuDao.getAllFromWeek(semaine);
 
-            foreach(var menu in menus)
-            //menus.forEach(menu-> {
-            { 
-            if (menu == null)
+            BaseContext db = new BaseContext();
+
+            // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
+            // de ce même jour
+            for (int jour = 1; jour < 8; jour++)
             {
-                return;
-            }
-            if (menu.Plats.Count==0)
-            {
-                return;
-            }
+                double column = columnSpace * jour;
 
-            var plats = new List<Plat>(menu.Plats);
+                // Les saisies
+                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDay(2020, semaine, jour, db);
 
-            double column = columnSpace * menu.Jour;
+                // Les données des saisies
+                List<SaisieData> saisiesDatas = new List<SaisieData>();
 
-                foreach(var plat in plats)
-               {
-
-                if (plat == null)
+                // On remplit les données des saisies
+                foreach (Saisie saisie in saisiesList)
                 {
-                    return;
-                }
-                if (plat.Name == null)
-                {
-                    return;
-                }
-
-                double line = 0;
-
-                switch (plat.Type)
-                {
-                    case Plat.ENTREE_SOIR:
-                        line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
-                        break;
-                    case Plat.PLAT_SOIR_1:
-                        line = getMiddelofYBetweenTowPoint(27, 63, NORMAL, 11);
-                        break;
-                    case Plat.DESSERT_SOIR:
-                        line = getMiddelofYBetweenTowPoint(18, 27, NORMAL, 11);
-                        break;
-                }
-
-                if (line != 0)
-                {
-                    try
+                    foreach (SaisieData saisieData in saisie.data)
                     {
-                            String platString = plat.Name;//.ToLower();
-                            platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.ToLower();
+                        saisiesDatas.Add(saisieData);
+                    }
+                }
+
+
+                // Pour tous les repas (entrée, plat1, plat2 etc)
+                for (int repas = 6; repas < 9; repas++)
+                {
+                    // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
+                    Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
+
+                    // Pour toutes les données des saisies du jours et par repas 
+                    foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
+                    {
+                        string libelle = sd.Libelle;
+                        int quantite = sd.Quantite;
+
+                        // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
+                        if (repasIntituleQuantite.ContainsKey(libelle))
+                        {
+                            repasIntituleQuantite[libelle] += quantite;
+                        }
+                        else
+                        {
+                            repasIntituleQuantite.Add(libelle, quantite);
+                        }
+
+                    }
+
+
+                    double line = 0;
+
+                    switch (repas)
+                    {
+                        case Plat.ENTREE_SOIR:
+                            line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_SOIR_1:
+                            line = getMiddelofYBetweenTowPoint(27, 63, NORMAL, 11);
+                            break;
+                        case Plat.DESSERT_SOIR:
+                            line = getMiddelofYBetweenTowPoint(18, 27, NORMAL, 11);
+                            break;
+
+
+                    }
+
+                    // Ecriture des repas sur le PDF
+                    if (line != 0)
+                    {
+                        string platString = "";
+                        foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
+                        {
+                            if (!String.IsNullOrEmpty(entry.Key))
+                            {
+                                platString += " " + entry.Value + "*" + entry.Key + " ";
+
+                            }
+
+                        }
                         PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
                     }
-                    catch (IOException e)
-                    {
-                            throw e;
-                    }
                 }
 
-            };
+            }
 
-        };
+            db.Dispose();
+
+          
+
+        
     }
 
         /**

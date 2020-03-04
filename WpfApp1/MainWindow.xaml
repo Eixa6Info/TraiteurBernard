@@ -49,7 +49,7 @@
                     <!--<MenuItem Header="_Lister" Click="MenuItem_Saisies_Lister_Click" />-->
                 </MenuItem>
                 <MenuItem Header="_Options" HorizontalAlignment="Right">
-                    <MenuItem Header="_Importer un fichier JSON"/>
+                    <MenuItem Header="_Importer un fichier JSON" Click="ImporterJson" />
                     <MenuItem Header="_Reinitialiser la base de données" Click="ReinitialiserBdd"/>
                 </MenuItem>
             </Menu>

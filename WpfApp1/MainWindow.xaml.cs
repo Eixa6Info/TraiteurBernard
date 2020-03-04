@@ -18,6 +18,7 @@ using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.PDF;
 using TraiteurBernardWPF.Gui;
 using TraiteurBernardWPF.Utils;
+using System.Diagnostics;
 
 namespace TraiteurBernardWPF
 {
@@ -329,6 +330,13 @@ namespace TraiteurBernardWPF
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ImporterJson(object sender, RoutedEventArgs e)
+        {
+            ImporterJson wpf = new ImporterJson();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
         }
 
         /// <summary>
