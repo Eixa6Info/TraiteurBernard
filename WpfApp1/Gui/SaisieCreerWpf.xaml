@@ -10,7 +10,7 @@
          ResizeMode="NoResize"
         Title="Création d'une saisie" Height="1030" Width="1400" Loaded="Window_Loaded">
     <Window.Resources>
-        <BitmapImage x:Key="TableauSaisieCreer" CreateOptions="IgnoreImageCache" CacheOption="OnLoad" UriSource="C:\Users\Docker\Documents\TraiteurBernard\WpfApp1\Assets\TableauSaisieCreer..png"/>
+        <BitmapImage x:Key="TableauSaisieCreer" >/Traiteur;component/Assets/TableauSaisieCreer..png</BitmapImage>
     </Window.Resources>
 
     <Grid x:Name="gridMain">
