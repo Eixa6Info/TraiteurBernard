@@ -36,7 +36,7 @@
     <InstallUrl>https://willytardy.com/portage/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>27</ApplicationRevision>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -328,9 +328,6 @@
     <Compile Include="Gui\SaisieCreerWpf.xaml.cs">
       <DependentUpon>SaisieCreerWpf.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Gui\SaisieListerWpf.xaml.cs">
-      <DependentUpon>SaisieListerWpf.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Modele\SaisieData.cs" />
     <Compile Include="Modele\Saisie.cs" />
     <Compile Include="Security\ControlsVerification.cs" />
@@ -380,10 +377,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\SaisieCreerWpf.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Gui\SaisieListerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

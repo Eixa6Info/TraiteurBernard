@@ -46,7 +46,6 @@
                 <MenuItem Header="_Saisies">
                     <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
                     <MenuItem Header="_Génerer PDF" Click="MenuItem_Saisies_Pdf_Click" />
-                    <!--<MenuItem Header="_Lister" Click="MenuItem_Saisies_Lister_Click" />-->
                 </MenuItem>
                 <MenuItem Header="_Options" HorizontalAlignment="Right">
                     <MenuItem Header="_Importer un fichier JSON" Click="ImporterJson" />

@@ -341,11 +341,11 @@ namespace TraiteurBernardWPF
             wpf.ShowDialog();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Ouverture de la fenêtre d'imporation JSON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ImporterJson(object sender, RoutedEventArgs e)
         {
             ImporterJson wpf = new ImporterJson();
@@ -353,18 +353,7 @@ namespace TraiteurBernardWPF
             wpf.ShowDialog();
         }
 
-        /// <summary>
-        /// Ouverture de la fenêtre pour lister les saisies
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /*  private void MenuItem_Saisies_Lister_Click(object sender, RoutedEventArgs e)
-          {
-              SaisieListerWpf wpf = new SaisieListerWpf();
-              WinFormWpf.CornerTopLeftToParent(wpf, this);
-              wpf.ShowDialog();
-          }*/
-
+        
 
 
 

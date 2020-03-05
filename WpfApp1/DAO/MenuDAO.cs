@@ -10,6 +10,13 @@ namespace TraiteurBernardWPF.DAO
     class MenuDao
     {
 
+        /// <summary>
+        /// Recupérer un menu en fonction de la semaine et du jour
+        /// </summary>
+        /// <param name="semaine"></param>
+        /// <param name="jour"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
         internal static Menu getFirstFromWeekAndDay(int semaine, int jour, BaseContext db)
         {
 
@@ -22,6 +29,11 @@ namespace TraiteurBernardWPF.DAO
             return menu;
         }
 
+        /// <summary>
+        /// Récupérer des menus en fonctionde la semaine
+        /// </summary>
+        /// <param name="semaine"></param>
+        /// <returns></returns>
         internal static List<Menu> getAllFromWeek(int semaine)
         {
             BaseContext db = new BaseContext();

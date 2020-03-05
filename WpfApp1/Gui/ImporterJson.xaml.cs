@@ -24,11 +24,20 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class ImporterJson : Window
     {
+
+        /// <summary>
+        /// Constructeur
+        /// </summary>
         public ImporterJson()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Fonction pour ouvrir le fichier JSON au clique sur bouton
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OuvrirUnFichier(object sender, RoutedEventArgs e)
         {
             // Ouverture de la fenêtre d'exploration (api win32)
