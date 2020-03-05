@@ -95,11 +95,20 @@ namespace TraiteurBernardWPF.Gui
 
                 }
 
-                // On affiche le nombre de personnes chargées
-                lblPersonnesChargees.Content = nbrPersonnes + " personnes ont été chargées";
-                db.SaveChanges();
+                // Demande de confirmation
+                MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", nbrPersonnes + " personnes vont être ajoutées à la base de données, êtes vous sûr ? ", MessageBoxButton.YesNo);
+                wpf.ShowDialog();
+                if (wpf.YesOrNo)
+                {
+                    // On affiche le nombre de personnes chargées
+                    lblPersonnesChargees.Content = nbrPersonnes + " personnes ont été chargées";
+                    db.SaveChanges();
+                }
+
                 db.Dispose();
-                
+
+
+
             }
         }
     }

@@ -10,6 +10,12 @@ namespace TraiteurBernardWPF.DAO
     class SaisieDAO
     {
 
+        /// <summary>
+        /// Récupérer toutes les saisies d'une année
+        /// </summary>
+        /// <param name="annee"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
         internal static List<Saisie> getAllFromYear(int annee, BaseContext db)
         {
 
@@ -34,7 +40,8 @@ namespace TraiteurBernardWPF.DAO
 
 
         /// <summary>
-        /// Retourne l'id de la saisie ou 0 si il n'y en a pas
+        /// Retourne les ID des saisies en fonction de l'année, de la semaine et de la personne
+        /// l'ID sera 0 si il n'y a pas de saisie sur un jour donné
         /// </summary>
         /// <param name="anneee"></param>
         /// <param name="semaine"></param>
@@ -89,6 +96,13 @@ namespace TraiteurBernardWPF.DAO
         }
         
 
+        /// <summary>
+        /// Récupérer toutes les saisies en fonction de l'année et de la semaine
+        /// </summary>
+        /// <param name="annee"></param>
+        /// <param name="semaine"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
         internal static List<Saisie> getAllFromYearWeek(int annee, int semaine, BaseContext db)
         {
 
@@ -110,7 +124,13 @@ namespace TraiteurBernardWPF.DAO
 
             return saisies;
         }
-        
+
+        /// <summary>
+        /// Récupérer toutes les saison en fonction d'une personne
+        /// </summary>
+        /// <param name="personne"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
         internal static List<Saisie> getAllFromPersonne(Personne personne, BaseContext db)
         {
 
@@ -133,6 +153,14 @@ namespace TraiteurBernardWPF.DAO
             return saisies;
         }
         
+        /// <summary>
+        /// Récupérer toutes les saisones en fonction d'une année, d'une semaine et d'une personne
+        /// </summary>
+        /// <param name="anneee"></param>
+        /// <param name="semaine"></param>
+        /// <param name="personne"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
         internal static List<Saisie> getAllFromYearWeekPersonne(int anneee, int semaine, Personne personne, BaseContext db)
         {
             IQueryable<Saisie> req = from s in db.Saisies where s.Personne == personne && s.Annee == anneee && s.Semaine == semaine select s;

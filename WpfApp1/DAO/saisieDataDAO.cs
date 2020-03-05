@@ -10,6 +10,14 @@ namespace TraiteurBernardWPF.DAO
     class SaisieDataDAO
     {
 
+        /// <summary>
+        /// Récupère toutes les saisies data avec le type passé en argument 
+        /// exemple si on veut toutes les entrées du midi, on passe l'argument 1 et 
+        /// ca retournera toutes les saises data de l'entrée du midi
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="saisieDatas"></param>
+        /// <returns></returns>
         internal static List<SaisieData> SortByTypeFromList(int type, List<SaisieData> saisieDatas)
         {
 
