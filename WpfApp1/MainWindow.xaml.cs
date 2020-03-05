@@ -37,7 +37,7 @@ namespace TraiteurBernardWPF
             InitializeComponent();
 
             // Version de l'application
-            Title += "  |  v.1.0.0  |  04/03/2020";
+            Title += "  |  v.1.0.1  |  05/03/2020";
             // On créé la base de données si elle existe pas
             BaseContext db = new BaseContext();
             db.Database.EnsureCreated();
@@ -353,9 +353,17 @@ namespace TraiteurBernardWPF
             wpf.ShowDialog();
         }
 
-        
-
-
-
+        /// <summary>
+        /// Ouverture de la fenêtre 'A propos'
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void APropos(object sender, RoutedEventArgs e)
+        {
+            AProposWpf wpf = new AProposWpf();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
+        }
+    
     }
 }

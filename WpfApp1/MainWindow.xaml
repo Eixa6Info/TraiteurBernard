@@ -50,6 +50,7 @@
                 <MenuItem Header="_Options" HorizontalAlignment="Right">
                     <MenuItem Header="_Importer un fichier JSON" Click="ImporterJson" />
                     <MenuItem Header="_Reinitialiser la base de données" Click="ReinitialiserBdd"/>
+                    <MenuItem Header="_A propos" Click="APropos"/>
                 </MenuItem>
             </Menu>
 

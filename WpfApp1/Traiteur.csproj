@@ -313,6 +313,9 @@
     </ApplicationDefinition>
     <Compile Include="DAO\saisieDataDAO.cs" />
     <Compile Include="DAO\SaisieDAO.cs" />
+    <Compile Include="Gui\AProposWpf.xaml.cs">
+      <DependentUpon>AProposWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\ImporterJson.xaml.cs">
       <DependentUpon>ImporterJson.xaml</DependentUpon>
     </Compile>
@@ -332,6 +335,10 @@
     <Compile Include="Modele\Saisie.cs" />
     <Compile Include="Security\ControlsVerification.cs" />
     <Compile Include="Utils\WinFormWpf.cs" />
+    <Page Include="Gui\AProposWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Gui\CompteDeFacturationCreerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
