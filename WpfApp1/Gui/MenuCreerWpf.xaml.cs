@@ -114,6 +114,7 @@ namespace TraiteurBernardWPF.Gui
         private void AjouterPlat(TextBox txt, int type)
         {
             if (!String.IsNullOrEmpty(txt.Text)) this.Edite.Plats.Add(new Plat { Type = type, Name = txt.Text });
+            else this.Edite.Plats.Add(new Plat { Type = type, Name = "" });
         }
 
         /// <summary>
@@ -124,6 +125,7 @@ namespace TraiteurBernardWPF.Gui
         {
             foreach (KeyValuePair<TextBox, int> pair in txt_type)
                 if (!String.IsNullOrEmpty(pair.Key.Text)) this.Edite.Plats.Add(new Plat { Type = pair.Value, Name = pair.Key.Text });
+                else this.Edite.Plats.Add(new Plat { Type = pair.Value, Name = "" });
         }
 
         /// <summary>

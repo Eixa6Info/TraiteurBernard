@@ -186,7 +186,8 @@ namespace TraiteurBernardWPF.Gui
                 // Pour chaque menus, on affiche les plats dans les textbox associé
                 foreach (TraiteurBernardWPF.Modele.Menu menu in req)
                 {
-                    plats = menu.Plats.OrderBy(p => p.Type).ToArray();
+
+                    plats = menu.Plats.OrderBy(p => p != null ? p.Type : 9).ToArray();
                     for (int i = 0; i < 8; i++)
                     {
                         if (plats[i] != null)

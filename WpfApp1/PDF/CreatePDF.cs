@@ -646,6 +646,7 @@ namespace TraiteurBernardWPF.PDF
                 // Pour toutes les données des saisies du jours et par repas 
                 foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
                 {
+
                     string libelle = sd.Libelle;
                     int quantite = sd.Quantite;
 
@@ -698,10 +699,19 @@ namespace TraiteurBernardWPF.PDF
                     {
                         if (!String.IsNullOrEmpty(entry.Key))
                         {
+                            PDType1Font font = OBLIQUE;
+
+                            // Si le plat fait partir du menu, on le met en normal, sinon il sera en italique
+                            List<String> plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
+                            if (plats.Contains(entry.Key))
+                            {
+                                    font = NORMAL;
+                            }
+                            // si cest pas egal a une menu faut surligner en rose
                             //platString += " " + entry.Value + "*" + entry.Key + " ";
 
-                            PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
-                            PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                            PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, font);
+                            PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, font);
                             line -= 10;
 
                             }
@@ -1206,7 +1216,7 @@ namespace TraiteurBernardWPF.PDF
         drawText(BOLD, 12, getX(0) + 2, getY(93),
                 "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
                 "NOM et ADRESSE : ..........................................          TELEPHONE : ..........................................          PAIN : OUI / NON               SEMAINE : " + CreatePDF.semaine);
-        drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50€ la demi baguette / 1€ la baguette");
+        drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
         drawLine(getX(0), getX(100), getY(88), getY(88));
     }
 
