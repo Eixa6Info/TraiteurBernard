@@ -22,12 +22,20 @@ namespace TraiteurBernardWPF.Gui
     public partial class PdfCreerWpf : Window
     {
         bool printSaisieBool;
+        bool composition;
 
-        public PdfCreerWpf(bool printSaisieBool)
+        /// <summary>
+        /// Constructeur premier paramètre : saisie ou menu
+        /// deuxieem paramètre : composition ou non
+        /// </summary>
+        /// <param name="printSaisieBool"></param>
+        /// <param name="composition"></param>
+        public PdfCreerWpf(bool printSaisieBool, bool composition = false)
         {
             InitializeComponent();
             this.printSaisieBool = printSaisieBool;
             txtSemaine.Text = "1";
+            this.composition = composition;
         }
 
         /// <summary>
@@ -47,7 +55,10 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), this.printSaisieBool);
+            if(!this.composition)
+                CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), this.printSaisieBool); 
+            else
+                CreatePDF.StartComposition(595.27563F, 841.8898F, short.Parse(txtSemaine.Text));
             Close();
         }
 

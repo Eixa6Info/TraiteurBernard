@@ -364,6 +364,12 @@ namespace TraiteurBernardWPF
             WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }
-    
+
+        private void MenuItem_Saisies_PdfCompositions_Click(object sender, RoutedEventArgs e)
+        {
+            PdfCreerWpf wpf = new PdfCreerWpf(true, true);
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
+        }
     }
 }

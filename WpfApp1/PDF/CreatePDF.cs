@@ -98,6 +98,94 @@ namespace TraiteurBernardWPF.PDF
             //Function ok !
             return true;
     }
+        
+        /**
+         * Function pour créer le PDF des composiions
+         *
+         * @param format  PDRectangle A3 ou A4
+         * @param semaine Integer Numéros de semaine
+         * @return boolean
+         * @throws Exception ...
+         */
+        public static bool StartComposition(float width, float height, int semaine)
+        {
+
+            //Récuperation du format de la page en fonction de A3 ou A4
+            maxX = height - margin;
+            maxY = width - margin;
+
+            //Récupération des variable en relation avec des pourcentage
+            menuYTop = getY(85);
+            menuYTopNoLivraison = getY(82);
+            menuYTopNoDay = getY(79);
+            menuYBottom = getY(14);
+
+            //Définition de la semaine
+            CreatePDF.semaine = semaine;
+
+            //Demande a l'utilisateur de choisir ou enregistrer
+            if (!getPath())     
+                return false;
+        
+
+            //Création du document
+            document = new PDDocument();
+
+            //Print de tout les page du midi
+            //Récup du document
+            getDocument();
+
+            //création du cadre
+            //Left Line
+            drawLine(getX(0), getX(0), getY(14), getY(82));
+
+            //Right Line
+            drawLine(getX(100), getX(100), getY(14), getY(82));
+
+            //Top Line
+            //drawLine(getX(0), getX(100), getY(80), getY(80));
+
+            //Bottom Line
+            drawLine(getX(0), getX(100), getY(14), getY(14));
+
+            //Création de toute les ligne
+            PrintLines();
+
+            //Création de toute les column
+            printColumn();
+
+
+            //Ajout des description a gauche du tableaux
+            printDescLine();
+
+            //Ajout des menus ou des saisies dans les case
+            printSaisie(true);
+
+            //Ajout de toute les infirmation
+            printJoursT1();
+            contentStream.close();
+       
+
+
+            //Print de tout les page du soir
+
+
+            //Saving the document
+            document.save(output);
+
+        //Closing the document
+        document.close();
+
+        //ouverture du document
+        //Desktop.getDesktop().open(output);
+            
+          
+
+            //Function ok !
+            return true;
+    }
+
+
 
     /**
      * Function pour créer les 3 pages du midi
@@ -611,7 +699,7 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Fonctio, pout ptiny les plats et quantités de toutes les saises
         */
-        private static void printSaisie()
+        private static void printSaisie(bool composition = false)
         {
             BaseContext db = new BaseContext();
                
@@ -701,15 +789,18 @@ namespace TraiteurBernardWPF.PDF
                         {
                             PDType1Font font = OBLIQUE;
 
-                            // Si le plat fait partir du menu, on le met en normal, sinon il sera en italique
+                            // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
+                            // Si on est en mode  composition , on met pas le plat du menu
                             List<String> plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
                             if (plats.Contains(entry.Key))
                             {
-                                    font = NORMAL;
+                               if (composition) continue;
+                               font = NORMAL;
                             }
                             // si cest pas egal a une menu faut surligner en rose
                             //platString += " " + entry.Value + "*" + entry.Key + " ";
 
+                            
                             PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, font);
                             PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, font);
                             line -= 10;
