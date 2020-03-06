@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -120,7 +121,9 @@ namespace TraiteurBernardWPF.Gui
             }
             else
             {
-                new MessageBoxWpf("Information indispensable", "Le nom est indispensable", MessageBoxButton.OK).ShowDialog();
+                MessageBoxWpf wpf = new MessageBoxWpf("Information indispensable", "Le nom est indispensable", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
             }
 
         }

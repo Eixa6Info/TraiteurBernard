@@ -56,7 +56,7 @@ namespace TraiteurBernardWPF
         private void ReinitialiserBdd(object sender, RoutedEventArgs e)
         {
 
-            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de remettre à zéro toutes les données, voulez vous continuer ?", MessageBoxButton.YesNo);
+            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de remettre à zéro toutes les données, voulez-vous continuer ?", MessageBoxButton.YesNo);
             wpf.ShowDialog();
             if (!wpf.YesOrNo) return;
             

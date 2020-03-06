@@ -88,7 +88,8 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            if (this.VerifierDonnees()){
+            if (this.VerifierDonnees())
+            {
                 this.Edite.Tournee = this.Edite.Personne.Tournee;
                 Close();
                 int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
@@ -97,9 +98,14 @@ namespace TraiteurBernardWPF.Gui
                 wpf.ShowDialog();
             }
             else
-                new MessageBoxWpf("Informations indispensables", "L'année, la semaine et la personne sont indispensables", MessageBoxButton.OK).ShowDialog();
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "L'année, la semaine et la personne sont indispensables", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+                
 
-            
+
         }
 
         /// <summary>

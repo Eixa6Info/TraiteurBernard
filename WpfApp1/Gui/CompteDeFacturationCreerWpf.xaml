@@ -16,7 +16,7 @@
         <ListBox x:Name="lstPersonnes"  HorizontalAlignment="Left" Height="340" Margin="380,84,0,0" VerticalAlignment="Top" Width="304"  SelectionChanged="lstPersonnes_SelectionChanged"/>
         <Label x:Name="lblListe" materialDesign:HintAssist.Hint="Personnes liées"  materialDesign:HintAssist.IsFloating="True" Content="" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Height="377" Width="344"/>
         <Label Content="Membres du compte :" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top"/>
-        <Label Content="Personnes :&#xD;&#xA;(Cliquez sur une personne pour l'ajouter ou l'enlever &#xD;&#xA;du compte" HorizontalAlignment="Left" Margin="380,10,0,0" VerticalAlignment="Top" Width="304" Height="57"/>
+        <Label Content="Personnes :&#xD;&#xA;(Cliquez sur une personne pour l'ajouter ou l'enlever &#xD;&#xA;du compte)" HorizontalAlignment="Left" Margin="380,10,0,0" VerticalAlignment="Top" Width="304" Height="57"/>
         <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,90,10" VerticalAlignment="Bottom" Width="75" Click="Fermer"/>
 
     </Grid>

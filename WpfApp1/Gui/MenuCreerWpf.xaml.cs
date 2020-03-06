@@ -15,6 +15,7 @@ using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Security;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -161,8 +162,12 @@ namespace TraiteurBernardWPF.Gui
                 Close();
             }
             else
-                new MessageBoxWpf("Information indispensable", "Le numéro de la semaine et le numéro du jour sont indispensables", MessageBoxButton.OK).ShowDialog();
-
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf("Information indispensable", "Le numéro de la semaine et le numéro du jour sont indispensables", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+                
 
         }
 

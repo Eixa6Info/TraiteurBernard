@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -85,6 +86,7 @@ namespace TraiteurBernardWPF.Gui
         {
 
             MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de supprimer cette personne, voulez vous continuer ?", MessageBoxButton.YesNo);
+            WinFormWpf.CenterToParent(wpf, this);
             wpf.ShowDialog();
             if (!wpf.YesOrNo) return;
 

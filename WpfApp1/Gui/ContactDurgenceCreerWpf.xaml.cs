@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Security;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -94,10 +95,14 @@ namespace TraiteurBernardWPF.Gui
                 Close();
             }
             else
-                new MessageBoxWpf("Information indispensable", "Le nom le prenom et le numéro de téléphone sont indispensables", MessageBoxButton.OK).ShowDialog();
-            
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf("Information indispensable", "Le nom, le prénom et le numéro de téléphone sont indispensables", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+            }
 
-           
+
+
         }
 
         /// <summary>

@@ -29,5 +29,17 @@ namespace TraiteurBernardWPF.Utils
             wpf.Top = 0;
             wpf.Left = 0;
         }
+        
+        /// <summary>
+        /// Place une fenêtre enfant au milieu du parent
+        /// </summary>
+        /// <param name="wpf"></param>
+        internal static void CenterToParent(Window wpf, Window parent)
+        {
+            wpf.Top = parent.Top + (parent.Height / 2) - wpf.Height / 2;
+            wpf.Left = parent.Left + (parent.Width / 2) - wpf.Width / 2;
+        }
+
+
     }
 }

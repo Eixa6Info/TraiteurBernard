@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Gui;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -25,6 +26,8 @@ namespace TraiteurBernardWPF.Gui
 
         private Personne edite;
         private BaseContext db;
+
+        public MessageBoxWpf MessageBoxWpf { get; private set; }
 
         /// <summary>
         /// Constructeur sans paramètres donc pour la création d'une personne
@@ -92,7 +95,9 @@ namespace TraiteurBernardWPF.Gui
             }
             else
             {
-                new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK).ShowDialog();
+                MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
             }
         }
 

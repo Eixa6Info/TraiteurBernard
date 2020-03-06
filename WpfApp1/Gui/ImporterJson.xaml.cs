@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -97,6 +98,7 @@ namespace TraiteurBernardWPF.Gui
 
                 // Demande de confirmation
                 MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", nbrPersonnes + " personnes vont être ajoutées à la base de données, êtes vous sûr ? ", MessageBoxButton.YesNo);
+                WinFormWpf.CenterToParent(wpf, this);
                 wpf.ShowDialog();
                 if (wpf.YesOrNo)
                 {

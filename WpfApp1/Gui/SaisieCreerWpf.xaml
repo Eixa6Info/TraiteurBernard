@@ -72,14 +72,14 @@
         <Label Grid.Row="1" Grid.Column="5" Content="Vendredi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="67" />
         <Label Grid.Row="1" Grid.Column="6" Content="Samedi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="56"  />
         <Label Grid.Row="1" Grid.Column="7" Content="Dimanche" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="74" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Entrée midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="56" />
-        <Label Grid.Row="3" Grid.Column="0" Content="Plat 1 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold"  FontSize="14" Height="27" Width="45" />
-        <Label Grid.Row="4" Grid.Column="0" Content="Plat 2 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold"  FontSize="14" Height="27" Width="45" />
-        <Label Grid.Row="5" Grid.Column="0" Content="Plat 3 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="45" />
-        <Label Grid.Row="6" Grid.Column="0" Content="Dessert" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="57" />
-        <Label Grid.Row="7" Grid.Column="0" Content="Entrée soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="57" />
-        <Label Grid.Row="8" Grid.Column="0" Content="Plat 1 soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="57" />
-        <Label Grid.Row="9" Grid.Column="0" Content="Dessert soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="57" />
+        <Label Grid.Row="2" Grid.Column="0" Content="Entrée midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
+        <Label Grid.Row="3" Grid.Column="0" Content="Plat 1 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold"  FontSize="14" Height="27" Width="149" />
+        <Label Grid.Row="4" Grid.Column="0" Content="Plat 2 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold"  FontSize="14" Height="27" Width="149" />
+        <Label Grid.Row="5" Grid.Column="0" Content="Plat 3 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
+        <Label Grid.Row="6" Grid.Column="0" Content="Dessert" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
+        <Label Grid.Row="7" Grid.Column="0" Content="Entrée soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
+        <Label Grid.Row="8" Grid.Column="0" Content="Plat 1 soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
+        <Label Grid.Row="9" Grid.Column="0" Content="Dessert soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
 
 
         <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="2" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>

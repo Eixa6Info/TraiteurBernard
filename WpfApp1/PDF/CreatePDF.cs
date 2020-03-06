@@ -57,23 +57,23 @@ namespace TraiteurBernardWPF.PDF
         public static bool Start(float width, float height, int semaine, bool printSaisieBool)
         {
 
-            //Récuperation du format de la page en fonction de A3 ou A4
-            maxX = height - margin;
-            maxY = width - margin;
+        //Récuperation du format de la page en fonction de A3 ou A4
+        maxX = height - margin;
+        maxY = width - margin;
 
-            //Récupération des variable en relation avec des pourcentage
-            menuYTop = getY(85);
-            menuYTopNoLivraison = getY(82);
-            menuYTopNoDay = getY(79);
-            menuYBottom = getY(14);
+        //Récupération des variable en relatison avec des pourcentage
+        menuYTop = getY(85);
+        menuYTopNoLivraison = getY(82);
+        menuYTopNoDay = getY(79);
+        menuYBottom = getY(14);
 
-            //Définition de la semaine
-            CreatePDF.semaine = semaine;
+        //Définition de la semaine
+        CreatePDF.semaine = semaine;
 
-            //Demande a l'utilisateur de choisir ou enregistrer
-            if (!getPath()) {
-                return false;
-        }
+        //Demande a l'utilisateur de choisir ou enregistrer
+        if (!getPath()) 
+            return false;
+        
 
         //Création du document
         document = new PDDocument();
