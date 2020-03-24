@@ -6,15 +6,15 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
-        Title="Liste des personnes" Height="500" Width="700" Loaded="Window_Loaded">
-    <Grid>
+        ResizeMode="CanResize"
+        Title="Liste des personnes" Height="501.52" Width="962.918" Loaded="Window_Loaded">
+    <Grid Name="grille">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="600*"/>
-            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="*"/>
+            
         </Grid.ColumnDefinitions>
 
-        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Height="362" Margin="10,10,0,0" VerticalAlignment="Top" AutoGenerateColumns="False"  Width="672" Grid.ColumnSpan="2" >
+        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" AutoGenerateColumns="False"  Height="{Binding ActualHeight, ElementName=grille}" Width="{Binding ActualWidth, ElementName=grille}" Grid.Column="0" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>
                 <DataGridTextColumn Header="Prénom" IsReadOnly="True" Binding="{Binding Prenom}"/>
@@ -35,6 +35,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" Grid.Column="1" />
+        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" Grid.Column="0" />
     </Grid>
 </Window>

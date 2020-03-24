@@ -13,82 +13,45 @@
 
     <Grid x:Name="gridMain">
         <Grid.Background>
-            <ImageBrush ImageSource="{DynamicResource TableauSaisie}"/>
+            <ImageBrush ImageSource="{DynamicResource TableauSaisieMidiVille}"/>
         </Grid.Background>
-
-
-
 
         <Grid.ColumnDefinitions>
 
-
-
-            <ColumnDefinition Width="159*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition Width="176*"/>
-            <ColumnDefinition/>
-
-
+            <ColumnDefinition Width="182*"/>
+            <ColumnDefinition Width="169*"/>
+            <ColumnDefinition Width="174*"/>
+            <ColumnDefinition Width="173*"/>
+            <ColumnDefinition Width="171*"/>
+            <ColumnDefinition Width="171*"/>
+            <ColumnDefinition Width="173*"/>
+            <ColumnDefinition Width="155*"/>
+            <ColumnDefinition Width="26*"/>
 
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
 
-
-
-
-
-
-
-
-            <RowDefinition Height="58*"/>
-            <RowDefinition Height="42*"/>
-            <RowDefinition Height="103*"/>
-            <RowDefinition Height="105*"/>
-            <RowDefinition Height="105*"/>
-            <RowDefinition Height="105*"/>
-            <RowDefinition Height="105*"/>
-            <RowDefinition Height="105*"/>
-            <RowDefinition Height="105*"/>
-            <RowDefinition Height="105*"/>
-            <RowDefinition Height="63*"/>
-
-
-
-
-
-
-
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="108*"/>
+            <RowDefinition Height="29*"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="116*"/>
+            <RowDefinition Height="119*"/>
+            <RowDefinition Height="119*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="96*"/>
+            <RowDefinition Height="156*"/>
 
         </Grid.RowDefinitions>
-        <Label Grid.Row="1" Grid.Column="1" Content="Lundi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="45"/>
-        <Label Grid.Row="1" Grid.Column="2" Content="Mardi" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="47" />
-        <Label Grid.Row="1" Grid.Column="3" Content="Mercredi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="67"/>
-        <Label Grid.Row="1" Grid.Column="4" Content="Jeudi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="43"  />
-        <Label Grid.Row="1" Grid.Column="5" Content="Vendredi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="67" />
-        <Label Grid.Row="1" Grid.Column="6" Content="Samedi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="56"  />
-        <Label Grid.Row="1" Grid.Column="7" Content="Dimanche" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="74" />
-        <Label Grid.Row="2" Grid.Column="0" Content="Entrée midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
-        <Label Grid.Row="3" Grid.Column="0" Content="Plat 1 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold"  FontSize="14" Height="27" Width="149" />
-        <Label Grid.Row="4" Grid.Column="0" Content="Plat 2 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold"  FontSize="14" Height="27" Width="149" />
-        <Label Grid.Row="5" Grid.Column="0" Content="Plat 3 midi" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
-        <Label Grid.Row="6" Grid.Column="0" Content="Dessert" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
-        <Label Grid.Row="7" Grid.Column="0" Content="Entrée soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
-        <Label Grid.Row="8" Grid.Column="0" Content="Plat 1 soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
-        <Label Grid.Row="9" Grid.Column="0" Content="Dessert soir" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149" />
-
-
-        <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="2" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
-        <Label x:Name="lblAnnee" Grid.Row="0" Grid.Column="3" Content="Année : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="149"/>
-        <Label x:Name="lblPersonne" Grid.Row="0" Grid.Column="4" Content="Personne : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="352" Grid.ColumnSpan="2"/>
-        <Button Content="Valider" Click="Valider" HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="76" Grid.Column="7" Grid.Row="10"/>
 
 
 
+        <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="7" Content="Semaine : x" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="78" Margin="69,73,0,0" />
+        <Label x:Name="lblPersonne" Grid.Row="0" Grid.Column="1" Content="Personne : x" HorizontalAlignment="Left"  VerticalAlignment="Bottom" FontWeight="Bold" FontSize="14" Height="27" Width="352" Margin="40,0,0,0" Grid.ColumnSpan="3"/>
+        <Button Content="Enregistrer" Click="Valider" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="110" Grid.Column="6" Grid.Row="0"/>
+        <Button Content="Annuler" Click="Annuler" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="92" Grid.Column="7" Grid.Row="0"/>
+        <Button Content="Le soir ..." Click="Soir" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="76" Grid.Column="5" Grid.Row="0"/>
 
     </Grid>
 </Window>

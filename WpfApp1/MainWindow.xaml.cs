@@ -37,7 +37,7 @@ namespace TraiteurBernardWPF
             InitializeComponent();
 
             // Version de l'application
-            Title += "  |  v.1.0.1  |  05/03/2020";
+            Title += "  |  v.1.0.3  |  13/03/2020";
             // On créé la base de données si elle existe pas
             BaseContext db = new BaseContext();
             db.Database.EnsureCreated();
@@ -59,7 +59,10 @@ namespace TraiteurBernardWPF
             MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de remettre à zéro toutes les données, voulez-vous continuer ?", MessageBoxButton.YesNo);
             wpf.ShowDialog();
             if (!wpf.YesOrNo) return;
+
+            Cursor = Cursors.Wait;
             
+
             using (BaseContext db = new BaseContext())
             {
 
@@ -97,7 +100,7 @@ namespace TraiteurBernardWPF
                 jours.Add(l);
 
 
-                db.TypeTournee.Add(new TypeTournee { Nom = "ville1", JoursLivraisonsRepas = jours });
+                db.TypeTournee.Add(new TypeTournee { Nom = "ville 1", JoursLivraisonsRepas = jours });
                 db.SaveChanges();
 
                 jours = new List<Livraison>();
@@ -128,7 +131,7 @@ namespace TraiteurBernardWPF
                 l.JourRepas1 = "vendredi";
                 jours.Add(l);
 
-                db.TypeTournee.Add(new TypeTournee { Nom = "ville", JoursLivraisonsRepas = jours });
+                db.TypeTournee.Add(new TypeTournee { Nom = "ville 2", JoursLivraisonsRepas = jours });
                 db.SaveChanges();
 
                 jours = new List<Livraison>();
@@ -192,7 +195,7 @@ namespace TraiteurBernardWPF
                 jours.Add(l);
 
 
-                db.TypeTournee.Add(new TypeTournee { Nom = "marennes", JoursLivraisonsRepas = jours });
+                db.TypeTournee.Add(new TypeTournee { Nom = "Marennes", JoursLivraisonsRepas = jours });
                 db.SaveChanges();
 
                 /*     var req = from t in db.TypeTournee
@@ -207,6 +210,8 @@ namespace TraiteurBernardWPF
                 */
 
             }
+
+            Cursor = Cursors.Arrow;
         }
 
         /// <summary>

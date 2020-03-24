@@ -34,8 +34,8 @@
         <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,95,10" VerticalAlignment="Bottom" Width="75" Click="Fermer"/>
         <Label x:Name="lblCompte" Content="" HorizontalAlignment="Left" Margin="444,237,0,0" VerticalAlignment="Top" Width="185"/>
         <Label x:Name="lblContactDurgence" Content="" HorizontalAlignment="Left" Margin="217,237,0,0" VerticalAlignment="Top" Width="158"/>
-        <TextBox Text="{Binding Telephone}" materialDesign:HintAssist.Hint="Téléphone"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="23" Margin="217,337,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <TextBox Text="{Binding Mail}" materialDesign:HintAssist.Hint="Courriel"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="23" Margin="444,337,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="185"/>
+        <TextBox Text="{Binding Telephone}" materialDesign:HintAssist.Hint="Téléphone"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="43" Margin="217,337,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <TextBox Text="{Binding Mail}" materialDesign:HintAssist.Hint="Courriel"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="43" Margin="444,337,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="185"/>
         <DatePicker  SelectedDate="{Binding DateNaissance, Mode=TwoWay}" HorizontalAlignment="Left" Margin="32,337,0,0" VerticalAlignment="Top"/>
         <TextBox Text="{Binding APAMontantMax}" x:Name="txtAPAMontantMax"  materialDesign:HintAssist.Hint="Montant max"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="388,460,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
         <TextBox Text="{Binding APALivraisonMax}" x:Name="txtAPALivraisonMax"  materialDesign:HintAssist.Hint="Livraison max"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="522,460,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
