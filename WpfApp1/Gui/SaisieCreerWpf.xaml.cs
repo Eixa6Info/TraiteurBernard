@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,7 @@ namespace TraiteurBernardWPF.Gui
         private BaseContext db;
         private Saisie Edite { get; set; }
 
+        private ImageBrush soirBackground;
         private int colonneDepart = 1;
         private int ligneDepart = 2;
        
@@ -72,8 +74,18 @@ namespace TraiteurBernardWPF.Gui
             int jour = 1;
             int indexTxtNames = 0;
 
-            // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
+            // pour chaque jour, afficher la date
+            var laDate = FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine);
+
             for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
+            {
+                var control = (gridMain.FindName("date" + colonne) as Label);
+                control.Content =laDate.ToShortDateString();
+                laDate = laDate.AddDays(1);
+
+            }
+                // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
+                for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
             {
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
@@ -145,11 +157,12 @@ namespace TraiteurBernardWPF.Gui
         /// Constructeur avec en paramètre la saisie qui contient la semaine, le jour, la tournée, l'année et la personne
         /// </summary>
         /// <param name="edite"></param>
-        public SaisieCreerWpf(Saisie edite, BaseContext db, int[] IDs)
+        public SaisieCreerWpf(Saisie edite, BaseContext db, int[] IDs, ImageBrush soirBackground)
         {
             InitializeComponent();
             this.db = db;
             this.Edite = edite;
+            this.soirBackground = soirBackground;
             //this.pffffff = edite.Tournee;
             lblSemaine.Content = this.Edite.Semaine;
             lblPersonne.Content = this.Edite.Personne;
@@ -386,6 +399,7 @@ namespace TraiteurBernardWPF.Gui
 
             
             var form = new SaisieCreerSoirWpf(Edite, IDs);
+            form.gridMain.Background = soirBackground;
             form.ShowDialog();
 
             this.db = new BaseContext();
@@ -396,7 +410,37 @@ namespace TraiteurBernardWPF.Gui
             this.db.Dispose();
             Close();
         }
+
+        public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+            // Use first Thursday in January to get first week of the year as
+            // it will never be in Week 52/53
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = weekOfYear;
+            // As we're adding days to a date in Week 1,
+            // we need to subtract 1 in order to get the right date for week #1
+            if (firstWeek == 1)
+            {
+                weekNum -= 1;
+            }
+
+            // Using the first Thursday as starting week ensures that we are starting in the right year
+            // then we add number of weeks multiplied with days
+            var result = firstThursday.AddDays(weekNum * 7);
+
+            // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
+            return result.AddDays(-3);
+        }
     }
+
+
+   
 }
 
 

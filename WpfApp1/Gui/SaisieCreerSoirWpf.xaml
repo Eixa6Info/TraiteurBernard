@@ -33,7 +33,8 @@
         <Grid.RowDefinitions>
 
             <RowDefinition Height="121*"/>
-            <RowDefinition Height="151*"/>
+            <RowDefinition Height="125*"/>
+            <RowDefinition Height="26*"/>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="354*"/>
             <RowDefinition Height="90*"/>
@@ -46,7 +47,13 @@
         <Button Content="Enregistrer" Click="Valider" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="115" Grid.Column="6" Grid.Row="0"/>
         <Button Content="Annuler" Click="Annuler" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="115" Grid.Column="7" Grid.Row="0"/>
 
-
+        <Label x:Name="date1" Grid.Column="1" HorizontalAlignment="Left" Height="27" Grid.Row="2" VerticalAlignment="Top" Width="90" Grid.RowSpan="2" />
+        <Label x:Name="date2" Grid.Column="2" HorizontalAlignment="Left" Height="27" Grid.Row="2" VerticalAlignment="Top" Width="90" Grid.RowSpan="2"/>
+        <Label x:Name="date3" Grid.Column="3" HorizontalAlignment="Left" Height="27" Grid.Row="2" VerticalAlignment="Top" Width="90" Grid.RowSpan="2"/>
+        <Label x:Name="date4" Grid.Column="4" HorizontalAlignment="Left" Height="27" Grid.Row="2" VerticalAlignment="Top" Width="90" Grid.RowSpan="2"/>
+        <Label x:Name="date5" Grid.Column="5" HorizontalAlignment="Left" Height="27" Grid.Row="2" VerticalAlignment="Top" Width="90" Grid.RowSpan="2"/>
+        <Label x:Name="date6" Grid.Column="6" HorizontalAlignment="Left" Height="27" Grid.Row="2" VerticalAlignment="Top" Width="90" Grid.RowSpan="2"/>
+        <Label x:Name="date7" Grid.Column="7" HorizontalAlignment="Left" Height="27" Grid.Row="2" VerticalAlignment="Top" Width="90" Grid.RowSpan="2"/>
 
 
     </Grid>

@@ -94,7 +94,33 @@ namespace TraiteurBernardWPF.DAO
             return saisies;
 
         }
-        
+
+        /// <summary>
+        /// Retourne toutes les saisies en fonction de l'anée, de la semaine et du jour
+        /// </summary>
+        /// <param name="anneee"></param>
+        /// <param name="semaine"></param>
+        /// <param name="jour"></param>
+        /// <param name="db"></param>
+        /// <returns></returns>
+        internal static List<Saisie> getAllFromYearWeekDayForTournee(string tournee1, string tournee2, int anneee, int semaine, int jour, BaseContext db)
+        {
+            IQueryable<Saisie> req = from s in db.Saisies 
+                                     where s.Jour == jour && s.Annee == anneee && s.Semaine == semaine && (s.Tournee.Nom == tournee1 || s.Tournee.Nom == tournee2)
+                                     select s;
+
+            List<Saisie> saisies = new List<Saisie>();
+            foreach (Saisie saisie in req)
+            {
+                db.Entry(saisie).Collection(s => s.data).Load();
+                saisies.Add(saisie);
+            }
+
+
+
+            return saisies;
+
+        }
 
         /// <summary>
         /// Récupérer toutes les saisies en fonction de l'année et de la semaine

@@ -26,7 +26,9 @@ namespace TraiteurBernardWPF.Data
 
         // Pour que ceci soit dispo, 
         // Install-Package Microsoft.EntityFrameworkCore.Sqlite
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite("Data Source=traiteur.db");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
+                                                                                            .UseSqlite("Data Source=traiteur.db")
+                                                                                            .EnableSensitiveDataLogging(true);
     }
 
 }

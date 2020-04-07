@@ -37,7 +37,11 @@ namespace TraiteurBernardWPF
             InitializeComponent();
 
             // Version de l'application
-            Title += "  |  v.1.0.3  |  13/03/2020";
+            //Title += "  |  v.1.1.0  |  25/03/2020";
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            Title = fvi.FileVersion;
+
             // On créé la base de données si elle existe pas
             BaseContext db = new BaseContext();
             db.Database.EnsureCreated();
@@ -354,6 +358,18 @@ namespace TraiteurBernardWPF
         private void ImporterJson(object sender, RoutedEventArgs e)
         {
             ImporterJson wpf = new ImporterJson();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
+        }
+
+        /// <summary>
+        /// Ouverture de la fenêtre d'exportation des personnes en JSON
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ExporterJson(object sender, RoutedEventArgs e)
+        {
+            ExporterJson wpf = new ExporterJson();
             WinFormWpf.CornerTopLeftToParent(wpf, this);
             wpf.ShowDialog();
         }

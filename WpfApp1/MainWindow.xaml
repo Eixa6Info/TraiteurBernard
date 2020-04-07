@@ -49,7 +49,8 @@
                     <MenuItem Header="_Génerer les compositions" Click="MenuItem_Saisies_PdfCompositions_Click" />
                 </MenuItem>
                 <MenuItem Header="_Options" HorizontalAlignment="Right">
-                    <MenuItem Header="_Importer un fichier JSON" Click="ImporterJson" />
+                    <MenuItem Header="_Importer un fichier JSON" Click="ImporterJson" /> .
+                    <MenuItem Header="_Exporter les Personnes en JSON" Click="ExporterJson" />
                     <MenuItem Header="_Reinitialiser la base de données" Click="ReinitialiserBdd"/>
                     <MenuItem Header="_A propos" Click="APropos"/>
                 </MenuItem>

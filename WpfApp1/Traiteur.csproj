@@ -36,7 +36,7 @@
     <InstallUrl>https://www.eixa6.com/</InstallUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>36</ApplicationRevision>
+    <ApplicationRevision>42</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -62,22 +62,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>0AE092E1E8580E045DFDDC6297C51992B1A9206C</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>048BFE87AFE7722EA329F25E56F80FF48111C225</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>WpfApp1_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>signatureeixa6.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>signatureeixa6.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>traiteurbernard.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="bcmail-jdk15-1.44, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -322,6 +331,9 @@
     <Compile Include="Gui\AProposWpf.xaml.cs">
       <DependentUpon>AProposWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\ExporterJson.xaml.cs">
+      <DependentUpon>ExporterJson.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\ImporterJson.xaml.cs">
       <DependentUpon>ImporterJson.xaml</DependentUpon>
     </Compile>
@@ -359,6 +371,10 @@
     <Page Include="Gui\ContactDurgenceCreerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\ExporterJson.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\ImporterJson.xaml">
       <SubType>Designer</SubType>
@@ -469,12 +485,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="clespourtraiteurbernard.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="signatureeixa6.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -512,6 +530,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\TourneeSoirVille.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\TourneeMidiContre.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="traiteurbernard.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

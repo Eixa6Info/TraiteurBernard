@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +21,7 @@ namespace TraiteurBernardWPF.Gui
         private Saisie Edite { get; set; }
 
         private int colonneDepart = 1;
-        private int ligneDepart = 2;
+        private int ligneDepart = 3;
       
         private int[] IDs;
 
@@ -58,6 +59,17 @@ namespace TraiteurBernardWPF.Gui
         {
             int jour = 1;
             int indexTxtNames = 0;
+
+            // pour chaque jour, afficher la date
+            var laDate = FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine);
+
+            for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
+            {
+                var control = (gridMain.FindName("date" + colonne) as Label);
+                control.Content = laDate.ToShortDateString();
+                laDate = laDate.AddDays(1);
+
+            }
 
             // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
             for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
@@ -376,6 +388,33 @@ namespace TraiteurBernardWPF.Gui
         {
             this.db.Dispose();
             Close();
+        }
+
+        public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+
+            // Use first Thursday in January to get first week of the year as
+            // it will never be in Week 52/53
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = weekOfYear;
+            // As we're adding days to a date in Week 1,
+            // we need to subtract 1 in order to get the right date for week #1
+            if (firstWeek == 1)
+            {
+                weekNum -= 1;
+            }
+
+            // Using the first Thursday as starting week ensures that we are starting in the right year
+            // then we add number of weeks multiplied with days
+            var result = firstThursday.AddDays(weekNum * 7);
+
+            // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
+            return result.AddDays(-3);
         }
     }
 }

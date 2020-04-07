@@ -54,7 +54,7 @@ namespace TraiteurBernardWPF.PDF
          * @return boolean
          * @throws Exception ...
          */
-        public static bool Start(float width, float height, int semaine, bool printSaisieBool)
+        public static string Start(float width, float height, int semaine, int annee, bool printSaisieBool)
         {
 
         //Récuperation du format de la page en fonction de A3 ou A4
@@ -72,31 +72,35 @@ namespace TraiteurBernardWPF.PDF
 
         //Demande a l'utilisateur de choisir ou enregistrer
         if (!getPath()) 
-            return false;
+            return "";
         
 
         //Création du document
         document = new PDDocument();
 
-        //Print de tout les page du midi
-        printMidi(printSaisieBool);
+            /*  //Print de tout les page du midi
+              printMidi(annee, printSaisieBool);
 
-        //Print de tout les page du soir
-        printSoir(printSaisieBool);
+              //Print de tout les page du soir
+              printSoir(annee, printSaisieBool);
+      */
 
-        //Saving the document
-        document.save(output);
+            PrintMidiVille1ou2(annee, printSaisieBool);
+            PrintSoirVille1ou2(annee, printSaisieBool);
+
+            PrintMidiContreTournee(annee, printSaisieBool);
+            PrintSoirContreTournee(annee, printSaisieBool);
+
+            PrintMidiMarennes(annee, printSaisieBool);
+            PrintSoirMarennes(annee, printSaisieBool);
+
+            //Saving the document
+            document.save(output);
 
         //Closing the document
         document.close();
 
-        //ouverture du document
-        //Desktop.getDesktop().open(output);
-            
-          
-
-            //Function ok !
-            return true;
+            return output;
     }
         
         /**
@@ -107,7 +111,7 @@ namespace TraiteurBernardWPF.PDF
          * @return boolean
          * @throws Exception ...
          */
-        public static bool StartComposition(float width, float height, int semaine)
+        public static string StartComposition(float width, float height, int semaine, int annee)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -125,7 +129,7 @@ namespace TraiteurBernardWPF.PDF
 
             //Demande a l'utilisateur de choisir ou enregistrer
             if (!getPath())     
-                return false;
+                return "";
         
 
             //Création du document
@@ -159,7 +163,8 @@ namespace TraiteurBernardWPF.PDF
             printDescLine();
 
             //Ajout des menus ou des saisies dans les case
-            printSaisie(true);
+            // TODO : à revoir l'affichage des compositions
+            printSaisie("","", annee, true);
 
             //Ajout de toute les infirmation
             printJoursT1();
@@ -176,13 +181,9 @@ namespace TraiteurBernardWPF.PDF
         //Closing the document
         document.close();
 
-        //ouverture du document
-        //Desktop.getDesktop().open(output);
-            
-          
-
+      
             //Function ok !
-            return true;
+            return output;
     }
 
 
@@ -192,116 +193,140 @@ namespace TraiteurBernardWPF.PDF
      *
      * @throws IOException ...
      */
-    private static void printMidi(bool printSaisieBool) 
-    {
+    private static void printMidi(int annee, bool printSaisieBool)
+        {
+            PrintMidiVille1ou2(annee, printSaisieBool);
 
-        //Création d'une nouvelle page
-        newPageAndPrintAllForMidi(printSaisieBool);
+            PrintMidiContreTournee(annee, printSaisieBool);
 
-        //Ajout de toute les infirmation
-        printJoursT1();
+            PrintMidiMarennes(annee, printSaisieBool);
+        }
 
-        //Close de la page
-        contentStream.close();
+        private static void PrintMidiMarennes(int annee, bool printSaisieBool)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAllForMidi(annee, printSaisieBool,"Marennes");
 
+            //Définition des jour de livraison
+            jour1Livraison = "samedi";
+            jour2Livraison = "mardi";
+            jour3Livraison = "jeudi";
 
-        //Création d'une nouvelle page
-        newPageAndPrintAllForMidi(printSaisieBool);
+            //Print du header de livraison
+            printLivraison();
 
-        //Définition des jour de livraison
-        jour1Livraison = "lundi après midi";
-        jour2Livraison = "mercredi après midi";
-        jour3Livraison = "vendredi après midi";
+            //Print des jours de livraison
+            printJoursT3();
 
-        //Print du header de livraison
-        printLivraison();
+            //Close de la page
+            contentStream.close();
+        }
 
-        //Print des jours de livraison
-        printJoursT2();
+        private static void PrintMidiContreTournee(int annee, bool printSaisieBool)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAllForMidi(annee, printSaisieBool,"contre-tournée");
 
-        //Close de la page
-        contentStream.close();
+            //Définition des jour de livraison
+            jour1Livraison = "lundi après midi";
+            jour2Livraison = "mercredi après midi";
+            jour3Livraison = "vendredi après midi";
 
+            //Print du header de livraison
+            printLivraison();
 
-        //Création d'une nouvelle page
-        newPageAndPrintAllForMidi(printSaisieBool);
+            //Print des jours de livraison
+            printJoursT2();
 
-        //Définition des jour de livraison
-        jour1Livraison = "samedi";
-        jour2Livraison = "mardi";
-        jour3Livraison = "jeudi";
+            //Close de la page
+            contentStream.close();
+        }
 
-        //Print du header de livraison
-        printLivraison();
+        private static void PrintMidiVille1ou2(int annee, bool printSaisieBool)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAllForMidi(annee, printSaisieBool,"ville");
 
-        //Print des jours de livraison
-        printJoursT3();
+            //Ajout de toute les infirmation
+            printJoursT1();
 
-        //Close de la page
-        contentStream.close();
-    }
+            //Close de la page
+            contentStream.close();
+        }
 
-    /**
-     * Function pour créer les 3 pages du midi
-     *
-     * @throws IOException ...
-     */
-    private static void printSoir(bool printSaisieBool)
-    {
+        /**
+         * Function pour créer les 3 pages du midi
+         *
+         * @throws IOException ...
+         */
+        private static void printSoir(int annee, bool printSaisieBool)
+        {
+            PrintSoirVille1ou2(annee, printSaisieBool);
 
-        //Création d'une nouvelle page
-        newPageAndPrintAllForSoir(printSaisieBool);
+            PrintSoirContreTournee(annee, printSaisieBool);
 
-        //Ajout de toute les infirmation
-        printSoirT1();
+            PrintSoirMarennes(annee, printSaisieBool);
+        }
 
-        //Close de la page
-        contentStream.close();
+        private static void PrintSoirMarennes(int annee, bool printSaisieBool)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAllForSoir(annee, printSaisieBool,"Marennes");
 
+            //Définition des jour de livraison
+            jour1Livraison = "samedi";
+            jour2Livraison = "mardi";
+            jour3Livraison = "jeudi";
 
-        //Création d'une nouvelle page
-        newPageAndPrintAllForSoir(printSaisieBool);
+            //Print du header de livraison
+            printLivraisonSoir();
 
-        //Définition des jour de livraison
-        jour1Livraison = "lundi après midi";
-        jour2Livraison = "mercredi après midi";
-        jour3Livraison = "vendredi après midi";
+            //Print des jours de livraison
+            printSoirT3();
 
-        //Print du header de livraison
-        printLivraisonSoir();
+            //Close de la page
+            contentStream.close();
+        }
 
-        //Print des jours de livraison
-        printSoirT2();
+        private static void PrintSoirContreTournee(int annee, bool printSaisieBool)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAllForSoir(annee, printSaisieBool,"contre-tournée");
 
-        //Close de la page
-        contentStream.close();
+            //Définition des jour de livraison
+            jour1Livraison = "lundi après midi";
+            jour2Livraison = "mercredi après midi";
+            jour3Livraison = "vendredi après midi";
 
+            //Print du header de livraison
+            printLivraisonSoir();
 
-        //Création d'une nouvelle page
-        newPageAndPrintAllForSoir(printSaisieBool);
+            //Print des jours de livraison
+            printSoirT2();
 
-        //Définition des jour de livraison
-        jour1Livraison = "samedi";
-        jour2Livraison = "mardi";
-        jour3Livraison = "jeudi";
+            //Close de la page
+            contentStream.close();
+        }
 
-        //Print du header de livraison
-        printLivraisonSoir();
+        private static void PrintSoirVille1ou2(int annee, bool printSaisieBool)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAllForSoir(annee, printSaisieBool,"ville1","ville2");
 
-        //Print des jours de livraison
-        printSoirT3();
+            //Ajout de toute les infirmation
+            printSoirT1();
 
-        //Close de la page
-        contentStream.close();
-    }
+            //Close de la page
+            contentStream.close();
+        }
 
-    /**
-     * Function identique a toute les page du midi
-     * si l'argument est true, on print les saies
-     * sinon on print les menu
-     * @throws IOException ...
-     */
-    private static void newPageAndPrintAllForMidi(bool printSaisieBool) 
+        /**
+         * Function identique a toute les page du midi
+         * si l'argument est true, on print les saies
+         * sinon on print les menu
+         * @throws IOException ...
+         */
+        private static void newPageAndPrintAllForMidi(int annee, bool printSaisieBool, string tournee1, string tournee2="") 
     {
         //Récup du document
         getDocument();
@@ -322,7 +347,7 @@ namespace TraiteurBernardWPF.PDF
         printReserve();
 
         //ajout de la signature
-        printSignature();
+        if( ! printSaisieBool) printSignature();
 
         //ajout des infromation pour la saisie
         printNB();
@@ -331,7 +356,7 @@ namespace TraiteurBernardWPF.PDF
         printDescLine();
 
         //Ajout des menus ou des saisies dans les case
-        if (printSaisieBool) printSaisie();
+        if (printSaisieBool) printSaisie(tournee1, tournee2, annee);
         else printMenu();
 
         // On enleve le 'a remettre avant le 
@@ -344,7 +369,7 @@ namespace TraiteurBernardWPF.PDF
      *
      * @throws IOException ...
      */
-    private static void newPageAndPrintAllForSoir(bool printSaisieBool) 
+    private static void newPageAndPrintAllForSoir(int annee, bool printSaisieBool, string tournee1, string tournee2="") 
     {
         //Récup du document
         getDocument();
@@ -361,11 +386,11 @@ namespace TraiteurBernardWPF.PDF
         //Ajout du header
         printHeader();
 
-        //Ajout des mention de reserve
-        printReserveSoir();
+            //Ajout des mentions de reserve
+            if (!printSaisieBool) printReserveSoir();
 
-        //ajout de la signature
-        printSignature();
+            //ajout de la signature
+            if (!printSaisieBool)  printSignature();
 
         //ajout des infromation pour la saisie
         printNB();
@@ -374,7 +399,7 @@ namespace TraiteurBernardWPF.PDF
         printDescLineSoir();
 
         //Ajout des menus ou des saisies dans les case
-        if (printSaisieBool) printSaisieSoir();
+        if (printSaisieBool) printSaisieSoir(annee, tournee1, tournee2);
         else printMenuSoir();
 
         // On enleve le 'a remettre avant le 
@@ -699,7 +724,7 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Fonctio, pout ptiny les plats et quantités de toutes les saises
         */
-        private static void printSaisie(bool composition = false)
+        private static void printSaisie(string tournee1, string tournee2, int annee,bool composition = false)
         {
             BaseContext db = new BaseContext();
                
@@ -710,7 +735,7 @@ namespace TraiteurBernardWPF.PDF
                 double column = columnSpace * jour;
                 
                 // Les saisies
-                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDay(2020, semaine, jour, db);
+                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee(tournee1, tournee2,annee, semaine, jour, db);
 
                 // Les données des saisies
                 List<SaisieData> saisiesDatas = new List<SaisieData>();
@@ -891,7 +916,7 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Function pour print les Plats de tout les Menus
          */
-        private static void printSaisieSoir()
+        private static void printSaisieSoir(int annee, string tournee1,string tournee2)
         {
 
             BaseContext db = new BaseContext();
@@ -903,7 +928,7 @@ namespace TraiteurBernardWPF.PDF
                 double column = columnSpace * jour;
 
                 // Les saisies
-                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDay(2020, semaine, jour, db);
+                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee( tournee1, tournee2, annee, semaine, jour, db);
 
                 // Les données des saisies
                 List<SaisieData> saisiesDatas = new List<SaisieData>();
@@ -1568,43 +1593,7 @@ namespace TraiteurBernardWPF.PDF
 
             return retval ;
             
-            /*
-        DirectoryChooser fileChooser = new DirectoryChooser();
-
-        File selectedDir = fileChooser.showDialog(Main.getMainStage());
-
-        File file;
-
-        try
-        {
-            file = new File(selectedDir.toString() + File.separator + "Tournée semaine " + semaine + ".pdf");
-        }
-        catch (Exception e)
-        {
-            return false;
-        }
-
-        output = file;
-
-        if (output.exists())
-        {
-            Optional<ButtonType> result = FxHelper.showMessage(-1, Alert.AlertType.CONFIRMATION, Resource.WORDS.pdf.pdfExist, Resource.WORDS.error.removeAllertMessage, null, true);
-
-            if (result.get() == FxHelper.yesButton)
-            {
-                output.delete();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
-        }
-        else
-        {
-            return true;
-        }*/
+            
     }
 
     /**

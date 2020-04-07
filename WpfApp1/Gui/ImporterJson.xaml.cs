@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -56,9 +57,78 @@ namespace TraiteurBernardWPF.Gui
 
                 string contenuDuFichier = File.ReadAllText(openFileDialog.FileName);
                 txtContent.Text = contenuDuFichier;
-                
+
+
+                List<Personne> personnes = JsonConvert.DeserializeObject<List<Personne>>(contenuDuFichier);//, new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
+
+
+                BaseContext db = new BaseContext();
+
+                int nbrPersonnes = 0;
+
+     
+                 foreach (var personne in personnes)
+                {
+                    personne.ID = 0;
+                     nbrPersonnes++;
+                     Console.WriteLine("AVANT " +nbrPersonnes + " "+" personne ID "+personne.ID +" : " + personne.Tournee.Nom+ "id de typetournee " + personne.Tournee.ID);
+
+                    personne.Tournee = (from t in db.TypeTournee
+                               where t.Nom == personne.Tournee.Nom
+                               select t).FirstOrDefault();
+
+                    Console.WriteLine("APRES "+nbrPersonnes + " " + " personne ID " + personne.ID + " : " + personne.Tournee.Nom+ "id de typetournee " + personne.Tournee.ID);
+                    db.Add(personne);
+                   
+                }
+
+               
+
+
+
+                // Demande de confirmation
+                MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", nbrPersonnes + " personnes vont être ajoutées à la base de données, êtes vous sûr ? ", MessageBoxButton.YesNo);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+                if (wpf.YesOrNo)
+                {
+                    // On affiche le nombre de personnes chargées
+                    lblPersonnesChargees.Content = nbrPersonnes + " personnes ont été chargées";
+                    db.SaveChanges();
+                }
+
+                db.Dispose();
+
+
+
+            }
+        }
+
+        /// <summary>
+        /// Fonction pour ouvrir le fichier JSON au clique sur bouton
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OuvrirUnFichierOld(object sender, RoutedEventArgs e)
+        {
+            // Ouverture de la fenêtre d'exploration (api win32)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            // Filtre des fichiers autorisés
+            openFileDialog.Filter = "Fichier JSON |*.json";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // On récupère le nom du fichier et on affiche le contenu du fichier
+                string chemin = openFileDialog.FileName;
+                string[] cheminDivise = chemin.Split('\\');
+                string nomDuFichier = cheminDivise[cheminDivise.Length - 1];
+                lblNomDuFichier.Content = nomDuFichier;
+
+                string contenuDuFichier = File.ReadAllText(openFileDialog.FileName);
+                txtContent.Text = contenuDuFichier;
+
                 // Object principal JSON
-                JObject main =  JObject.Parse(contenuDuFichier);
+                JObject main = JObject.Parse(contenuDuFichier);
 
                 // Tableau des personnes
                 JToken personnes = main.GetValue("personnes");

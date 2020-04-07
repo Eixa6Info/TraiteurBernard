@@ -55,11 +55,22 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            if(!this.composition)
-                CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), this.printSaisieBool); 
+            if (!this.composition)
+            {
+                var outputfile = CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), DateTime.Today.Year, this.printSaisieBool);
+                if (!string.IsNullOrEmpty(outputfile))
+                {
+                    System.Diagnostics.Process.Start(outputfile);
+                }
+            }
             else
-                CreatePDF.StartComposition(595.27563F, 841.8898F, short.Parse(txtSemaine.Text));
+            {
+                var outputfile = CreatePDF.StartComposition(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                if (!string.IsNullOrEmpty(outputfile)) System.Diagnostics.Process.Start(outputfile);
+            }
             Close();
+
+            
         }
 
         /// <summary>
