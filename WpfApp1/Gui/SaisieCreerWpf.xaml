@@ -19,28 +19,28 @@
         <Grid.ColumnDefinitions>
 
             <ColumnDefinition Width="182*"/>
-            <ColumnDefinition Width="169*"/>
-            <ColumnDefinition Width="174*"/>
+            <ColumnDefinition Width="165*"/>
+            <ColumnDefinition Width="178*"/>
             <ColumnDefinition Width="173*"/>
+            <ColumnDefinition Width="178*"/>
             <ColumnDefinition Width="171*"/>
-            <ColumnDefinition Width="171*"/>
-            <ColumnDefinition Width="173*"/>
-            <ColumnDefinition Width="155*"/>
-            <ColumnDefinition Width="26*"/>
+            <ColumnDefinition Width="176*"/>
+            <ColumnDefinition Width="156*"/>
+            <ColumnDefinition Width="15*"/>
 
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
 
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="108*"/>
+            <RowDefinition Height="102"/>
+            <RowDefinition Height="106*"/>
             <RowDefinition Height="29*"/>
             <RowDefinition Height="30*"/>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="116*"/>
-            <RowDefinition Height="119*"/>
-            <RowDefinition Height="119*"/>
-            <RowDefinition Height="28*"/>
-            <RowDefinition Height="96*"/>
+            <RowDefinition Height="132*"/>
+            <RowDefinition Height="108*"/>
+            <RowDefinition Height="36*"/>
+            <RowDefinition Height="86*"/>
             <RowDefinition Height="156*"/>
 
         </Grid.RowDefinitions>

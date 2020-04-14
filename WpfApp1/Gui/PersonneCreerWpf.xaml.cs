@@ -23,7 +23,7 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class PersonneCreerWpf : Window
     {
-
+        DateTime thisDate = new DateTime(1950, 01, 01);
         private Personne edite;
         private BaseContext db;
 
@@ -39,6 +39,7 @@ namespace TraiteurBernardWPF.Gui
             this.edite = new Personne();
             this.db = new BaseContext();
             edition.DataContext = this.edite;
+            datePicker.DisplayDate = thisDate;
         }
 
         /// <summary>
@@ -191,6 +192,11 @@ namespace TraiteurBernardWPF.Gui
             txtAPAMontantMax.Visibility = Visibility.Hidden;
             this.edite.APALivraisonMax = 0.0F;
             this.edite.APAMontantMax = 0.0F;
+        }
+
+        private void cbTournee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

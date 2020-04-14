@@ -94,7 +94,7 @@ namespace TraiteurBernardWPF.Gui
                         // Textbox
                         TextBox txt = new TextBox
                         {
-                            Width = 110,
+                            Width = 105,
                             Height = 80,
                             Margin = new Thickness(5, 5, 15, 0),
                             HorizontalAlignment = HorizontalAlignment.Left,
@@ -116,7 +116,7 @@ namespace TraiteurBernardWPF.Gui
                     // Combobox
                     ComboBox cb = new ComboBox
                     {
-                        Width = 27,
+                        Width = 25,
                         Height = 30,
                         Margin = new Thickness(0, 5, 5, 0),
                         HorizontalAlignment = HorizontalAlignment.Right,
@@ -338,7 +338,7 @@ namespace TraiteurBernardWPF.Gui
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
 
-                    string txtValue = "";
+                    string txtValue = " ";
                     if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_POTAGE && ligne != LIGNE_FROMAGE)
                     {
                         txtValue = (gridMain.FindName("txt" + this.itemNames[indexTxtNames] + jour) as TextBox).Text;

@@ -40,6 +40,7 @@ namespace TraiteurBernardWPF.PDF
         private static double menuYBottom;
 
         private static int semaine;
+        private static string namePdf;
         private static string output;
         private static PDDocument document;
         private static PDPage blankPage;
@@ -70,9 +71,22 @@ namespace TraiteurBernardWPF.PDF
         //Définition de la semaine
         CreatePDF.semaine = semaine;
 
-        //Demande a l'utilisateur de choisir ou enregistrer
-        if (!getPath()) 
+        // Si c'est pour la saisie ou le menu
+        if(printSaisieBool == true)
+        {
+            namePdf = "saisies_"+semaine+"_"+annee+".pdf";
+        }
+        else
+        {
+            namePdf = "menus_" + semaine + "_" + annee + ".pdf";
+        }
+        //Demande a l'utilisateur de choisir ou enregistrer    
+        if (!getPath())
+        {
             return "";
+        }
+            
+
         
 
         //Création du document
@@ -128,6 +142,7 @@ namespace TraiteurBernardWPF.PDF
             CreatePDF.semaine = semaine;
 
             //Demande a l'utilisateur de choisir ou enregistrer
+            namePdf = "composition_" + semaine + "_" + annee + ".pdf";
             if (!getPath())     
                 return "";
         
@@ -177,6 +192,7 @@ namespace TraiteurBernardWPF.PDF
 
             //Saving the document
             document.save(output);
+          
 
         //Closing the document
         document.close();
@@ -245,7 +261,7 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintMidiVille1ou2(int annee, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, printSaisieBool,"ville");
+            newPageAndPrintAllForMidi(annee, printSaisieBool, "ville 1", "ville 2");
 
             //Ajout de toute les infirmation
             printJoursT1();
@@ -311,7 +327,7 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintSoirVille1ou2(int annee, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, printSaisieBool,"ville1","ville2");
+            newPageAndPrintAllForSoir(annee, printSaisieBool,"ville 1","ville 2");
 
             //Ajout de toute les infirmation
             printSoirT1();
@@ -458,6 +474,7 @@ namespace TraiteurBernardWPF.PDF
 
             //Column n°
             column = 1;
+            laDate = laDate.AddDays(1);
             //Print de l'information au centre de la case
             fct(laDate, sdf, text, fontSize, column);
 
@@ -751,7 +768,7 @@ namespace TraiteurBernardWPF.PDF
 
 
             // Pour tous les repas (entrée, plat1, plat2 etc)
-            for (int repas = 1; repas < 6;repas++)
+            for (int repas = -1; repas < 9; repas++)
             {
                 // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
                 Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
@@ -780,28 +797,35 @@ namespace TraiteurBernardWPF.PDF
 
                 switch (repas)
                 {
-                    case Plat.ENTREE_MIDI:
-                       // line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                    case SaisieData.BAGUETTE:
+                        line = getMiddelofYBetweenTowPoint(76, 79, NORMAL, 11);
+                        break;
+                    case SaisieData.POTAGE:
+                        line = getMiddelofYBetweenTowPoint(73, 76, NORMAL, 11);
+                        break;
+                    case SaisieData.ENTREE_MIDI:
+                    // line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
                         line = getMiddelofYBetweenTowPoint(66, 76, NORMAL, 11);
                         break;
-                    case Plat.PLAT_MIDI_1:
+                    case SaisieData.PLAT_MIDI_1:
                         //line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
                         line = getMiddelofYBetweenTowPoint(54, 66, NORMAL, 11);
                         break;
-                    case Plat.PLAT_MIDI_2:
+                    case SaisieData.PLAT_MIDI_2:
                         //line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
                         line = getMiddelofYBetweenTowPoint(42, 54, NORMAL, 11);
                         break;
-                    case Plat.PLAT_MIDI_3:
+                    case SaisieData.PLAT_MIDI_3:
                         //line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
                         line = getMiddelofYBetweenTowPoint(30, 42, NORMAL, 11);
                         break;
-                    case Plat.DESSERT_MIDI:
-                        //line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
-                        line = getMiddelofYBetweenTowPoint(17, 27, NORMAL, 11);
+                    case SaisieData.FROMAGE:
+                        line = getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11);
                         break;
-
-
+                    case SaisieData.DESSERT_MIDI:
+                        line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
+                        //line = getMiddelofYBetweenTowPoint(18, 30, NORMAL, 11);
+                        break;
                 }
 
                 // Ecriture des repas sur le PDF
@@ -817,6 +841,7 @@ namespace TraiteurBernardWPF.PDF
                             // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
                             // Si on est en mode  composition , on met pas le plat du menu
                             List<String> plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
+                                Console.WriteLine(plats);
                             if (plats.Contains(entry.Key))
                             {
                                if (composition) continue;
@@ -944,7 +969,7 @@ namespace TraiteurBernardWPF.PDF
 
 
                 // Pour tous les repas (entrée, plat1, plat2 etc)
-                for (int repas = 6; repas < 9; repas++)
+                for (int repas = 7; repas < 10; repas++)
                 {
                     // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
                     Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
@@ -954,9 +979,8 @@ namespace TraiteurBernardWPF.PDF
                     {
                         string libelle = sd.Libelle;
                         int quantite = sd.Quantite;
-
-                        // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
-                        if (repasIntituleQuantite.ContainsKey(libelle))
+                        
+                        if (repasIntituleQuantite.ContainsKey(libelle)) 
                         {
                             repasIntituleQuantite[libelle] += quantite;
                         }
@@ -964,7 +988,9 @@ namespace TraiteurBernardWPF.PDF
                         {
                             repasIntituleQuantite.Add(libelle, quantite);
                         }
-
+                    
+                        // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
+                        
                     }
 
 
@@ -972,17 +998,17 @@ namespace TraiteurBernardWPF.PDF
 
                     switch (repas)
                     {
-                        case Plat.ENTREE_SOIR:
+                        case SaisieData.ENTREE_SOIR:
                             //line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
                             line = getMiddelofYBetweenTowPoint(66, 76, NORMAL, 11);
                             break;
 
-                        case Plat.PLAT_SOIR_1:
+                        case SaisieData.PLAT_SOIR_1:
                             //line = getMiddelofYBetweenTowPoint(27, 63, NORMAL, 11);
                             line = getMiddelofYBetweenTowPoint(30, 66, NORMAL, 11);
                             break;
 
-                        case Plat.DESSERT_SOIR:
+                        case SaisieData.DESSERT_SOIR:
                             //line = getMiddelofYBetweenTowPoint(18, 27, NORMAL, 11);
                             line = getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11);
                             break;
@@ -1578,8 +1604,10 @@ namespace TraiteurBernardWPF.PDF
     {
             bool retval = false;
 
-            var fileDialog = new SaveFileDialog();
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.FileName = namePdf;
             var res  = fileDialog.ShowDialog();
+           
 
             if (!res.HasValue) retval = false;
             else retval = res.Value;
@@ -1588,12 +1616,7 @@ namespace TraiteurBernardWPF.PDF
             {
                 output = fileDialog.FileName;
             }
-
-           
-
-            return retval ;
-            
-            
+            return retval ;       
     }
 
     /**

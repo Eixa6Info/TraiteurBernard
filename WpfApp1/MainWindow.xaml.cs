@@ -76,15 +76,8 @@ namespace TraiteurBernardWPF
                 // insertion de la tournée ville1
                 IList<Livraison> jours = new List<Livraison>();
                 var l = new Livraison();
-                l.JourLivraison = "samedi";
-                l.JourRepas1 = "samedi";
-
-                l.JourRepas2  =  "dimanche" ;
-                jours.Add(l);
-
-                l = new Livraison();
                 l.JourLivraison = "lundi";
-                l.JourRepas1 = "lundi" ;
+                l.JourRepas1 = "lundi";
                 jours.Add(l);
                 l = new Livraison();
                 l.JourLivraison = "mardi";
@@ -101,104 +94,79 @@ namespace TraiteurBernardWPF
                 l = new Livraison();
                 l.JourLivraison = "vendredi";
                 l.JourRepas1 = "vendredi" ;
+                l.JourRepas2 = "samedi";
+                l.JourRepas3 = "dimanche";
                 jours.Add(l);
-
 
                 db.TypeTournee.Add(new TypeTournee { Nom = "ville 1", JoursLivraisonsRepas = jours });
                 db.SaveChanges();
 
+                // insertion de la ville2
                 jours = new List<Livraison>();
                 l = new Livraison();
-                l.JourLivraison = "samedi";
-                l.JourRepas1 = "samedi";
-                l.JourRepas2 = "dimanche";
-                jours.Add(l);
-
-                l = new Livraison();
-                l.JourLivraison = "lundi";
-                l.JourRepas1 = "lundi";
-                jours.Add(l);
-                l = new Livraison();
-                l.JourLivraison = "mardi";
-                l.JourRepas1 = "mardi";
-                jours.Add(l);
-                l = new Livraison();
-                l.JourLivraison = "mercredi";
-                l.JourRepas1 = "mercredi";
+                l.JourLivraison = "vendredi";
+                l.JourRepas1 = "vendredi";
+                l.JourRepas2 = "samedi";
+                l.JourRepas3 = "dimanche";
                 jours.Add(l);
                 l = new Livraison();
                 l.JourLivraison = "jeudi";
                 l.JourRepas1 = "jeudi";
                 jours.Add(l);
                 l = new Livraison();
-                l.JourLivraison = "vendredi";
-                l.JourRepas1 = "vendredi";
+                l.JourLivraison = "mercredi";
+                l.JourRepas1 = "mercredi";
                 jours.Add(l);
-
+                l = new Livraison();
+                l.JourLivraison = "mardi";
+                l.JourRepas1 = "mardi";
+                jours.Add(l);
+                l = new Livraison();
+                l.JourLivraison = "lundi";
+                l.JourRepas1 = "lundi";
+                jours.Add(l);
                 db.TypeTournee.Add(new TypeTournee { Nom = "ville 2", JoursLivraisonsRepas = jours });
                 db.SaveChanges();
 
+                // insertion de la contre-tournée
                 jours = new List<Livraison>();
                 l = new Livraison();
-                l.JourLivraison = "samedi";
+                l.JourLivraison = "vendredi";
                 l.JourRepas1 = "samedi";
                 l.JourRepas2 = "dimanche";
-                jours.Add(l);
-
-                l = new Livraison();
-                l.JourLivraison = "lundi";
-                l.JourRepas1 = "lundi";
-                jours.Add(l);
-                l = new Livraison();
-                l.JourLivraison = "mardi";
-                l.JourRepas1 = "mardi";
+                l.JourRepas3 = "lundi";
                 jours.Add(l);
                 l = new Livraison();
                 l.JourLivraison = "mercredi";
-                l.JourRepas1 = "mercredi";
-                jours.Add(l);
-                l = new Livraison();
-                l.JourLivraison = "jeudi";
                 l.JourRepas1 = "jeudi";
+                l.JourRepas2 = "vendredi";
                 jours.Add(l);
                 l = new Livraison();
-                l.JourLivraison = "vendredi";
-                l.JourRepas1 = "vendredi";
+                l.JourLivraison = "lundi";
+                l.JourRepas1 = "mardi";
+                l.JourRepas2 = "mercredi";
                 jours.Add(l);
-
-
                 db.TypeTournee.Add(new TypeTournee { Nom = "contre-tournée", JoursLivraisonsRepas = jours });
                 db.SaveChanges();
 
+                // insertion de marennes
                 jours = new List<Livraison>();
                 l = new Livraison();
-                l.JourLivraison = "samedi";
-                l.JourRepas1 = "samedi";
-                l.JourRepas2 = "dimanche";
-                jours.Add(l);
-
-                l = new Livraison();
-                l.JourLivraison = "lundi";
-                l.JourRepas1 = "lundi";
+                l.JourLivraison = "jeudi";
+                l.JourRepas1 = "vendredi";
+                l.JourRepas2 = "samedi";
+                l.JourRepas3 = "dimanche";
                 jours.Add(l);
                 l = new Livraison();
                 l.JourLivraison = "mardi";
-                l.JourRepas1 = "mardi";
-                jours.Add(l);
-                l = new Livraison();
-                l.JourLivraison = "mercredi";
                 l.JourRepas1 = "mercredi";
+                l.JourRepas2 = "jeudi";
                 jours.Add(l);
                 l = new Livraison();
-                l.JourLivraison = "jeudi";
-                l.JourRepas1 = "jeudi";
+                l.JourLivraison = "samedi";
+                l.JourRepas1 = "lundi";
+                l.JourRepas2 = "mardi";
                 jours.Add(l);
-                l = new Livraison();
-                l.JourLivraison = "vendredi";
-                l.JourRepas1 = "vendredi";
-                jours.Add(l);
-
-
                 db.TypeTournee.Add(new TypeTournee { Nom = "Marennes", JoursLivraisonsRepas = jours });
                 db.SaveChanges();
 
