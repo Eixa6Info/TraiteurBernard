@@ -25,6 +25,7 @@ namespace TraiteurBernardWPF.Gui
     {
 
         private BaseContext db;
+        String recherche = "";
 
         /// <summary>
         /// On bloque la possibilité à l'utilisateur d'ajouter des lignes (note : on peut
@@ -145,6 +146,61 @@ namespace TraiteurBernardWPF.Gui
             wpf.ShowDialog();
         }
 
+        private void textChangedRechercheClient(object sender, TextChangedEventArgs e)
+        {
+            String lastNameWordP;
+            String lastSurnameWordP;
+            String wordPNameSplit = "";
+            String wordPSurnameSplit = "";
+            this.recherche = txtRecherche.Text;
+            IQueryable<Personne> req = from t in db.Personnes
+                                       select t;
 
+            List<Personne> data = new List<Personne>();
+            foreach (Personne p in req)
+            {
+                //Chargement préalable des données liées, sinon "lazy loading"
+                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
+                // voir pour plus de détails 
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
+               
+                lastNameWordP = p.Nom.ToLower();
+                lastSurnameWordP = p.Prenom.ToLower();
+
+                // Si il y a rien dans la barre de recherche on affiche tous
+                if (recherche == "")
+                {
+                    data.Add(p);
+                }
+
+                // compte de le nombre de lettre dans la barre de recherche et réitère à charque nouvelle lettre
+                for (int i = 0; i < recherche.Length; i++)
+                {
+                   
+                    // On prend le nom et le prenom de la personne et on met le meme nombre de lettre que la saisie dans la barre de recherche
+                        wordPNameSplit = lastNameWordP.Substring(0, i + 1);
+                    // Si la lettre du nom = a la lettre de la barre de recherche on ajoute a la liste
+                        if (wordPNameSplit.ToLower() == recherche.ToLower())
+                        {
+                            data.Add(p);
+                        }
+                    
+                    
+                }
+                for (int i = 0; i < recherche.Length; i++)
+                {
+                    // On prend le nom et le prenom de la personne et on met le meme nombre de lettre que la saisie dans la barre de recherche
+                    wordPSurnameSplit = lastSurnameWordP.Substring(0, i + 1);
+                    // Si la lettre du nom = a la lettre de la barre de recherche on ajoute a la liste
+                    if (wordPSurnameSplit.ToLower() == recherche.ToLower())
+                    {
+                        data.Add(p);
+                    }
+                }
+            }
+            dataGridPersonnes.ItemsSource = data;
+        }
     }
 }

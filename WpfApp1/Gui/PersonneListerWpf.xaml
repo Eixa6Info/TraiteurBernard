@@ -11,10 +11,10 @@
     <Grid Name="grille">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            
-        </Grid.ColumnDefinitions>
 
-        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" AutoGenerateColumns="False"  Height="{Binding ActualHeight, ElementName=grille}" Width="{Binding ActualWidth, ElementName=grille}" Grid.Column="0" >
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="txtRecherche" Text="{Binding Nom}" Height="25" Margin="10,10,737,436" materialDesign:HintAssist.Hint="Recherche" TextChanged="textChangedRechercheClient"/>
+        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Margin="0,42,0,0" VerticalAlignment="Top" AutoGenerateColumns="False"  Height="429" Width="955" Grid.Column="0" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>
                 <DataGridTextColumn Header="Prénom" IsReadOnly="True" Binding="{Binding Prenom}"/>

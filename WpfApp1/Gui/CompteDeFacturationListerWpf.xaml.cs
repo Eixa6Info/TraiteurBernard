@@ -24,6 +24,7 @@ namespace TraiteurBernardWPF.Gui
     {
 
         private BaseContext db;
+        String rechercheFacturation = "";
 
         public TypeCompteDeFacturation CompteAssocie { get; set; }
 
@@ -158,6 +159,45 @@ namespace TraiteurBernardWPF.Gui
             this.db.SaveChanges();
 
             this.Window_Loaded(new object(), new RoutedEventArgs());
+        }
+
+        
+
+        private void textChangedRechercheFacturation(object sender, TextChangedEventArgs e)
+        {
+            IQueryable<TypeCompteDeFacturation> req = from t in this.db.ComptesDeFacturation
+                                                      select t;
+
+            List<TypeCompteDeFacturation> data = new List<TypeCompteDeFacturation>();
+            String lastWordTt;
+            String wordTtSplit = "";
+
+            this.rechercheFacturation = this.txtRecherche.Text;
+
+            foreach (TypeCompteDeFacturation tt in req)
+            {
+                lastWordTt = tt.Nom.ToLower();
+
+                // Si il y a rien dans la barre de recherche on affiche tous
+                if (rechercheFacturation == "")
+                {
+                    data.Add(tt);
+                }
+               
+                // compte de le nombre de lettre dans la barre de recherche et réitère à charque nouvelle lettre
+                for (int i=0; i<rechercheFacturation.Length; i++)
+                {     
+                    // On prend le nom du groupe et on met le meme nombre de lettre que la saisie dans la barre de recherche
+                    wordTtSplit = lastWordTt.Substring(0, i + 1);
+                    // Si la lettre du nom = a la lettre de la barre de recherche on ajoute a la liste
+                    if (wordTtSplit.ToLower() == rechercheFacturation.ToLower())
+                    {
+                        data.Add(tt);
+                    }
+                }
+            }
+            // on affiche
+            dataGridComptes.ItemsSource = data;
         }
     }
 }

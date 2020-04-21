@@ -198,5 +198,24 @@ namespace TraiteurBernardWPF.Gui
         {
 
         }
+
+        private void ValiderEtNew(object sender, RoutedEventArgs e)
+        {
+            if (VerifierDonnees())
+            {
+                if (this.edite.ID == 0) this.db.Add(this.edite);
+                this.db.SaveChanges();
+                Close();
+            }
+            else
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            PersonneCreerWpf wpfNew = new PersonneCreerWpf();
+            WinFormWpf.CornerTopLeftToParent(wpfNew, this);
+            wpfNew.ShowDialog();
+        }
     }
 }
