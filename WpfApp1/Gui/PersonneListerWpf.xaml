@@ -14,6 +14,10 @@
 
         </Grid.ColumnDefinitions>
         <TextBox x:Name="txtRecherche" Text="{Binding Nom}" Height="25" Margin="10,10,737,436" materialDesign:HintAssist.Hint="Recherche" TextChanged="textChangedRechercheClient"/>
+        <ToggleButton x:Name="checkInactif" Margin="256,10,640,436" Checked="checkInactif_Checked" Unchecked = "checkInactif_Unchecked"></ToggleButton>
+        <TextBlock Margin="317,9,504,441">Inactif</TextBlock>
+        <TextBlock Margin="231,9,690,441"><Run Text="actif"/></TextBlock>
+        <Button Margin="377,6,348,429" Click="Button_Click" Height="Auto">Afficher toutes les personnes</Button>
         <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Margin="0,42,0,0" VerticalAlignment="Top" AutoGenerateColumns="False"  Height="429" Width="955" Grid.Column="0" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>

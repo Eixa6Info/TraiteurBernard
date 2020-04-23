@@ -61,7 +61,15 @@ namespace TraiteurBernardWPF.Gui
                 this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
                 this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
 
-                data.Add(p);
+
+                if (checkInactif.IsChecked == false)
+                {
+                    if (p.Actif == true)
+                    {
+                        data.Add(p);
+                    }
+                }
+
             }
 
             dataGridPersonnes.ItemsSource = data;
@@ -200,6 +208,85 @@ namespace TraiteurBernardWPF.Gui
                     }
                 }
             }
+            dataGridPersonnes.ItemsSource = data;
+        }
+
+        private void checkInactif_Checked(object sender, RoutedEventArgs e)
+        {
+            IQueryable<Personne> req = from t in db.Personnes
+                                       select t;
+
+            List<Personne> data = new List<Personne>();
+
+            foreach (Personne p in req)
+            {
+                //Chargement préalable des données liées, sinon "lazy loading"
+                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
+                // voir pour plus de détails 
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
+
+                if (checkInactif.IsChecked == true)
+                {
+                    if (p.Actif == false)
+                    {
+                        data.Add(p);
+                    }
+                }
+            }
+
+            dataGridPersonnes.ItemsSource = data;
+        }
+        private void checkInactif_Unchecked (object sender, RoutedEventArgs e)
+        {
+            IQueryable<Personne> req = from t in db.Personnes
+                                       select t;
+
+            List<Personne> data = new List<Personne>();
+
+            foreach (Personne p in req)
+            {
+                //Chargement préalable des données liées, sinon "lazy loading"
+                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
+                // voir pour plus de détails 
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
+
+                if (checkInactif.IsChecked == false)
+                {
+                    if (p.Actif == true)
+                    {
+                        data.Add(p);
+                    }
+                }
+            }
+
+            dataGridPersonnes.ItemsSource = data;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            IQueryable<Personne> req = from t in db.Personnes
+                                       select t;
+
+            List<Personne> data = new List<Personne>();
+
+            foreach (Personne p in req)
+            {
+                //Chargement préalable des données liées, sinon "lazy loading"
+                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
+                // voir pour plus de détails 
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
+
+
+                data.Add(p);
+
+            }
+
             dataGridPersonnes.ItemsSource = data;
         }
     }
