@@ -27,9 +27,9 @@
         <Button  Content="Contact d'urgence" HorizontalAlignment="Left" Margin="217,256,0,0" VerticalAlignment="Top" Width="158" Click="ContactDurgenceCreer"/>
         <Button  Content="Compte de facturation" HorizontalAlignment="Left" Margin="444,256,0,0" VerticalAlignment="Top" Width="185" Click="CompteDeFacturationCreer"/>
         <TextBox Text="" materialDesign:HintAssist.Hint="Commentaires"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="57" Margin="32,387,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="305"/>
-        <CheckBox IsChecked="{Binding MSA}" Content="MSA" HorizontalAlignment="Left" Margin="388,426,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.371,-0.261"/>
+        <CheckBox IsChecked="{Binding MSA}" Content="MSA" HorizontalAlignment="Left" Margin="388,426,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.371,-0.261" Checked="MSA_Checked" Unchecked="MSA_Unchecked"/>
         <CheckBox IsChecked="{Binding APA}" Content="APA" HorizontalAlignment="Left" Margin="522,426,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.638,-0.979" Checked="APA_Checked" Unchecked="APA_Unchecked"/>
-        <CheckBox IsChecked="{Binding Actif}" Content="Actif" HorizontalAlignment="Left" Margin="32,527,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.117,-0.454"/>
+        <CheckBox IsChecked="{Binding Actif}" Content="Actif" HorizontalAlignment="Left" Margin="32,527,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.117,-0.454" />
         <Button Content="Valider" HorizontalAlignment="Right" Margin="0,0,192,10" VerticalAlignment="Bottom" Width="75" Click="Valider"/>
         <Button Content="Valider et Nouveau" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="166" Click="ValiderEtNew"/>
         <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,283,10" VerticalAlignment="Bottom" Width="75" Click="Fermer"/>
@@ -40,6 +40,11 @@
         <DatePicker x:Name="datePicker" SelectedDate="{Binding DateNaissance, Mode=TwoWay}" HorizontalAlignment="Left" Margin="32,337,0,0" VerticalAlignment="Top"/>
         <TextBox Text="{Binding APAMontantMax}" x:Name="txtAPAMontantMax"  materialDesign:HintAssist.Hint="Montant max"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="388,460,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
         <TextBox Text="{Binding APALivraisonMax}" x:Name="txtAPALivraisonMax"  materialDesign:HintAssist.Hint="Livraison max"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="522,460,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
-
+        <TextBox Text="{Binding APADateDebut}" x:Name="txtAPADateDebut"  materialDesign:HintAssist.Hint="Date de debut"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="388,500,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
+        <TextBox Text="{Binding APADateFin}" x:Name="txtAPADateFin"  materialDesign:HintAssist.Hint="Date de fin"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="522,500,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
+        <TextBox Text="{Binding MSAMontantMax}" x:Name="txtMSAMontantMax"  materialDesign:HintAssist.Hint="Montant max"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="388,460,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
+        <TextBox Text="{Binding MSALivraisonMax}" x:Name="txtMSALivraisonMax"  materialDesign:HintAssist.Hint="Livraison max"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="522,460,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
+        <TextBox Text="{Binding MSADateDebut}" x:Name="txtMSADateDebut"  materialDesign:HintAssist.Hint="Date de debut"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="388,500,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
+        <TextBox Text="{Binding MSADateFin}" x:Name="txtMSADateFin"  materialDesign:HintAssist.Hint="Date de fin"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="522,500,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="97" Visibility="Hidden"/>
     </Grid>
 </Window>

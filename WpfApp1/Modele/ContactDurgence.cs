@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace TraiteurBernardWPF.Modele
 {
+
     public class ContactDurgence
     {
         public int ID { get; set; }

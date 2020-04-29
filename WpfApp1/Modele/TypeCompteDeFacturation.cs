@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TraiteurBernardWPF.Modele;
+using System.Data.Entity;
 
 namespace TraiteurBernardWPF.Modele
 {

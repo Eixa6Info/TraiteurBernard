@@ -20,6 +20,8 @@ using TraiteurBernardWPF.Gui;
 using TraiteurBernardWPF.Utils;
 using System.Diagnostics;
 
+
+
 namespace TraiteurBernardWPF
 {
 
@@ -41,16 +43,15 @@ namespace TraiteurBernardWPF
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             Title = fvi.FileVersion;
-
             // On créé la base de données si elle existe pas
             BaseContext db = new BaseContext();
             db.Database.EnsureCreated();
             db.Dispose();
+            
+            
+            
 
-
-
-
-        }   
+        }
 
         /// <summary>
         /// Initialisation, création des tournées

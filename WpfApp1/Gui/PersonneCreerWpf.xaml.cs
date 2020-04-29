@@ -176,6 +176,8 @@ namespace TraiteurBernardWPF.Gui
         {
             txtAPALivraisonMax.Visibility = Visibility.Visible;
             txtAPAMontantMax.Visibility = Visibility.Visible;
+            txtAPADateDebut.Visibility = Visibility.Visible;
+            txtAPADateFin.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -188,10 +190,46 @@ namespace TraiteurBernardWPF.Gui
         {
             txtAPALivraisonMax.Text = "0";
             txtAPAMontantMax.Text = "0";
+            txtAPADateDebut.Text = "00/00/00";
+            txtAPADateFin.Text = "00/00/00";
             txtAPALivraisonMax.Visibility = Visibility.Hidden;
             txtAPAMontantMax.Visibility = Visibility.Hidden;
+            txtAPADateDebut.Visibility = Visibility.Hidden;
+            txtAPADateFin.Visibility = Visibility.Hidden;
             this.edite.APALivraisonMax = 0.0F;
             this.edite.APAMontantMax = 0.0F;
+            this.edite.APADateDebut = "00/00/00";
+            this.edite.APADateFin = "00/00/00";
+        }
+        
+        private void MSA_Checked(object sender, RoutedEventArgs e)
+        {
+            txtMSALivraisonMax.Visibility = Visibility.Visible;
+            txtMSAMontantMax.Visibility = Visibility.Visible;
+            txtMSADateDebut.Visibility = Visibility.Visible;
+            txtMSADateFin.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Si la cache APA est décoché, on cache les champs pour rentrer les informations 
+        /// associées et on les remet à 0
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MSA_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtMSALivraisonMax.Text = "0";
+            txtMSAMontantMax.Text = "0";
+            txtMSADateDebut.Text = "00/00/00";
+            txtMSADateFin.Text = "00/00/00";
+            txtMSALivraisonMax.Visibility = Visibility.Hidden;
+            txtMSAMontantMax.Visibility = Visibility.Hidden;
+            txtMSADateDebut.Visibility = Visibility.Hidden;
+            txtMSADateFin.Visibility = Visibility.Hidden;
+            this.edite.MSALivraisonMax = 0.0F;
+            this.edite.MSAMontantMax = 0.0F;
+            this.edite.MSADateDebut = "00/00/00";
+            this.edite.MSADateFin = "00/00/00";
         }
 
         private void cbTournee_SelectionChanged(object sender, SelectionChangedEventArgs e)

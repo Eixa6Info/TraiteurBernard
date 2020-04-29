@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using TraiteurBernardWPF.Modele;
+using System.Data.Entity;
 
 namespace TraiteurBernardWPF.Modele
 {
+
     public class Personne
     {
 
@@ -56,6 +58,13 @@ namespace TraiteurBernardWPF.Modele
 
         public float APAMontantMax { get; set; }
         public float APALivraisonMax { get; set; }
+
+        public float? MSAMontantMax { get; set; }
+        public float? MSALivraisonMax { get; set; }
+        public string APADateDebut { get; set; }
+        public string APADateFin { get; set; }
+        public string MSADateDebut { get; set; }
+        public string MSADateFin { get; set; }
 
         public override string ToString()
         {

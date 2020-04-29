@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,6 +16,7 @@ using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Utils;
+using MessageBox = System.Windows.Forms.MessageBox;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -61,18 +63,35 @@ namespace TraiteurBernardWPF.Gui
                 this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
                 this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
 
-
-                if (checkInactif.IsChecked == false)
+                if (p.Actif == true)
                 {
-                    if (p.Actif == true)
-                    {
-                        data.Add(p);
-                    }
+                    data.Add(p);
                 }
+               
 
             }
 
             dataGridPersonnes.ItemsSource = data;
+
+            IQueryable<TypeTournee> reqT = from t in this.db.TypeTournee
+                                          select t;
+
+            List<string> allDataT = new List<string>();
+            List<string> dataCbActif = new List<string>();
+
+            foreach (TypeTournee tt in reqT)
+            {
+                this.db.Entry(tt).Collection(s => s.JoursLivraisonsRepas).Load();
+                allDataT.Add(tt.Nom.ToString());
+            }
+            allDataT.Add("Toutes les tournées");
+            cbTournee.ItemsSource = allDataT;
+
+            dataCbActif.Add("Actif");
+            dataCbActif.Add("Inactif");
+            dataCbActif.Add("Actif & Inactif");
+            cbActif.ItemsSource = dataCbActif;
+            
         }
 
         /// <summary>
@@ -157,9 +176,7 @@ namespace TraiteurBernardWPF.Gui
         private void textChangedRechercheClient(object sender, TextChangedEventArgs e)
         {
             String lastNameWordP;
-            String lastSurnameWordP;
             String wordPNameSplit = "";
-            String wordPSurnameSplit = "";
             this.recherche = txtRecherche.Text;
             IQueryable<Personne> req = from t in db.Personnes
                                        select t;
@@ -175,7 +192,6 @@ namespace TraiteurBernardWPF.Gui
                 this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
                
                 lastNameWordP = p.Nom.ToLower();
-                lastSurnameWordP = p.Prenom.ToLower();
 
                 // Si il y a rien dans la barre de recherche on affiche tous
                 if (recherche == "")
@@ -186,83 +202,18 @@ namespace TraiteurBernardWPF.Gui
                 // compte de le nombre de lettre dans la barre de recherche et réitère à charque nouvelle lettre
                 for (int i = 0; i < recherche.Length; i++)
                 {
-                   
-                    // On prend le nom et le prenom de la personne et on met le meme nombre de lettre que la saisie dans la barre de recherche
-                        wordPNameSplit = lastNameWordP.Substring(0, i + 1);
-                    // Si la lettre du nom = a la lettre de la barre de recherche on ajoute a la liste
-                        if (wordPNameSplit.ToLower() == recherche.ToLower())
-                        {
-                            data.Add(p);
-                        }
+                    if (recherche.Length <= lastNameWordP.Length)
+                    {
+                       wordPNameSplit = lastNameWordP.Substring(0, i + 1);
+                    }
                     
-                    
-                }
-                for (int i = 0; i < recherche.Length; i++)
-                {
-                    // On prend le nom et le prenom de la personne et on met le meme nombre de lettre que la saisie dans la barre de recherche
-                    wordPSurnameSplit = lastSurnameWordP.Substring(0, i + 1);
                     // Si la lettre du nom = a la lettre de la barre de recherche on ajoute a la liste
-                    if (wordPSurnameSplit.ToLower() == recherche.ToLower())
+                    if (wordPNameSplit.ToLower() == recherche.ToLower())
                     {
                         data.Add(p);
                     }
-                }
+                } 
             }
-            dataGridPersonnes.ItemsSource = data;
-        }
-
-        private void checkInactif_Checked(object sender, RoutedEventArgs e)
-        {
-            IQueryable<Personne> req = from t in db.Personnes
-                                       select t;
-
-            List<Personne> data = new List<Personne>();
-
-            foreach (Personne p in req)
-            {
-                //Chargement préalable des données liées, sinon "lazy loading"
-                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
-                // voir pour plus de détails 
-                this.db.Entry(p).Reference(s => s.Tournee).Load();
-                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
-                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
-
-                if (checkInactif.IsChecked == true)
-                {
-                    if (p.Actif == false)
-                    {
-                        data.Add(p);
-                    }
-                }
-            }
-
-            dataGridPersonnes.ItemsSource = data;
-        }
-        private void checkInactif_Unchecked (object sender, RoutedEventArgs e)
-        {
-            IQueryable<Personne> req = from t in db.Personnes
-                                       select t;
-
-            List<Personne> data = new List<Personne>();
-
-            foreach (Personne p in req)
-            {
-                //Chargement préalable des données liées, sinon "lazy loading"
-                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
-                // voir pour plus de détails 
-                this.db.Entry(p).Reference(s => s.Tournee).Load();
-                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
-                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
-
-                if (checkInactif.IsChecked == false)
-                {
-                    if (p.Actif == true)
-                    {
-                        data.Add(p);
-                    }
-                }
-            }
-
             dataGridPersonnes.ItemsSource = data;
         }
 
@@ -286,8 +237,194 @@ namespace TraiteurBernardWPF.Gui
                 data.Add(p);
 
             }
-
+            cbTournee.Text = "Toutes les tournées";
+            cbActif.Text = "Actif & Inactif";
+            cbTournee.SelectedIndex = 5;
+            cbActif.SelectedIndex = 3;
             dataGridPersonnes.ItemsSource = data;
+        }
+
+        private void cbActif_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            IQueryable<Personne> req = from t in db.Personnes
+                                       select t;
+
+            List<Personne> data = new List<Personne>();
+
+            foreach (Personne p in req)
+            {
+                //Chargement préalable des données liées, sinon "lazy loading"
+                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
+                // voir pour plus de détails 
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
+
+                if (cbActif.SelectedItem.ToString() == "Actif")
+                {
+                    if (p.Actif == true)
+                    {
+                        data.Add(p);
+                    }
+                }
+                
+                if (cbActif.SelectedItem.ToString() == "Inactif")
+                {
+                    if (p.Actif == false)
+                    {
+                        data.Add(p);
+                    }
+                }
+                
+                if (cbActif.SelectedItem.ToString() == "Actif & Inactif")
+                {
+                    data.Add(p);
+                }
+            }
+            dataGridPersonnes.ItemsSource = data;
+        }
+
+        private void cbTournee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            IQueryable<Personne> req = from t in db.Personnes
+                                       select t;
+
+            List<Personne> data = new List<Personne>();
+
+            foreach (Personne p in req)
+            {
+                //Chargement préalable des données liées, sinon "lazy loading"
+                // https://docs.microsoft.com/fr-fr/ef/ef6/querying/related-data
+                // voir pour plus de détails 
+                this.db.Entry(p).Reference(s => s.Tournee).Load();
+                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
+                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
+
+                if (cbTournee.SelectedItem.ToString() == "ville 1")
+                {
+                    if (p.Tournee.Nom == "ville 1")
+                    {
+                        if (cbActif.SelectedItem.ToString() == "Actif")
+                        {
+                            if (p.Actif == true)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Inactif")
+                        {
+                            if (p.Actif == false)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Actif & Inactif")
+                        {
+                            data.Add(p);
+                        }
+                    }
+                }
+                
+                if (cbTournee.SelectedItem.ToString() == "ville 2")
+                {
+                    if (p.Tournee.Nom == "ville 2")
+                    {
+                        if (cbActif.SelectedItem.ToString() == "Actif")
+                        {
+                            if (p.Actif == true)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Inactif")
+                        {
+                            if (p.Actif == false)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Actif & Inactif")
+                        {
+                            data.Add(p);
+                        }
+                    }
+                }
+                
+                if (cbTournee.SelectedItem.ToString() == "Marennes")
+                {
+                    if (p.Tournee.Nom == "Marennes")
+                    {
+                        if (cbActif.SelectedItem.ToString() == "Actif")
+                        {
+                            if (p.Actif == true)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Inactif")
+                        {
+                            if (p.Actif == false)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Actif & Inactif")
+                        {
+                            data.Add(p);
+                        }
+                    }
+                }
+                
+                if (cbTournee.SelectedItem.ToString() == "contre-tournée")
+                {
+                    if (p.Tournee.Nom == "contre-tournée")
+                    {
+                        if (cbActif.SelectedItem.ToString() == "Actif")
+                        {
+                            if (p.Actif == true)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Inactif")
+                        {
+                            if (p.Actif == false)
+                            {
+                                data.Add(p);
+                            }
+                        }
+                        if (cbActif.SelectedItem.ToString() == "Actif & Inactif")
+                        {
+                            data.Add(p);
+                        }
+                    }
+                }
+
+                if (cbTournee.SelectedItem.ToString() == "Toutes les tournées")
+                {
+                    if (cbActif.SelectedItem.ToString() == "Actif")
+                    {
+                        if (p.Actif == true)
+                        {
+                            data.Add(p);
+                        }
+                    }
+                    if (cbActif.SelectedItem.ToString() == "Inactif")
+                    {
+                        if (p.Actif == false)
+                        {
+                            data.Add(p);
+                        }
+                    }
+                    if (cbActif.SelectedItem.ToString() == "Actif & Inactif")
+                    {
+                        data.Add(p);
+                    }
+                }
+
+
+            }
+            dataGridPersonnes.ItemsSource = data;           
         }
     }
 }

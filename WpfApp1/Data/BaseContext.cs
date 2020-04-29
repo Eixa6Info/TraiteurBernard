@@ -1,11 +1,11 @@
 ﻿
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
 using TraiteurBernardWPF.Modele;
+using Microsoft.EntityFrameworkCore;
 
 namespace TraiteurBernardWPF.Data
 {
@@ -13,16 +13,16 @@ namespace TraiteurBernardWPF.Data
     public class BaseContext : DbContext
     {
 
-        internal DbSet<Personne> Personnes { get; set; }
-        internal DbSet<TypeTournee> TypeTournee { get; set; }
-        internal DbSet<Livraison> Livraisons { get; set; }
-        internal DbSet<TypeCompteDeFacturation> ComptesDeFacturation { get; set; }
-        internal DbSet<ContactDurgence> ContactDurgence { get; set; }
-        internal DbSet<Menu> Menu { get; set; }
-        internal DbSet<Plat> Plat { get; set; }
+        public DbSet<Personne> Personnes { get; set; }
+        public DbSet<TypeTournee> TypeTournee { get; set; }
+        public DbSet<Livraison> Livraisons { get; set; }
+        public DbSet<TypeCompteDeFacturation> ComptesDeFacturation { get; set; }
+        public DbSet<ContactDurgence> ContactDurgence { get; set; }
+        public DbSet<Menu> Menu { get; set; }
+        public DbSet<Plat> Plat { get; set; }
 
-        internal DbSet<Saisie> Saisies { get; set; }
-        internal DbSet<SaisieData> SaisieData { get; set; }
+        public DbSet<Saisie> Saisies { get; set; }
+        public DbSet<SaisieData> SaisieData { get; set; }
 
         // Pour que ceci soit dispo, 
         // Install-Package Microsoft.EntityFrameworkCore.Sqlite
