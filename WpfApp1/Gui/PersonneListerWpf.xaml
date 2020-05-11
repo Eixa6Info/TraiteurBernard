@@ -10,15 +10,19 @@
         xml:lang="fr"
         Title="Liste des personnes" Height="501.52" Width="962.918" Loaded="Window_Loaded">
     <Grid Name="grille">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="149*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
 
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="txtRecherche" Text="{Binding Nom}" Height="25" Margin="10,10,737,436" materialDesign:HintAssist.Hint="Recherche" TextChanged="textChangedRechercheClient"/>
-        <ComboBox x:Name="cbTournee" materialDesign:HintAssist.Hint="Tournée"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.49,-0.485" Margin="411,0,0,0" SelectionChanged="cbTournee_SelectionChanged" Height="42"/>
-        <ComboBox x:Name="cbActif" materialDesign:HintAssist.Hint="Actifs/Inactifs"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.49,-0.485" Margin="254,1,0,0" SelectionChanged="cbActif_SelectionChanged" Height="42"/>
-        <Button Margin="575,4,0,0" Click="Button_Click" Height="36" HorizontalAlignment="Left" Width="230" VerticalAlignment="Top">Afficher toutes les personnes</Button>
-        <DataGrid  x:Name="dataGridPersonnes" HorizontalAlignment="Left" Margin="0,42,0,0" VerticalAlignment="Top" AutoGenerateColumns="False"  Height="429" Width="603" Grid.Column="0" >
+        <TextBox x:Name="txtRecherche" Text="{Binding Nom}" Height="25" Margin="10,10,737,0" materialDesign:HintAssist.Hint="Recherche" TextChanged="textChangedRechercheClient" Grid.RowSpan="2" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbTournee" materialDesign:HintAssist.Hint="Tournée"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Right" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.49,-0.485" Margin="0,0,424,0" SelectionChanged="cbTournee_SelectionChanged" Height="42" Grid.RowSpan="2"/>
+        <ComboBox x:Name="cbActif" materialDesign:HintAssist.Hint="Actifs/Inactifs"  materialDesign:HintAssist.IsFloating="True" VerticalAlignment="Top" RenderTransformOrigin="0.49,-0.485" Margin="0,1,581,0" SelectionChanged="cbActif_SelectionChanged" Height="42" Grid.RowSpan="2" HorizontalAlignment="Right" Width="120"/>
+        <Button Margin="0,4,150,0" Click="Button_Click" Height="36" VerticalAlignment="Top" HorizontalAlignment="Right" Width="230" Grid.RowSpan="2">Afficher toutes les personnes</Button>
+        <DataGrid  x:Name="dataGridPersonnes" Margin="0,18,352,0" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="1" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nom" IsReadOnly="True" Binding="{Binding Nom}"/>
                 <DataGridTextColumn Header="Prénom" IsReadOnly="True" Binding="{Binding Prenom}"/>
@@ -39,7 +43,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Calendar Margin="637,62,0,0" HorizontalAlignment="Left" Width="283" Height="313" VerticalAlignment="Top" />
-        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" Grid.Column="0" />
+        <Calendar Margin="0,38,35,96" Grid.Row="1" HorizontalAlignment="Right" Width="283" />
+        <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" Grid.Column="0" Grid.Row="1" />
     </Grid>
 </Window>

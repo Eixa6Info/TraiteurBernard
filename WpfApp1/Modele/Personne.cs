@@ -65,6 +65,8 @@ namespace TraiteurBernardWPF.Modele
         public string APADateFin { get; set; }
         public string MSADateDebut { get; set; }
         public string MSADateFin { get; set; }
+        public float? APALivraisonPrix { get; set; }
+        public float? APATauxClient { get; set; }
 
         public override string ToString()
         {
