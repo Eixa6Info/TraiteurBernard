@@ -19,8 +19,10 @@ using TraiteurBernardWPF.PDF;
 using TraiteurBernardWPF.Gui;
 using TraiteurBernardWPF.Utils;
 using System.Diagnostics;
-
-
+using System.Xml.Serialization;
+using System.IO;
+using com.sun.tools.apt;
+using System.Xml;
 
 namespace TraiteurBernardWPF
 {
@@ -31,10 +33,39 @@ namespace TraiteurBernardWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        XmlDocument monFichier = new XmlDocument();
         public MainWindow()
         {
-            
+          
+            string nas = RechercheCheminDansFichierXml(monFichier);
+            string lockFile = RechercheCheminDansFichierXmlLock(monFichier);
+            string messageBoxText = "";
+            string caption = "";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage iconW = MessageBoxImage.Error;
+            MessageBoxImage iconI = MessageBoxImage.Information;
+            MessageBoxImage iconA = MessageBoxImage.Warning;
+
+            if (File.Exists(lockFile))
+            {
+                messageBoxText = "Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable";
+                caption = "Alerte";
+                var res = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNo, iconA);
+                switch (res)
+                {
+                    case MessageBoxResult.Yes:
+                        File.Delete(lockFile);
+                        break;
+                    case MessageBoxResult.No:
+                        Close();
+                        break; 
+                }
+            }
+            else
+            {
+                File.Create(lockFile);
+            }
+
             WinFormWpf.CornerTopLeftToComputer(this);
             InitializeComponent();
 
@@ -43,14 +74,73 @@ namespace TraiteurBernardWPF
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             Title = fvi.FileVersion;
+            //On recupere le fichier traiteur.db du nas vers le fichier local
+            string local = @"C:\eixa6\traiteur.db";
+            
+            
+
+            if (LeFichierTraiteurdbExisteSurNas(nas))
+            {
+                try
+                {
+                    System.IO.File.Delete(local);
+                    System.IO.File.Copy(nas, local);
+                    messageBoxText = "Le fichier de données a été récupéré sur le NAS.";
+                    caption = "Récupération des données";
+                    MessageBox.Show(messageBoxText, caption, button, iconI);
+                }
+                catch (System.IO.IOException a)
+                {
+                    messageBoxText = "Problème avec le fichier de données! Contacter EIXA6 Informatique";
+                    caption = "Alerte";
+                    MessageBox.Show(messageBoxText, caption, button, iconW);
+                    LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                    Console.WriteLine(a.Message);
+                    return;
+                }
+            }
+            else
+            {
+                messageBoxText = "Problème avec le fichier de données! Contacter EIXA6 Informatique";
+                caption = "Alerte";
+                MessageBox.Show(messageBoxText, caption, button, iconW);
+                LogHelper.WriteToFile("Probleme de fichier db dans le nas verifier le nas et le XML c:/eixa6/nas.xml", "MainWindow.xaml.cs");
+                return;
+            }
+
             // On créé la base de données si elle existe pas
             BaseContext db = new BaseContext();
             db.Database.EnsureCreated();
             db.Dispose();
-            
-            
-            
+        }
 
+        private static string RechercheCheminDansFichierXml(XmlDocument monFichier)
+        {
+            monFichier.Load(@"C:\eixa6\nas.xml");
+            XmlNodeList Nas = monFichier.GetElementsByTagName("dbFile");
+            string nas = "";
+            foreach (XmlNode n in Nas)
+            {
+                nas = n.InnerText;
+            }
+            return nas;
+        }
+
+        private static string RechercheCheminDansFichierXmlLock(XmlDocument monFichier)
+        {
+            monFichier.Load(@"C:\eixa6\nas.xml");
+            XmlNodeList Nas = monFichier.GetElementsByTagName("lock");
+            string nas = "";
+            foreach (XmlNode n in Nas)
+            {
+                nas = n.InnerText;
+            }
+            return nas;
+        }
+
+        private static bool LeFichierTraiteurdbExisteSurNas(string nas)
+        {
+            return System.IO.File.Exists(nas);
         }
 
         /// <summary>
@@ -187,14 +277,168 @@ namespace TraiteurBernardWPF
             Cursor = Cursors.Arrow;
         }
 
+        private static string RechercheCheminDansFichierXmlCheminNas(XmlDocument monFichier)
+        {
+            monFichier.Load(@"C:\eixa6\nas.xml");
+            XmlNodeList Nas = monFichier.GetElementsByTagName("chemin");
+            string fileName = "";
+            foreach (XmlNode n in Nas)
+            {
+                fileName = n.InnerText;
+            }
+            return fileName;
+        }
+        private static string RechercheCheminDansFichierXmlDbFichier(XmlDocument monFichier)
+        {
+            monFichier.Load(@"C:\eixa6\nas.xml");
+            XmlNodeList Nas = monFichier.GetElementsByTagName("dbFile");
+            string nas = "";
+            foreach (XmlNode n in Nas)
+            {
+                nas = n.InnerText;
+            }
+            return nas;
+        }
+        private static string RechercheCheminDansFichierXmlVieuFichierDb(XmlDocument monFichier)
+        {
+            DateTime date = DateTime.Now;
+            string dateStr = "";
+            string jour = date.Day.ToString();
+            string mois = date.Month.ToString();
+            string annee = date.Year.ToString();
+            if (jour.Length == 1)
+            {
+                jour = "0" + date.Day;
+            }
+            if (mois.Length == 1)
+            {
+                mois = "0" + date.Month;
+            }
+            dateStr = jour + mois + annee;
+            monFichier.Load(@"C:\eixa6\nas.xml");
+            XmlNodeList Nas = monFichier.GetElementsByTagName("oldDbFile");
+            string nasNew = "";
+            foreach (XmlNode n in Nas)
+            {
+                nasNew = n.InnerText + dateStr + ".db";
+            }
+            return nasNew;
+        }
+        
+        private void MenuItem_Quitter_Click(object sender, RoutedEventArgs e)
+        {
+            //Close();
+        }
         /// <summary>
         /// Fermeture de l'application
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MenuItem_Quitter_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Enregistrer_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            XmlDocument monFichier = new XmlDocument();
+            
+            string local = @"C:\eixa6\traiteur.db";
+            string nas = RechercheCheminDansFichierXmlDbFichier(monFichier);
+            string nasNew = RechercheCheminDansFichierXmlVieuFichierDb(monFichier);
+            string fileName = RechercheCheminDansFichierXmlCheminNas(monFichier);
+            string[] res;
+            string nasOld = "";
+            string messageBoxText = "";
+            string caption = "";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage iconW = MessageBoxImage.Error;
+            MessageBoxImage iconI = MessageBoxImage.Information;
+
+            if (System.IO.File.Exists(nas))
+            {
+                try
+                {
+                    res = System.IO.Directory.GetFiles(fileName);
+                    foreach (string file in res)
+                    {
+                        if (LeFichierSelectonnéEstPasTraiteurdb(nas, file) && LeNombreDeFichierEstSuppAUn(file))
+                        {
+                            nasNew = file;
+                        }
+                    }
+                    if (DeuxiemeSauvegardeSurNas(res))
+                    {
+                        // On copie le fichier traiteur.db au 
+                        System.IO.File.Copy(nas, nasNew);
+                        System.IO.File.Delete(nas);
+                        System.IO.File.Copy(local, nas);
+                    }
+                    else
+                    {
+                        nasOld = nasNew;
+                        // On supprime le fichier traiteurdate.db
+                        System.IO.File.Delete(nasNew);
+                        // la fichier traiteur.db passe en traiteurdate.db
+                        System.IO.File.Copy(nas, nasNew);
+                        // On supprime le fichier traiteur.db
+                        System.IO.File.Delete(nas);
+                        // On copie le fichier traiteur.db en local sur le nas
+                        System.IO.File.Copy(local, nas);
+                    }
+
+                    messageBoxText = "Le fichier de données est enregistré sur le NAS.";
+                    caption = "Enregistrement de données";
+                    MessageBox.Show(messageBoxText, caption, button, iconI);
+
+                }
+                catch (System.IO.IOException a)
+                {
+                    messageBoxText = "Problème avec le fichier de données! Contacter EIXA6 Informatique";
+                    caption = "Alerte";
+                    MessageBox.Show(messageBoxText, caption, button, iconW);
+                    LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                    Console.WriteLine(a.Message);
+                    return;
+                }
+            }
+            else if (PremiereSauvegardeSurNas(local, nas))
+            {
+                try
+                {
+                    //On Copie le fichier traiteur.db de local au nas
+                    System.IO.File.Copy(local, nas);
+
+                    messageBoxText = "Le fichier de données est enregistré sur le NAS.";
+                    caption = "Enregistrement de données";
+                    MessageBox.Show(messageBoxText, caption, button, iconI);
+                }
+                catch (System.IO.IOException a)
+                {
+                    messageBoxText = "Problème avec le fichier de données! Contacter EIXA6 Informatique";
+                    caption = "Alerte";
+                    MessageBox.Show(messageBoxText, caption, button, iconW);
+                    LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                    Console.WriteLine(a.Message);
+                    return;
+                }
+
+            }
+        }
+
+        private static bool LeNombreDeFichierEstSuppAUn(string file)
+        {
+            return file.Length > 1;
+        }
+
+        private static bool LeFichierSelectonnéEstPasTraiteurdb(string nas, string file)
+        {
+            return file != nas;
+        }
+
+        private static bool DeuxiemeSauvegardeSurNas(string[] res)
+        {
+            return res.Length == 1;
+        }
+
+        private static bool PremiereSauvegardeSurNas(string local, string nas)
+        {
+            return System.IO.File.Exists(local) && !System.IO.File.Exists(nas);
         }
 
         /// <summary>
@@ -204,9 +448,19 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Personne_Creer_Click(object sender, RoutedEventArgs e)
         {
-            PersonneCreerWpf wpf = new PersonneCreerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                PersonneCreerWpf wpf = new PersonneCreerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            } 
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+            
         }
 
         /// <summary>
@@ -216,9 +470,19 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Personne_Lister_Click(object sender, RoutedEventArgs e)
         {
-            PersonneListerWpf wpf = new PersonneListerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                PersonneListerWpf wpf = new PersonneListerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+            
         }
 
         /// <summary>
@@ -227,10 +491,19 @@ namespace TraiteurBernardWPF
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MenuItem_ComptesDeFacturation_Creer_Click(object sender, RoutedEventArgs e)
-        {
-            CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+        {  
+            try
+            {
+                CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -240,9 +513,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_ComptesDeFacturation_Lister_Click(object sender, RoutedEventArgs e)
         {
-            CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -252,9 +534,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Menus_Pdf_Click(object sender, RoutedEventArgs e)
         {
-            PdfCreerWpf wpf = new PdfCreerWpf(false);
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                PdfCreerWpf wpf = new PdfCreerWpf(false);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -264,9 +555,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Tournees_Lister_Click(object sender, RoutedEventArgs e)
         {
-            TourneesListerWpf wpf = new TourneesListerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                TourneesListerWpf wpf = new TourneesListerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
         
         
@@ -277,9 +577,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Menus_Lister_Click(object sender, RoutedEventArgs e)
         {
-            MenuListerWpf wpf = new MenuListerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                MenuListerWpf wpf = new MenuListerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
        
         /// <summary>
@@ -289,9 +598,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Menus_Creer_Click(object sender, RoutedEventArgs e)
         {
-            MenuCreerWpf wpf = new MenuCreerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                MenuCreerWpf wpf = new MenuCreerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
         
         /// <summary>
@@ -301,9 +619,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Saisies_Creer_Click(object sender, RoutedEventArgs e)
         {
-            SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf();
-            WinFormWpf.CornerTopLeftToParent(wpfPopup, this);
-            wpfPopup.ShowDialog();
+            try
+            {
+                SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf();
+                WinFormWpf.CornerTopLeftToParent(wpfPopup, this);
+                wpfPopup.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
         
 
@@ -314,9 +641,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void MenuItem_Saisies_Pdf_Click(object sender, RoutedEventArgs e)
         {
-            PdfCreerWpf wpf = new PdfCreerWpf(true);
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                PdfCreerWpf wpf = new PdfCreerWpf(true);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -326,9 +662,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void ImporterJson(object sender, RoutedEventArgs e)
         {
-            ImporterJson wpf = new ImporterJson();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                ImporterJson wpf = new ImporterJson();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -338,9 +683,18 @@ namespace TraiteurBernardWPF
         /// <param name="e"></param>
         private void ExporterJson(object sender, RoutedEventArgs e)
         {
-            ExporterJson wpf = new ExporterJson();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            try
+            {
+                ExporterJson wpf = new ExporterJson();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -349,17 +703,123 @@ namespace TraiteurBernardWPF
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void APropos(object sender, RoutedEventArgs e)
-        {
-            AProposWpf wpf = new AProposWpf();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+        {           
+            try
+            {
+                AProposWpf wpf = new AProposWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         private void MenuItem_Saisies_PdfCompositions_Click(object sender, RoutedEventArgs e)
+        {  
+            try
+            {
+                PdfCreerWpf wpf = new PdfCreerWpf(true, true);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            PdfCreerWpf wpf = new PdfCreerWpf(true, true);
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
+            XmlDocument monFichier = new XmlDocument();
+
+            string local = @"C:\eixa6\traiteur.db";
+            string nas = RechercheCheminDansFichierXmlDbFichier(monFichier);
+            string nasNew = RechercheCheminDansFichierXmlVieuFichierDb(monFichier);
+            string fileName = RechercheCheminDansFichierXmlCheminNas(monFichier);
+            string[] res;
+            string nasOld = "";
+            string messageBoxText = "";
+            string caption = "";
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage iconW = MessageBoxImage.Error;
+            MessageBoxImage iconI = MessageBoxImage.Information;
+
+            if (System.IO.File.Exists(nas))
+            {
+                try
+                {
+                    res = System.IO.Directory.GetFiles(fileName);
+                    foreach (string file in res)
+                    {
+                        if (LeFichierSelectonnéEstPasTraiteurdb(nas, file) && LeNombreDeFichierEstSuppAUn(file))
+                        {
+                            nasNew = file;
+                        }
+                    }
+                    if (DeuxiemeSauvegardeSurNas(res))
+                    {
+                        // On copie le fichier traiteur.db au 
+                        System.IO.File.Copy(nas, nasNew);
+                        System.IO.File.Delete(nas);
+                        System.IO.File.Copy(local, nas);
+                    }
+                    else
+                    {
+                        nasOld = nasNew;
+                        // On supprime le fichier traiteurdate.db
+                        System.IO.File.Delete(nasNew);
+                        // la fichier traiteur.db passe en traiteurdate.db
+                        System.IO.File.Copy(nas, nasNew);
+                        // On supprime le fichier traiteur.db
+                        System.IO.File.Delete(nas);
+                        // On copie le fichier traiteur.db en local sur le nas
+                        System.IO.File.Copy(local, nas);
+                    }
+
+                    messageBoxText = "Le fichier de données est enregistré sur le NAS.";
+                    caption = "Enregistrement de données";
+                    MessageBox.Show(messageBoxText, caption, button, iconI);
+
+                }
+                catch (System.IO.IOException a)
+                {
+                    messageBoxText = "Problème avec le fichier de données! Contacter EIXA6 Informatique";
+                    caption = "Alerte";
+                    MessageBox.Show(messageBoxText, caption, button, iconW);
+                    LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                    Console.WriteLine(a.Message);
+                    return;
+                }
+            }
+            else if (PremiereSauvegardeSurNas(local, nas))
+            {
+                try
+                {
+                    //On Copie le fichier traiteur.db de local au nas
+                    System.IO.File.Copy(local, nas);
+
+                    messageBoxText = "Le fichier de données est enregistré sur le NAS.";
+                    caption = "Enregistrement de données";
+                    MessageBox.Show(messageBoxText, caption, button, iconI);
+                }
+                catch (System.IO.IOException a)
+                {
+                    messageBoxText = "Problème avec le fichier de données! Contacter EIXA6 Informatique";
+                    caption = "Alerte";
+                    MessageBox.Show(messageBoxText, caption, button, iconW);
+                    LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                    Console.WriteLine(a.Message);
+                    return;
+                }
+
+            }
+            File.Delete(MainWindow.RechercheCheminDansFichierXmlLock(monFichier));
         }
     }
 }

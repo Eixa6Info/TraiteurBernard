@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraiteurBernardWPF"
         mc:Ignorable="d"
-        Title="Portage des repas" Height="500" Width="1000">
+        Title="Portage des repas" Height="500" Width="1000" Closing="Window_Closing">
 
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
@@ -25,6 +25,7 @@
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
                 <MenuItem Header="_Fichier">
+                    <MenuItem Header="_Enregistrer" Click="MenuItem_Enregistrer_Click" />
                     <MenuItem Header="_Quitter" Click="MenuItem_Quitter_Click" />
                 </MenuItem>
                 <MenuItem Header="_Personne">

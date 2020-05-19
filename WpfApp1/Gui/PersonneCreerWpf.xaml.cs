@@ -17,6 +17,7 @@ using TraiteurBernardWPF.Gui;
 using TraiteurBernardWPF.Utils;
 using com.sun.org.apache.bcel.@internal.generic;
 using System.Globalization;
+using System.IO;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -93,17 +94,26 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            if (VerifierDonnees())
+            
+            try
             {
-                if (this.edite.ID == 0) this.db.Add(this.edite);
-                this.db.SaveChanges();
-                Close();
+                if (VerifierDonnees())
+                {
+                    if (this.edite.ID == 0) this.db.Add(this.edite);
+                    this.db.SaveChanges();
+                    Close();
+                }
+                else
+                {
+                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK);
+                    WinFormWpf.CenterToParent(wpf, this);
+                    wpf.ShowDialog();
+                } 
             }
-            else
+            catch (IOException a)
             {
-                MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK);
-                WinFormWpf.CenterToParent(wpf, this);
-                wpf.ShowDialog();
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
             }
         }
 
@@ -138,12 +148,19 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CompteDeFacturationCreer(object sender, RoutedEventArgs e)
-        {
-            CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf(db);
-            wpf.ShowDialog();
-            if(wpf.CompteAssocie != null) this.edite.CompteDeFacturation = wpf.CompteAssocie;
-            this.UpdateStatus(lblCompte, this.edite.CompteDeFacturation, "Pas de compte de facturation");
-
+        { 
+            try
+            {
+                CompteDeFacturationListerWpf wpf = new CompteDeFacturationListerWpf(db);
+                wpf.ShowDialog();
+                if(wpf.CompteAssocie != null) this.edite.CompteDeFacturation = wpf.CompteAssocie;
+                this.UpdateStatus(lblCompte, this.edite.CompteDeFacturation, "Pas de compte de facturation");
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         /// <summary>
@@ -164,11 +181,19 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ContactDurgenceCreer(object sender, RoutedEventArgs e)
-        {
-            ContactDurgenceCreerWpf wpf = new ContactDurgenceCreerWpf(edite.ContactDurgence, db);
-            wpf.ShowDialog();
-            this.edite.ContactDurgence = wpf.Edite;
-            this.UpdateStatus(lblContactDurgence, this.edite.ContactDurgence, "Pas de contact d'urgence");
+        {  
+            try
+            {
+                ContactDurgenceCreerWpf wpf = new ContactDurgenceCreerWpf(edite.ContactDurgence, db);
+                wpf.ShowDialog();
+                this.edite.ContactDurgence = wpf.Edite;
+                this.UpdateStatus(lblContactDurgence, this.edite.ContactDurgence, "Pas de contact d'urgence");
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         /// <summary>
@@ -179,21 +204,28 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void APA_Checked(object sender, RoutedEventArgs e)
         {
-            txtAPALivraisonMax.Visibility = Visibility.Visible;
-            txtAPAMontantMax.Visibility = Visibility.Visible;
-            txtAPADateDebut.Visibility = Visibility.Visible;
-            txtAPADateFin.Visibility = Visibility.Visible;
-            txtAPALivraisonPrix.Text = "0";
-            txtAPATauxClient.Text = "0";
+            try
+            {
+                txtAPALivraisonMax.Visibility = Visibility.Visible;
+                txtAPAMontantMax.Visibility = Visibility.Visible;
+                txtAPADateDebut.Visibility = Visibility.Visible;
+                txtAPADateFin.Visibility = Visibility.Visible;
+                txtAPALivraisonPrix.Text = "0";
+                txtAPATauxClient.Text = "0";
           
-            txtAPATauxClient.Visibility = Visibility.Visible;
-            txtAPALivraisonPrix.Visibility = Visibility.Visible;
-            btnVerifier.Visibility = Visibility.Visible;
+                txtAPATauxClient.Visibility = Visibility.Visible;
+                txtAPALivraisonPrix.Visibility = Visibility.Visible;
+                btnVerifier.Visibility = Visibility.Visible;
 
-            Console.Out.WriteLine(txtAPACovid.Text);
+                Console.Out.WriteLine(txtAPACovid.Text);
 
-            txtAPACovid.Visibility = Visibility.Visible;
-        
+                txtAPACovid.Visibility = Visibility.Visible;
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         /// <summary>
@@ -204,40 +236,57 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void APA_Unchecked(object sender, RoutedEventArgs e)
         {
-            txtAPALivraisonMax.Text = "0";
-            txtAPAMontantMax.Text = "0";
-            txtAPADateDebut.Text = "00/00/00";
-            txtAPADateFin.Text = "00/00/00";
-            txtAPATauxClient.Text = "0";
-            txtAPALivraisonPrix.Text = "0";
-            txtAPACovid.Text = "0";
+            try
+            {
+                txtAPALivraisonMax.Text = "0";
+                txtAPAMontantMax.Text = "0";
+                txtAPADateDebut.Text = "00/00/00";
+                txtAPADateFin.Text = "00/00/00";
+                txtAPATauxClient.Text = "0";
+                txtAPALivraisonPrix.Text = "0";
+                txtAPACovid.Text = "0";
 
-            txtAPALivraisonMax.Visibility = Visibility.Hidden;
-            txtAPAMontantMax.Visibility = Visibility.Hidden;
-            txtAPADateDebut.Visibility = Visibility.Hidden;
-            txtAPADateFin.Visibility = Visibility.Hidden;
-            txtAPATauxClient.Visibility = Visibility.Hidden;
-            txtAPALivraisonPrix.Visibility = Visibility.Hidden;
-            txtAPACovid.Visibility = Visibility.Hidden;
-            btnVerifier.Visibility = Visibility.Hidden;
+                txtAPALivraisonMax.Visibility = Visibility.Hidden;
+                txtAPAMontantMax.Visibility = Visibility.Hidden;
+                txtAPADateDebut.Visibility = Visibility.Hidden;
+                txtAPADateFin.Visibility = Visibility.Hidden;
+                txtAPATauxClient.Visibility = Visibility.Hidden;
+                txtAPALivraisonPrix.Visibility = Visibility.Hidden;
+                txtAPACovid.Visibility = Visibility.Hidden;
+                btnVerifier.Visibility = Visibility.Hidden;
             
-            this.edite.APALivraisonMax = 0.0F;
-            this.edite.APAMontantMax = 0.0F;
-            this.edite.APADateDebut = "00/00/00";
-            this.edite.APADateFin = "00/00/00";
-            this.edite.APATauxClient = 0.0F;
-            this.edite.APALivraisonPrix = 0.0F;
+                this.edite.APALivraisonMax = 0.0F;
+                this.edite.APAMontantMax = 0.0F;
+                this.edite.APADateDebut = "00/00/00";
+                this.edite.APADateFin = "00/00/00";
+                this.edite.APATauxClient = 0.0F;
+                this.edite.APALivraisonPrix = 0.0F;
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
+            }
+            
         }
         
         private void MSA_Checked(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                txtMSALivraisonMax.Visibility = Visibility.Visible;
+                txtMSAMontantMax.Visibility = Visibility.Visible;
+                txtMSADateDebut.Visibility = Visibility.Visible;
+                txtMSADateFin.Visibility = Visibility.Visible;
+                txtAPATauxClient.Visibility = Visibility.Visible;
+                txtAPALivraisonPrix.Visibility = Visibility.Visible;
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
+            }
             
-            txtMSALivraisonMax.Visibility = Visibility.Visible;
-            txtMSAMontantMax.Visibility = Visibility.Visible;
-            txtMSADateDebut.Visibility = Visibility.Visible;
-            txtMSADateFin.Visibility = Visibility.Visible;
-            txtAPATauxClient.Visibility = Visibility.Visible;
-            txtAPALivraisonPrix.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -248,32 +297,48 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void MSA_Unchecked(object sender, RoutedEventArgs e)
         {
-            txtMSALivraisonMax.Text = "0";
-            txtMSAMontantMax.Text = "0";
-            txtMSADateDebut.Text = "00/00/00";
-            txtMSADateFin.Text = "00/00/00";
-            txtMSALivraisonMax.Visibility = Visibility.Hidden;
-            txtMSAMontantMax.Visibility = Visibility.Hidden;
-            txtMSADateDebut.Visibility = Visibility.Hidden;
-            txtMSADateFin.Visibility = Visibility.Hidden;
-            this.edite.MSALivraisonMax = 0.0F;
-            this.edite.MSAMontantMax = 0.0F;
-            this.edite.MSADateDebut = "00/00/00";
-            this.edite.MSADateFin = "00/00/00";
+            try
+            {
+                txtMSALivraisonMax.Text = "0";
+                txtMSAMontantMax.Text = "0";
+                txtMSADateDebut.Text = "00/00/00";
+                txtMSADateFin.Text = "00/00/00";
+                txtMSALivraisonMax.Visibility = Visibility.Hidden;
+                txtMSAMontantMax.Visibility = Visibility.Hidden;
+                txtMSADateDebut.Visibility = Visibility.Hidden;
+                txtMSADateFin.Visibility = Visibility.Hidden;
+                this.edite.MSALivraisonMax = 0.0F;
+                this.edite.MSAMontantMax = 0.0F;
+                this.edite.MSADateDebut = "00/00/00";
+                this.edite.MSADateFin = "00/00/00";
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
 
         private void Verifier(object sender, RoutedEventArgs e)
         {
-            string l;
-            tau = float.Parse(txtAPATauxClient.Text);
-            l = String.Format("{0:0.##}", txtAPALivraisonPrix.Text);
-            Console.WriteLine("l= " + l);
-            liv = float.Parse(l, CultureInfo.InvariantCulture.NumberFormat);
-            Console.WriteLine("liv=" + liv);
-            res = liv - (liv * (tau / 100));
-            txtAPACovid.Text = res.ToString();
-            Console.WriteLine("APACovid = " + txtAPACovid.Text);
+            try
+            {
+                string l;
+                tau = float.Parse(txtAPATauxClient.Text);
+                l = String.Format("{0:0.##}", txtAPALivraisonPrix.Text);
+                Console.WriteLine("l= " + l);
+                liv = float.Parse(l, CultureInfo.InvariantCulture.NumberFormat);
+                Console.WriteLine("liv=" + liv);
+                res = liv - (liv * (tau / 100));
+                txtAPACovid.Text = res.ToString();
+                Console.WriteLine("APACovid = " + txtAPACovid.Text);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         private void cbTournee_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -283,21 +348,29 @@ namespace TraiteurBernardWPF.Gui
 
         private void ValiderEtNew(object sender, RoutedEventArgs e)
         {
-            if (VerifierDonnees())
+            try
             {
-                if (this.edite.ID == 0) this.db.Add(this.edite);
-                this.db.SaveChanges();
-                Close();
+                if (VerifierDonnees())
+                {
+                    if (this.edite.ID == 0) this.db.Add(this.edite);
+                    this.db.SaveChanges();
+                    Close();
+                }
+                else
+                {
+                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK);
+                    WinFormWpf.CenterToParent(wpf, this);
+                    wpf.ShowDialog();
+                }
+                PersonneCreerWpf wpfNew = new PersonneCreerWpf();
+                WinFormWpf.CornerTopLeftToParent(wpfNew, this);
+                wpfNew.ShowDialog();
             }
-            else
+            catch (IOException a)
             {
-                MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK);
-                WinFormWpf.CenterToParent(wpf, this);
-                wpf.ShowDialog();
+                LogHelper.WriteToFile(a.Message, "PersonneCreerWpf.xaml.cs");
+                throw a;
             }
-            PersonneCreerWpf wpfNew = new PersonneCreerWpf();
-            WinFormWpf.CornerTopLeftToParent(wpfNew, this);
-            wpfNew.ShowDialog();
         }
     }
 }

@@ -327,6 +327,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Utils\LogHelper.cs" />
     <Compile Include="DAO\saisieDataDAO.cs" />
     <Compile Include="DAO\SaisieDAO.cs" />
     <Compile Include="Gui\AProposWpf.xaml.cs">

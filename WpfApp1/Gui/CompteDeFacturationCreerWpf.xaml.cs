@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,23 +62,30 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
-            IQueryable<Personne> req = from t in this.db.Personnes
+            try
+            {
+                IQueryable<Personne> req = from t in this.db.Personnes
                       select t;
 
-            List<Personne> data = new List<Personne>();
+                List<Personne> data = new List<Personne>();
 
-            foreach (Personne p in req)
-            {
-                this.db.Entry(p).Reference(s => s.Tournee).Load();
-                data.Add(p);
+                foreach (Personne p in req)
+                {
+                    this.db.Entry(p).Reference(s => s.Tournee).Load();
+                    data.Add(p);
+                }
+
+                lstPersonnes.ItemsSource = data;
+
+                // Si il y a déjà des personnes dans le groupe (cas de modification), on les affiche
+                // dans le label prévue pour cela
+                if(this.Edite.Personnes!=null) lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
             }
-
-            lstPersonnes.ItemsSource = data;
-
-            // Si il y a déjà des personnes dans le groupe (cas de modification), on les affiche
-            // dans le label prévue pour cela
-            if(this.Edite.Personnes!=null) lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationCréeWpf.xaml.cs");
+                throw a;
+            }
         }
 
 
@@ -113,17 +121,25 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            if (VerifierDonnees())
+            try
             {
-                if (this.Edite.ID == 0) this.db.Add(Edite);
-                this.db.SaveChanges();
-                Close();
+                if (VerifierDonnees())
+                {
+                    if (this.Edite.ID == 0) this.db.Add(Edite);
+                    this.db.SaveChanges();
+                    Close();
+                }
+                else
+                {
+                    MessageBoxWpf wpf = new MessageBoxWpf("Information indispensable", "Le nom est indispensable", MessageBoxButton.OK);
+                    WinFormWpf.CenterToParent(wpf, this);
+                    wpf.ShowDialog();
+                }
             }
-            else
+            catch (IOException a)
             {
-                MessageBoxWpf wpf = new MessageBoxWpf("Information indispensable", "Le nom est indispensable", MessageBoxButton.OK);
-                WinFormWpf.CenterToParent(wpf, this);
-                wpf.ShowDialog();
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationCréeWpf.xaml.cs");
+                throw a;
             }
 
         }
@@ -136,26 +152,31 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void lstPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            Personne selected = lstPersonnes.SelectedItem as Personne;
-
-            if (this.Edite.Personnes == null) this.Edite.Personnes = new List<Personne>();
-
-            Personne found = (from p in Edite.Personnes
-                        where p.ID == selected.ID
-                        select p).FirstOrDefault();
-
-            if(found != null)
+            try
             {
-                this.Edite.Personnes.Remove(found);
-            }
-            else
-            {
-                this.Edite.Personnes.Add(selected);
-            }
-            lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
+                Personne selected = lstPersonnes.SelectedItem as Personne;
+                if (this.Edite.Personnes == null) this.Edite.Personnes = new List<Personne>();
+                Personne found = (from p in Edite.Personnes
+                                  where p.ID == selected.ID
+                                  select p).FirstOrDefault();
 
-            //lstPersonnes.UnselectAll();
+                if (found != null)
+                {
+                    this.Edite.Personnes.Remove(found);
+                }
+                else
+                {
+                    this.Edite.Personnes.Add(selected);
+                }
+                lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personnes select p).ToArray());
+
+                //lstPersonnes.UnselectAll();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationCréeWpf.xaml.cs");
+                throw a;
+            }
         }
     }
 }

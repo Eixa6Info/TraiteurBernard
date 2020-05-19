@@ -729,7 +729,8 @@ namespace TraiteurBernardWPF.PDF
                     }
                     catch (IOException e)
                     {
-                            throw e;
+                            LogHelper.WriteToFile(e.Message, "CreatePDF");
+                            throw e;        
                     }
                 }
 
@@ -930,7 +931,9 @@ namespace TraiteurBernardWPF.PDF
                         }
                         catch (IOException e)
                         {
+                            LogHelper.WriteToFile(e.Message, "CreatePDF");
                             throw e;
+                            
                         }
                     }
                 }

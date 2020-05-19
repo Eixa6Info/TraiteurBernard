@@ -71,7 +71,16 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Associer(object sender, RoutedEventArgs e)
         {
-            this.CompteAssocie = dataGridComptes.SelectedItem as TypeCompteDeFacturation ;
+            try 
+            {
+                this.CompteAssocie = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationListerWpf.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -81,11 +90,18 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Modifier(object sender, RoutedEventArgs e)
         {
-
-            TypeCompteDeFacturation t = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
-            CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf(t, db);
-            wpf.ShowDialog();
-           
+            try
+            {
+                TypeCompteDeFacturation t = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
+                CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf(t, db);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationListerWpf.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -94,11 +110,19 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Nouveau(object sender, RoutedEventArgs e)
-        {
-            CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
-            wpf.ShowDialog();
-            RafraichirDataGrid();
-           
+        { 
+            try
+            {
+                CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
+                wpf.ShowDialog();
+                RafraichirDataGrid();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationListerWpf.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -139,65 +163,84 @@ namespace TraiteurBernardWPF.Gui
         private void Supprimer(object sender, RoutedEventArgs e)
         {
 
-            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de supprimer ce compte de facturation, voulez vous continuer ?", MessageBoxButton.YesNo);
-            WinFormWpf.CenterToParent(wpf, this);
-            wpf.ShowDialog();
-            if (!wpf.YesOrNo) return;
-
-            TypeCompteDeFacturation t = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
-
-            IQueryable<Personne> personnesDansLeCompte = from p in this.db.Personnes where p.CompteDeFacturation == t select p;
-
-            // On enlève les personnes du compte de facturation
-            foreach(Personne p in personnesDansLeCompte)
+            try
             {
-                p.CompteDeFacturation = null;
+                MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de supprimer ce compte de facturation, voulez vous continuer ?", MessageBoxButton.YesNo);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+                if (!wpf.YesOrNo) return;
+
+                TypeCompteDeFacturation t = dataGridComptes.SelectedItem as TypeCompteDeFacturation;
+
+                IQueryable<Personne> personnesDansLeCompte = from p in this.db.Personnes where p.CompteDeFacturation == t select p;
+
+                // On enlève les personnes du compte de facturation
+                foreach (Personne p in personnesDansLeCompte)
+                {
+                    p.CompteDeFacturation = null;
+                }
+
+                // On enlève le compte de facturation
+                this.db.Remove(t);
+                this.db.SaveChanges();
+
+                this.Window_Loaded(new object(), new RoutedEventArgs());
             }
-
-            // On enlève le compte de facturation
-            this.db.Remove(t);
-            this.db.SaveChanges();
-
-            this.Window_Loaded(new object(), new RoutedEventArgs());
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationListerWpf.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            } 
         }
 
         
 
         private void textChangedRechercheFacturation(object sender, TextChangedEventArgs e)
         {
-            IQueryable<TypeCompteDeFacturation> req = from t in this.db.ComptesDeFacturation
-                                                      select t;
-
-            List<TypeCompteDeFacturation> data = new List<TypeCompteDeFacturation>();
-            String lastWordTt;
-            String wordTtSplit = "";
-
-            this.rechercheFacturation = this.txtRecherche.Text;
-
-            foreach (TypeCompteDeFacturation tt in req)
+            try
             {
-                lastWordTt = tt.Nom.ToLower();
+                IQueryable<TypeCompteDeFacturation> req = from t in this.db.ComptesDeFacturation
+                                                          select t;
 
-                // Si il y a rien dans la barre de recherche on affiche tous
-                if (rechercheFacturation == "")
+                List<TypeCompteDeFacturation> data = new List<TypeCompteDeFacturation>();
+                String lastWordTt;
+                String wordTtSplit = "";
+
+                this.rechercheFacturation = this.txtRecherche.Text;
+
+                foreach (TypeCompteDeFacturation tt in req)
                 {
-                    data.Add(tt);
-                }
-               
-                // compte de le nombre de lettre dans la barre de recherche et réitère à charque nouvelle lettre
-                for (int i=0; i<rechercheFacturation.Length; i++)
-                {     
-                    // On prend le nom du groupe et on met le meme nombre de lettre que la saisie dans la barre de recherche
-                    wordTtSplit = lastWordTt.Substring(0, i + 1);
-                    // Si la lettre du nom = a la lettre de la barre de recherche on ajoute a la liste
-                    if (wordTtSplit.ToLower() == rechercheFacturation.ToLower())
+                    lastWordTt = tt.Nom.ToLower();
+
+                    // Si il y a rien dans la barre de recherche on affiche tous
+                    if (rechercheFacturation == "")
                     {
                         data.Add(tt);
                     }
+
+                    // compte de le nombre de lettre dans la barre de recherche et réitère à charque nouvelle lettre
+                    for (int i = 0; i < rechercheFacturation.Length; i++)
+                    {
+                        // On prend le nom du groupe et on met le meme nombre de lettre que la saisie dans la barre de recherche
+                        wordTtSplit = lastWordTt.Substring(0, i + 1);
+                        // Si la lettre du nom = a la lettre de la barre de recherche on ajoute a la liste
+                        if (wordTtSplit.ToLower() == rechercheFacturation.ToLower())
+                        {
+                            data.Add(tt);
+                        }
+                    }
                 }
+                // on affiche
+                dataGridComptes.ItemsSource = data;
             }
-            // on affiche
-            dataGridComptes.ItemsSource = data;
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "CompteDeFacturationListerWpf.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+            
         }
     }
 }

@@ -12,6 +12,7 @@ namespace TraiteurBernardWPF.Data
 
     public class BaseContext : DbContext
     {
+        private const string ConnectionString = "Data Source=C:\\eixa6\\traiteur.db";
 
         public DbSet<Personne> Personnes { get; set; }
         public DbSet<TypeTournee> TypeTournee { get; set; }
@@ -27,7 +28,7 @@ namespace TraiteurBernardWPF.Data
         // Pour que ceci soit dispo, 
         // Install-Package Microsoft.EntityFrameworkCore.Sqlite
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder
-                                                                                            .UseSqlite("Data Source=traiteur.db")
+                                                                                            .UseSqlite(ConnectionString)
                                                                                             .EnableSensitiveDataLogging(true);
     }
 
