@@ -34,13 +34,13 @@ namespace TraiteurBernardWPF
     public partial class MainWindow : Window
     {
         XmlDocument monFichier = new XmlDocument();
+        GestionFichier gestionFichier = new GestionFichier();
         private static string xmlNas = @"C:\eixa6\nas.xml";
         public MainWindow()
         {
-
             
-            string nas = RechercheCheminDansFichierXml(monFichier);
-            string lockFile = RechercheCheminDansFichierXmlLock(monFichier);
+
+           
             string messageBoxText = "";
             string caption = "";
             MessageBoxButton button = MessageBoxButton.OK;
@@ -48,6 +48,29 @@ namespace TraiteurBernardWPF
             MessageBoxImage iconI = MessageBoxImage.Information;
             MessageBoxImage iconA = MessageBoxImage.Warning;
 
+            if (!File.Exists(@"C:\eixa6\nas.xml"))
+            {
+                messageBoxText = "Le fichier de configuration du nas n'est pas crée voulez vous travailer en local";
+                caption = "Alerte";
+                var res = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNo, iconA);
+                switch (res)
+                {
+                    case MessageBoxResult.Yes:
+                        return;
+                        break;
+                    case MessageBoxResult.No:
+                        gestionFichier.CréationDuFichierXml();
+                        messageBoxText = "Veuillez configurer le fichier nas.xml";
+                        caption = "Information";
+                        MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, iconI);
+                        Application.Current.Shutdown();
+                        break;
+                }
+
+            }
+
+            string nas = RechercheCheminDansFichierXml(monFichier);
+            string lockFile = RechercheCheminDansFichierXmlLock(monFichier);
             if (File.Exists(lockFile))
             {
                 messageBoxText = "Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable";
