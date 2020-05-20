@@ -26,7 +26,7 @@ using System.Xml;
 
 namespace TraiteurBernardWPF
 {
-
+    
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -34,9 +34,11 @@ namespace TraiteurBernardWPF
     public partial class MainWindow : Window
     {
         XmlDocument monFichier = new XmlDocument();
+        private static string xmlNas = @"C:\eixa6\nas.xml";
         public MainWindow()
         {
-          
+
+            
             string nas = RechercheCheminDansFichierXml(monFichier);
             string lockFile = RechercheCheminDansFichierXmlLock(monFichier);
             string messageBoxText = "";
@@ -83,11 +85,22 @@ namespace TraiteurBernardWPF
             {
                 try
                 {
-                    System.IO.File.Delete(local);
-                    System.IO.File.Copy(nas, local);
-                    messageBoxText = "Le fichier de données a été récupéré sur le NAS.";
-                    caption = "Récupération des données";
-                    MessageBox.Show(messageBoxText, caption, button, iconI);
+                    if (File.GetLastWriteTime(MainWindow.RechercheCheminDansFichierXmlDbFichier(monFichier)) >= File.GetLastWriteTime(local))
+                    {
+                        System.IO.File.Delete(local);
+                        System.IO.File.Copy(nas, local);
+                        messageBoxText = "Le fichier de données a été récupéré sur le NAS.";
+                        caption = "Récupération des données";
+                        MessageBox.Show(messageBoxText, caption, button, iconI);
+                    }
+                    else
+                    {
+                        System.IO.File.Delete(nas);
+                        System.IO.File.Copy(local, nas);
+                        messageBoxText = "Le fichier de données a été récupéré sur le NAS.";
+                        caption = "Récupération des données";
+                        MessageBox.Show(messageBoxText, caption, button, iconI);
+                    }
                 }
                 catch (System.IO.IOException a)
                 {
@@ -101,9 +114,18 @@ namespace TraiteurBernardWPF
             }
             else
             {
-                messageBoxText = "Problème avec le fichier de données! Contacter EIXA6 Informatique";
+                messageBoxText = "Vous n'avez pas acces au NAS voulez-vous travailer en local ?";
                 caption = "Alerte";
-                MessageBox.Show(messageBoxText, caption, button, iconW);
+                var res = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNo, iconW);
+                switch (res)
+                {
+                    case MessageBoxResult.Yes:
+                        return;
+                        break;
+                    case MessageBoxResult.No:
+                        Close();
+                        break;
+                }
                 LogHelper.WriteToFile("Probleme de fichier db dans le nas verifier le nas et le XML c:/eixa6/nas.xml", "MainWindow.xaml.cs");
                 return;
             }
@@ -116,7 +138,7 @@ namespace TraiteurBernardWPF
 
         private static string RechercheCheminDansFichierXml(XmlDocument monFichier)
         {
-            monFichier.Load(@"C:\eixa6\nas.xml");
+            monFichier.Load(xmlNas);
             XmlNodeList Nas = monFichier.GetElementsByTagName("dbFile");
             string nas = "";
             foreach (XmlNode n in Nas)
@@ -128,7 +150,7 @@ namespace TraiteurBernardWPF
 
         private static string RechercheCheminDansFichierXmlLock(XmlDocument monFichier)
         {
-            monFichier.Load(@"C:\eixa6\nas.xml");
+            monFichier.Load(xmlNas);
             XmlNodeList Nas = monFichier.GetElementsByTagName("lock");
             string nas = "";
             foreach (XmlNode n in Nas)
@@ -279,7 +301,7 @@ namespace TraiteurBernardWPF
 
         private static string RechercheCheminDansFichierXmlCheminNas(XmlDocument monFichier)
         {
-            monFichier.Load(@"C:\eixa6\nas.xml");
+            monFichier.Load(xmlNas);
             XmlNodeList Nas = monFichier.GetElementsByTagName("chemin");
             string fileName = "";
             foreach (XmlNode n in Nas)
@@ -290,7 +312,7 @@ namespace TraiteurBernardWPF
         }
         private static string RechercheCheminDansFichierXmlDbFichier(XmlDocument monFichier)
         {
-            monFichier.Load(@"C:\eixa6\nas.xml");
+            monFichier.Load(xmlNas);
             XmlNodeList Nas = monFichier.GetElementsByTagName("dbFile");
             string nas = "";
             foreach (XmlNode n in Nas)
@@ -315,7 +337,7 @@ namespace TraiteurBernardWPF
                 mois = "0" + date.Month;
             }
             dateStr = jour + mois + annee;
-            monFichier.Load(@"C:\eixa6\nas.xml");
+            monFichier.Load(xmlNas);
             XmlNodeList Nas = monFichier.GetElementsByTagName("oldDbFile");
             string nasNew = "";
             foreach (XmlNode n in Nas)
@@ -816,8 +838,7 @@ namespace TraiteurBernardWPF
                     LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
                     Console.WriteLine(a.Message);
                     return;
-                }
-
+                }     
             }
             File.Delete(MainWindow.RechercheCheminDansFichierXmlLock(monFichier));
         }
