@@ -104,7 +104,8 @@ namespace TraiteurBernardWPF.Gui
                         SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
                         wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiVille.png", UriKind.RelativeOrAbsolute)));
                         WinFormWpf.CornerTopLeftToParent(wpf, this);
-                        wpf.ShowDialog();
+                        wpf.ShowDialog(); 
+                       
                     }
                     else if (this.Edite.Tournee.Nom == "contre-tournée")
                     {

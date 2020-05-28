@@ -25,7 +25,6 @@
                     </ItemsPanelTemplate>
                 </Menu.ItemsPanel>
                 <MenuItem Header="_Fichier">
-                    <MenuItem Header="_Enregistrer" Click="MenuItem_Enregistrer_Click" />
                     <MenuItem Header="_Quitter" Click="MenuItem_Quitter_Click" />
                 </MenuItem>
                 <MenuItem Header="_Personne">

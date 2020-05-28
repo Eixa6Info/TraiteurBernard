@@ -491,15 +491,19 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
+            
                 DataGrid gd = (DataGrid)sender;
                 var row_selected = gd.SelectedItem as Personne;
                 List<int> jour = new List<int>();
                 List<int> numSemaine = new List<int>();
                 List<int> annee = new List<int>();
+                List<int> jourLivraison = new List<int>();
                 int intAnnee = 0;
                 int intMois = 0;
                 int resMois = 0;
                 int intJour = 0;
+                int intJourLivraison = 0;
+
 
                 IQueryable<Saisie> req = from t in db.Saisies
                                          select t;
@@ -511,8 +515,13 @@ namespace TraiteurBernardWPF.Gui
                         jour.Add(p.Jour);
                         annee.Add(p.Annee);
                         numSemaine.Add(p.Semaine);
+                       // jourLivraison.Add(Int32.Parse(p.Personne.Tournee.JoursLivraisonsRepas.ToString()));
 
-
+                        foreach (int aJourLivraison in jourLivraison)
+                        {
+                            intJourLivraison = aJourLivraison;
+                            Console.WriteLine("Jour de Livraison = " + intJourLivraison);
+                        }
                         foreach (int aAnnee in annee)
                         {
                             intAnnee = aAnnee;
@@ -567,14 +576,19 @@ namespace TraiteurBernardWPF.Gui
                         }
                         if (intAnnee != 0 && resMois != 0 && intJour != 0)
                         {
+               
                             Console.WriteLine("annee: " + intAnnee);
                             Console.WriteLine("mois: " + resMois);
                             Console.WriteLine("jour: " + intJour);
-
+                            Console.WriteLine("jour de livraison: " + intJourLivraison);
+                            //calendar.BlackoutDates.Add(new CalendarDateRange(new DateTime(intAnnee, resMois, intJour)));
                             calendar.SelectedDates.Add(new DateTime(intAnnee, resMois, intJour));
+                            calendar.BlackoutDates.Add(new CalendarDateRange(new DateTime(intJourLivraison)));
                             calendar.DisplayDate = new DateTime(intAnnee, resMois, intJour);
-
+                            
+                            
                         }
+
                     }
                 }
             }

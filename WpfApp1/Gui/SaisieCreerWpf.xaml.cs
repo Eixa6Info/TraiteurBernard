@@ -176,6 +176,9 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // Modification demo calendrier
+            SaisieCreerCalendrierWpf wpf1 = new SaisieCreerCalendrierWpf();
+            wpf1.Show();
             this.GenererLinterface();
 
             // On regarde si il y a déjà une saisie existante pour cette personne a cette semaine
