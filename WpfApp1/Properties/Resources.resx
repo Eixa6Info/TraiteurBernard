@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,84 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="MessageLogCopyFichierDbLocalToNas" xml:space="preserve">
+    <value>Le fichier traiteur.db est copier de local au nas</value>
+  </data>
+  <data name="MessageLogCopyLocalToNas" xml:space="preserve">
+    <value>Le fichier de base de données a été copier du local vers le dossier nas</value>
+  </data>
+  <data name="MessageLogCopyNasToLocal" xml:space="preserve">
+    <value>Le fichier de base de données a été copier du nas vers le dossier local</value>
+  </data>
+  <data name="MessageLogDeuxiemeSauvegarde" xml:space="preserve">
+    <value>Deuxieme sauvegarde sur le nas OK</value>
+  </data>
+  <data name="MessageLogFichierDbPasSurNasIlCoupe" xml:space="preserve">
+    <value>Le fichier traiteur.db n'exitse pas sur le nas il coupe l'application</value>
+  </data>
+  <data name="MessageLogFichierDbPasSurNasTravailEnLocal" xml:space="preserve">
+    <value>Le fichier traiteur.db n'exitse pas sur le nas mais il travail en local</value>
+  </data>
+  <data name="MessageLogFichierDbSaveLocalPasNas" xml:space="preserve">
+    <value>Le fichier traiteur.db est enregistrer en local pas sur le nas</value>
+  </data>
+  <data name="MessageLogFichierLockExiste" xml:space="preserve">
+    <value>Le fichier lock existe.</value>
+  </data>
+  <data name="MessageLogFichierLockExistePas" xml:space="preserve">
+    <value>Le fichier lock n'existe pas, il est créé.</value>
+  </data>
+  <data name="MessageLogFichierLockKo" xml:space="preserve">
+    <value>Le fichier lock est present il quitte l'application.</value>
+  </data>
+  <data name="MessageLogFichierLockOk" xml:space="preserve">
+    <value>Le fichier lock est present il force le lancement de l'application.</value>
+  </data>
+  <data name="MessageLogSauvegardeLocalToNas" xml:space="preserve">
+    <value>Le fichier traiteur.db est bien sauvegarder sur le nas</value>
+  </data>
+  <data name="MessageLogXmlNoLocal" xml:space="preserve">
+    <value>Le fichier nas.xml est pas present il coupe l'application pour parametrer le nas.xml.</value>
+  </data>
+  <data name="MessageLogXmlYesLocal" xml:space="preserve">
+    <value>Le fichier nas.xml est pas present il travail en local.</value>
+  </data>
+  <data name="MessagePopUpCopyFichierDbLocalToNas" xml:space="preserve">
+    <value>Le fichier de données est enregistré sur le NAS.</value>
+  </data>
+  <data name="MessagePopUpCopyLocalToNas" xml:space="preserve">
+    <value>Le fichier de données a été récupéré sur le NAS.</value>
+  </data>
+  <data name="MessagePopUpCopyNasToLocal" xml:space="preserve">
+    <value>Le fichier de données a été récupéré sur le NAS.</value>
+  </data>
+  <data name="MessagePopUpEixa6Alerte" xml:space="preserve">
+    <value>Problème avec le fichier de données! Contacter EIXA6 Informatique</value>
+  </data>
+  <data name="MessagePopUpFicherLockExiste" xml:space="preserve">
+    <value>Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable.</value>
+  </data>
+  <data name="MessagePopUpNasExistePas" xml:space="preserve">
+    <value>Vous n'avez pas acces au NAS voulez-vous travailer en local ?</value>
+  </data>
+  <data name="MessagePopUpSauvegardeLocalToNas" xml:space="preserve">
+    <value>Le fichier de données est enregistré sur le NAS.</value>
+  </data>
+  <data name="MessagePopUpXml" xml:space="preserve">
+    <value>Le fichier de configuration du nas n'est pas créé voulez-vous travailler en local?</value>
+  </data>
+  <data name="MessagePopUpXmlNoLocal" xml:space="preserve">
+    <value>Veuillez configurer le fichier nas.xml</value>
+  </data>
+  <data name="TitrePopUpAlerte" xml:space="preserve">
+    <value>Alerte</value>
+  </data>
+  <data name="TitrePopUpInfo" xml:space="preserve">
+    <value>Information</value>
+  </data>
 </root>

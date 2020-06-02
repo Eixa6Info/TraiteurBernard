@@ -59,5 +59,230 @@ namespace TraiteurBernardWPF.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est copier de local au nas.
+        /// </summary>
+        internal static string MessageLogCopyFichierDbLocalToNas {
+            get {
+                return ResourceManager.GetString("MessageLogCopyFichierDbLocalToNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier de base de données a été copier du local vers le dossier nas.
+        /// </summary>
+        internal static string MessageLogCopyLocalToNas {
+            get {
+                return ResourceManager.GetString("MessageLogCopyLocalToNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier de base de données a été copier du nas vers le dossier local.
+        /// </summary>
+        internal static string MessageLogCopyNasToLocal {
+            get {
+                return ResourceManager.GetString("MessageLogCopyNasToLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Deuxieme sauvegarde sur le nas OK.
+        /// </summary>
+        internal static string MessageLogDeuxiemeSauvegarde {
+            get {
+                return ResourceManager.GetString("MessageLogDeuxiemeSauvegarde", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db n&apos;exitse pas sur le nas il coupe l&apos;application.
+        /// </summary>
+        internal static string MessageLogFichierDbPasSurNasIlCoupe {
+            get {
+                return ResourceManager.GetString("MessageLogFichierDbPasSurNasIlCoupe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db n&apos;exitse pas sur le nas mais il travail en local.
+        /// </summary>
+        internal static string MessageLogFichierDbPasSurNasTravailEnLocal {
+            get {
+                return ResourceManager.GetString("MessageLogFichierDbPasSurNasTravailEnLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est enregistrer en local pas sur le nas.
+        /// </summary>
+        internal static string MessageLogFichierDbSaveLocalPasNas {
+            get {
+                return ResourceManager.GetString("MessageLogFichierDbSaveLocalPasNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier lock existe..
+        /// </summary>
+        internal static string MessageLogFichierLockExiste {
+            get {
+                return ResourceManager.GetString("MessageLogFichierLockExiste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier lock n&apos;existe pas, il est créé..
+        /// </summary>
+        internal static string MessageLogFichierLockExistePas {
+            get {
+                return ResourceManager.GetString("MessageLogFichierLockExistePas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier lock est present il quitte l&apos;application..
+        /// </summary>
+        internal static string MessageLogFichierLockKo {
+            get {
+                return ResourceManager.GetString("MessageLogFichierLockKo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier lock est present il force le lancement de l&apos;application..
+        /// </summary>
+        internal static string MessageLogFichierLockOk {
+            get {
+                return ResourceManager.GetString("MessageLogFichierLockOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est bien sauvegarder sur le nas.
+        /// </summary>
+        internal static string MessageLogSauvegardeLocalToNas {
+            get {
+                return ResourceManager.GetString("MessageLogSauvegardeLocalToNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml est pas present il coupe l&apos;application pour parametrer le nas.xml..
+        /// </summary>
+        internal static string MessageLogXmlNoLocal {
+            get {
+                return ResourceManager.GetString("MessageLogXmlNoLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml est pas present il travail en local..
+        /// </summary>
+        internal static string MessageLogXmlYesLocal {
+            get {
+                return ResourceManager.GetString("MessageLogXmlYesLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier de données est enregistré sur le NAS..
+        /// </summary>
+        internal static string MessagePopUpCopyFichierDbLocalToNas {
+            get {
+                return ResourceManager.GetString("MessagePopUpCopyFichierDbLocalToNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier de données a été récupéré sur le NAS..
+        /// </summary>
+        internal static string MessagePopUpCopyLocalToNas {
+            get {
+                return ResourceManager.GetString("MessagePopUpCopyLocalToNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier de données a été récupéré sur le NAS..
+        /// </summary>
+        internal static string MessagePopUpCopyNasToLocal {
+            get {
+                return ResourceManager.GetString("MessagePopUpCopyNasToLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Problème avec le fichier de données! Contacter EIXA6 Informatique.
+        /// </summary>
+        internal static string MessagePopUpEixa6Alerte {
+            get {
+                return ResourceManager.GetString("MessagePopUpEixa6Alerte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable..
+        /// </summary>
+        internal static string MessagePopUpFicherLockExiste {
+            get {
+                return ResourceManager.GetString("MessagePopUpFicherLockExiste", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Vous n&apos;avez pas acces au NAS voulez-vous travailer en local ?.
+        /// </summary>
+        internal static string MessagePopUpNasExistePas {
+            get {
+                return ResourceManager.GetString("MessagePopUpNasExistePas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier de données est enregistré sur le NAS..
+        /// </summary>
+        internal static string MessagePopUpSauvegardeLocalToNas {
+            get {
+                return ResourceManager.GetString("MessagePopUpSauvegardeLocalToNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le fichier de configuration du nas n&apos;est pas créé voulez-vous travailler en local?.
+        /// </summary>
+        internal static string MessagePopUpXml {
+            get {
+                return ResourceManager.GetString("MessagePopUpXml", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Veuillez configurer le fichier nas.xml.
+        /// </summary>
+        internal static string MessagePopUpXmlNoLocal {
+            get {
+                return ResourceManager.GetString("MessagePopUpXmlNoLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Alerte.
+        /// </summary>
+        internal static string TitrePopUpAlerte {
+            get {
+                return ResourceManager.GetString("TitrePopUpAlerte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Information.
+        /// </summary>
+        internal static string TitrePopUpInfo {
+            get {
+                return ResourceManager.GetString("TitrePopUpInfo", resourceCulture);
+            }
+        }
     }
 }

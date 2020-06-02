@@ -491,18 +491,37 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
+            
                 DataGrid gd = (DataGrid)sender;
                 var row_selected = gd.SelectedItem as Personne;
                 List<int> jour = new List<int>();
                 List<int> numSemaine = new List<int>();
                 List<int> annee = new List<int>();
+                List<string> jourLivraison = new List<string>();
+                List<string> jourRepas1 = new List<string>();
+                List<string> jourRepas2 = new List<string>();
+                List<string> jourRepas3 = new List<string>();
                 int intAnnee = 0;
                 int intMois = 0;
                 int resMois = 0;
                 int intJour = 0;
+              
 
                 IQueryable<Saisie> req = from t in db.Saisies
                                          select t;
+
+                IQueryable<Livraison> reqLiv = from t in db.Livraisons
+                                                     select t;
+
+                foreach (Livraison t in reqLiv)
+                {
+                    jourLivraison.Add(t.JourLivraison);
+                    jourRepas1.Add(t.JourRepas1);
+                    jourRepas2.Add(t.JourRepas2);
+                    jourRepas3.Add(t.JourRepas3);
+                }
+
+               
 
                 foreach (Saisie p in req)
                 {
@@ -511,8 +530,8 @@ namespace TraiteurBernardWPF.Gui
                         jour.Add(p.Jour);
                         annee.Add(p.Annee);
                         numSemaine.Add(p.Semaine);
-
-
+                       // jourLivraison.Add(Int32.Parse(p.Personne.Tournee.JoursLivraisonsRepas.ToString()));
+                      
                         foreach (int aAnnee in annee)
                         {
                             intAnnee = aAnnee;
@@ -567,14 +586,20 @@ namespace TraiteurBernardWPF.Gui
                         }
                         if (intAnnee != 0 && resMois != 0 && intJour != 0)
                         {
+               
                             Console.WriteLine("annee: " + intAnnee);
                             Console.WriteLine("mois: " + resMois);
                             Console.WriteLine("jour: " + intJour);
-
+                            Console.WriteLine("jour de livraison: " );
+                            Console.WriteLine("JoursDeLivraisonsrepas" + p.Tournee.JoursLivraisonsRepas);
+                            //calendar.BlackoutDates.Add(new CalendarDateRange(new DateTime(intAnnee, resMois, intJour)));
                             calendar.SelectedDates.Add(new DateTime(intAnnee, resMois, intJour));
+                            calendar.BlackoutDates.Add(new CalendarDateRange(new DateTime()));
                             calendar.DisplayDate = new DateTime(intAnnee, resMois, intJour);
-
+                            
+                            
                         }
+
                     }
                 }
             }
