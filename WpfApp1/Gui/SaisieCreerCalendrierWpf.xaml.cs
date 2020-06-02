@@ -24,5 +24,10 @@ namespace TraiteurBernardWPF.Gui
         {
             InitializeComponent();
         }
+
+        private void calendar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("la date");
+        }
     }
 }

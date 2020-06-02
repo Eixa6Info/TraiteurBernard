@@ -8,7 +8,7 @@
       Title="Calendrier" Width="352" Height="448">
 
     <Grid>
-        <Calendar x:Name="calendar" Margin="29,30,30,0" SelectionMode="MultipleRange" Foreground="#DD000000" Height="362" VerticalAlignment="Top" >
+        <Calendar x:Name="calendar" Margin="29,30,30,0" SelectionMode="MultipleRange" Foreground="#DD000000" Height="362" VerticalAlignment="Top" MouseDoubleClick="calendar_MouseDoubleClick" >
             <Calendar.Background>
                 <ImageBrush/>
             </Calendar.Background>

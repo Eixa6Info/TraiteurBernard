@@ -40,6 +40,8 @@ namespace TraiteurBernardWPF.PDF
         private static double menuYBottom;
 
         private static int semaine;
+        private static int semaineN1;
+        private static bool calculSemaine = true;
         private static string namePdf;
         private static string output;
         private static PDDocument document;
@@ -68,8 +70,12 @@ namespace TraiteurBernardWPF.PDF
         menuYTopNoDay = getY(79);
         menuYBottom = getY(14);
 
-        //Définition de la semaine
-        CreatePDF.semaine = semaine;
+            //Définition de la semaine
+            CreatePDF.semaine = semaine;
+            
+            CreatePDF.semaineN1 = semaine + 1;
+           
+        
 
         // Si c'est pour la saisie ou le menu
         if(printSaisieBool == true)
@@ -78,7 +84,7 @@ namespace TraiteurBernardWPF.PDF
         }
         else
         {
-            namePdf = "menus_" + semaine + "_" + annee + ".pdf";
+            namePdf = "menus_" + semaine +"&"+ semaineN1 + "_" + annee + ".pdf";
         }
         //Demande a l'utilisateur de choisir ou enregistrer    
         if (!getPath())
@@ -92,21 +98,27 @@ namespace TraiteurBernardWPF.PDF
         //Création du document
         document = new PDDocument();
 
-            /*  //Print de tout les page du midi
-              printMidi(annee, printSaisieBool);
+           
+            
+            // midi ville 1 2
+            PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine impaire
+            PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine paire
+            // soir ville 1 2
+            PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine impaire
+            PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine paire
+            // midi contre tournée
+            PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
+            PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+            // soir contre tournée
+            PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
+            PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+            //midi marennes
+            PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine impaire
+            PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine paire
+            // soir marennes
+            PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine impaire
+            PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine paire
 
-              //Print de tout les page du soir
-              printSoir(annee, printSaisieBool);
-      */
-
-            PrintMidiVille1ou2(annee, printSaisieBool);
-            PrintSoirVille1ou2(annee, printSaisieBool);
-
-            PrintMidiContreTournee(annee, printSaisieBool);
-            PrintSoirContreTournee(annee, printSaisieBool);
-
-            PrintMidiMarennes(annee, printSaisieBool);
-            PrintSoirMarennes(annee, printSaisieBool);
 
             //Saving the document
             document.save(output);
@@ -179,7 +191,7 @@ namespace TraiteurBernardWPF.PDF
 
             //Ajout des menus ou des saisies dans les case
             // TODO : à revoir l'affichage des compositions
-            printSaisie("","", annee, true);
+            printSaisie("","", annee, semaine, true);
 
             //Ajout de toute les infirmation
             printJoursT1();
@@ -209,19 +221,19 @@ namespace TraiteurBernardWPF.PDF
      *
      * @throws IOException ...
      */
-    private static void printMidi(int annee, bool printSaisieBool)
+    private static void printMidi(int annee, int semaine, bool printSaisieBool)
         {
-            PrintMidiVille1ou2(annee, printSaisieBool);
+            PrintMidiVille1ou2(annee, semaine, printSaisieBool);
 
-            PrintMidiContreTournee(annee, printSaisieBool);
+            PrintMidiContreTournee(annee, semaine,  printSaisieBool);
 
-            PrintMidiMarennes(annee, printSaisieBool);
+            PrintMidiMarennes(annee, semaine, printSaisieBool);
         }
 
-        private static void PrintMidiMarennes(int annee, bool printSaisieBool)
+        private static void PrintMidiMarennes(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, printSaisieBool,"Marennes");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool,"Marennes");
 
             //Définition des jour de livraison
             jour1Livraison = "samedi";
@@ -234,19 +246,28 @@ namespace TraiteurBernardWPF.PDF
             //Print des jours de livraison
             printJoursT3();
 
+            if (calculSemaine == true)
+            {
+                calculSemaine = false;
+            }
+            else
+            {
+                calculSemaine = true;
+            }
+
             //Close de la page
             contentStream.close();
         }
 
-        private static void PrintMidiContreTournee(int annee, bool printSaisieBool)
+        private static void PrintMidiContreTournee(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, printSaisieBool,"contre-tournée");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool,"contre-tournée");
 
             //Définition des jour de livraison
-            jour1Livraison = "lundi après midi";
-            jour2Livraison = "mercredi après midi";
-            jour3Livraison = "vendredi après midi";
+            jour1Livraison = "lundi";
+            jour2Livraison = "mercredi";
+            jour3Livraison = "vendredi";
 
             //Print du header de livraison
             printLivraison();
@@ -254,17 +275,41 @@ namespace TraiteurBernardWPF.PDF
             //Print des jours de livraison
             printJoursT2();
 
+            if (calculSemaine == true)
+            {
+                calculSemaine = false;
+            }
+            else
+            {
+                calculSemaine = true;
+            }
+
             //Close de la page
             contentStream.close();
         }
 
-        private static void PrintMidiVille1ou2(int annee, bool printSaisieBool)
+        private static void PrintMidiVille1ou2(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, printSaisieBool, "ville 1", "ville 2");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool, "ville 1", "ville 2");
+            jour3Livraison = "vendredi";
+
+            //Print du header de livraison
+            printLivraisonVille1et2();
 
             //Ajout de toute les infirmation
             printJoursT1();
+
+            // On passe a la semaine d'apres ou d'avant
+
+            if (calculSemaine == false)
+            {
+                calculSemaine = true;
+            }
+            else
+            {
+                calculSemaine = false;
+            }
 
             //Close de la page
             contentStream.close();
@@ -275,19 +320,19 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void printSoir(int annee, bool printSaisieBool)
+        private static void printSoir(int annee, int semaine, bool printSaisieBool)
         {
-            PrintSoirVille1ou2(annee, printSaisieBool);
+            PrintSoirVille1ou2(annee, semaine, printSaisieBool);
 
-            PrintSoirContreTournee(annee, printSaisieBool);
+            PrintSoirContreTournee(annee, semaine, printSaisieBool);
 
-            PrintSoirMarennes(annee, printSaisieBool);
+            PrintSoirMarennes(annee, semaine,  printSaisieBool);
         }
 
-        private static void PrintSoirMarennes(int annee, bool printSaisieBool)
+        private static void PrintSoirMarennes(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, printSaisieBool,"Marennes");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool,"Marennes");
 
             //Définition des jour de livraison
             jour1Livraison = "samedi";
@@ -300,19 +345,28 @@ namespace TraiteurBernardWPF.PDF
             //Print des jours de livraison
             printSoirT3();
 
+            if (calculSemaine == true)
+            {
+                calculSemaine = false;
+            }
+            else
+            {
+                calculSemaine = true;
+            }
+
             //Close de la page
             contentStream.close();
         }
 
-        private static void PrintSoirContreTournee(int annee, bool printSaisieBool)
+        private static void PrintSoirContreTournee(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, printSaisieBool,"contre-tournée");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool,"contre-tournée");
 
             //Définition des jour de livraison
-            jour1Livraison = "lundi après midi";
-            jour2Livraison = "mercredi après midi";
-            jour3Livraison = "vendredi après midi";
+            jour1Livraison = "lundi";
+            jour2Livraison = "mercredi";
+            jour3Livraison = "vendredi";
 
             //Print du header de livraison
             printLivraisonSoir();
@@ -320,17 +374,38 @@ namespace TraiteurBernardWPF.PDF
             //Print des jours de livraison
             printSoirT2();
 
+            if (calculSemaine == true)
+            {
+                calculSemaine = false;
+            }
+            else
+            {
+                calculSemaine = true;
+            }
+
             //Close de la page
             contentStream.close();
         }
 
-        private static void PrintSoirVille1ou2(int annee, bool printSaisieBool)
+        private static void PrintSoirVille1ou2(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, printSaisieBool,"ville 1","ville 2");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool,"ville 1","ville 2");
+            jour3Livraison = "vendredi";
+
+            printLivraisonSoirVille1et2();
 
             //Ajout de toute les infirmation
             printSoirT1();
+
+            if (calculSemaine == true)
+            {
+                calculSemaine = false;
+            }
+            else
+            {
+                calculSemaine = true;
+            }
 
             //Close de la page
             contentStream.close();
@@ -342,7 +417,7 @@ namespace TraiteurBernardWPF.PDF
          * sinon on print les menu
          * @throws IOException ...
          */
-        private static void newPageAndPrintAllForMidi(int annee, bool printSaisieBool, string tournee1, string tournee2="") 
+        private static void newPageAndPrintAllForMidi(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2="") 
     {
         //Récup du document
         getDocument();
@@ -357,8 +432,15 @@ namespace TraiteurBernardWPF.PDF
         printColumn();
 
         //Ajout du header
-        printHeader();
-
+        if (calculSemaine == true)
+        {
+            printHeader();
+        }
+        else
+        {
+            printHeaderN1();
+        }
+        
         //Ajout des mention de reserve
         printReserve();
 
@@ -372,20 +454,22 @@ namespace TraiteurBernardWPF.PDF
         printDescLine();
 
         //Ajout des menus ou des saisies dans les case
-        if (printSaisieBool) printSaisie(tournee1, tournee2, annee);
+        if (printSaisieBool) printSaisie(tournee1, tournee2, annee, semaine);
         else printMenu();
 
         // On enleve le 'a remettre avant le 
         //Ajout de la date en haut
         //printDateOnTop();
+
+        
     }
 
-    /**
-     * Function identique a toute les page du midi
-     *
-     * @throws IOException ...
-     */
-    private static void newPageAndPrintAllForSoir(int annee, bool printSaisieBool, string tournee1, string tournee2="") 
+        /**
+         * Function identique a toute les page du midi
+         *
+         * @throws IOException ...
+         */
+        private static void newPageAndPrintAllForSoir(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2="") 
     {
         //Récup du document
         getDocument();
@@ -400,7 +484,14 @@ namespace TraiteurBernardWPF.PDF
         printColumnSoir();
 
         //Ajout du header
-        printHeader();
+        if (calculSemaine == true)
+            {
+                printHeader();
+            }
+            else
+            {
+                printHeaderN1();
+            }
 
             //Ajout des mentions de reserve
             if (!printSaisieBool) printReserveSoir();
@@ -414,13 +505,15 @@ namespace TraiteurBernardWPF.PDF
         //Ajout des description a gauche du tableaux
         printDescLineSoir();
 
+
         //Ajout des menus ou des saisies dans les case
-        if (printSaisieBool) printSaisieSoir(annee, tournee1, tournee2);
+        if (printSaisieBool) printSaisieSoir(annee, semaine, tournee1, tournee2);
         else printMenuSoir();
 
         // On enleve le 'a remettre avant le 
         //Ajout de la date en haut
         //printDateOnTop();
+        
     }
 
         /**
@@ -429,6 +522,32 @@ namespace TraiteurBernardWPF.PDF
          * @throws IOException ...
          */
         public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Wednesday - jan1.DayOfWeek;
+
+            // Use first Thursday in January to get first week of the year as
+            // it will never be in Week 52/53
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = weekOfYear;
+            // As we're adding days to a date in Week 1,
+            // we need to subtract 1 in order to get the right date for week #1
+            if (firstWeek == 1)
+            {
+                weekNum -= 1;
+            }
+
+            // Using the first Thursday as starting week ensures that we are starting in the right year
+            // then we add number of weeks multiplied with days
+            var result = firstThursday.AddDays(weekNum * 7);
+
+            // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
+            return result.AddDays(-3);
+        }
+        public static DateTime FirstDateOfWeekContreTourneeISO8601(int year, int weekOfYear)
         {
             DateTime jan1 = new DateTime(year, 1, 1);
             int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
@@ -458,8 +577,18 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintCenter1(printJourOuSoir fct)
         {
             DateTime today = DateTime.Today;
+            DateTime laDate;
 
-            DateTime laDate = FirstDateOfWeekISO8601(today.Year, semaine);
+            if (calculSemaine == true)
+            {
+                laDate = FirstDateOfWeekISO8601(today.Year, semaine);
+            }
+            else
+            {
+                laDate = FirstDateOfWeekISO8601(today.Year, semaineN1);
+            }
+
+             
 
             var sdf = new DateTimeFormatInfo();
 
@@ -514,6 +643,7 @@ namespace TraiteurBernardWPF.PDF
             laDate = laDate.AddDays(1);
             fct(laDate, sdf, text, fontSize, column);
         }
+
         private static void printJoursT1() 
         {
             PrintCenter1(printCenterDay);
@@ -528,7 +658,16 @@ namespace TraiteurBernardWPF.PDF
         {
             DateTime today = DateTime.Today;
 
-            DateTime laDate = FirstDateOfWeekISO8601(today.Year, semaine);
+            DateTime laDate;
+
+            if (calculSemaine == true)
+            {
+                laDate = FirstDateOfWeekContreTourneeISO8601(today.Year, semaine);
+            }
+            else
+            {
+                laDate = FirstDateOfWeekContreTourneeISO8601(today.Year, semaineN1);
+            }
 
             var sdf = new DateTimeFormatInfo();
 
@@ -575,6 +714,7 @@ namespace TraiteurBernardWPF.PDF
 
             fct(laDate, sdf, text, fontSize, column);
         }
+
         private static void printJoursT2() 
         {
 
@@ -602,28 +742,29 @@ namespace TraiteurBernardWPF.PDF
             PrintCenter1(printCenterDaySoir);
         }
 
-    /**
-     * Print sur le PDF des Soir pour la page 2 (Tourner 2)
-     *
-     * @throws IOException ...
-     */
-    private static void printSoirT2()
+        /**
+         * Print sur le PDF des Soir pour la page 2 (Tourner 2)
+         *
+         * @throws IOException ...
+         */
+        private static void printSoirT2()
         {
             PrintCenter2(printCenterDaySoir);
 
         }
 
-    /**
-     * Print sur le PDF des Soir pour la page 3 (Tourner 3)
-     *
-     * @throws IOException ...
-     */
-    private static void printSoirT3() 
+        /**
+         * Print sur le PDF des Soir pour la page 3 (Tourner 3)
+         *
+         * @throws IOException ...
+         */
+        private static void printSoirT3() 
     {
         printSoirT1();
     }
-
+  
      delegate void printJourOuSoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column);
+     
     
     /**
      * Print des date de consomation des plats
@@ -667,7 +808,17 @@ namespace TraiteurBernardWPF.PDF
      */
     private static void printMenu()
     {
-        List<Menu> menus = MenuDao.getAllFromWeek(semaine);
+            List<Menu> menus = new List<Menu>();
+
+            if (calculSemaine == false)
+            {
+                 menus = MenuDao.getAllFromWeek(semaineN1);
+            }
+            else
+            {
+                 menus = MenuDao.getAllFromWeek(semaine);
+            }
+        
 
             foreach(var menu in menus)
      {
@@ -742,7 +893,7 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Fonctio, pout ptiny les plats et quantités de toutes les saises
         */
-        private static void printSaisie(string tournee1, string tournee2, int annee,bool composition = false)
+        private static void printSaisie(string tournee1, string tournee2, int annee, int semaine, bool composition = false)
         {
             BaseContext db = new BaseContext();
                
@@ -874,9 +1025,18 @@ namespace TraiteurBernardWPF.PDF
          */
         private static void printMenuSoir()
         {
-            List<Menu> menus = MenuDao.getAllFromWeek(semaine);
+            List<Menu> menus = new List<Menu>();
 
-            foreach(Menu menu in menus)
+            if (calculSemaine == false)
+            {
+                menus = MenuDao.getAllFromWeek(semaineN1);
+            }
+            else
+            {
+                menus = MenuDao.getAllFromWeek(semaine);
+            }
+
+            foreach (Menu menu in menus)
             {
                 if(menu == null)
                 {
@@ -944,7 +1104,7 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Function pour print les Plats de tout les Menus
          */
-        private static void printSaisieSoir(int annee, string tournee1,string tournee2)
+        private static void printSaisieSoir(int annee, int semaine, string tournee1,string tournee2)
         {
 
             BaseContext db = new BaseContext();
@@ -1222,12 +1382,28 @@ namespace TraiteurBernardWPF.PDF
         drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3);
     }
 
-    /**
-     * Print des jour de livraison en haut du tableux
-     *
-     * @throws IOException ...
-     */
-    private static void printLivraisonSoir() 
+
+        private static void printLivraisonVille1et2()
+        {
+            //Top Bar Livraison
+            drawLine(getX(columnSpace * 8), getX(columnSpace * 5), menuYTop, menuYTop);
+            drawLine(getX(columnSpace * 5), getX(columnSpace * 5), menuYTop, menuYTopNoLivraison);
+
+            String baseText = "Livraison le ";
+            String text3 = baseText + jour3Livraison;
+            double fontSize = 12;
+
+            //drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, "", fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), "");
+            //drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, "", fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), "");
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3);
+        }
+
+        /**
+         * Print des jour de livraison en haut du tableux
+         *
+         * @throws IOException ...
+         */
+        private static void printLivraisonSoir() 
     {
         //Top Bar Livraison
         drawLine(getX(columnSpace), getX(columnSpace * 8), getY(82), getY(82));
@@ -1246,12 +1422,26 @@ namespace TraiteurBernardWPF.PDF
         drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3);
     }
 
-    /**
-     * Print de toute les column
-     *
-     * @throws IOException ...
-     */
-    private static void printColumn()
+        private static void printLivraisonSoirVille1et2()
+        {
+            //Top Bar Livraison
+            drawLine(getX(columnSpace*8), getX(columnSpace * 5), getY(82), getY(82));
+            drawLine(getX(columnSpace * 5), getX(columnSpace * 5), getY(79), menuYTopNoLivraison);
+
+            String baseText = "Livraison le ";
+
+            String text3 = baseText + jour3Livraison;
+            double fontSize = 12;
+
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3);
+        }
+
+        /**
+         * Print de toute les column
+         *
+         * @throws IOException ...
+         */
+        private static void printColumn()
     {
         for (int i = 0; i < 7; i++) {
             //Left bar Jour 1
@@ -1321,7 +1511,7 @@ namespace TraiteurBernardWPF.PDF
         drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text);
 
         for (int i = 0; i < 7; i++) {
-            text = "Fromage".ToUpper();
+            text = "Fromage";
             drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * (1 + i), columnSpace * (1 + i + 1) - (choiceSize / maxX * 100), NORMAL, text, fontSize), getMiddelofYBetweenTowPoint(24, 27, NORMAL, fontSize), text);
         }
 
@@ -1357,20 +1547,30 @@ namespace TraiteurBernardWPF.PDF
      */
     private static void printHeader() 
     {
-        //Ligne de changement
-        drawText(BOLD, 12, getX(0) + 2, getY(93),
-                "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
-                "NOM et ADRESSE : ..........................................          TELEPHONE : ..........................................          PAIN : OUI / NON               SEMAINE : " + CreatePDF.semaine);
+            //Ligne de changement
+            drawText(BOLD, 12, getX(0) + 2, getY(93),
+                    "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
+                    "NOM et ADRESSE : ..........................................          TELEPHONE : ..........................................          PAIN : OUI / NON               SEMAINE : " + CreatePDF.semaine);
         drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
         drawLine(getX(0), getX(100), getY(88), getY(88));
     }
 
-    /**
-     * Function de print pour le cadre (quatre ligne)
-     *
-     * @throws IOException ...
-     */
-    private static void printCadre() { 
+        private static void printHeaderN1()
+        {
+            //Ligne de changement
+            drawText(BOLD, 12, getX(0) + 2, getY(93),
+                    "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
+                    "NOM et ADRESSE : ..........................................          TELEPHONE : ..........................................          PAIN : OUI / NON               SEMAINE : " + CreatePDF.semaineN1);
+            drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
+            drawLine(getX(0), getX(100), getY(88), getY(88));
+        }
+
+        /**
+         * Function de print pour le cadre (quatre ligne)
+         *
+         * @throws IOException ...
+         */
+        private static void printCadre() { 
         //Left Line
         drawLine(getX(0), getX(0), getY(10), getY(95));
 

@@ -1,6 +1,7 @@
 ﻿using java.util;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -47,6 +48,9 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        /// 
+
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -55,15 +59,20 @@ namespace TraiteurBernardWPF.Gui
                                           select t;
 
             List<Personne> data2 = new List<Personne>();
-
+           
             foreach (Personne p in req2)
             {
                 this.db.Entry(p).Reference(s => s.Tournee).Load();
                 this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
                 this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
-                data2.Add(p);
+             
+               
+                if (p.Actif == true)
+                {
+                    data2.Add(p);
+                    data2.Sort((x, y) => string.Compare(x.Nom, y.Nom));
+                } 
             }
-
             cbPersonne.ItemsSource = data2;
         }
 

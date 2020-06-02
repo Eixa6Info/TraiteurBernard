@@ -159,7 +159,7 @@ namespace TraiteurBernardWPF.Gui
             {
                 if (this.Edite.ID == 0) this.db.Add(this.Edite);
                 this.db.SaveChanges();
-                Close();
+                Close();    
             }
             else
             {
@@ -168,6 +168,64 @@ namespace TraiteurBernardWPF.Gui
                 wpf.ShowDialog();
             }
                 
+
+        }
+
+
+        private void ValiderEtSuivant(object sender, RoutedEventArgs e)
+        {
+            // On reintialise les plats pour ne pas faire de doublons lors de l'ajout / modification
+            // des plats sur le formulaire
+            this.Edite.Plats = new HashSet<Plat>();
+
+            Dictionary<TextBox, int> txt_type = new Dictionary<TextBox, int>
+            {
+                { txtEntreeMidi, Plat.ENTREE_MIDI},
+                { txtPlat1Midi, Plat.PLAT_MIDI_1},
+                { txtPlat2Midi, Plat.PLAT_MIDI_2},
+                { txtPlat3Midi, Plat.PLAT_MIDI_3},
+                { txtDessertMidi, Plat.DESSERT_MIDI},
+                { txtEntreeSoir, Plat.ENTREE_SOIR},
+                { txtPlatSoir, Plat.PLAT_SOIR_1},
+                { txtDessertSoir, Plat.DESSERT_SOIR},
+            };
+
+            this.AjouterPlat(txt_type);
+
+            // Quelles données sont obligatoires ici ?? demander à Fabien
+            if (VerifierDonnees())
+            {
+                int semaineId = 0;
+                int jourId = 0;
+
+                if (this.Edite.ID == 0) this.db.Add(this.Edite);
+                this.db.SaveChanges();
+                semaineId = short.Parse(txtNumSemaine.Text);
+                jourId = short.Parse(txtNumJour.Text);
+
+                if (jourId > 6)
+                {
+                    jourId = 1;
+                    semaineId = semaineId + 1;
+                }
+                else
+                {
+                    jourId = jourId + 1;
+                }
+
+                InitializeComponent();
+                Title += "Création d'un menu";
+                this.db = new BaseContext();
+                this.Edite = new TraiteurBernardWPF.Modele.Menu { Plats = new HashSet<Plat>(), Jour= jourId , Semaine= semaineId};
+                edition.DataContext = this.Edite;
+            }
+            else
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf("Information indispensable", "Le numéro de la semaine et le numéro du jour sont indispensables", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+
 
         }
 

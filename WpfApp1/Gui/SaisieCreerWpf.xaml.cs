@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.TextFormatting;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
@@ -19,7 +20,8 @@ namespace TraiteurBernardWPF.Gui
 
         private BaseContext db;
         private Saisie Edite { get; set; }
-
+        SaisieCreerCalendrierWpf wpf1 = new SaisieCreerCalendrierWpf();
+        private int cal = 0;
         private ImageBrush soirBackground;
         private int colonneDepart = 1;
         private int ligneDepart = 2;
@@ -32,6 +34,9 @@ namespace TraiteurBernardWPF.Gui
 
         const int LIGNE_BAGUETTE = 2;
         const int LIGNE_POTAGE = 3;
+        const int LIGNE_PLAT1 = 5;
+        const int LIGNE_PLAT2 = 6;
+        const int LIGNE_PLAT3 = 7;
         const int LIGNE_FROMAGE = 8;
 
         private string[] itemNames = new string[8]
@@ -71,21 +76,40 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         private void GenererLinterface()
         {
+            IQueryable<TypeTournee> req = from t in db.TypeTournee
+                                       select t;
+            
             int jour = 1;
             int indexTxtNames = 0;
-
+            
             // pour chaque jour, afficher la date
             var laDate = FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine);
-
-            for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
+            // date de contre tournee
+            var laDateContreTournee = FirstDateOfWeekContreTourneeISO8601(this.Edite.Annee, this.Edite.Semaine);
+ 
+            if (Edite.Tournee.ID == 3)
             {
-                var control = (gridMain.FindName("date" + colonne) as Label);
-                control.Content =laDate.ToShortDateString();
-                laDate = laDate.AddDays(1);
-
-            }
-                // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
                 for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
+                {
+                    var control = (gridMain.FindName("date" + colonne) as Label);
+                    control.Content = laDateContreTournee.ToShortDateString();
+                    laDateContreTournee = laDateContreTournee.AddDays(1);
+                }
+            }
+            else
+            {
+                for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
+                {
+                    var control = (gridMain.FindName("date" + colonne) as Label);
+                    control.Content = laDate.ToShortDateString();
+                    laDate = laDate.AddDays(1);
+                }
+            }
+
+
+
+            // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
+            for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
             {
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
@@ -107,13 +131,12 @@ namespace TraiteurBernardWPF.Gui
                         txt.SetValue(Grid.RowProperty, ligne);
 
                         txt.TextChanged += Txt_TextChanged;
-                        txt.Tag =  new Coordonnees { Ligne = ligne, Colonne = colonne };
+                        txt.Tag = new Coordonnees { Ligne = ligne, Colonne = colonne };
 
                         gridMain.Children.Add(txt);
 
                     }
 
-                    // Combobox
                     ComboBox cb = new ComboBox
                     {
                         Width = 25,
@@ -122,21 +145,27 @@ namespace TraiteurBernardWPF.Gui
                         HorizontalAlignment = HorizontalAlignment.Right,
                         VerticalAlignment = VerticalAlignment.Top,
                         ItemsSource = new int[5] { 0, 1, 2, 3, 4 },
-                        SelectedItem = 1
                     };
+
+                    if (ligne == LIGNE_BAGUETTE || ligne == LIGNE_PLAT1 || ligne == LIGNE_PLAT2 || ligne == LIGNE_PLAT3)
+                    {
+                        cb.SelectedItem = 0;
+                    }
+                    else
+                    {
+                        cb.SelectedItem = 1;
+                    }
+
                     gridMain.RegisterName("cb" + this.itemNames[indexTxtNames++] + jour, cb);
                     cb.SetValue(Grid.ColumnProperty, colonne);
                     cb.SetValue(Grid.RowProperty, ligne);
 
                     gridMain.Children.Add(cb);
-
-
                 }
                 jour++;
                 indexTxtNames = 0;
             }
-
-
+            
         }
 
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
@@ -177,8 +206,9 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Modification demo calendrier
-            SaisieCreerCalendrierWpf wpf1 = new SaisieCreerCalendrierWpf();
-            wpf1.Show();
+            
+            this.wpf1.Show();
+            cal = 1;
             this.GenererLinterface();
 
             // On regarde si il y a déjà une saisie existante pour cette personne a cette semaine
@@ -276,9 +306,6 @@ namespace TraiteurBernardWPF.Gui
 
                 }
             }
-
-
-
 
             stateOfText = 1;
 
@@ -440,10 +467,48 @@ namespace TraiteurBernardWPF.Gui
             // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
             return result.AddDays(-3);
         }
-    }
 
+        public static DateTime FirstDateOfWeekContreTourneeISO8601(int year, int weekOfYear)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = DayOfWeek.Friday - jan1.DayOfWeek;
 
-   
+            // Use first Thursday in January to get first week of the year as
+            // it will never be in Week 52/53
+            DateTime firstThursday = jan1.AddDays(daysOffset);
+            var cal = CultureInfo.CurrentCulture.Calendar;
+            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            var weekNum = weekOfYear;
+            // As we're adding days to a date in Week 1,
+            // we need to subtract 1 in order to get the right date for week #1
+            if (firstWeek == 1)
+            {
+                weekNum -= 1;
+            }
+
+            // Using the first Thursday as starting week ensures that we are starting in the right year
+            // then we add number of weeks multiplied with days
+            var result = firstThursday.AddDays(weekNum * 7);
+
+            // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
+            return result.AddDays(-3);
+        }
+
+        private void Calendrier(object sender, EventArgs e)
+        {
+            wpf1.Show();
+        }
+
+        private void fermer(object sender, EventArgs e)
+        {
+            // fermeture du calendrier
+            this.wpf1.Close(); 
+            cal = 0;
+            // fermetur de la fenetre
+            Close();
+        }
+    }   
 }
 
 
