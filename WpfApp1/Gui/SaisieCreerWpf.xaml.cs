@@ -25,7 +25,7 @@ namespace TraiteurBernardWPF.Gui
         private ImageBrush soirBackground;
         private int colonneDepart = 1;
         private int ligneDepart = 2;
-       
+
         private int[] IDs;
 
         int nombreDeChampsPourMidi = 8;
@@ -77,16 +77,16 @@ namespace TraiteurBernardWPF.Gui
         private void GenererLinterface()
         {
             IQueryable<TypeTournee> req = from t in db.TypeTournee
-                                       select t;
-            
+                                          select t;
+
             int jour = 1;
             int indexTxtNames = 0;
-            
+
             // pour chaque jour, afficher la date
             var laDate = FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine);
             // date de contre tournee
             var laDateContreTournee = FirstDateOfWeekContreTourneeISO8601(this.Edite.Annee, this.Edite.Semaine);
- 
+
             if (Edite.Tournee.ID == 3)
             {
                 for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
@@ -165,7 +165,7 @@ namespace TraiteurBernardWPF.Gui
                 jour++;
                 indexTxtNames = 0;
             }
-            
+
         }
 
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
@@ -206,7 +206,7 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Modification demo calendrier
-            
+
             this.wpf1.Show();
             cal = 1;
             this.GenererLinterface();
@@ -245,7 +245,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if (data[ligne] != null)
                         {
-                            if (ligne != LIGNE_BAGUETTE-2 && ligne != LIGNE_POTAGE-2 && ligne != LIGNE_FROMAGE-2)
+                            if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_POTAGE - 2 && ligne != LIGNE_FROMAGE - 2)
                             {
                                 var control = (gridMain.FindName("txt" + this.itemNames[ligne] + saisie.Jour) as TextBox);
                                 control.Text = data[ligne].Libelle;
@@ -260,7 +260,7 @@ namespace TraiteurBernardWPF.Gui
                             var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
                             controlCB.SelectedItem = data[ligne].Quantite;
 
-                           
+
                         }
                         else
                         {
@@ -292,16 +292,16 @@ namespace TraiteurBernardWPF.Gui
                     for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
                     {
                         // dans les menus, n'apparaissent pas les baguettes et potages, ni le fromage
-                        if (ligne != LIGNE_BAGUETTE-2 && ligne != LIGNE_POTAGE-2 && ligne != LIGNE_FROMAGE-2)
+                        if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_POTAGE - 2 && ligne != LIGNE_FROMAGE - 2)
                         {
                             if (plats[numeroPlatCourant] != null)
                             {
                                 var control = gridMain.FindName("txt" + this.itemNames[ligne] + menu.Jour) as TextBox;
-                                control.Text = plats[numeroPlatCourant].Name; 
+                                control.Text = plats[numeroPlatCourant].Name;
                                 numeroPlatCourant++;
                             }
                         }
-                       
+
                     }
 
                 }
@@ -319,7 +319,7 @@ namespace TraiteurBernardWPF.Gui
         private void Valider(object sender, RoutedEventArgs e)
         {
             Enregistrer();
-           
+
             Close();
 
         }
@@ -386,8 +386,9 @@ namespace TraiteurBernardWPF.Gui
                     if (!donnee.Any())
                     {
                         var modifie = ChercheSiTexteModifie(ligne, colonne);
-                        saisie.data.Add(new SaisieData { Quantite = qte, Libelle = txtValue, Type = type , Modifie = modifie}); ;
-                    }else
+                        saisie.data.Add(new SaisieData { Quantite = qte, Libelle = txtValue, Type = type, Modifie = modifie }); ;
+                    }
+                    else
                     {
                         var data = donnee.First();
                         data.Quantite = qte;
@@ -395,7 +396,7 @@ namespace TraiteurBernardWPF.Gui
                     }
 
                 }
-              
+
 
                 if (saisie.ID == 0) this.db.Add(saisie);
 
@@ -410,10 +411,10 @@ namespace TraiteurBernardWPF.Gui
 
         private bool ChercheSiTexteModifie(int ligne, int colonne)
         {
-          
-           foreach(var coord in coordonneesModifiees)
+
+            foreach (var coord in coordonneesModifiees)
             {
-                if(ligne == coord.Ligne && colonne == coord.Colonne)
+                if (ligne == coord.Ligne && colonne == coord.Colonne)
                 {
                     return true;
                 }
@@ -427,7 +428,7 @@ namespace TraiteurBernardWPF.Gui
             // enregistrer les 8 premières infos afin que les plats du soir soient en position 8,9 et 10 dans les saisies
             Enregistrer();
 
-            
+
             var form = new SaisieCreerSoirWpf(Edite, IDs);
             form.gridMain.Background = soirBackground;
             form.ShowDialog();
@@ -503,12 +504,12 @@ namespace TraiteurBernardWPF.Gui
         private void fermer(object sender, EventArgs e)
         {
             // fermeture du calendrier
-            this.wpf1.Close(); 
+            this.wpf1.Close();
             cal = 0;
             // fermetur de la fenetre
             Close();
         }
-    }   
+    }
 }
 
 

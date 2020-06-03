@@ -21,16 +21,16 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Variable pour le placement
          */
-        private static  float margin = 10;
+        private static float margin = 10;
 
-        private static  double minX = margin;
-        private static  double minY = margin;
-        private static  double columnSpace = 12.5;//12,5%
-        private static  double choiceSize = 25;//25Px
+        private static double minX = margin;
+        private static double minY = margin;
+        private static double columnSpace = 12.5;//12,5%
+        private static double choiceSize = 25;//25Px
 
-        private static  PDType1Font BOLD = PDType1Font.HELVETICA_BOLD;
-        private static  PDType1Font NORMAL = PDType1Font.HELVETICA;
-        private static  PDType1Font OBLIQUE = PDType1Font.HELVETICA_OBLIQUE;
+        private static PDType1Font BOLD = PDType1Font.HELVETICA_BOLD;
+        private static PDType1Font NORMAL = PDType1Font.HELVETICA;
+        private static PDType1Font OBLIQUE = PDType1Font.HELVETICA_OBLIQUE;
 
         private static double maxX;
         private static double maxY;
@@ -60,46 +60,46 @@ namespace TraiteurBernardWPF.PDF
         public static string Start(float width, float height, int semaine, int annee, bool printSaisieBool)
         {
 
-        //Récuperation du format de la page en fonction de A3 ou A4
-        maxX = height - margin;
-        maxY = width - margin;
+            //Récuperation du format de la page en fonction de A3 ou A4
+            maxX = height - margin;
+            maxY = width - margin;
 
-        //Récupération des variable en relatison avec des pourcentage
-        menuYTop = getY(85);
-        menuYTopNoLivraison = getY(82);
-        menuYTopNoDay = getY(79);
-        menuYBottom = getY(14);
+            //Récupération des variable en relatison avec des pourcentage
+            menuYTop = getY(85);
+            menuYTopNoLivraison = getY(82);
+            menuYTopNoDay = getY(79);
+            menuYBottom = getY(14);
 
             //Définition de la semaine
             CreatePDF.semaine = semaine;
-            
+
             CreatePDF.semaineN1 = semaine + 1;
-           
-        
 
-        // Si c'est pour la saisie ou le menu
-        if(printSaisieBool == true)
-        {
-            namePdf = "saisies_"+semaine+"_"+annee+".pdf";
-        }
-        else
-        {
-            namePdf = "menus_" + semaine +"&"+ semaineN1 + "_" + annee + ".pdf";
-        }
-        //Demande a l'utilisateur de choisir ou enregistrer    
-        if (!getPath())
-        {
-            return "";
-        }
-            
 
-        
 
-        //Création du document
-        document = new PDDocument();
+            // Si c'est pour la saisie ou le menu
+            if (printSaisieBool == true)
+            {
+                namePdf = "saisies_" + semaine + "&" + semaineN1 + "_" + annee + ".pdf";
+            }
+            else
+            {
+                namePdf = "menus_" + semaine + "&" + semaineN1 + "_" + annee + ".pdf";
+            }
+            //Demande a l'utilisateur de choisir ou enregistrer    
+            if (!getPath())
+            {
+                return "";
+            }
 
-           
-            
+
+
+
+            //Création du document
+            document = new PDDocument();
+
+
+
             // midi ville 1 2
             PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine impaire
             PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine paire
@@ -123,12 +123,12 @@ namespace TraiteurBernardWPF.PDF
             //Saving the document
             document.save(output);
 
-        //Closing the document
-        document.close();
+            //Closing the document
+            document.close();
 
             return output;
-    }
-        
+        }
+
         /**
          * Function pour créer le PDF des composiions
          *
@@ -155,9 +155,9 @@ namespace TraiteurBernardWPF.PDF
 
             //Demande a l'utilisateur de choisir ou enregistrer
             namePdf = "composition_" + semaine + "_" + annee + ".pdf";
-            if (!getPath())     
+            if (!getPath())
                 return "";
-        
+
 
             //Création du document
             document = new PDDocument();
@@ -191,12 +191,12 @@ namespace TraiteurBernardWPF.PDF
 
             //Ajout des menus ou des saisies dans les case
             // TODO : à revoir l'affichage des compositions
-            printSaisie("","", annee, semaine, true);
+            printSaisie("", "", annee, semaine, true);
 
             //Ajout de toute les infirmation
             printJoursT1();
             contentStream.close();
-       
+
 
 
             //Print de tout les page du soir
@@ -204,28 +204,28 @@ namespace TraiteurBernardWPF.PDF
 
             //Saving the document
             document.save(output);
-          
 
-        //Closing the document
-        document.close();
 
-      
+            //Closing the document
+            document.close();
+
+
             //Function ok !
             return output;
-    }
+        }
 
 
 
-    /**
-     * Function pour créer les 3 pages du midi
-     *
-     * @throws IOException ...
-     */
-    private static void printMidi(int annee, int semaine, bool printSaisieBool)
+        /**
+         * Function pour créer les 3 pages du midi
+         *
+         * @throws IOException ...
+         */
+        private static void printMidi(int annee, int semaine, bool printSaisieBool)
         {
             PrintMidiVille1ou2(annee, semaine, printSaisieBool);
 
-            PrintMidiContreTournee(annee, semaine,  printSaisieBool);
+            PrintMidiContreTournee(annee, semaine, printSaisieBool);
 
             PrintMidiMarennes(annee, semaine, printSaisieBool);
         }
@@ -233,7 +233,7 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintMidiMarennes(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool,"Marennes");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool, "Marennes");
 
             //Définition des jour de livraison
             jour1Livraison = "samedi";
@@ -262,7 +262,7 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintMidiContreTournee(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool,"contre-tournée");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool, "contre-tournée");
 
             //Définition des jour de livraison
             jour1Livraison = "lundi";
@@ -326,13 +326,13 @@ namespace TraiteurBernardWPF.PDF
 
             PrintSoirContreTournee(annee, semaine, printSaisieBool);
 
-            PrintSoirMarennes(annee, semaine,  printSaisieBool);
+            PrintSoirMarennes(annee, semaine, printSaisieBool);
         }
 
         private static void PrintSoirMarennes(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool,"Marennes");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool, "Marennes");
 
             //Définition des jour de livraison
             jour1Livraison = "samedi";
@@ -361,7 +361,7 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintSoirContreTournee(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool,"contre-tournée");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool, "contre-tournée");
 
             //Définition des jour de livraison
             jour1Livraison = "lundi";
@@ -390,7 +390,7 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintSoirVille1ou2(int annee, int semaine, bool printSaisieBool)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool,"ville 1","ville 2");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool, "ville 1", "ville 2");
             jour3Livraison = "vendredi";
 
             printLivraisonSoirVille1et2();
@@ -417,74 +417,74 @@ namespace TraiteurBernardWPF.PDF
          * sinon on print les menu
          * @throws IOException ...
          */
-        private static void newPageAndPrintAllForMidi(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2="") 
-    {
-        //Récup du document
-        getDocument();
-
-        //création du cadre
-        printCadre();
-
-        //Création de toute les ligne
-        PrintLines();
-
-        //Création de toute les column
-        printColumn();
-
-        //Ajout du header
-        if (calculSemaine == true)
+        private static void newPageAndPrintAllForMidi(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2 = "")
         {
-            printHeader();
+            //Récup du document
+            getDocument();
+
+            //création du cadre
+            printCadre();
+
+            //Création de toute les ligne
+            PrintLines();
+
+            //Création de toute les column
+            printColumn();
+
+            //Ajout du header
+            if (calculSemaine == true)
+            {
+                printHeader();
+            }
+            else
+            {
+                printHeaderN1();
+            }
+
+            //Ajout des mention de reserve
+            printReserve();
+
+            //ajout de la signature
+            if (!printSaisieBool) printSignature();
+
+            //ajout des infromation pour la saisie
+            printNB();
+
+            //Ajout des description a gauche du tableaux
+            printDescLine();
+
+            //Ajout des menus ou des saisies dans les case
+            if (printSaisieBool) printSaisie(tournee1, tournee2, annee, semaine);
+            else printMenu();
+
+            // On enleve le 'a remettre avant le 
+            //Ajout de la date en haut
+            //printDateOnTop();
+
+
         }
-        else
-        {
-            printHeaderN1();
-        }
-        
-        //Ajout des mention de reserve
-        printReserve();
-
-        //ajout de la signature
-        if( ! printSaisieBool) printSignature();
-
-        //ajout des infromation pour la saisie
-        printNB();
-
-        //Ajout des description a gauche du tableaux
-        printDescLine();
-
-        //Ajout des menus ou des saisies dans les case
-        if (printSaisieBool) printSaisie(tournee1, tournee2, annee, semaine);
-        else printMenu();
-
-        // On enleve le 'a remettre avant le 
-        //Ajout de la date en haut
-        //printDateOnTop();
-
-        
-    }
 
         /**
          * Function identique a toute les page du midi
          *
          * @throws IOException ...
          */
-        private static void newPageAndPrintAllForSoir(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2="") 
-    {
-        //Récup du document
-        getDocument();
+        private static void newPageAndPrintAllForSoir(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2 = "")
+        {
+            //Récup du document
+            getDocument();
 
-        //création du cadre
-        printCadre();
+            //création du cadre
+            printCadre();
 
-        //Création de toute les ligne
-        printLinesSoir();
+            //Création de toute les ligne
+            printLinesSoir();
 
-        //Création de toute les column
-        printColumnSoir();
+            //Création de toute les column
+            printColumnSoir();
 
-        //Ajout du header
-        if (calculSemaine == true)
+            //Ajout du header
+            if (calculSemaine == true)
             {
                 printHeader();
             }
@@ -497,24 +497,24 @@ namespace TraiteurBernardWPF.PDF
             if (!printSaisieBool) printReserveSoir();
 
             //ajout de la signature
-            if (!printSaisieBool)  printSignature();
+            if (!printSaisieBool) printSignature();
 
-        //ajout des infromation pour la saisie
-        printNB();
+            //ajout des infromation pour la saisie
+            printNB();
 
-        //Ajout des description a gauche du tableaux
-        printDescLineSoir();
+            //Ajout des description a gauche du tableaux
+            printDescLineSoir();
 
 
-        //Ajout des menus ou des saisies dans les case
-        if (printSaisieBool) printSaisieSoir(annee, semaine, tournee1, tournee2);
-        else printMenuSoir();
+            //Ajout des menus ou des saisies dans les case
+            if (printSaisieBool) printSaisieSoir(annee, semaine, tournee1, tournee2);
+            else printMenuSoir();
 
-        // On enleve le 'a remettre avant le 
-        //Ajout de la date en haut
-        //printDateOnTop();
-        
-    }
+            // On enleve le 'a remettre avant le 
+            //Ajout de la date en haut
+            //printDateOnTop();
+
+        }
 
         /**
          * Print sur le PDF des jours pour la page 1 (Tourner 1)
@@ -588,7 +588,7 @@ namespace TraiteurBernardWPF.PDF
                 laDate = FirstDateOfWeekISO8601(today.Year, semaineN1);
             }
 
-             
+
 
             var sdf = new DateTimeFormatInfo();
 
@@ -644,7 +644,7 @@ namespace TraiteurBernardWPF.PDF
             fct(laDate, sdf, text, fontSize, column);
         }
 
-        private static void printJoursT1() 
+        private static void printJoursT1()
         {
             PrintCenter1(printCenterDay);
         }
@@ -715,7 +715,7 @@ namespace TraiteurBernardWPF.PDF
             fct(laDate, sdf, text, fontSize, column);
         }
 
-        private static void printJoursT2() 
+        private static void printJoursT2()
         {
 
             PrintCenter2(printCenterDay);
@@ -727,7 +727,7 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void printJoursT3() 
+        private static void printJoursT3()
         {
             printJoursT1();
         }
@@ -758,137 +758,137 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void printSoirT3() 
-    {
-        printSoirT1();
-    }
-  
-     delegate void printJourOuSoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column);
-     
-    
-    /**
-     * Print des date de consomation des plats
-     *
-     * @param cal      Calendar
-     * @param sdf      SimpleDateFormat
-     * @param text     String
-     * @param fontSize float
-     * @param column   int
-     * @throws IOException ...
-     */
-    private static void printCenterDay(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column)
-    {
-        var str = dt.ToShortDateString().ToUpper();
-        double max = ((columnSpace * column) + (columnSpace - choiceSize / maxX * 100));
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text);
-        drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, NORMAL, str, fontSize), getMiddelofYBetweenTowPoint(76, 79, NORMAL, fontSize), str);
-    }
+        private static void printSoirT3()
+        {
+            printSoirT1();
+        }
 
-    /**
-     * Print des date de consomation des plats
-     *
-     * @param cal      Calendar
-     * @param sdf      SimpleDateFormat
-     * @param text     String
-     * @param fontSize float
-     * @param column   int
-     * @throws IOException ...
-     */
-    private static void printCenterDaySoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column)
-    {
-        var str = dt.ToShortDateString().ToUpper();
+        delegate void printJourOuSoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column);
 
-        double max = ((columnSpace * column) + (columnSpace - choiceSize / maxX * 100));
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(76, 79, BOLD, fontSize), text);
-        drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, NORMAL, str, fontSize), getMiddelofYBetweenTowPoint(73, 76, NORMAL, fontSize), str);
-    }
 
-    /**
-     * Function pour print les Plats de tout les Menus
-     */
-    private static void printMenu()
-    {
+        /**
+         * Print des date de consomation des plats
+         *
+         * @param cal      Calendar
+         * @param sdf      SimpleDateFormat
+         * @param text     String
+         * @param fontSize float
+         * @param column   int
+         * @throws IOException ...
+         */
+        private static void printCenterDay(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column)
+        {
+            var str = dt.ToShortDateString().ToUpper();
+            double max = ((columnSpace * column) + (columnSpace - choiceSize / maxX * 100));
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text);
+            drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, NORMAL, str, fontSize), getMiddelofYBetweenTowPoint(76, 79, NORMAL, fontSize), str);
+        }
+
+        /**
+         * Print des date de consomation des plats
+         *
+         * @param cal      Calendar
+         * @param sdf      SimpleDateFormat
+         * @param text     String
+         * @param fontSize float
+         * @param column   int
+         * @throws IOException ...
+         */
+        private static void printCenterDaySoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column)
+        {
+            var str = dt.ToShortDateString().ToUpper();
+
+            double max = ((columnSpace * column) + (columnSpace - choiceSize / maxX * 100));
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(76, 79, BOLD, fontSize), text);
+            drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, NORMAL, str, fontSize), getMiddelofYBetweenTowPoint(73, 76, NORMAL, fontSize), str);
+        }
+
+        /**
+         * Function pour print les Plats de tout les Menus
+         */
+        private static void printMenu()
+        {
             List<Menu> menus = new List<Menu>();
 
             if (calculSemaine == false)
             {
-                 menus = MenuDao.getAllFromWeek(semaineN1);
+                menus = MenuDao.getAllFromWeek(semaineN1);
             }
             else
             {
-                 menus = MenuDao.getAllFromWeek(semaine);
-            }
-        
-
-            foreach(var menu in menus)
-     {
-
-            if (menu == null)
-            {
-                return;
-            }
-            if (menu.Plats.Count == 0)
-            {
-                return;
+                menus = MenuDao.getAllFromWeek(semaine);
             }
 
-            var plats = new List<Plat>(menu.Plats);
 
-            double column = columnSpace * menu.Jour;
-
-            foreach(var plat in plats)
+            foreach (var menu in menus)
             {
 
-                if (plat == null)
+                if (menu == null)
                 {
                     return;
                 }
-                if (plat.Name == null)
+                if (menu.Plats.Count == 0)
                 {
                     return;
                 }
 
-                double line = 0;
+                var plats = new List<Plat>(menu.Plats);
 
-                switch (plat.Type)
-                {
-                    case Plat.ENTREE_MIDI:
-                        line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
-                        break;
-                    case Plat.PLAT_MIDI_1:
-                        line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
-                        break;
-                    case Plat.PLAT_MIDI_2:
-                        line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
-                        break;
-                    case Plat.PLAT_MIDI_3:
-                        line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
-                        break;
-                    case Plat.DESSERT_MIDI:
-                        line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
-                        break;
-                }
+                double column = columnSpace * menu.Jour;
 
-                if (line != 0)
+                foreach (var plat in plats)
                 {
-                    try
+
+                    if (plat == null)
                     {
+                        return;
+                    }
+                    if (plat.Name == null)
+                    {
+                        return;
+                    }
+
+                    double line = 0;
+
+                    switch (plat.Type)
+                    {
+                        case Plat.ENTREE_MIDI:
+                            line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_MIDI_1:
+                            line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_MIDI_2:
+                            line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
+                            break;
+                        case Plat.PLAT_MIDI_3:
+                            line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
+                            break;
+                        case Plat.DESSERT_MIDI:
+                            line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
+                            break;
+                    }
+
+                    if (line != 0)
+                    {
+                        try
+                        {
                             String platString = plat.Name;//.toLowerCase();
 
                             platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.toLowerCase();
-                        PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
-                    }
-                    catch (IOException e)
-                    {
+                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                        }
+                        catch (IOException e)
+                        {
                             LogHelper.WriteToFile(e.Message, "CreatePDF");
-                            throw e;        
+                            throw e;
+                        }
                     }
-                }
+
+                };
 
             };
-
-        };
-    }
+        }
 
         /**
          * Fonctio, pout ptiny les plats et quantités de toutes les saises
@@ -896,15 +896,15 @@ namespace TraiteurBernardWPF.PDF
         private static void printSaisie(string tournee1, string tournee2, int annee, int semaine, bool composition = false)
         {
             BaseContext db = new BaseContext();
-               
+
             // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
             // de ce même jour
-            for(int jour = 1; jour < 8; jour++)
+            for (int jour = 1; jour < 8; jour++)
             {
                 double column = columnSpace * jour;
-                
+
                 // Les saisies
-                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee(tournee1, tournee2,annee, semaine, jour, db);
+                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee(tournee1, tournee2, annee, semaine, jour, db);
 
                 // Les données des saisies
                 List<SaisieData> saisiesDatas = new List<SaisieData>();
@@ -919,106 +919,106 @@ namespace TraiteurBernardWPF.PDF
                 }
 
 
-            // Pour tous les repas (entrée, plat1, plat2 etc)
-            for (int repas = -1; repas < 9; repas++)
-            {
-                // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
-                Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
-
-                // Pour toutes les données des saisies du jours et par repas 
-                foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
+                // Pour tous les repas (entrée, plat1, plat2 etc)
+                for (int repas = -1; repas < 9; repas++)
                 {
+                    // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
+                    Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
 
-                    string libelle = sd.Libelle;
-                    int quantite = sd.Quantite;
-
-                    // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
-                    if (repasIntituleQuantite.ContainsKey(libelle))
+                    // Pour toutes les données des saisies du jours et par repas 
+                    foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
                     {
-                        repasIntituleQuantite[libelle] += quantite;
-                    }
-                    else
-                    {
-                        repasIntituleQuantite.Add(libelle, quantite);
-                    }
 
-                }
+                        string libelle = sd.Libelle;
+                        int quantite = sd.Quantite;
 
-
-                double line = 0;
-
-                switch (repas)
-                {
-                    case SaisieData.BAGUETTE:
-                        line = getMiddelofYBetweenTowPoint(76, 79, NORMAL, 11);
-                        break;
-                    case SaisieData.POTAGE:
-                        line = getMiddelofYBetweenTowPoint(73, 76, NORMAL, 11);
-                        break;
-                    case SaisieData.ENTREE_MIDI:
-                    // line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
-                        line = getMiddelofYBetweenTowPoint(66, 76, NORMAL, 11);
-                        break;
-                    case SaisieData.PLAT_MIDI_1:
-                        //line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
-                        line = getMiddelofYBetweenTowPoint(54, 66, NORMAL, 11);
-                        break;
-                    case SaisieData.PLAT_MIDI_2:
-                        //line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
-                        line = getMiddelofYBetweenTowPoint(42, 54, NORMAL, 11);
-                        break;
-                    case SaisieData.PLAT_MIDI_3:
-                        //line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
-                        line = getMiddelofYBetweenTowPoint(30, 42, NORMAL, 11);
-                        break;
-                    case SaisieData.FROMAGE:
-                        line = getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11);
-                        break;
-                    case SaisieData.DESSERT_MIDI:
-                        line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
-                        //line = getMiddelofYBetweenTowPoint(18, 30, NORMAL, 11);
-                        break;
-                }
-
-                // Ecriture des repas sur le PDF
-                if (line != 0)
-                {
-
-                    foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
-                    {
-                        if (!String.IsNullOrEmpty(entry.Key))
+                        // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
+                        if (repasIntituleQuantite.ContainsKey(libelle))
                         {
-                            PDType1Font font = OBLIQUE;
-
-                            // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
-                            // Si on est en mode  composition , on met pas le plat du menu
-                            List<String> plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
-                                Console.WriteLine(plats);
-                            if (plats.Contains(entry.Key))
-                            {
-                               if (composition) continue;
-                               font = NORMAL;
-                            }
-                            // si cest pas egal a une menu faut surligner en rose
-                            //platString += " " + entry.Value + "*" + entry.Key + " ";
-
-                            
-                            PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, font);
-                            PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, font);
-                            line -= 10;
-
-                            }
+                            repasIntituleQuantite[libelle] += quantite;
+                        }
+                        else
+                        {
+                            repasIntituleQuantite.Add(libelle, quantite);
+                        }
 
                     }
-                    
-                }
-            }
-   
-        }
 
-        db.Dispose();
-  
-    }
+
+                    double line = 0;
+
+                    switch (repas)
+                    {
+                        case SaisieData.BAGUETTE:
+                            line = getMiddelofYBetweenTowPoint(76, 79, NORMAL, 11);
+                            break;
+                        case SaisieData.POTAGE:
+                            line = getMiddelofYBetweenTowPoint(73, 76, NORMAL, 11);
+                            break;
+                        case SaisieData.ENTREE_MIDI:
+                            // line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(66, 76, NORMAL, 11);
+                            break;
+                        case SaisieData.PLAT_MIDI_1:
+                            //line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(54, 66, NORMAL, 11);
+                            break;
+                        case SaisieData.PLAT_MIDI_2:
+                            //line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(42, 54, NORMAL, 11);
+                            break;
+                        case SaisieData.PLAT_MIDI_3:
+                            //line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(30, 42, NORMAL, 11);
+                            break;
+                        case SaisieData.FROMAGE:
+                            line = getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11);
+                            break;
+                        case SaisieData.DESSERT_MIDI:
+                            line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 11);
+                            //line = getMiddelofYBetweenTowPoint(18, 30, NORMAL, 11);
+                            break;
+                    }
+
+                    // Ecriture des repas sur le PDF
+                    if (line != 0)
+                    {
+
+                        foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
+                        {
+                            if (!String.IsNullOrEmpty(entry.Key))
+                            {
+                                PDType1Font font = OBLIQUE;
+
+                                // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
+                                // Si on est en mode  composition , on met pas le plat du menu
+                                List<String> plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
+                                Console.WriteLine(plats);
+                                if (plats.Contains(entry.Key))
+                                {
+                                    if (composition) continue;
+                                    font = NORMAL;
+                                }
+                                // si cest pas egal a une menu faut surligner en rose
+                                //platString += " " + entry.Value + "*" + entry.Key + " ";
+
+
+                                PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, font);
+                                PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, font);
+                                line -= 10;
+
+                            }
+
+                        }
+
+                    }
+                }
+
+            }
+
+            db.Dispose();
+
+        }
 
         /**
          * Function pour print les Plats de tout les Menus
@@ -1038,11 +1038,11 @@ namespace TraiteurBernardWPF.PDF
 
             foreach (Menu menu in menus)
             {
-                if(menu == null)
+                if (menu == null)
                 {
                     return;
                 }
-                if(menu.Plats.Count == 0)
+                if (menu.Plats.Count == 0)
                 {
                     return;
                 }
@@ -1051,13 +1051,13 @@ namespace TraiteurBernardWPF.PDF
 
                 double column = columnSpace * menu.Jour;
 
-                foreach(Plat plat in plats)
+                foreach (Plat plat in plats)
                 {
-                    if(plat == null)
+                    if (plat == null)
                     {
                         return;
                     }
-                    if(plat.Name == null)
+                    if (plat.Name == null)
                     {
                         return;
                     }
@@ -1093,7 +1093,7 @@ namespace TraiteurBernardWPF.PDF
                         {
                             LogHelper.WriteToFile(e.Message, "CreatePDF");
                             throw e;
-                            
+
                         }
                     }
                 }
@@ -1104,7 +1104,7 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Function pour print les Plats de tout les Menus
          */
-        private static void printSaisieSoir(int annee, int semaine, string tournee1,string tournee2)
+        private static void printSaisieSoir(int annee, int semaine, string tournee1, string tournee2)
         {
 
             BaseContext db = new BaseContext();
@@ -1116,7 +1116,7 @@ namespace TraiteurBernardWPF.PDF
                 double column = columnSpace * jour;
 
                 // Les saisies
-                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee( tournee1, tournee2, annee, semaine, jour, db);
+                List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee(tournee1, tournee2, annee, semaine, jour, db);
 
                 // Les données des saisies
                 List<SaisieData> saisiesDatas = new List<SaisieData>();
@@ -1142,8 +1142,8 @@ namespace TraiteurBernardWPF.PDF
                     {
                         string libelle = sd.Libelle;
                         int quantite = sd.Quantite;
-                        
-                        if (repasIntituleQuantite.ContainsKey(libelle)) 
+
+                        if (repasIntituleQuantite.ContainsKey(libelle))
                         {
                             repasIntituleQuantite[libelle] += quantite;
                         }
@@ -1151,9 +1151,9 @@ namespace TraiteurBernardWPF.PDF
                         {
                             repasIntituleQuantite.Add(libelle, quantite);
                         }
-                    
+
                         // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
-                        
+
                     }
 
 
@@ -1209,178 +1209,183 @@ namespace TraiteurBernardWPF.PDF
 
 
         private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font)
-    {
-        double width = (font.getStringWidth(str) / 1000 * fontSize);
+        {
+            double width = (font.getStringWidth(str) / 1000 * fontSize);
 
-        if (x + width < maxX) {
-            drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF.maxX * 100), (maxX / CreatePDF.maxX * 100), font, str, fontSize), y, str);
-        } else {
-            StringBuilder line = new StringBuilder();
-            String[] words = str.Split(' ');
-            var strings = new List<string>();
-
-            if (words.Length > 1)
+            if (x + width < maxX)
             {
-                foreach (String word in words)
+                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF.maxX * 100), (maxX / CreatePDF.maxX * 100), font, str, fontSize), y, str);
+            }
+            else
+            {
+                StringBuilder line = new StringBuilder();
+                String[] words = str.Split(' ');
+                var strings = new List<string>();
+
+                if (words.Length > 1)
                 {
-                    if (word == null)
+                    foreach (String word in words)
                     {
-                        return;
-                    }
-                    if (word.Length < 1)
-                    {
-                        continue;
-                    }
+                        if (word == null)
+                        {
+                            return;
+                        }
+                        if (word.Length < 1)
+                        {
+                            continue;
+                        }
 
-                    double wordSize;
+                        double wordSize;
 
-                    if (line.Length > 0)
-                    {
-                        wordSize = font.getStringWidth(line + " " + word) / 1000 * fontSize;
-                    }
-                    else
-                    {
-                        wordSize = font.getStringWidth(word) / 1000 * fontSize;
-                    }
-
-                    if (x + wordSize < maxX)
-                    {
                         if (line.Length > 0)
                         {
-                            line.Append(" ").Append(word);
+                            wordSize = font.getStringWidth(line + " " + word) / 1000 * fontSize;
                         }
                         else
                         {
+                            wordSize = font.getStringWidth(word) / 1000 * fontSize;
+                        }
+
+                        if (x + wordSize < maxX)
+                        {
+                            if (line.Length > 0)
+                            {
+                                line.Append(" ").Append(word);
+                            }
+                            else
+                            {
+                                line = new StringBuilder(word);
+                            }
+                        }
+                        else
+                        {
+                            if (line.Length > 0)
+                            {
+                                strings.Add(line.ToString());
+                            }
                             line = new StringBuilder(word);
                         }
                     }
-                    else
+
+                    if (!strings[strings.Count - 1].Equals(line.ToString()))
                     {
-                        if (line.Length > 0)
+                        strings.Add(line.ToString());
+                    }
+
+                    double height = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2) * strings.Count;
+                    /*AtomicReference<String> maxLength = new AtomicReference<>("");
+
+
+                    strings.forEach(s-> {
+                        if (s.length() > maxLength.get().length())
                         {
-                            strings.Add(line.ToString());
+                            maxLength.set(s);
                         }
-                        line = new StringBuilder(word);
-                    }
-                }
+                    });*/
+                    string maxLength = "";
 
-                if (!strings[strings.Count - 1].Equals(line.ToString()))
-                {
-                    strings.Add(line.ToString());
-                }
-
-                double height = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2) * strings.Count;
-                /*AtomicReference<String> maxLength = new AtomicReference<>("");
-
-
-                strings.forEach(s-> {
-                    if (s.length() > maxLength.get().length())
+                    foreach (var s in strings)
                     {
-                        maxLength.set(s);
+                        if (s.Length > maxLength.Length) maxLength = s;
                     }
-                });*/
-                string maxLength = "";
 
-                foreach (var s in strings)
-                {
-                    if (s.Length > maxLength.Length) maxLength = s;
+                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF.maxX * 100), (maxX / CreatePDF.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings);
                 }
-
-                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF.maxX * 100), (maxX / CreatePDF.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings);
             }
         }
-    }
 
-   
-    private static void PrintLines() 
-    {
-        //Livraison Bottom Line
-        drawLine(getX(0), getX(100), getY(82), getY(82));
 
-        //Jours Bottom Line
-        drawLine(getX(0), getX(columnSpace), getY(79), getY(79));
+        private static void PrintLines()
+        {
+            //Livraison Bottom Line
+            drawLine(getX(0), getX(100), getY(82), getY(82));
 
-        for (int i = 0; i < 500; i++) {
-            if (getX(columnSpace) + (i * 5) >= getX(100))
+            //Jours Bottom Line
+            drawLine(getX(0), getX(columnSpace), getY(79), getY(79));
+
+            for (int i = 0; i < 500; i++)
             {
-                break;
+                if (getX(columnSpace) + (i * 5) >= getX(100))
+                {
+                    break;
+                }
+                drawLine(getX(columnSpace) + (i * 5), getX(columnSpace) + (i * 5 + 2), getY(79), getY(79));
             }
-            drawLine(getX(columnSpace) + (i * 5), getX(columnSpace) + (i * 5 + 2), getY(79), getY(79));
+
+            //Baguette Bottom Line
+            drawLine(getX(0), getX(100), getY(76), getY(76));
+
+            //Potages Bottom Line
+            drawLine(getX(0), getX(100), getY(73), getY(73));
+
+            //Entrees Line
+            drawLine(getX(0), getX(100), getY(63), getY(63));
+
+            //Plat 1 Bottom Line
+            drawLine(getX(columnSpace / 2), getX(100), getY(51), getY(51));
+
+            //Plat 2 Bottom Line
+            drawLine(getX(columnSpace / 2), getX(100), getY(39), getY(39));
+
+            //Plat 3 Bottom Line Line
+            drawLine(getX(0), getX(100), getY(27), getY(27));
+
+            //Formage Bottom Line
+            drawLine(getX(0), getX(100), getY(24), getY(24));
         }
 
-        //Baguette Bottom Line
-        drawLine(getX(0), getX(100), getY(76), getY(76));
+        /**
+         * Function pour print toute les lignes
+         *
+         * @throws IOException ...
+         */
+        private static void printLinesSoir()
+        {
+            //Livraison Bottom Line
+            drawLine(getX(0), getX(100), getY(79), getY(79));
 
-        //Potages Bottom Line
-        drawLine(getX(0), getX(100), getY(73), getY(73));
-
-        //Entrees Line
-        drawLine(getX(0), getX(100), getY(63), getY(63));
-
-        //Plat 1 Bottom Line
-        drawLine(getX(columnSpace / 2), getX(100), getY(51), getY(51));
-
-        //Plat 2 Bottom Line
-        drawLine(getX(columnSpace / 2), getX(100), getY(39), getY(39));
-
-        //Plat 3 Bottom Line Line
-        drawLine(getX(0), getX(100), getY(27), getY(27));
-
-        //Formage Bottom Line
-        drawLine(getX(0), getX(100), getY(24), getY(24));
-    }
-
-    /**
-     * Function pour print toute les lignes
-     *
-     * @throws IOException ...
-     */
-    private static void printLinesSoir() 
-    {
-        //Livraison Bottom Line
-        drawLine(getX(0), getX(100), getY(79), getY(79));
-
-        for (int i = 0; i < 500; i++) {
-            if (getX(columnSpace) + (i * 5) >= getX(100))
+            for (int i = 0; i < 500; i++)
             {
-                break;
+                if (getX(columnSpace) + (i * 5) >= getX(100))
+                {
+                    break;
+                }
+                drawLine(getX(columnSpace) + (i * 5), getX(columnSpace) + (i * 5 + 2), getY(76), getY(76));
             }
-            drawLine(getX(columnSpace) + (i * 5), getX(columnSpace) + (i * 5 + 2), getY(76), getY(76));
+
+            //Jour Bottom Line
+            drawLine(getX(0), getX(100), getY(73), getY(73));
+
+            //Entrees Bottom Line
+            drawLine(getX(0), getX(100), getY(63), getY(63));
+
+            //Plat 3 Bottom Line Line
+            drawLine(getX(0), getX(100), getY(27), getY(27));
         }
 
-        //Jour Bottom Line
-        drawLine(getX(0), getX(100), getY(73), getY(73));
+        /**
+         * Print des jour de livraison en haut du tableux
+         *
+         * @throws IOException ...
+         */
+        private static void printLivraison()
+        {
+            //Top Bar Livraison
+            drawLine(getX(columnSpace), getX(columnSpace * 8), menuYTop, menuYTop);
+            drawLine(getX(columnSpace), getX(columnSpace), menuYTop, menuYTopNoLivraison);
+            drawLine(getX(columnSpace * 3), getX(columnSpace * 3), menuYTop, menuYTopNoLivraison);
+            drawLine(getX(columnSpace * 5), getX(columnSpace * 5), menuYTop, menuYTopNoLivraison);
 
-        //Entrees Bottom Line
-        drawLine(getX(0), getX(100), getY(63), getY(63));
+            String baseText = "Livraison le ";
+            String text1 = baseText + jour1Livraison;
+            String text2 = baseText + jour2Livraison;
+            String text3 = baseText + jour3Livraison;
+            double fontSize = 12;
 
-        //Plat 3 Bottom Line Line
-        drawLine(getX(0), getX(100), getY(27), getY(27));
-    }
-
-    /**
-     * Print des jour de livraison en haut du tableux
-     *
-     * @throws IOException ...
-     */
-    private static void printLivraison() 
-    {
-        //Top Bar Livraison
-        drawLine(getX(columnSpace), getX(columnSpace * 8), menuYTop, menuYTop);
-        drawLine(getX(columnSpace), getX(columnSpace), menuYTop, menuYTopNoLivraison);
-        drawLine(getX(columnSpace * 3), getX(columnSpace * 3), menuYTop, menuYTopNoLivraison);
-        drawLine(getX(columnSpace * 5), getX(columnSpace * 5), menuYTop, menuYTopNoLivraison);
-
-        String baseText = "Livraison le ";
-        String text1 = baseText + jour1Livraison;
-        String text2 = baseText + jour2Livraison;
-        String text3 = baseText + jour3Livraison;
-        double fontSize = 12;
-
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text1);
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text2);
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3);
-    }
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text1);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text2);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3);
+        }
 
 
         private static void printLivraisonVille1et2()
@@ -1403,29 +1408,29 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void printLivraisonSoir() 
-    {
-        //Top Bar Livraison
-        drawLine(getX(columnSpace), getX(columnSpace * 8), getY(82), getY(82));
-        drawLine(getX(columnSpace), getX(columnSpace), getY(79), menuYTopNoLivraison);
-        drawLine(getX(columnSpace * 3), getX(columnSpace * 3), getY(79), menuYTopNoLivraison);
-        drawLine(getX(columnSpace * 5), getX(columnSpace * 5), getY(79), menuYTopNoLivraison);
+        private static void printLivraisonSoir()
+        {
+            //Top Bar Livraison
+            drawLine(getX(columnSpace), getX(columnSpace * 8), getY(82), getY(82));
+            drawLine(getX(columnSpace), getX(columnSpace), getY(79), menuYTopNoLivraison);
+            drawLine(getX(columnSpace * 3), getX(columnSpace * 3), getY(79), menuYTopNoLivraison);
+            drawLine(getX(columnSpace * 5), getX(columnSpace * 5), getY(79), menuYTopNoLivraison);
 
-        String baseText = "Livraison le ";
-        String text1 = baseText + jour1Livraison;
-        String text2 = baseText + jour2Livraison;
-        String text3 = baseText + jour3Livraison;
-        double fontSize = 12;
+            String baseText = "Livraison le ";
+            String text1 = baseText + jour1Livraison;
+            String text2 = baseText + jour2Livraison;
+            String text3 = baseText + jour3Livraison;
+            double fontSize = 12;
 
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text1);
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text2);
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3);
-    }
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text1);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text2);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3);
+        }
 
         private static void printLivraisonSoirVille1et2()
         {
             //Top Bar Livraison
-            drawLine(getX(columnSpace*8), getX(columnSpace * 5), getY(82), getY(82));
+            drawLine(getX(columnSpace * 8), getX(columnSpace * 5), getY(82), getY(82));
             drawLine(getX(columnSpace * 5), getX(columnSpace * 5), getY(79), menuYTopNoLivraison);
 
             String baseText = "Livraison le ";
@@ -1442,118 +1447,121 @@ namespace TraiteurBernardWPF.PDF
          * @throws IOException ...
          */
         private static void printColumn()
-    {
-        for (int i = 0; i < 7; i++) {
-            //Left bar Jour 1
-            drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), menuYTopNoLivraison, menuYBottom);
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                //Left bar Jour 1
+                drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), menuYTopNoLivraison, menuYBottom);
 
-            //Left Bar Jour 1 choice
-            drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, menuYTopNoLivraison, menuYBottom);
+                //Left Bar Jour 1 choice
+                drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, menuYTopNoLivraison, menuYBottom);
+            }
+
+            //Plat Column
+            drawLine(getX(columnSpace / 2), getX(columnSpace / 2), getY(63), getY(27));
         }
 
-        //Plat Column
-        drawLine(getX(columnSpace / 2), getX(columnSpace / 2), getY(63), getY(27));
-    }
+        /**
+         * Print de toute les column
+         *
+         * @throws IOException ...
+         */
+        private static void printColumnSoir()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                //Left bar Jour 1
+                drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), getY(79), getY(18));
 
-    /**
-     * Print de toute les column
-     *
-     * @throws IOException ...
-     */
-    private static void printColumnSoir() 
-    {
-        for (int i = 0; i < 7; i++) {
-            //Left bar Jour 1
-            drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), getY(79), getY(18));
-
-            //Left Bar Jour 1 choice
-            drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, getY(79), getY(18));
-        }
-    }
-
-    /**
-     * Print des description et du fromage a gauche du tableaux
-     *
-     * @throws IOException ...
-     */
-    private static void printDescLine()
-    {
-        //Baguettes
-        String text;
-        float fontSize = 10;
-
-        text = "Baguettes".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(76, 79, BOLD, fontSize), text);
-
-        text = "Potages".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(73, 76, BOLD, fontSize), text);
-
-        text = "Entrées".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text);
-
-
-        text = "Plats".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text);
-
-        text = "Au".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text);
-
-        text = "Choix".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text);
-
-        text = "Plat 1".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text);
-
-        text = "Plat 2".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text);
-
-        text = "Plat 3".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text);
-
-        for (int i = 0; i < 7; i++) {
-            text = "Fromage";
-            drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * (1 + i), columnSpace * (1 + i + 1) - (choiceSize / maxX * 100), NORMAL, text, fontSize), getMiddelofYBetweenTowPoint(24, 27, NORMAL, fontSize), text);
+                //Left Bar Jour 1 choice
+                drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, getY(79), getY(18));
+            }
         }
 
-        text = "Desserts".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(14, 24, BOLD, fontSize), text);
-    }
+        /**
+         * Print des description et du fromage a gauche du tableaux
+         *
+         * @throws IOException ...
+         */
+        private static void printDescLine()
+        {
+            //Baguettes
+            String text;
+            float fontSize = 10;
 
-    /**
-     * Print des description et du fromage a gauche du tableaux
-     *
-     * @throws IOException ...
-     */
-    private static void printDescLineSoir()
-    {
-        //Baguettes
-        String text;
-        float fontSize = 10;
+            text = "Baguettes".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(76, 79, BOLD, fontSize), text);
 
-        text = "Entrées".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text);
+            text = "Potages".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(73, 76, BOLD, fontSize), text);
 
-        text = "PLAT du SOIR".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 63, BOLD, fontSize), text);
+            text = "Entrées".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text);
 
-        text = "Desserts".ToUpper();
-        drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(18, 27, BOLD, fontSize), text);
-    }
 
-    /**
-     * Print du header (nom, tel, email...)
-     *
-     * @throws IOException ...
-     */
-    private static void printHeader() 
-    {
+            text = "Plats".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text);
+
+            text = "Au".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text);
+
+            text = "Choix".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text);
+
+            text = "Plat 1".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text);
+
+            text = "Plat 2".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text);
+
+            text = "Plat 3".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text);
+
+            for (int i = 0; i < 7; i++)
+            {
+                text = "Fromage";
+                drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * (1 + i), columnSpace * (1 + i + 1) - (choiceSize / maxX * 100), NORMAL, text, fontSize), getMiddelofYBetweenTowPoint(24, 27, NORMAL, fontSize), text);
+            }
+
+            text = "Desserts".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(14, 24, BOLD, fontSize), text);
+        }
+
+        /**
+         * Print des description et du fromage a gauche du tableaux
+         *
+         * @throws IOException ...
+         */
+        private static void printDescLineSoir()
+        {
+            //Baguettes
+            String text;
+            float fontSize = 10;
+
+            text = "Entrées".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text);
+
+            text = "PLAT du SOIR".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 63, BOLD, fontSize), text);
+
+            text = "Desserts".ToUpper();
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(18, 27, BOLD, fontSize), text);
+        }
+
+        /**
+         * Print du header (nom, tel, email...)
+         *
+         * @throws IOException ...
+         */
+        private static void printHeader()
+        {
             //Ligne de changement
             drawText(BOLD, 12, getX(0) + 2, getY(93),
                     "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
                     "NOM et ADRESSE : ..........................................          TELEPHONE : ..........................................          PAIN : OUI / NON               SEMAINE : " + CreatePDF.semaine);
-        drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
-        drawLine(getX(0), getX(100), getY(88), getY(88));
-    }
+            drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
+            drawLine(getX(0), getX(100), getY(88), getY(88));
+        }
 
         private static void printHeaderN1()
         {
@@ -1570,144 +1578,146 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void printCadre() { 
-        //Left Line
-        drawLine(getX(0), getX(0), getY(10), getY(95));
+        private static void printCadre()
+        {
+            //Left Line
+            drawLine(getX(0), getX(0), getY(10), getY(95));
 
-        //Right Line
-        drawLine(getX(100), getX(100), getY(10), getY(95));
+            //Right Line
+            drawLine(getX(100), getX(100), getY(10), getY(95));
 
-        //Top Line
-        drawLine(getX(0), getX(100), getY(95), getY(95));
+            //Top Line
+            drawLine(getX(0), getX(100), getY(95), getY(95));
 
-        //Bottom Line
-        drawLine(getX(0), getX(100), getY(10), getY(10));
-    }
-
-    /**
-     * Print des infromation en bas du tableuax
-     *
-     * @throws IOException ...
-     */
-    private static void printNB() 
-    {
-        //NB Bottom
-        drawText(NORMAL, 10, getX(0) + 2, getY(8) + 2,
-                "NB / Mettre une croix dans la case prévue à cet effet à droite du composant choisi pour chaque jour de la semaine souhaitée. Rayer les jours sans repas.",
-                "Pour le bon fonctionnement du service, veuillez impérativement rendre votre feuille de menu remplie au plus tard le mercredi matin.",
-                "Toute annulation sera acceptée, si vous prévenez par téléphone 72 heures à l'avance pendant les jours ouvrables.");
-    }
-
-    /**
-     * Print du bon pour accord et de signature
-     *
-     * @throws IOException ...
-     */
-    private static void printSignature() 
-    {
-        //Signature client
-        String text;
-        float fontSize = 12;
-
-        text = "Bon pour Accord :";
-        drawText(BOLD, fontSize, getMiddelOfX(26, BOLD, text, fontSize), getY(2), text);
-
-        text = "Date :";
-        drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getY(2), text);
-
-        text = "Signature :";
-        drawText(BOLD, fontSize, getMiddelOfX(78, BOLD, text, fontSize), getY(2), text);
-    }
-
-    /**
-     * Print de la reserve de modification en fonction des arivage
-     *
-     * @throws IOException ...
-     */
-    private static void printReserve() 
-    {
-        //Ligne de changement
-        drawLine(getX(0), getX(100), getY(14), getY(14));
-
-        String text = "Nous nous réservons le droit de modifier la composition des menus en fonction des arrivages";
-        float fontSize = 12;
-
-        drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(10, 14, BOLD, fontSize), text);
-    }
-
-    /**
-     * Print de la reserve de modification en fonction des arivage
-     *
-     * @throws IOException ...
-     */
-    private static void printReserveSoir() { 
-        //Ligne de changement
-        drawLine(getX(0), getX(100), getY(14), getY(14));
-        drawLine(getX(0), getX(100), getY(18), getY(18));
-
-        String text1 = "Nous nous réservons le droit de modifier la composition des menus en fonction des arrivages";
-        String text2 = "Pas de possibilité de changement des plats du soir";
-        String text3 = "6,80 euros TTC le Repas du soir UNIQUEMENT livré avec le reps du midi";
-        float fontSize = 12;
-
-        drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(14, 18, BOLD, fontSize), text2);
-        drawText(NORMAL, fontSize, getMiddelOfX(50, NORMAL, text1, fontSize), getMiddelofYBetweenTowPoint(10, 14, NORMAL, fontSize), text1);
-        drawText(BOLD, fontSize + 2, getMiddelOfX(50, BOLD, text3, fontSize + 2), getMiddelofYBetweenTowPoint(83, 85, BOLD, fontSize + 2), text3);
-    }
-
-    /**
-     * Print de la date : A remettre avant
-     *
-     * @throws IOException ...
-     */
-    private static void printDateOnTop() 
-    {
-        //Add Date On Top
-     /*   Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.WEEK_OF_YEAR, semaine - 1);
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
-          */  
-        var dateRemise = FirstDateOfWeekISO8601(DateTime.Today.Year, semaine - 1);
-
-        String text = "A Remettre avant le : " + dateRemise.ToShortDateString();
-        double middleText = getMiddelOfX(50, BOLD, text, 17);
-        drawText(BOLD, 17, middleText, getY(96), text);
+            //Bottom Line
+            drawLine(getX(0), getX(100), getY(10), getY(10));
         }
 
-    /**
-     * Function pour créer une ligne entre quatre point
-     *
-     * @param startX double
-     * @param endX   double
-     * @param startY double
-     * @param endY   double
-     * @throws IOException ...
-     */
-    private static void drawLine(double startX, double endX, double startY, double endY) 
-    {
-        contentStream.moveTo((float) startX, (float) startY);
-        contentStream.lineTo((float) endX, (float) endY);
-        contentStream.stroke();
-    }
+        /**
+         * Print des infromation en bas du tableuax
+         *
+         * @throws IOException ...
+         */
+        private static void printNB()
+        {
+            //NB Bottom
+            drawText(NORMAL, 10, getX(0) + 2, getY(8) + 2,
+                    "NB / Mettre une croix dans la case prévue à cet effet à droite du composant choisi pour chaque jour de la semaine souhaitée. Rayer les jours sans repas.",
+                    "Pour le bon fonctionnement du service, veuillez impérativement rendre votre feuille de menu remplie au plus tard le mercredi matin.",
+                    "Toute annulation sera acceptée, si vous prévenez par téléphone 72 heures à l'avance pendant les jours ouvrables.");
+        }
 
-    /**
-     * Function pour ecrire un text a une position
-     *
-     * @param font     PDFont
-     * @param fontSize double
-     * @param x        double
-     * @param y        double
-     * @param text     String
-     * @throws IOException ...
-     */
-    private static void drawText(PDFont font, double fontSize, double x, double y, String text) 
-    {
+        /**
+         * Print du bon pour accord et de signature
+         *
+         * @throws IOException ...
+         */
+        private static void printSignature()
+        {
+            //Signature client
+            String text;
+            float fontSize = 12;
+
+            text = "Bon pour Accord :";
+            drawText(BOLD, fontSize, getMiddelOfX(26, BOLD, text, fontSize), getY(2), text);
+
+            text = "Date :";
+            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getY(2), text);
+
+            text = "Signature :";
+            drawText(BOLD, fontSize, getMiddelOfX(78, BOLD, text, fontSize), getY(2), text);
+        }
+
+        /**
+         * Print de la reserve de modification en fonction des arivage
+         *
+         * @throws IOException ...
+         */
+        private static void printReserve()
+        {
+            //Ligne de changement
+            drawLine(getX(0), getX(100), getY(14), getY(14));
+
+            String text = "Nous nous réservons le droit de modifier la composition des menus en fonction des arrivages";
+            float fontSize = 12;
+
+            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(10, 14, BOLD, fontSize), text);
+        }
+
+        /**
+         * Print de la reserve de modification en fonction des arivage
+         *
+         * @throws IOException ...
+         */
+        private static void printReserveSoir()
+        {
+            //Ligne de changement
+            drawLine(getX(0), getX(100), getY(14), getY(14));
+            drawLine(getX(0), getX(100), getY(18), getY(18));
+
+            String text1 = "Nous nous réservons le droit de modifier la composition des menus en fonction des arrivages";
+            String text2 = "Pas de possibilité de changement des plats du soir";
+            String text3 = "6,80 euros TTC le Repas du soir UNIQUEMENT livré avec le reps du midi";
+            float fontSize = 12;
+
+            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(14, 18, BOLD, fontSize), text2);
+            drawText(NORMAL, fontSize, getMiddelOfX(50, NORMAL, text1, fontSize), getMiddelofYBetweenTowPoint(10, 14, NORMAL, fontSize), text1);
+            drawText(BOLD, fontSize + 2, getMiddelOfX(50, BOLD, text3, fontSize + 2), getMiddelofYBetweenTowPoint(83, 85, BOLD, fontSize + 2), text3);
+        }
+
+        /**
+         * Print de la date : A remettre avant
+         *
+         * @throws IOException ...
+         */
+        private static void printDateOnTop()
+        {
+            //Add Date On Top
+            /*   Calendar cal = Calendar.getInstance();
+               cal.set(Calendar.WEEK_OF_YEAR, semaine - 1);
+               cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
+                 */
+            var dateRemise = FirstDateOfWeekISO8601(DateTime.Today.Year, semaine - 1);
+
+            String text = "A Remettre avant le : " + dateRemise.ToShortDateString();
+            double middleText = getMiddelOfX(50, BOLD, text, 17);
+            drawText(BOLD, 17, middleText, getY(96), text);
+        }
+
+        /**
+         * Function pour créer une ligne entre quatre point
+         *
+         * @param startX double
+         * @param endX   double
+         * @param startY double
+         * @param endY   double
+         * @throws IOException ...
+         */
+        private static void drawLine(double startX, double endX, double startY, double endY)
+        {
+            contentStream.moveTo((float)startX, (float)startY);
+            contentStream.lineTo((float)endX, (float)endY);
+            contentStream.stroke();
+        }
+
+        /**
+         * Function pour ecrire un text a une position
+         *
+         * @param font     PDFont
+         * @param fontSize double
+         * @param x        double
+         * @param y        double
+         * @param text     String
+         * @throws IOException ...
+         */
+        private static void drawText(PDFont font, double fontSize, double x, double y, String text)
+        {
 
             //Begin the Content stream
             contentStream.beginText();
 
             //Setting the font to the Content stream
-            contentStream.setFont(font, (float) fontSize);
+            contentStream.setFont(font, (float)fontSize);
 
             //Setting the position for the line
             //TODO contentStream.newLineAtOffset((float) x, (float) y);
@@ -1719,184 +1729,186 @@ namespace TraiteurBernardWPF.PDF
 
             //Ending the content stream
             contentStream.endText();
-    }
-
-    /**
-     * Function pour ecrire un text a plusieur ligne a une position
-     *
-     * @param font     PDFont
-     * @param fontSize double
-     * @param x        double
-     * @param y        double
-     * @param text     String...
-     * @throws IOException ...
-     */
-    private static void drawText(PDFont font, double fontSize, double x, double y, params String[] text) 
-    {
-        int count = 0;
-        foreach (var s in text) {
-            drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s);
-            count = count + 1;
         }
-    }
 
-    /**
-     * Function pour ecrire un text a plusieur ligne a une position
-     *
-     * @param font     PDFont
-     * @param fontSize double
-     * @param x        double
-     * @param y        double
-     * @param text     ArrayList Of String
-     * @throws IOException ...
-     */
-    private static void drawText(PDFont font, double fontSize, double x, double y, List<String> text) 
-    {
-        int count = 0;
-        foreach (String s in text) {
-            drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s);
-            count = count + 1;
-        }
-    }
-
-    /**
-     * Récupération de Y en fonction d'un pourcentage
-     *
-     * @param percent double
-     * @return double
-     */
-    private static double getY(double percent)
-    {
-        if (percent == 100)
+        /**
+         * Function pour ecrire un text a plusieur ligne a une position
+         *
+         * @param font     PDFont
+         * @param fontSize double
+         * @param x        double
+         * @param y        double
+         * @param text     String...
+         * @throws IOException ...
+         */
+        private static void drawText(PDFont font, double fontSize, double x, double y, params String[] text)
         {
-            return maxY - margin;
+            int count = 0;
+            foreach (var s in text)
+            {
+                drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s);
+                count = count + 1;
+            }
         }
-        if (percent == 0)
-        {
-            return minY;
-        }
-        double retour = ((percent / 100) * maxY);
-        return retour;
-    }
 
-    /**
-     * Récupération de X en fonction d'un pourcentage
-     *
-     * @param percent double
-     * @return double
-     */
-    private static double getX(double percent)
-    {
-        if (percent == 100)
+        /**
+         * Function pour ecrire un text a plusieur ligne a une position
+         *
+         * @param font     PDFont
+         * @param fontSize double
+         * @param x        double
+         * @param y        double
+         * @param text     ArrayList Of String
+         * @throws IOException ...
+         */
+        private static void drawText(PDFont font, double fontSize, double x, double y, List<String> text)
         {
-            return maxX - margin;
+            int count = 0;
+            foreach (String s in text)
+            {
+                drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s);
+                count = count + 1;
+            }
         }
-        if (percent == 0)
-        {
-            return minX;
-        }
-        return ((percent / 100) * maxX);
-    }
 
-    /**
-     * Demande a l'utilisateur le chemin d'enregistrement
-     *
-     * @return boolean si cela est valid
-     */
-    private static bool getPath()
-    {
+        /**
+         * Récupération de Y en fonction d'un pourcentage
+         *
+         * @param percent double
+         * @return double
+         */
+        private static double getY(double percent)
+        {
+            if (percent == 100)
+            {
+                return maxY - margin;
+            }
+            if (percent == 0)
+            {
+                return minY;
+            }
+            double retour = ((percent / 100) * maxY);
+            return retour;
+        }
+
+        /**
+         * Récupération de X en fonction d'un pourcentage
+         *
+         * @param percent double
+         * @return double
+         */
+        private static double getX(double percent)
+        {
+            if (percent == 100)
+            {
+                return maxX - margin;
+            }
+            if (percent == 0)
+            {
+                return minX;
+            }
+            return ((percent / 100) * maxX);
+        }
+
+        /**
+         * Demande a l'utilisateur le chemin d'enregistrement
+         *
+         * @return boolean si cela est valid
+         */
+        private static bool getPath()
+        {
             bool retval = false;
 
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.FileName = namePdf;
-            var res  = fileDialog.ShowDialog();
-           
+            var res = fileDialog.ShowDialog();
+
 
             if (!res.HasValue) retval = false;
             else retval = res.Value;
-           
-            if(retval==true)
+
+            if (retval == true)
             {
                 output = fileDialog.FileName;
             }
-            return retval ;       
+            return retval;
+        }
+
+        /**
+         * Création d'une page et définition du stream de la page
+         *
+         * @throws IOException ...
+         */
+        private static void getDocument()
+        {
+            blankPage = new PDPage(new PDRectangle((float)maxX, (float)maxY));
+            document.addPage(blankPage);
+
+            contentStream = new PDPageContentStream(document, blankPage);
+        }
+
+        /**
+         * Récuperation du centre en pixel du text
+         *
+         * @param font     PDType1Font
+         * @param text     String
+         * @param fontSize float
+         * @return double
+         * @throws IOException ...
+         */
+        private static double getMiddleOfText(PDType1Font font, String text, float fontSize)
+        {
+            return (font.getStringWidth(text) / 1000 * fontSize) / 2;
+        }
+
+        /**
+         * Récuperation du centre en pourcentage du text en fonction d'une position
+         *
+         * @param font     PDType1Font
+         * @param text     String
+         * @param fontSize float
+         * @return double
+         * @throws IOException ...
+         */
+        private static double getMiddelOfX(double positionInPercent, PDType1Font font, String text, float fontSize)
+        {
+            return getX(positionInPercent) - getMiddleOfText(font, text, fontSize);
+        }
+
+        /**
+         * Récuperation de la largeur en pourcentage du text en fonction de deux position
+         *
+         * @param positionOneInPercent double
+         * @param positionTowInPercent double
+         * @param font                 PDType1Font
+         * @param text                 String
+         * @param fontSize             double
+         * @return double
+         * @throws IOException ...
+         */
+        private static double getMiddelofXBetweenTowPoint(double positionOneInPercent, double positionTowInPercent, PDType1Font font, String text, double fontSize)
+        {
+            double start = getX(positionOneInPercent);
+            double end = getX(positionTowInPercent);
+            double center = (end - start) / 2;
+            return (start + center) - getMiddleOfText(font, text, (float)fontSize);
+        }
+
+        /**
+         * Récuperation de la hauteur en pourcentage du text en fonction de deux position
+         *
+         * @param positionOneInPercent double
+         * @param positionTowInPercent double
+         * @param font                 PDType1Font
+         * @param fontSize             double
+         * @return double
+         */
+        private static double getMiddelofYBetweenTowPoint(double positionOneInPercent, double positionTowInPercent, PDType1Font font, double fontSize)
+        {
+            double start = getY(positionOneInPercent);
+            double end = getY(positionTowInPercent);
+            double center = (end - start) / 2;
+            return (start + center) - ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2);
+        }
     }
-
-    /**
-     * Création d'une page et définition du stream de la page
-     *
-     * @throws IOException ...
-     */
-    private static void getDocument() 
-    {
-        blankPage = new PDPage(new PDRectangle((float) maxX, (float) maxY));
-        document.addPage(blankPage);
-
-        contentStream = new PDPageContentStream(document, blankPage);
-}
-
-/**
- * Récuperation du centre en pixel du text
- *
- * @param font     PDType1Font
- * @param text     String
- * @param fontSize float
- * @return double
- * @throws IOException ...
- */
-private static double getMiddleOfText(PDType1Font font, String text, float fontSize)
-{
-        return (font.getStringWidth(text) / 1000 * fontSize) / 2;
-}
-
-/**
- * Récuperation du centre en pourcentage du text en fonction d'une position
- *
- * @param font     PDType1Font
- * @param text     String
- * @param fontSize float
- * @return double
- * @throws IOException ...
- */
-private static double getMiddelOfX(double positionInPercent, PDType1Font font, String text, float fontSize) 
-{
-        return getX(positionInPercent) - getMiddleOfText(font, text, fontSize);
-}
-
-/**
- * Récuperation de la largeur en pourcentage du text en fonction de deux position
- *
- * @param positionOneInPercent double
- * @param positionTowInPercent double
- * @param font                 PDType1Font
- * @param text                 String
- * @param fontSize             double
- * @return double
- * @throws IOException ...
- */
-private static double getMiddelofXBetweenTowPoint(double positionOneInPercent, double positionTowInPercent, PDType1Font font, String text, double fontSize) 
-{
-        double start = getX(positionOneInPercent);
-        double end = getX(positionTowInPercent);
-        double center = (end - start) / 2;
-        return (start + center) - getMiddleOfText(font, text, (float) fontSize);
-}
-
-/**
- * Récuperation de la hauteur en pourcentage du text en fonction de deux position
- *
- * @param positionOneInPercent double
- * @param positionTowInPercent double
- * @param font                 PDType1Font
- * @param fontSize             double
- * @return double
- */
-private static double getMiddelofYBetweenTowPoint(double positionOneInPercent, double positionTowInPercent, PDType1Font font, double fontSize)
-{
-    double start = getY(positionOneInPercent);
-    double end = getY(positionTowInPercent);
-    double center = (end - start) / 2;
-    return (start + center) - ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2);
-}
-}
 }
