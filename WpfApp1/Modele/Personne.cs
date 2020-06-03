@@ -70,7 +70,7 @@ namespace TraiteurBernardWPF.Modele
 
         public override string ToString()
         {
-            return $"{Prenom} {Nom} {Tournee}";
+            return $"{Nom} {Prenom} {Tournee}";
         }
 
     }

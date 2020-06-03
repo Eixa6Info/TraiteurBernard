@@ -28,7 +28,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TraiteurBernardWPF
 {
-    
+
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -46,7 +46,7 @@ namespace TraiteurBernardWPF
             );
             root.Save(@"C:\eixa6\nas.xml");
         }
-        
+
         GestionFichier gestionFichier = new GestionFichier();
         const string nasXml = @"C:\eixa6\nas.xml";
 
@@ -76,14 +76,14 @@ namespace TraiteurBernardWPF
                 BaseContext db = new BaseContext();
                 db.Database.EnsureCreated();
                 db.Dispose();
-                
+
                 if (i == 0)
                 {
                     this.DeleteTypeTournee();
                     this.InitialiserBdd();
                 }
 
-            } 
+            }
         }
 
         private void DeleteTypeTournee()
@@ -180,12 +180,12 @@ namespace TraiteurBernardWPF
                 l.JourRepas1 = "mardi";
                 l.JourRepas2 = "mercredi";
                 jours.Add(l);
-               
+
                 var contre = db.TypeTournee.First(a => a.ID == 3);
                 contre.Nom = "contre-tournée";
                 contre.JoursLivraisonsRepas = jours;
                 db.SaveChanges();
-              
+
 
                 // insertion de marennes
                 jours = new List<Livraison>();
@@ -220,7 +220,7 @@ namespace TraiteurBernardWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        
+
         private void ReinitialiserBdd(object sender, RoutedEventArgs e)
         {
 
@@ -229,11 +229,11 @@ namespace TraiteurBernardWPF
             if (!wpf.YesOrNo) return;
 
             Cursor = Cursors.Wait;
-            
+
 
             using (BaseContext db = new BaseContext())
             {
-               
+
                 db.Database.EnsureDeleted();
                 db.Database.EnsureCreated();
 
@@ -348,13 +348,13 @@ namespace TraiteurBernardWPF
             Cursor = Cursors.Arrow;
         }
 
-        
-        
+
+
         private void MenuItem_Quitter_Click(object sender, RoutedEventArgs e)
         {
             gestionFichier.EnregistrerSurNasEtQuitteApp();
         }
-        
+
         /// <summary>
         /// Ouverture de la fenêtre pour créer une personne
         /// </summary>
@@ -367,14 +367,14 @@ namespace TraiteurBernardWPF
                 PersonneCreerWpf wpf = new PersonneCreerWpf();
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
-            } 
+            }
             catch (System.IO.IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
                 Console.WriteLine(a.Message);
                 return;
             }
-            
+
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace TraiteurBernardWPF
                 Console.WriteLine(a.Message);
                 return;
             }
-            
+
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace TraiteurBernardWPF
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void MenuItem_ComptesDeFacturation_Creer_Click(object sender, RoutedEventArgs e)
-        {  
+        {
             try
             {
                 CompteDeFacturationCreerWpf wpf = new CompteDeFacturationCreerWpf();
@@ -482,8 +482,8 @@ namespace TraiteurBernardWPF
                 return;
             }
         }
-        
-        
+
+
         /// <summary>
         /// Ouverture de la fenêtre qui liste les menus
         /// </summary>
@@ -504,7 +504,7 @@ namespace TraiteurBernardWPF
                 return;
             }
         }
-       
+
         /// <summary>
         /// Ouverture de la fenêtre pour créer un menu
         /// </summary>
@@ -525,7 +525,7 @@ namespace TraiteurBernardWPF
                 return;
             }
         }
-        
+
         /// <summary>
         /// Ouverture de la fenêtre pour créer une saisie
         /// </summary>
@@ -546,7 +546,7 @@ namespace TraiteurBernardWPF
                 return;
             }
         }
-        
+
 
         /// <summary>
         /// Création d'un PDF
@@ -617,7 +617,7 @@ namespace TraiteurBernardWPF
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void APropos(object sender, RoutedEventArgs e)
-        {           
+        {
             try
             {
                 AProposWpf wpf = new AProposWpf();
@@ -633,7 +633,7 @@ namespace TraiteurBernardWPF
         }
 
         private void MenuItem_Saisies_PdfCompositions_Click(object sender, RoutedEventArgs e)
-        {  
+        {
             try
             {
                 PdfCreerWpf wpf = new PdfCreerWpf(true, true);
