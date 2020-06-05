@@ -327,9 +327,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DAO\LivraisonDAO.cs" />
     <Compile Include="Gui\SaisieCreerCalendrierWpf.xaml.cs">
       <DependentUpon>SaisieCreerCalendrierWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\GestionDeDateCalendrier.cs" />
     <Compile Include="Utils\GestionFichier.cs" />
     <Compile Include="Utils\LogHelper.cs" />
     <Compile Include="DAO\saisieDataDAO.cs" />

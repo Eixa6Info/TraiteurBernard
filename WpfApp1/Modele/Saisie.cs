@@ -14,5 +14,6 @@ namespace TraiteurBernardWPF.Modele
         public TypeTournee Tournee { get; set; }
         public Personne Personne { get; set; }
         public HashSet<SaisieData> data { get; set; }
+      
     }
 }
