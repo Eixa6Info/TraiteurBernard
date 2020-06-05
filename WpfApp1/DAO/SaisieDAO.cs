@@ -206,9 +206,45 @@ namespace TraiteurBernardWPF.DAO
 
             return saisies;
         }
-        
-      
+        /// <summary>
+        /// Retourne la liste de quantité du potage au dessert d'une journée pour une personne
+        /// </summary>
+        /// <param name="db"></param>
+        /// <param name="personne"></param>
+        /// <param name="annee"></param>
+        /// <param name="semaine"></param>
+        /// <param name="jour"></param>
+        /// <returns> Liste de int </returns>
+        internal static List<int> SaisiePourUneJournee(BaseContext db, Personne personne, int annee, int semaine, int jour)
+        {
+            IQueryable<Saisie> reqData = from t in db.Saisies
+                                         where
+                                         t.Personne.ID == personne.ID &&
+                                         t.Annee == annee &&
+                                         t.Semaine == semaine &&
+                                         t.Jour == jour
+                                         select t;
 
+           
+            List<int> jourDeSaisie = new List<int>();
 
+            foreach (Saisie s in reqData)
+            {
+                db.Entry(s).Collection(p => p.data).Load();
+
+                foreach (SaisieData sd in s.data)
+                {
+                    if (sd.Quantite != 0)   // si la Qantiter est diff de 0 
+                    {
+                        jourDeSaisie.Add(sd.Quantite);  
+                    }
+                    else
+                    {
+                        jourDeSaisie.Add(sd.Quantite);  
+                    }
+                }
+            }
+            return jourDeSaisie;
+        }
     }
 }

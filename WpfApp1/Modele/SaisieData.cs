@@ -30,5 +30,9 @@ namespace TraiteurBernardWPF.Modele
         public string Libelle { get; set; }
 
         public bool Modifie { get; set; } = false;
+
+        // Ajouter DELPRAT Bastien  04/06/2020
+        public Saisie Saisie { get; set; }
+
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -19,15 +20,16 @@ namespace TraiteurBernardWPF.Gui
     {
 
         private BaseContext db;
+        private SaisieCreerCalendrierWpf wpf1;
+
         private Saisie Edite { get; set; }
-        SaisieCreerCalendrierWpf wpf1 = new SaisieCreerCalendrierWpf();
         private int cal = 0;
         private ImageBrush soirBackground;
         private int colonneDepart = 1;
         private int ligneDepart = 2;
 
         private int[] IDs;
-
+        
         int nombreDeChampsPourMidi = 8;
 
         int stateOfText = 0;
@@ -70,6 +72,7 @@ namespace TraiteurBernardWPF.Gui
         }
 
         private List<Coordonnees> coordonneesModifiees = new List<Coordonnees>();
+        private List<Coordonnees> coordonneesValeurInitialiser = new List<Coordonnees>();
 
         /// <summary>
         /// Permet de générer tous les éléments (textboxs et comboboxs)
@@ -206,7 +209,7 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             // Modification demo calendrier
-
+            this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, IDs);
             this.wpf1.Show();
             cal = 1;
             this.GenererLinterface();
@@ -245,6 +248,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if (data[ligne] != null)
                         {
+                            
                             if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_POTAGE - 2 && ligne != LIGNE_FROMAGE - 2)
                             {
                                 var control = (gridMain.FindName("txt" + this.itemNames[ligne] + saisie.Jour) as TextBox);
@@ -259,6 +263,7 @@ namespace TraiteurBernardWPF.Gui
 
                             var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
                             controlCB.SelectedItem = data[ligne].Quantite;
+                          
 
 
                         }
@@ -308,6 +313,7 @@ namespace TraiteurBernardWPF.Gui
             }
 
             stateOfText = 1;
+         
 
         }
 
@@ -367,16 +373,19 @@ namespace TraiteurBernardWPF.Gui
                 // Pour toutes les lignes (les repas entree, plat1, plat2 etc)
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
-
                     string txtValue = " ";
+                    string cbValueVal0;
+                    string cbValue;
+                    int qte;
                     if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_POTAGE && ligne != LIGNE_FROMAGE)
                     {
                         txtValue = (gridMain.FindName("txt" + this.itemNames[indexTxtNames] + jour) as TextBox).Text;
                     }
-                    string cbValue = (gridMain.FindName("cb" + this.itemNames[indexTxtNames] + jour) as ComboBox).SelectedItem.ToString();
 
-                    int qte = short.Parse(cbValue);
-
+                   
+                    cbValue = (gridMain.FindName("cb" + this.itemNames[indexTxtNames] + jour) as ComboBox).SelectedItem.ToString();
+                    qte = short.Parse(cbValue);
+                   
                     int type = this.types[indexTxtNames++];
 
                     var donnee = from d in saisie.data
@@ -498,7 +507,12 @@ namespace TraiteurBernardWPF.Gui
 
         private void Calendrier(object sender, EventArgs e)
         {
+            Console.WriteLine("avant visibility.Visible");
+            this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, IDs);
+            this.Edite = new Saisie { Semaine = 1, Annee = DateTime.Now.Year };
+            edition.DataContext = this.Edite;
             wpf1.Show();
+            Console.WriteLine("apres visibility.Visible");
         }
 
         private void fermer(object sender, EventArgs e)

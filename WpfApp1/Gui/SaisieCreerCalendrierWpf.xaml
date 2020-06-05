@@ -5,10 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
       mc:Ignorable="d"
-      Title="Calendrier" Width="352" Height="448">
+      Title="Calendrier" Width="352" Height="448" Closed="Window_Closed" Loaded="Window_Loaded">
 
     <Grid>
-        <Calendar x:Name="calendar" Margin="29,30,30,0" SelectionMode="MultipleRange" Foreground="#DD000000" Height="362" VerticalAlignment="Top" MouseDoubleClick="calendar_MouseDoubleClick" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="331*"/>
+            <ColumnDefinition Width="13*"/>
+        </Grid.ColumnDefinitions>
+        <Calendar x:Name="calendar" Margin="29,30,17,0" SelectionMode="MultipleRange" Foreground="#DD000000" Height="362" VerticalAlignment="Top" MouseDoubleClick="calendar_MouseDoubleClick" >
             <Calendar.Background>
                 <ImageBrush/>
             </Calendar.Background>
