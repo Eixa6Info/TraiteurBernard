@@ -61,7 +61,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est copier de local au nas.
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est copié de local au nas.
         /// </summary>
         internal static string MessageLogCopyFichierDbLocalToNas {
             get {
@@ -70,7 +70,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier de base de données a été copier du local vers le dossier nas.
+        ///   Recherche une chaîne localisée semblable à Le fichier de base de données a été copié du local vers le dossier nas.
         /// </summary>
         internal static string MessageLogCopyLocalToNas {
             get {
@@ -79,7 +79,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier de base de données a été copier du nas vers le dossier local.
+        ///   Recherche une chaîne localisée semblable à Le fichier de base de données a été copié du nas vers le dossier local.
         /// </summary>
         internal static string MessageLogCopyNasToLocal {
             get {
@@ -88,7 +88,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Deuxieme sauvegarde sur le nas OK.
+        ///   Recherche une chaîne localisée semblable à Deuxième sauvegarde sur le nas OK.
         /// </summary>
         internal static string MessageLogDeuxiemeSauvegarde {
             get {
@@ -97,7 +97,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db n&apos;exitse pas sur le nas il coupe l&apos;application.
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db n&apos;existe pas sur le nas il coupe l&apos;application.
         /// </summary>
         internal static string MessageLogFichierDbPasSurNasIlCoupe {
             get {
@@ -106,7 +106,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db n&apos;exitse pas sur le nas mais il travail en local.
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db n&apos;existe pas sur le nas mais il travail en local.
         /// </summary>
         internal static string MessageLogFichierDbPasSurNasTravailEnLocal {
             get {
@@ -115,7 +115,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est enregistrer en local pas sur le nas.
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est enregistré en local pas sur le nas.
         /// </summary>
         internal static string MessageLogFichierDbSaveLocalPasNas {
             get {
@@ -160,7 +160,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est bien sauvegarder sur le nas.
+        ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est bien sauvegardé sur le nas.
         /// </summary>
         internal static string MessageLogSauvegardeLocalToNas {
             get {
@@ -169,7 +169,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml est pas present il coupe l&apos;application pour parametrer le nas.xml..
+        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml n&apos;est pas présent il coupe l&apos;application pour paramétrer le nas.xml..
         /// </summary>
         internal static string MessageLogXmlNoLocal {
             get {
@@ -178,7 +178,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml est pas present il travail en local..
+        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml n&apos;est pas present il travail en local..
         /// </summary>
         internal static string MessageLogXmlYesLocal {
             get {
@@ -214,7 +214,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Problème avec le fichier de données! Contacter EIXA6 Informatique.
+        ///   Recherche une chaîne localisée semblable à Problème avec le fichier de données ! Contacter EIXA6 Informatique.
         /// </summary>
         internal static string MessagePopUpEixa6Alerte {
             get {
@@ -232,7 +232,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Vous n&apos;avez pas acces au NAS voulez-vous travailer en local ?.
+        ///   Recherche une chaîne localisée semblable à Vous n&apos;avez pas accès au NAS voulez-vous travailler en local ?.
         /// </summary>
         internal static string MessagePopUpNasExistePas {
             get {
