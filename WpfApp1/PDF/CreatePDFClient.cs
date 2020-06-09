@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.pdmodel.common;
 using org.apache.pdfbox.pdmodel.edit;
@@ -15,9 +14,8 @@ using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.PDF
 {
-    public static class CreatePDF
+    class CreatePDFClient
     {
-
         /**
          * Variable pour le placement
          */
@@ -41,6 +39,9 @@ namespace TraiteurBernardWPF.PDF
 
         private static int semaine;
         private static int semaineN1;
+        private static int personneIdRecup;
+        private static string nom;
+        private static string tel;
         private static bool calculSemaine = true;
         private static string namePdf;
         private static string output;
@@ -57,7 +58,7 @@ namespace TraiteurBernardWPF.PDF
          * @return boolean
          * @throws Exception ...
          */
-        public static string Start(float width, float height, int semaine, int annee, bool printSaisieBool)
+        public static string Start(float width, float height, int semaine, int annee, bool printSaisieBool, Personne personne)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -71,54 +72,56 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(14);
 
             //Définition de la semaine
-            CreatePDF.semaine = semaine;
+            CreatePDFClient.semaine = semaine;
 
-            CreatePDF.semaineN1 = semaine + 1;
+            CreatePDFClient.semaineN1 = semaine + 1;
 
+            CreatePDFClient.nom = personne.ToString();
+            
+            CreatePDFClient.tel = personne.Telephone;
+            
+            CreatePDFClient.personneIdRecup = personne.ID;
 
 
             // Si c'est pour la saisie ou le menu
-            if (printSaisieBool == true)
-            {
-                namePdf = "saisies_" + semaine + "&" + semaineN1 + "_" + annee + ".pdf";
-            }
-            else
-            {
-                namePdf = "menus_" + semaine + "&" + semaineN1 + "_" + annee + ".pdf";
-            }
+            namePdf = "saisies_" + semaine + "&" + semaineN1 + "_" + annee + "_" + personne.Nom + "_" + personne.Prenom + ".pdf";
+            
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
             {
                 return "";
             }
 
-
-
-
             //Création du document
             document = new PDDocument();
 
 
-
-            // midi ville 1 2
-            PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine impaire
-            PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine paire
-            // soir ville 1 2
-            PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine impaire
-            PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine paire
-            // midi contre tournée
-            PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
-            PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine paire
-            // soir contre tournée
-            PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
-            PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine paire
-            //midi marennes
-            PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine impaire
-            PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine paire
-            // soir marennes
-            PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine impaire
-            PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine paire
-
+      
+            
+            if (personne.Tournee.ID == 3 && personne.ID == personne.ID)
+            {
+                PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
+                PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+                                                                            // soir contre tournée
+                PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
+                PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+            }
+            else if (personne.Tournee.ID == 4 && personne.ID == personne.ID)
+            {
+                PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine impaire
+                PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine paire
+                                                                    // soir marennes
+                PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine impaire
+                PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine paire
+            }
+            else if (personne.ID == personne.ID)
+            {
+                PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine impaire
+                PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine paire
+                                                                        // soir
+                PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine impaire
+                PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine paire
+            }
 
             //Saving the document
             document.save(output);
@@ -151,7 +154,7 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(14);
 
             //Définition de la semaine
-            CreatePDF.semaine = semaine;
+            CreatePDFClient.semaine = semaine;
 
             //Demande a l'utilisateur de choisir ou enregistrer
             namePdf = "composition_" + semaine + "_" + annee + ".pdf";
@@ -922,7 +925,10 @@ namespace TraiteurBernardWPF.PDF
                 {
                     foreach (SaisieData saisieData in saisie.data)
                     {
-                        saisiesDatas.Add(saisieData);
+                        if (saisie.Personne.ID == CreatePDFClient.personneIdRecup)
+                        {
+                            saisiesDatas.Add(saisieData);
+                        }
                     }
                 }
 
@@ -1143,7 +1149,7 @@ namespace TraiteurBernardWPF.PDF
                 {
                     saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee(tournee1, tournee2, annee, semaine, jour, db);
                 }
-                
+
 
                 // Les données des saisies
                 List<SaisieData> saisiesDatas = new List<SaisieData>();
@@ -1153,7 +1159,10 @@ namespace TraiteurBernardWPF.PDF
                 {
                     foreach (SaisieData saisieData in saisie.data)
                     {
-                        saisiesDatas.Add(saisieData);
+                        if (saisie.Personne.ID == CreatePDFClient.personneIdRecup)
+                        {
+                            saisiesDatas.Add(saisieData);
+                        }
                     }
                 }
 
@@ -1237,7 +1246,7 @@ namespace TraiteurBernardWPF.PDF
 
             if (x + width < maxX)
             {
-                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF.maxX * 100), (maxX / CreatePDF.maxX * 100), font, str, fontSize), y, str);
+                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, str, fontSize), y, str);
             }
             else
             {
@@ -1312,7 +1321,7 @@ namespace TraiteurBernardWPF.PDF
                         if (s.Length > maxLength.Length) maxLength = s;
                     }
 
-                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF.maxX * 100), (maxX / CreatePDF.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings);
+                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings);
                 }
             }
         }
@@ -1581,7 +1590,7 @@ namespace TraiteurBernardWPF.PDF
             //Ligne de changement
             drawText(BOLD, 12, getX(0) + 2, getY(93),
                     "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
-                    "NOM et ADRESSE : ..........................................          TELEPHONE : ..........................................          PAIN : OUI / NON               SEMAINE : " + CreatePDF.semaine);
+                    "NOM et ADRESSE :     " + CreatePDFClient.nom + "          TELEPHONE :       " + CreatePDFClient.tel + "                PAIN : OUI / NON               SEMAINE : " + CreatePDFClient.semaine);
             drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
             drawLine(getX(0), getX(100), getY(88), getY(88));
         }
@@ -1591,7 +1600,7 @@ namespace TraiteurBernardWPF.PDF
             //Ligne de changement
             drawText(BOLD, 12, getX(0) + 2, getY(93),
                     "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
-                    "NOM et ADRESSE : ..........................................          TELEPHONE : ..........................................          PAIN : OUI / NON               SEMAINE : " + CreatePDF.semaineN1);
+                    "NOM et ADRESSE :     " + CreatePDFClient.nom + "          TELEPHONE :       " + CreatePDFClient.tel + "                PAIN : OUI / NON               SEMAINE : " + CreatePDFClient.semaineN1);
             drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
             drawLine(getX(0), getX(100), getY(88), getY(88));
         }

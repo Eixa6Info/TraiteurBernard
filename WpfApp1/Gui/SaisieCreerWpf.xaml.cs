@@ -10,6 +10,7 @@ using System.Windows.Media.TextFormatting;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.PDF;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -27,6 +28,7 @@ namespace TraiteurBernardWPF.Gui
         private ImageBrush soirBackground;
         private int colonneDepart = 1;
         private int ligneDepart = 2;
+        public static bool infoCal = true;
 
         private int[] IDs;
         
@@ -72,7 +74,7 @@ namespace TraiteurBernardWPF.Gui
         }
 
         private List<Coordonnees> coordonneesModifiees = new List<Coordonnees>();
-        private List<Coordonnees> coordonneesValeurInitialiser = new List<Coordonnees>();
+      
 
         /// <summary>
         /// Permet de générer tous les éléments (textboxs et comboboxs)
@@ -507,19 +509,20 @@ namespace TraiteurBernardWPF.Gui
 
         private void Calendrier(object sender, EventArgs e)
         {
-            Console.WriteLine("avant visibility.Visible");
+         
             this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, IDs);
             this.Edite = new Saisie { Semaine = 1, Annee = DateTime.Now.Year };
             edition.DataContext = this.Edite;
-            wpf1.Show();
-            Console.WriteLine("apres visibility.Visible");
+            if (infoCal == false) { 
+                wpf1.Show();
+            }
         }
 
         private void fermer(object sender, EventArgs e)
         {
             // fermeture du calendrier
             this.wpf1.Close();
-            cal = 0;
+            cal = 1;
             // fermetur de la fenetre
             Close();
         }

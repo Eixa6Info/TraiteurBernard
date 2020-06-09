@@ -100,8 +100,6 @@ namespace TraiteurBernardWPF.Gui
                         VerticalAlignment = VerticalAlignment.Top,
                         Text = "",
                         TextWrapping = TextWrapping.Wrap
-                       
-
                     };
                     gridMain.RegisterName("txt" + this.itemNames[indexTxtNames] + jour, txt);
                     txt.SetValue(Grid.ColumnProperty, colonne);

@@ -652,5 +652,20 @@ namespace TraiteurBernardWPF
         {
             gestionFichier.EnregistrerSurNasEtQuitteApp();
         }
+
+        private void MenuItem_Saisies_Pdf_Client_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PdfCreerSaisieClient wpf = new PdfCreerSaisieClient();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch(System.IO.IOException a)
+            {
+
+            }
+        }
+
     }
 }
