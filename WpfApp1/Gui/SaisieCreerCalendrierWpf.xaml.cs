@@ -49,13 +49,14 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Closed(object sender, EventArgs e)
         {
             this.Visibility = Visibility.Hidden;
+            SaisieCreerWpf.infoCal = false;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
-
+                Personne personne = Edite.Personne;
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
                 background.AddOverlay("circle", "C:\\eixa6\\imgCalendar\\circle.png");
@@ -66,7 +67,7 @@ namespace TraiteurBernardWPF.Gui
                 int resMois;
                 IQueryable<Saisie> req = from t in db.Saisies
                                          where
-                                         t.Personne.ID == Edite.Personne.ID
+                                         t.Personne.ID == personne.ID
                                          select t;
 
                 IQueryable<Livraison> reqLiv = from t in db.Livraisons
@@ -75,7 +76,7 @@ namespace TraiteurBernardWPF.Gui
                
                 foreach (Saisie p in req)
                 {
-                    List<int> reqJourDeSaisie = SaisieDAO.SaisiePourUneJournee(db, Edite.Personne, p.Annee, p.Semaine, p.Jour);
+                    List<int> reqJourDeSaisie = SaisieDAO.SaisiePourUneJournee(db, personne, p.Annee, p.Semaine, p.Jour);
                     // on calcule la sommes dans la liste
                     if (reqJourDeSaisie.Sum() > 0)
                     {

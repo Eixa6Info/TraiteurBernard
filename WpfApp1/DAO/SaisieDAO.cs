@@ -113,6 +113,7 @@ namespace TraiteurBernardWPF.DAO
             foreach (Saisie saisie in req)
             {
                 db.Entry(saisie).Collection(s => s.data).Load();
+                db.Entry(saisie).Reference(s => s.Personne).Load();
                 saisies.Add(saisie);
             }
 

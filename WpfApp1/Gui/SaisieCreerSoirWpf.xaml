@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
          ResizeMode="NoResize"
-        Title="Création d'une saisie" Height="1030" Width="1400" Loaded="Window_Loaded">
+        Title="Création d'une saisie" Height="900" Width="1400" Loaded="Window_Loaded">
 
 
     <Grid x:Name="gridMain">
@@ -32,18 +32,18 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
 
-            <RowDefinition Height="103*"/>
-            <RowDefinition Height="143*"/>
-            <RowDefinition Height="26*"/>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="354*"/>
-            <RowDefinition Height="90*"/>
-            <RowDefinition Height="185*"/>
+            <RowDefinition Height="112*"/>
+            <RowDefinition Height="102*"/>
+            <RowDefinition Height="23*"/>
+            <RowDefinition Height="87*"/>
+            <RowDefinition Height="308*"/>
+            <RowDefinition Height="78*"/>
+            <RowDefinition Height="161*"/>
 
         </Grid.RowDefinitions>
 
-        <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="7" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="76" Margin="76,70,0,0"/>
-        <Label x:Name="lblPersonne" Grid.Row="0" Grid.Column="1" Content="Personne : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="268" Grid.ColumnSpan="2" Margin="56,71,0,0"/>
+        <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="7" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="76" Margin="76,62,0,0"/>
+        <Label x:Name="lblPersonne" Grid.Row="0" Grid.Column="1" Content="Personne : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="268" Grid.ColumnSpan="2" Margin="56,59,0,0"/>
         <Button Content="Enregistrer" Click="Valider" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="115" Grid.Column="6" Grid.Row="0"/>
         <Button Content="Annuler" Click="Annuler" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="115" Grid.Column="7" Grid.Row="0"/>
 

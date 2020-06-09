@@ -328,9 +328,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DAO\LivraisonDAO.cs" />
+    <Compile Include="Gui\PdfCreerSaisieClient.xaml.cs">
+      <DependentUpon>PdfCreerSaisieClient.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\SaisieCreerCalendrierWpf.xaml.cs">
       <DependentUpon>SaisieCreerCalendrierWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PDF\CreatePDFClient.cs" />
     <Compile Include="Utils\CalenderBackground.cs" />
     <Compile Include="Utils\GestionDeDateCalendrier.cs" />
     <Compile Include="Utils\GestionFichier.cs" />
@@ -398,6 +402,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\MessageBoxWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PdfCreerSaisieClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -549,6 +557,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="traiteurbernard.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\circle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
