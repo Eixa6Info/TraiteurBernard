@@ -40,7 +40,7 @@ namespace TraiteurBernardWPF.Gui
         String recherche = "";
         public static int jourDeSaisie;
         public static string jourDeLivraison;
-
+        CalenderBackground background;
         /// <summary>
         /// On bloque la possibilité à l'utilisateur d'ajouter des lignes (note : on peut
         /// aussi mettre cette propriété directement dans le xaml
@@ -492,6 +492,12 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
+                
+                calendar.IsTodayHighlighted = false;
+                background = new CalenderBackground(calendar);
+                background.AddOverlay("circle", "C:\\eixa6\\imgCalendar\\circle.png");
+                calendar.SelectedDates.Clear();
+                background.ClearDates();
                 DataGrid gd = (DataGrid)sender;
                 var row_selected = gd.SelectedItem as Personne;
                 List<string> jourLivraison = new List<string>();
@@ -522,23 +528,31 @@ namespace TraiteurBernardWPF.Gui
                     // on calcule la sommes dans la liste
                     if (reqJourDeSaisie.Sum() > 0)
                     {
-                        Console.WriteLine("jour de saisie");
-                       
+
                         // Afficher sur le calendrier les jours de saisie.
                         resJour = GestionDeDateCalendrier.LeJourSuivantLeNuméro(p.Jour);
                         DateTime JourDeSaisie = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(p.Annee, p.Semaine, resJour);
                         resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(p.Semaine, p.Annee);
+                        
                         calendar.SelectedDates.Add(JourDeSaisie);
                         calendar.DisplayDate = new DateTime(p.Annee, resMois , 1);
 
                         // Afficher sur le calendrier les jours de livraison par rapport au saisie
                         DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
-                        Console.WriteLine("Le jour de livraison est le : " + leJourDeLivraison);
-                        //calendar.BlackoutDates.Add(new CalendarDateRange(leJourDeLivraison)); 
+                        
+                        int j = leJourDeLivraison.Day;
+                        int m = leJourDeLivraison.Month;
+                        int y = leJourDeLivraison.Year;
+                        
+                        background.AddDate(new DateTime(y,m,j), "circle");
+
+                        calendar.Background = background.GetBackground();
+
+                        calendar.DisplayDateChanged += CalenderOnDisplayDateChanged;
                     }
                     else
                     {
-                        Console.WriteLine("il y a pas de jour de saisie");
+                        Console.WriteLine("il y a pas de jour de saisie"); 
                     }
                 }
             }
@@ -549,7 +563,13 @@ namespace TraiteurBernardWPF.Gui
             }
         }
 
-        
+        private void CalenderOnDisplayDateChanged(object sender, CalendarDateChangedEventArgs calendarDateChangedEventArgs)
+        {
+            calendar.Background = background.GetBackground();
+        }
+
+
+
 
     }
 }

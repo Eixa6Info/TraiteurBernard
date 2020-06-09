@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MessageLogCopyFichierDbLocalToNas" xml:space="preserve">
-    <value>Le fichier traiteur.db est copier de local au nas</value>
+    <value>Le fichier traiteur.db est copié de local au nas</value>
   </data>
   <data name="MessageLogCopyLocalToNas" xml:space="preserve">
-    <value>Le fichier de base de données a été copier du local vers le dossier nas</value>
+    <value>Le fichier de base de données a été copié du local vers le dossier nas</value>
   </data>
   <data name="MessageLogCopyNasToLocal" xml:space="preserve">
-    <value>Le fichier de base de données a été copier du nas vers le dossier local</value>
+    <value>Le fichier de base de données a été copié du nas vers le dossier local</value>
   </data>
   <data name="MessageLogDeuxiemeSauvegarde" xml:space="preserve">
-    <value>Deuxieme sauvegarde sur le nas OK</value>
+    <value>Deuxième sauvegarde sur le nas OK</value>
   </data>
   <data name="MessageLogFichierDbPasSurNasIlCoupe" xml:space="preserve">
-    <value>Le fichier traiteur.db n'exitse pas sur le nas il coupe l'application</value>
+    <value>Le fichier traiteur.db n'existe pas sur le nas il coupe l'application</value>
   </data>
   <data name="MessageLogFichierDbPasSurNasTravailEnLocal" xml:space="preserve">
-    <value>Le fichier traiteur.db n'exitse pas sur le nas mais il travail en local</value>
+    <value>Le fichier traiteur.db n'existe pas sur le nas mais il travail en local</value>
   </data>
   <data name="MessageLogFichierDbSaveLocalPasNas" xml:space="preserve">
-    <value>Le fichier traiteur.db est enregistrer en local pas sur le nas</value>
+    <value>Le fichier traiteur.db est enregistré en local pas sur le nas</value>
   </data>
   <data name="MessageLogFichierLockExiste" xml:space="preserve">
     <value>Le fichier lock existe.</value>
@@ -151,13 +151,13 @@
     <value>Le fichier lock est present il force le lancement de l'application.</value>
   </data>
   <data name="MessageLogSauvegardeLocalToNas" xml:space="preserve">
-    <value>Le fichier traiteur.db est bien sauvegarder sur le nas</value>
+    <value>Le fichier traiteur.db est bien sauvegardé sur le nas</value>
   </data>
   <data name="MessageLogXmlNoLocal" xml:space="preserve">
-    <value>Le fichier nas.xml est pas present il coupe l'application pour parametrer le nas.xml.</value>
+    <value>Le fichier nas.xml n'est pas présent il coupe l'application pour paramétrer le nas.xml.</value>
   </data>
   <data name="MessageLogXmlYesLocal" xml:space="preserve">
-    <value>Le fichier nas.xml est pas present il travail en local.</value>
+    <value>Le fichier nas.xml n'est pas present il travail en local.</value>
   </data>
   <data name="MessagePopUpCopyFichierDbLocalToNas" xml:space="preserve">
     <value>Le fichier de données est enregistré sur le NAS.</value>
@@ -169,13 +169,13 @@
     <value>Le fichier de données a été récupéré sur le NAS.</value>
   </data>
   <data name="MessagePopUpEixa6Alerte" xml:space="preserve">
-    <value>Problème avec le fichier de données! Contacter EIXA6 Informatique</value>
+    <value>Problème avec le fichier de données ! Contacter EIXA6 Informatique</value>
   </data>
   <data name="MessagePopUpFicherLockExiste" xml:space="preserve">
     <value>Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable.</value>
   </data>
   <data name="MessagePopUpNasExistePas" xml:space="preserve">
-    <value>Vous n'avez pas acces au NAS voulez-vous travailer en local ?</value>
+    <value>Vous n'avez pas accès au NAS voulez-vous travailler en local ?</value>
   </data>
   <data name="MessagePopUpSauvegardeLocalToNas" xml:space="preserve">
     <value>Le fichier de données est enregistré sur le NAS.</value>
