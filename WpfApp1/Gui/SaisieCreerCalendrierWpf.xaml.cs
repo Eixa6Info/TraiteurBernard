@@ -59,7 +59,7 @@ namespace TraiteurBernardWPF.Gui
                 Personne personne = Edite.Personne;
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
-                background.AddOverlay("circle", "C:\\eixa6\\imgCalendar\\circle.png");
+                background.AddOverlay("circle", @"C:\\eixa6\\circle.png");
                 calendar.SelectedDates.Clear();
                 background.ClearDates();
                

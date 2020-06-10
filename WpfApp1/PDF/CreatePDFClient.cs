@@ -953,7 +953,10 @@ namespace TraiteurBernardWPF.PDF
                         }
                         else
                         {
-                            repasIntituleQuantite.Add(libelle, quantite);
+                            if (quantite != 0)
+                            {
+                                repasIntituleQuantite.Add(libelle, quantite);
+                            }
                         }
 
                     }
@@ -1185,7 +1188,10 @@ namespace TraiteurBernardWPF.PDF
                         }
                         else
                         {
-                            repasIntituleQuantite.Add(libelle, quantite);
+                            if (quantite != 0)
+                            {
+                                repasIntituleQuantite.Add(libelle, quantite);
+                            }
                         }
 
                         // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
