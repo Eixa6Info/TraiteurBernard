@@ -22,13 +22,14 @@ namespace TraiteurBernardWPF.Gui
 
         private BaseContext db;
         private SaisieCreerCalendrierWpf wpf1;
-
+        private SaisieCreerPopupWpf popupWpf = new SaisieCreerPopupWpf();
         private Saisie Edite { get; set; }
         private int cal = 0;
         private ImageBrush soirBackground;
         private int colonneDepart = 1;
         private int ligneDepart = 2;
         public static bool infoCal = true;
+        private bool txtChange = false;
 
         private int[] IDs;
         
@@ -112,12 +113,43 @@ namespace TraiteurBernardWPF.Gui
             }
 
 
-
+            int tabindex = 0;
+            
             // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
             for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
             {
+                if (tabindex == 50)
+                {
+                    tabindex = 2;
+                }
+                else if (tabindex == 51)
+                {
+                    tabindex = 3;
+                }
+                else if (tabindex == 52)
+                {
+                    tabindex = 4;
+                }
+                else if (tabindex == 53)
+                {
+                    tabindex = 5;
+                }
+                else if (tabindex == 54)
+                {
+                    tabindex = 6;
+                }else if (tabindex == 55)
+                {
+                    tabindex = 7;
+                }
+                else
+                {
+                    tabindex = 1;
+                }
+                
+             
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
+             
                     if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_POTAGE && ligne != LIGNE_FROMAGE)
                     {
                         // Textbox
@@ -129,7 +161,8 @@ namespace TraiteurBernardWPF.Gui
                             HorizontalAlignment = HorizontalAlignment.Left,
                             VerticalAlignment = VerticalAlignment.Top,
                             Text = "",
-                            TextWrapping = TextWrapping.Wrap
+                            TextWrapping = TextWrapping.Wrap,
+                            IsTabStop = false
                         };
                         gridMain.RegisterName("txt" + this.itemNames[indexTxtNames] + jour, txt);
                         txt.SetValue(Grid.ColumnProperty, colonne);
@@ -161,11 +194,18 @@ namespace TraiteurBernardWPF.Gui
                         cb.SelectedItem = 1;
                     }
 
+
+                    cb.TabIndex = tabindex;
+
+
                     gridMain.RegisterName("cb" + this.itemNames[indexTxtNames++] + jour, cb);
                     cb.SetValue(Grid.ColumnProperty, colonne);
                     cb.SetValue(Grid.RowProperty, ligne);
 
                     gridMain.Children.Add(cb);
+
+                    tabindex = tabindex + 7;
+                    
                 }
                 jour++;
                 indexTxtNames = 0;
@@ -181,7 +221,7 @@ namespace TraiteurBernardWPF.Gui
                 var coord = txt.Tag as Coordonnees;
 
                 txt.Background = Brushes.Pink;
-
+                this.txtChange = true;
                 coordonneesModifiees.Add(coord);
 
             }
@@ -260,15 +300,21 @@ namespace TraiteurBernardWPF.Gui
                                 {
                                     control.Background = Brushes.Pink;
                                     coordonneesModifiees.Add(control.Tag as Coordonnees);
+                                    var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
+                                    controlCB.SelectedItem = 1;
+                                }
+                                else
+                                {
+                                    var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
+                                    controlCB.SelectedItem = data[ligne].Quantite;
                                 }
                             }
-
-                            var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
-                            Console.WriteLine("Num de jour: " + saisie.Jour);
-                            controlCB.SelectedItem = data[ligne].Quantite;
-                          
-
-
+                            else
+                            {
+                                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
+                                Console.WriteLine("Num de jour: " + saisie.Jour);
+                                controlCB.SelectedItem = data[ligne].Quantite;
+                            }
                         }
                         else
                         {
@@ -306,6 +352,7 @@ namespace TraiteurBernardWPF.Gui
                             {
                                 var control = gridMain.FindName("txt" + this.itemNames[ligne] + menu.Jour) as TextBox;
                                 control.Text = plats[numeroPlatCourant].Name;
+                                control.IsTabStop = true;
                                 numeroPlatCourant++;
                             }
                         }
@@ -331,6 +378,13 @@ namespace TraiteurBernardWPF.Gui
 
             Close();
 
+        }
+
+        private void EnregistrerEtNouveau(object sender, RoutedEventArgs e)
+        {
+            Enregistrer();
+            Close();
+            popupWpf.Show();
         }
 
         private void Enregistrer()

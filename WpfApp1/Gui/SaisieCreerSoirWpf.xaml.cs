@@ -85,9 +85,39 @@ namespace TraiteurBernardWPF.Gui
                 }
             }
 
+            int tabindex = 0;
             // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
             for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
             {
+                if (tabindex == 15)
+                {
+                    tabindex = 2;
+                }
+                else if (tabindex == 16)
+                {
+                    tabindex = 3;
+                }
+                else if (tabindex == 17)
+                {
+                    tabindex = 4;
+                }
+                else if (tabindex == 18)
+                {
+                    tabindex = 5;
+                }
+                else if (tabindex == 19)
+                {
+                    tabindex = 6;
+                }
+                else if (tabindex == 20)
+                {
+                    tabindex = 7;
+                }
+                else
+                {
+                    tabindex = 1;
+                }
+
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourSoir; ligne++)
                 {
                     // Textbox
@@ -99,7 +129,8 @@ namespace TraiteurBernardWPF.Gui
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment = VerticalAlignment.Top,
                         Text = "",
-                        TextWrapping = TextWrapping.Wrap
+                        TextWrapping = TextWrapping.Wrap,
+                        IsTabStop = false
                     };
                     gridMain.RegisterName("txt" + this.itemNames[indexTxtNames] + jour, txt);
                     txt.SetValue(Grid.ColumnProperty, colonne);
@@ -119,6 +150,7 @@ namespace TraiteurBernardWPF.Gui
                         ItemsSource = new int[5] { 0, 1, 2, 3, 4 },
                         SelectedItem = 1
                     };
+                    cb.TabIndex = tabindex;
                     gridMain.RegisterName("cb" + this.itemNames[indexTxtNames++] + jour, cb);
                     cb.SetValue(Grid.ColumnProperty, colonne);
                     cb.SetValue(Grid.RowProperty, ligne);
@@ -127,6 +159,7 @@ namespace TraiteurBernardWPF.Gui
                     gridMain.Children.Add(txt);
                     gridMain.Children.Add(cb);
 
+                    tabindex = tabindex + 7;
 
                 }
                 jour++;

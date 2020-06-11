@@ -42,7 +42,9 @@ namespace TraiteurBernardWPF.Gui
         public static int jourDeSaisie;
         public static string jourDeLivraison;
         CalenderBackground background;
-        
+        public static Personne row_selected;
+        private Saisie Edite { get; set; }
+
         /// <summary>
         /// On bloque la possibilité à l'utilisateur d'ajouter des lignes (note : on peut
         /// aussi mettre cette propriété directement dans le xaml
@@ -501,7 +503,7 @@ namespace TraiteurBernardWPF.Gui
                 calendar.SelectedDates.Clear();
                 background.ClearDates();
                 DataGrid gd = (DataGrid)sender;
-                var row_selected = gd.SelectedItem as Personne;
+                row_selected = gd.SelectedItem as Personne;
                 List<string> jourLivraison = new List<string>();
                 List<string> jourRepas1 = new List<string>();
                 List<string> jourRepas2 = new List<string>();
@@ -570,8 +572,61 @@ namespace TraiteurBernardWPF.Gui
             calendar.Background = background.GetBackground();
         }
 
+        private void calendar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var Date = sender;
+            string date = Date.ToString().Substring(0, 10);
+            DateTime dateTime = Convert.ToDateTime(date);
+            var semaine = CultureInfo.CurrentUICulture.Calendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            var annee = dateTime.Year;
+            var Perso = row_selected;
+            Console.WriteLine("ici: ->   " + date + " // " + Perso);
+            this.Edite.Annee = annee;
+            this.Edite.Semaine = semaine;
+            this.Edite.Personne = Perso;
+            this.Edite.Tournee = Perso.Tournee;
+            Console.WriteLine("ici: ->   " + date + " // " + Perso);
+           
 
+            // suivant la tournée, ouvrir une saisir ou une autre
+            if (this.Edite.Tournee.Nom == "ville 1" || this.Edite.Tournee.Nom == "ville 2")
+            {
+                Close();
+                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+                var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirVille.png", UriKind.RelativeOrAbsolute)));
+                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiVille.png", UriKind.RelativeOrAbsolute)));
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
 
+            }
+            else if (this.Edite.Tournee.Nom == "contre-tournée")
+            {
+                Close();
+                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+                var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirContre.png", UriKind.RelativeOrAbsolute)));
+                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiContre.png", UriKind.RelativeOrAbsolute)));
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            else if (this.Edite.Tournee.Nom == "Marennes")
+            {
+                Close();
+                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+                var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirMarennes.png", UriKind.RelativeOrAbsolute)));
+                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiMarennes.png", UriKind.RelativeOrAbsolute)));
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            else
+            {
+                var wpf = new MessageBoxWpf("Tournée manquante", $"La saisie pour cette tournée {this.Edite.Tournee.Nom} n'est pas disponible", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+            }
 
+        }
     }
 }
