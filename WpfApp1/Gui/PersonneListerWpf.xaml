@@ -43,7 +43,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Calendar x:Name="calendar" Margin="0,38,29,47" Grid.Row="1" HorizontalAlignment="Right" Width="283" Foreground="#DD000000" SelectionMode="MultipleRange">
+        <Calendar x:Name="calendar" Margin="0,38,29,47" Grid.Row="1" HorizontalAlignment="Right" Width="283" Foreground="#DD000000" SelectionMode="MultipleRange" MouseDoubleClick="calendar_MouseDoubleClick">
         </Calendar>
         <Button Content="Fermer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" RenderTransformOrigin="1.36,-0.217"  Click="Fermer" Grid.Column="0" Grid.Row="1" />
     </Grid>
