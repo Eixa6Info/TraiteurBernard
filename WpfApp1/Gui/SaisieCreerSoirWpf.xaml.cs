@@ -455,6 +455,62 @@ namespace TraiteurBernardWPF.Gui
             // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
             return result.AddDays(-3);
         }
+        private void MettreAZeroLundi(object sender, EventArgs e)
+        {
+            for (int ligne = 0; ligne < nombreDeChampsPourSoir; ligne++)
+            {
+                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 1) as ComboBox;
+                controlCB.SelectedItem = 0;
+            }
+        }
+        private void MettreAZeroMardi(object sender, EventArgs e)
+        {
+            for (int ligne = 0; ligne < nombreDeChampsPourSoir; ligne++)
+            {
+                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 2) as ComboBox;
+                controlCB.SelectedItem = 0;
+            }
+        }
+        private void MettreAZeroMercredi(object sender, EventArgs e)
+        {
+            for (int ligne = 0; ligne < nombreDeChampsPourSoir; ligne++)
+            {
+                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 3) as ComboBox;
+                controlCB.SelectedItem = 0;
+            }
+        }
+        private void MettreAZeroJeudi(object sender, EventArgs e)
+        {
+            for (int ligne = 0; ligne < nombreDeChampsPourSoir; ligne++)
+            {
+                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 4) as ComboBox;
+                controlCB.SelectedItem = 0;
+            }
+        }
+        private void MettreAZeroVendredi(object sender, EventArgs e)
+        {
+            for (int ligne = 0; ligne < nombreDeChampsPourSoir; ligne++)
+            {
+                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 5) as ComboBox;
+                controlCB.SelectedItem = 0;
+            }
+        }
+        private void MettreAZeroSamedi(object sender, EventArgs e)
+        {
+            for (int ligne = 0; ligne < nombreDeChampsPourSoir; ligne++)
+            {
+                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 6) as ComboBox;
+                controlCB.SelectedItem = 0;
+            }
+        }
+        private void MettreAZeroDimanche(object sender, EventArgs e)
+        {
+            for (int ligne = 0; ligne < nombreDeChampsPourSoir; ligne++)
+            {
+                var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 7) as ComboBox;
+                controlCB.SelectedItem = 0;
+            }
+        }
     }
 }
         

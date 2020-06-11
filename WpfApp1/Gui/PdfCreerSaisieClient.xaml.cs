@@ -29,7 +29,7 @@ namespace TraiteurBernardWPF.Gui
         BaseContext db;
         public Saisie Edite { get; set; }
         public Personne per;
-        public static List<Personne> personnesList;
+        public IList<Personne> SaisiePersonneList { get; set; }
         String recherche = "";
 
         public PdfCreerSaisieClient()
@@ -37,6 +37,8 @@ namespace TraiteurBernardWPF.Gui
             InitializeComponent();
             this.db = new BaseContext();
             this.Edite = new Saisie { Semaine = 1, Annee = DateTime.Now.Year };
+            SaisiePersonneList = new List<Personne>();
+            edition.DataContext = this.Edite;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -80,8 +82,7 @@ namespace TraiteurBernardWPF.Gui
             {
                 if (this.VerifierDonnees())
                 {
-                  //  
-                    foreach(var personne in ListBoxPersonne.SelectedItems)
+                    foreach(var personne in SaisiePersonneList)
                     {
                         per = personne as Personne;
                         var outputfile = CreatePDFClient.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), DateTime.Today.Year, true, per);
@@ -89,8 +90,7 @@ namespace TraiteurBernardWPF.Gui
                         {
                             System.Diagnostics.Process.Start(outputfile);
                         }  
-                    }
-                       
+                    }      
                 }
                 else
                 {
@@ -114,7 +114,7 @@ namespace TraiteurBernardWPF.Gui
             ControlsVerification.DigitsOnly(e);
         }
 
-        private void textChangedRechercheClient(object sender, TextChangedEventArgs e)
+        /*private void textChangedRechercheClient(object sender, TextChangedEventArgs e)
         {
             try
             {
@@ -161,39 +161,33 @@ namespace TraiteurBernardWPF.Gui
                 LogHelper.WriteToFile(a.Message, "PersonneListerWpf.xaml.cs");
                 throw a;
             }
-        }
+        }*/
        
         private void ListBoxPersonne_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-           /*  try
+            try
             {
                 Personne selected = ListBoxPersonne.SelectedItem as Personne;
-                if (this.Edite.Personne == null)
-                {
-                    this.Edite.Personne = new List<Saisie>();
-                }
-                
-                Personne found = (from p in this.Edite.Personne
-                                where p.ID == selected.ID
-                                select p).FirstOrDefault();
-              
+                if (SaisiePersonneList == null) SaisiePersonneList = new List<Personne>();
+                Personne found = (from p in SaisiePersonneList
+                                    where p.ID == selected.ID
+                                    select p).FirstOrDefault();
+
                 if (found != null)
                 {
-                    this.Edite.Personne.Remove(found);
+                    SaisiePersonneList.Remove(found);
                 }
                 else
                 {
-                    this.Edite.Personne.Add(selected);
+                    SaisiePersonneList.Add(selected);
                 }
-                lblListe.Content = string.Join<Personne>("\n", (from p in this.Edite.Personne select p).ToArray());
-
-         
+                lblListe.Content = string.Join<Personne>("\n", (from p in SaisiePersonneList select p).ToArray()); 
             }
             catch (IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "CompteDeFacturationCréeWpf.xaml.cs");
                 throw a;
-            }*/
+            }
         }
     }
 }

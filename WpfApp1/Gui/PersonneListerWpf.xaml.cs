@@ -27,6 +27,7 @@ using Calendar = System.Globalization.Calendar;
 using System.IO;
 using java.sql;
 using TraiteurBernardWPF.DAO;
+using TraiteurBernardWPF.Properties;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -41,6 +42,7 @@ namespace TraiteurBernardWPF.Gui
         public static int jourDeSaisie;
         public static string jourDeLivraison;
         CalenderBackground background;
+        
         /// <summary>
         /// On bloque la possibilité à l'utilisateur d'ajouter des lignes (note : on peut
         /// aussi mettre cette propriété directement dans le xaml
@@ -495,7 +497,7 @@ namespace TraiteurBernardWPF.Gui
                 
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
-                background.AddOverlay("circle", "C:\\eixa6\\imgCalendar\\circle.png");
+                background.AddOverlay("circle", @"C:\\eixa6\\circle.png");
                 calendar.SelectedDates.Clear();
                 background.ClearDates();
                 DataGrid gd = (DataGrid)sender;

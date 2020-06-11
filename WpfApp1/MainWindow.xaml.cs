@@ -352,7 +352,7 @@ namespace TraiteurBernardWPF
 
         private void MenuItem_Quitter_Click(object sender, RoutedEventArgs e)
         {
-            gestionFichier.EnregistrerSurNasEtQuitteApp();
+            Close();
         }
 
         /// <summary>
