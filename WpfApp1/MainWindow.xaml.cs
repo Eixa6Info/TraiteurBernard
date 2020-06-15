@@ -450,7 +450,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(false);
+                PdfCreerWpf wpf = new PdfCreerWpf(1, false);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
@@ -557,7 +557,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(true);
+                PdfCreerWpf wpf = new PdfCreerWpf(1,true);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
@@ -636,7 +636,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(true, true);
+                PdfCreerWpf wpf = new PdfCreerWpf(1, true, true);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }

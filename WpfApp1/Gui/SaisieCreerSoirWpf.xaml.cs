@@ -262,6 +262,12 @@ namespace TraiteurBernardWPF.Gui
                                 (gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox).SelectedItem = data[ligne + nombrePlatsAMidi].Quantite;
 
                                 var sd = data[ligne + nombrePlatsAMidi];
+
+                                if (sd.Quantite != 0)
+                                {
+                                    control.Background = Brushes.LightGreen;
+                                }
+
                                 if (sd.Modifie)
                                 {
                                     control.Background = Brushes.Pink;

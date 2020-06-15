@@ -32,11 +32,11 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         /// <param name="printSaisieBool"></param>
         /// <param name="composition"></param>
-        public PdfCreerWpf(bool printSaisieBool, bool composition = false)
+        public PdfCreerWpf(int semaine, bool printSaisieBool, bool composition = false)
         {
             InitializeComponent();
             this.printSaisieBool = printSaisieBool;
-            txtSemaine.Text = "1";
+            txtSemaine.Text = semaine.ToString();
             this.composition = composition;
         }
 
