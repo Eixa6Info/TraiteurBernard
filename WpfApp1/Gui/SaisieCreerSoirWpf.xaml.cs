@@ -138,6 +138,8 @@ namespace TraiteurBernardWPF.Gui
 
                     txt.TextChanged += Txt_TextChanged;
                     txt.Tag = new Coordonnees { Ligne = ligne, Colonne = colonne };
+                    
+                    gridMain.Children.Add(txt);
 
                     // Combobox
                     ComboBox cb = new ComboBox
@@ -156,7 +158,7 @@ namespace TraiteurBernardWPF.Gui
                     cb.SetValue(Grid.RowProperty, ligne);
 
                     // Ajout des éléments
-                    gridMain.Children.Add(txt);
+                    
                     gridMain.Children.Add(cb);
 
                     tabindex = tabindex + 7;

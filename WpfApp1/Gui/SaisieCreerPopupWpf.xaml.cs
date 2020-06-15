@@ -35,11 +35,19 @@ namespace TraiteurBernardWPF.Gui
         /// <summary>
         /// Constructeur
         /// </summary>
-        public SaisieCreerPopupWpf()
+        public SaisieCreerPopupWpf(int semaine, int annee)
         {
             InitializeComponent();
             this.db = new BaseContext();
-            this.Edite = new Saisie { Semaine = 1 , Annee = DateTime.Now.Year };
+            this.Edite = new Saisie { Semaine = semaine , Annee = annee };
+            edition.DataContext = this.Edite;
+        }
+
+        public void SaisieCreerPopupSaveAndNewWpf(int semaine, int annee)
+        {
+            InitializeComponent();
+            this.db = new BaseContext();
+            this.Edite = new Saisie { Semaine = semaine, Annee = annee };
             edition.DataContext = this.Edite;
         }
 

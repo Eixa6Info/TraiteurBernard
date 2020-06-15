@@ -22,7 +22,6 @@ namespace TraiteurBernardWPF.Gui
 
         private BaseContext db;
         private SaisieCreerCalendrierWpf wpf1;
-        private SaisieCreerPopupWpf popupWpf = new SaisieCreerPopupWpf();
         private Saisie Edite { get; set; }
         private int cal = 0;
         private ImageBrush soirBackground;
@@ -87,12 +86,13 @@ namespace TraiteurBernardWPF.Gui
 
             int jour = 1;
             int indexTxtNames = 0;
-
+          
             // pour chaque jour, afficher la date
             var laDate = FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine);
             // date de contre tournee
             var laDateContreTournee = FirstDateOfWeekContreTourneeISO8601(this.Edite.Annee, this.Edite.Semaine);
-
+            
+           
             if (Edite.Tournee.ID == 3)
             {
                 for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
@@ -194,7 +194,7 @@ namespace TraiteurBernardWPF.Gui
                         cb.SelectedItem = 1;
                     }
 
-
+                   // if(txt)
                     cb.TabIndex = tabindex;
 
 
@@ -237,7 +237,6 @@ namespace TraiteurBernardWPF.Gui
             this.db = db;
             this.Edite = edite;
             this.soirBackground = soirBackground;
-            //this.pffffff = edite.Tournee;
             lblSemaine.Content = this.Edite.Semaine;
             lblPersonne.Content = this.Edite.Personne;
             this.IDs = IDs;
@@ -312,7 +311,6 @@ namespace TraiteurBernardWPF.Gui
                             else
                             {
                                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
-                                Console.WriteLine("Num de jour: " + saisie.Jour);
                                 controlCB.SelectedItem = data[ligne].Quantite;
                             }
                         }
@@ -352,7 +350,7 @@ namespace TraiteurBernardWPF.Gui
                             {
                                 var control = gridMain.FindName("txt" + this.itemNames[ligne] + menu.Jour) as TextBox;
                                 control.Text = plats[numeroPlatCourant].Name;
-                                control.IsTabStop = true;
+                                control.IsTabStop = false;
                                 numeroPlatCourant++;
                             }
                         }
@@ -384,6 +382,7 @@ namespace TraiteurBernardWPF.Gui
         {
             Enregistrer();
             Close();
+            SaisieCreerPopupWpf popupWpf = new SaisieCreerPopupWpf(this.Edite.Semaine, this.Edite.Annee);
             popupWpf.Show();
         }
 

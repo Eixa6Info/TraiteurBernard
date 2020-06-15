@@ -535,7 +535,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf();
+                SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf(1, DateTime.Now.Year) ;
                 WinFormWpf.CornerTopLeftToParent(wpfPopup, this);
                 wpfPopup.ShowDialog();
             }

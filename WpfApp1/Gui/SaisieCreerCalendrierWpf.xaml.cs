@@ -19,6 +19,9 @@ using Calendar = System.Globalization.Calendar;
 using System.IO;
 using TraiteurBernardWPF.Utils;
 using TraiteurBernardWPF.DAO;
+using System.Data.Entity;
+using java.lang;
+using System.Collections.Immutable;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -31,6 +34,8 @@ namespace TraiteurBernardWPF.Gui
         private Saisie Edite { get; set; }
         private int[] IDs;
         CalenderBackground background;
+        private int semaineDisplay;
+        private int anneeDisplay;
 
         public SaisieCreerCalendrierWpf(Saisie edite, BaseContext db, int[] IDs)
         {
@@ -39,6 +44,8 @@ namespace TraiteurBernardWPF.Gui
             this.db = db;
             this.Edite = edite;
             this.IDs = IDs;
+            this.semaineDisplay = edite.Semaine;
+            this.anneeDisplay = edite.Annee;
         }
 
         private void calendar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -65,17 +72,18 @@ namespace TraiteurBernardWPF.Gui
                
                 string resJour = "";
                 int resMois;
+
                 IQueryable<Saisie> req = from t in db.Saisies
                                          where
                                          t.Personne.ID == personne.ID
-                                         select t;
+                                         select t;                
 
                 IQueryable<Livraison> reqLiv = from t in db.Livraisons
                                                select t;
-
                
                 foreach (Saisie p in req)
                 {
+                        
                     List<int> reqJourDeSaisie = SaisieDAO.SaisiePourUneJournee(db, personne, p.Annee, p.Semaine, p.Jour);
                     // on calcule la sommes dans la liste
                     if (reqJourDeSaisie.Sum() > 0)
@@ -84,14 +92,24 @@ namespace TraiteurBernardWPF.Gui
                         // Afficher sur le calendrier les jours de saisie.
                         resJour = GestionDeDateCalendrier.LeJourSuivantLeNuméro(p.Jour);
                         DateTime JourDeSaisie = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(p.Annee, p.Semaine, resJour);
-                        resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(p.Semaine, p.Annee);
-
+                        resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(semaineDisplay, anneeDisplay);
+                        DateTime JourDAffichage = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(anneeDisplay, semaineDisplay, "lundi");
                         calendar.SelectedDates.Add(JourDeSaisie);
-                        calendar.DisplayDate = new DateTime(p.Annee, resMois, 1);
 
-                        // Afficher sur le calendrier les jours de livraison par rapport au saisie
-                        DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
 
+                        calendar.DisplayDate = new DateTime(JourDAffichage.Year, JourDAffichage.Month, JourDAffichage.Day);
+                        DateTime leJourDeLivraison;
+
+                        if (p.Tournee.Nom == "")
+                        {
+                            leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, personne.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
+                        }
+                        else
+                        {
+                            // Afficher sur le calendrier les jours de livraison par rapport au saisie
+                            leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
+                        }
+                            
                         int j = leJourDeLivraison.Day;
                         int m = leJourDeLivraison.Month;
                         int y = leJourDeLivraison.Year;
@@ -101,10 +119,6 @@ namespace TraiteurBernardWPF.Gui
                         calendar.Background = background.GetBackground();
 
                         calendar.DisplayDateChanged += CalenderOnDisplayDateChanged;
-                    }
-                    else
-                    {
-                        Console.WriteLine("il y a pas de jour de saisie");
                     }
                 }
             }
