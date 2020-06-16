@@ -30,6 +30,9 @@ namespace TraiteurBernardWPF.Gui
 
         int stateOfText = 0;
 
+        List<TextBox> ListTxt = new List<TextBox>();
+        TextBox txt;
+
         private string[] itemNames = new string[3]
         {
             
@@ -121,7 +124,7 @@ namespace TraiteurBernardWPF.Gui
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourSoir; ligne++)
                 {
                     // Textbox
-                    TextBox txt = new TextBox
+                    this.txt = new TextBox
                     {
                         Width = 110,
                         Height = 240,
@@ -138,7 +141,7 @@ namespace TraiteurBernardWPF.Gui
 
                     txt.TextChanged += Txt_TextChanged;
                     txt.Tag = new Coordonnees { Ligne = ligne, Colonne = colonne };
-                    
+                    ListTxt.Add(this.txt);
                     gridMain.Children.Add(txt);
 
                     // Combobox
@@ -152,13 +155,19 @@ namespace TraiteurBernardWPF.Gui
                         ItemsSource = new int[5] { 0, 1, 2, 3, 4 },
                         SelectedItem = 1
                     };
+
+                    cb.SelectionChanged += cb_ValChanged;
+                    cb.Tag = new Coordonnees { Ligne = ligne, Colonne = colonne };
+
                     cb.TabIndex = tabindex;
                     gridMain.RegisterName("cb" + this.itemNames[indexTxtNames++] + jour, cb);
                     cb.SetValue(Grid.ColumnProperty, colonne);
                     cb.SetValue(Grid.RowProperty, ligne);
 
-                    // Ajout des éléments
                     
+
+                    // Ajout des éléments
+
                     gridMain.Children.Add(cb);
 
                     tabindex = tabindex + 7;
@@ -184,6 +193,36 @@ namespace TraiteurBernardWPF.Gui
 
             }
         }
+
+        private void cb_ValChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            var coordCb = cb.Tag as Coordonnees;
+            TextBox textBox = new TextBox();
+
+            foreach (var l in ListTxt)
+            {
+                var coordTxt = l.Tag as Coordonnees;
+                if (coordTxt.Colonne == coordCb.Colonne && coordTxt.Ligne == coordCb.Ligne)
+                {
+                    textBox = l as TextBox;
+                }
+            }
+
+            if (cb.SelectedValue.ToString() == "10")
+            {
+                textBox.Background = Brushes.LightBlue;
+            }
+            else if (cb.SelectedValue.ToString() == "1")
+            {
+                textBox.Background = Brushes.LightGreen;
+            }
+            else
+            {
+                textBox.Background = Brushes.Transparent;
+            }
+        }
+
         /// <summary>
         /// Constructeur avec en paramètre la saisie qui contient la semaine, le jour, la tournée, l'année et la personne
         /// </summary>

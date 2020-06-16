@@ -42,7 +42,6 @@ namespace TraiteurBernardWPF.Gui
         public static int jourDeSaisie;
         public static string jourDeLivraison;
         CalenderBackground background;
-       
         public static Personne row_selected;
         private Saisie Edite { get; set; }
 
@@ -497,8 +496,6 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
-                
-                calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
                 background.AddOverlay("circle", @"C:\\eixa6\\circle.png");
                 calendar.SelectedDates.Clear();
@@ -541,7 +538,8 @@ namespace TraiteurBernardWPF.Gui
                             resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(p.Semaine, p.Annee);
 
                             calendar.SelectedDates.Add(JourDeSaisie);
-                            calendar.DisplayDate = new DateTime(p.Annee, resMois, 1);
+                            //calendar.SelectedDates.Add(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));
+                            calendar.DisplayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
                             // Afficher sur le calendrier les jours de livraison par rapport au saisie
                             DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
@@ -580,74 +578,77 @@ namespace TraiteurBernardWPF.Gui
             calendar.Background = background.GetBackground();
         }
 
-        private void calendar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void cal_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
-            var Date = sender;
-            string date = Date.ToString().Substring(0, 10);
-            DateTime dateTime = Convert.ToDateTime(date);
-            var semaine = CultureInfo.CurrentUICulture.Calendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-            var annee = dateTime.Year;
-            Console.WriteLine("row_selected.ID : " + row_selected.ID);
-
-            this.Edite = new Saisie { Semaine = semaine, Annee = annee };
-            this.Edite.Personne = row_selected;
-            this.Edite.Semaine = semaine;
-            this.Edite.Annee = annee;
-            this.Edite.Tournee = row_selected.Tournee;
-
-            IQueryable<Saisie> req = from t in db.Saisies
-                                     where
-                                     t.Personne.ID == row_selected.ID &&
-                                     t.Semaine == semaine &&
-                                     t.Annee == annee  
-                                   
-                                     select t;
-           
-            foreach (Saisie s in req)
+       /*     System.Windows.Controls.Primitives.CalendarDayButton button = sender as System.Windows.Controls.Primitives.CalendarDayButton;
+            DateTime clickedDate = (DateTime)button.DataContext;
+            if (calendar.SelectedDates.Contains(clickedDate))
             {
-                this.Edite = s;
-            }
+                var Date = sender;
+                string date = Date.ToString().Substring(0, 10);
+                DateTime dateTime = Convert.ToDateTime(date);
+                var semaine = CultureInfo.CurrentUICulture.Calendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                var annee = dateTime.Year;
+                Console.WriteLine("row_selected.ID : " + row_selected.ID);
 
-            // suivant la tournée, ouvrir une saisir ou une autre
-            if (this.Edite.Tournee.Nom == "ville 1" || this.Edite.Tournee.Nom == "ville 2")
-            {
-                Close();
-                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
-                var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirVille.png", UriKind.RelativeOrAbsolute)));
-                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiVille.png", UriKind.RelativeOrAbsolute)));
-                WinFormWpf.CornerTopLeftToParent(wpf, this);
-                wpf.ShowDialog();
+                this.Edite = new Saisie { Semaine = semaine, Annee = annee };
+                this.Edite.Personne = row_selected;
+                this.Edite.Semaine = semaine;
+                this.Edite.Annee = annee;
+                this.Edite.Tournee = row_selected.Tournee;
 
-            }
-            else if (this.Edite.Tournee.Nom == "contre-tournée")
-            {
-                Close();
-                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
-                var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirContre.png", UriKind.RelativeOrAbsolute)));
-                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiContre.png", UriKind.RelativeOrAbsolute)));
-                WinFormWpf.CornerTopLeftToParent(wpf, this);
-                wpf.ShowDialog();
-            }
-            else if (this.Edite.Tournee.Nom == "Marennes")
-            {
-                Close();
-                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
-                var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirMarennes.png", UriKind.RelativeOrAbsolute)));
-                SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiMarennes.png", UriKind.RelativeOrAbsolute)));
-                WinFormWpf.CornerTopLeftToParent(wpf, this);
-                wpf.ShowDialog();
-            }
-            else
-            {
-                var wpf = new MessageBoxWpf("Tournée manquante", $"La saisie pour cette tournée {this.Edite.Tournee.Nom} n'est pas disponible", MessageBoxButton.OK);
-                WinFormWpf.CenterToParent(wpf, this);
-                wpf.ShowDialog();
-            }
+                IQueryable<Saisie> req = from t in db.Saisies
+                                         where
+                                         t.Personne.ID == row_selected.ID &&
+                                         t.Semaine == semaine &&
+                                         t.Annee == annee
 
+                                         select t;
+
+                foreach (Saisie s in req)
+                {
+                    this.Edite = s;
+                }
+
+                // suivant la tournée, ouvrir une saisir ou une autre
+                if (this.Edite.Tournee.Nom == "ville 1" || this.Edite.Tournee.Nom == "ville 2")
+                {
+                    Close();
+                    int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
+                    var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirVille.png", UriKind.RelativeOrAbsolute)));
+                    SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                    wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiVille.png", UriKind.RelativeOrAbsolute)));
+                    WinFormWpf.CornerTopLeftToParent(wpf, this);
+                    wpf.ShowDialog();
+
+                }
+                else if (this.Edite.Tournee.Nom == "contre-tournée")
+                {
+                    Close();
+                    int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
+                    var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirContre.png", UriKind.RelativeOrAbsolute)));
+                    SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                    wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiContre.png", UriKind.RelativeOrAbsolute)));
+                    WinFormWpf.CornerTopLeftToParent(wpf, this);
+                    wpf.ShowDialog();
+                }
+                else if (this.Edite.Tournee.Nom == "Marennes")
+                {
+                    Close();
+                    int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
+                    var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirMarennes.png", UriKind.RelativeOrAbsolute)));
+                    SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                    wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiMarennes.png", UriKind.RelativeOrAbsolute)));
+                    WinFormWpf.CornerTopLeftToParent(wpf, this);
+                    wpf.ShowDialog();
+                }
+                else
+                {
+                    var wpf = new MessageBoxWpf("Tournée manquante", $"La saisie pour cette tournée {this.Edite.Tournee.Nom} n'est pas disponible", MessageBoxButton.OK);
+                    WinFormWpf.CenterToParent(wpf, this);
+                    wpf.ShowDialog();
+                }
+            }*/
         }
     }
 }
