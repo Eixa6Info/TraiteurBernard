@@ -45,6 +45,41 @@ namespace TraiteurBernardWPF.Utils
             return resJour;
         }
 
+        internal static int LeNuméroSuivantLeJour(string jour)
+        {
+            int resJour = 0;
+            if (jour == "Lundi")
+            {
+                resJour = 1;
+            }
+            else if (jour == "Mardi")
+            {
+                resJour = 2;
+            }
+            else if (jour == "Mercredi")
+            {
+                resJour = 3;
+            }
+            else if (jour == "Jeudi")
+            {
+                resJour = 4;
+            }
+            else if (jour == "Vendredi")
+            {
+                resJour = 5;
+            }
+            else if (jour == "Samedi")
+            {
+                resJour = 6;
+            }
+            else if (jour == "Dimanche")
+            {
+                resJour = 7;
+            }
+
+            return resJour;
+        }
+
         internal static int TrouverLeMoisAvecNumSemaine(int semaine, int année)
         {
             int resMois;

@@ -42,6 +42,7 @@ namespace TraiteurBernardWPF.Gui
         public static int jourDeSaisie;
         public static string jourDeLivraison;
         CalenderBackground background;
+       
         public static Personne row_selected;
         private Saisie Edite { get; set; }
 
@@ -501,9 +502,9 @@ namespace TraiteurBernardWPF.Gui
                 background = new CalenderBackground(calendar);
                 background.AddOverlay("circle", @"C:\\eixa6\\circle.png");
                 calendar.SelectedDates.Clear();
-                background.ClearDates();
                 DataGrid gd = (DataGrid)sender;
                 row_selected = gd.SelectedItem as Personne;
+                
                 List<string> jourLivraison = new List<string>();
                 List<string> jourRepas1 = new List<string>();
                 List<string> jourRepas2 = new List<string>();
@@ -525,40 +526,47 @@ namespace TraiteurBernardWPF.Gui
                     jourRepas2.Add(t.JourRepas2);
                     jourRepas3.Add(t.JourRepas3);
                 } 
-                                
-                foreach (Saisie p in req)
-                {  
-                    List<int> reqJourDeSaisie = SaisieDAO.SaisiePourUneJournee(db, row_selected, p.Annee, p.Semaine, p.Jour);   
-                    // on calcule la sommes dans la liste
-                    if (reqJourDeSaisie.Sum() > 0)
+                if (req.Count() != 0)
+                {
+                    foreach (Saisie p in req)
                     {
+                        List<int> reqJourDeSaisie = SaisieDAO.SaisiePourUneJournee(db, row_selected, p.Annee, p.Semaine, p.Jour);
+                        // on calcule la sommes dans la liste
+                        if (reqJourDeSaisie.Sum() > 0)
+                        {
 
-                        // Afficher sur le calendrier les jours de saisie.
-                        resJour = GestionDeDateCalendrier.LeJourSuivantLeNuméro(p.Jour);
-                        DateTime JourDeSaisie = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(p.Annee, p.Semaine, resJour);
-                        resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(p.Semaine, p.Annee);
-                        
-                        calendar.SelectedDates.Add(JourDeSaisie);
-                        calendar.DisplayDate = new DateTime(p.Annee, resMois , 1);
+                            // Afficher sur le calendrier les jours de saisie.
+                            resJour = GestionDeDateCalendrier.LeJourSuivantLeNuméro(p.Jour);
+                            DateTime JourDeSaisie = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(p.Annee, p.Semaine, resJour);
+                            resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(p.Semaine, p.Annee);
 
-                        // Afficher sur le calendrier les jours de livraison par rapport au saisie
-                        DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
-                        
-                        int j = leJourDeLivraison.Day;
-                        int m = leJourDeLivraison.Month;
-                        int y = leJourDeLivraison.Year;
-                        
-                        background.AddDate(new DateTime(y,m,j), "circle");
+                            calendar.SelectedDates.Add(JourDeSaisie);
+                            calendar.DisplayDate = new DateTime(p.Annee, resMois, 1);
 
-                        calendar.Background = background.GetBackground();
+                            // Afficher sur le calendrier les jours de livraison par rapport au saisie
+                            DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
 
-                        calendar.DisplayDateChanged += CalenderOnDisplayDateChanged;
-                    }
-                    else
-                    {
-                        Console.WriteLine("il y a pas de jour de saisie"); 
+                            int j = leJourDeLivraison.Day;
+                            int m = leJourDeLivraison.Month;
+                            int y = leJourDeLivraison.Year;
+
+                            background.AddDate(new DateTime(y, m, j), "circle");
+
+                            calendar.Background = background.GetBackground();
+
+                            calendar.DisplayDateChanged += CalenderOnDisplayDateChanged;
+                        }
+                        else
+                        {
+                            Console.WriteLine("il y a pas de jour de saisie");
+                        }
                     }
                 }
+                else
+                {
+                    background.ClearDates();
+                }
+                
             }
             catch (IOException a)
             {
@@ -574,25 +582,38 @@ namespace TraiteurBernardWPF.Gui
 
         private void calendar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            
             var Date = sender;
             string date = Date.ToString().Substring(0, 10);
             DateTime dateTime = Convert.ToDateTime(date);
             var semaine = CultureInfo.CurrentUICulture.Calendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
             var annee = dateTime.Year;
-            var Perso = row_selected;
-            Console.WriteLine("ici: ->   " + date + " // " + Perso);
-            this.Edite.Annee = annee;
+            Console.WriteLine("row_selected.ID : " + row_selected.ID);
+
+            this.Edite = new Saisie { Semaine = semaine, Annee = annee };
+            this.Edite.Personne = row_selected;
             this.Edite.Semaine = semaine;
-            this.Edite.Personne = Perso;
-            this.Edite.Tournee = Perso.Tournee;
-            Console.WriteLine("ici: ->   " + date + " // " + Perso);
+            this.Edite.Annee = annee;
+            this.Edite.Tournee = row_selected.Tournee;
+
+            IQueryable<Saisie> req = from t in db.Saisies
+                                     where
+                                     t.Personne.ID == row_selected.ID &&
+                                     t.Semaine == semaine &&
+                                     t.Annee == annee  
+                                   
+                                     select t;
            
+            foreach (Saisie s in req)
+            {
+                this.Edite = s;
+            }
 
             // suivant la tournée, ouvrir une saisir ou une autre
             if (this.Edite.Tournee.Nom == "ville 1" || this.Edite.Tournee.Nom == "ville 2")
             {
                 Close();
-                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
                 var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirVille.png", UriKind.RelativeOrAbsolute)));
                 SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
                 wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiVille.png", UriKind.RelativeOrAbsolute)));
@@ -603,7 +624,7 @@ namespace TraiteurBernardWPF.Gui
             else if (this.Edite.Tournee.Nom == "contre-tournée")
             {
                 Close();
-                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
                 var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirContre.png", UriKind.RelativeOrAbsolute)));
                 SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
                 wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiContre.png", UriKind.RelativeOrAbsolute)));
@@ -613,7 +634,7 @@ namespace TraiteurBernardWPF.Gui
             else if (this.Edite.Tournee.Nom == "Marennes")
             {
                 Close();
-                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
+                int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(annee, semaine, this.Edite.Personne, this.db);
                 var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirMarennes.png", UriKind.RelativeOrAbsolute)));
                 SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
                 wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiMarennes.png", UriKind.RelativeOrAbsolute)));

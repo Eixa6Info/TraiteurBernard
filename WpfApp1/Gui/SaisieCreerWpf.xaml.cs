@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.sun.org.apache.bcel.@internal.generic;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -22,7 +23,6 @@ namespace TraiteurBernardWPF.Gui
 
         private BaseContext db;
         private SaisieCreerCalendrierWpf wpf1;
-        private SaisieCreerPopupWpf popupWpf = new SaisieCreerPopupWpf();
         private Saisie Edite { get; set; }
         private int cal = 0;
         private ImageBrush soirBackground;
@@ -30,6 +30,7 @@ namespace TraiteurBernardWPF.Gui
         private int ligneDepart = 2;
         public static bool infoCal = true;
         private bool txtChange = false;
+        TextBox txt = new TextBox();
 
         private int[] IDs;
         
@@ -75,6 +76,7 @@ namespace TraiteurBernardWPF.Gui
         }
 
         private List<Coordonnees> coordonneesModifiees = new List<Coordonnees>();
+      //  private List<Coordonnees> coordonneesModifieesCombo = new List<Coordonnees>();
       
 
         /// <summary>
@@ -87,12 +89,13 @@ namespace TraiteurBernardWPF.Gui
 
             int jour = 1;
             int indexTxtNames = 0;
-
+          
             // pour chaque jour, afficher la date
             var laDate = FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine);
             // date de contre tournee
             var laDateContreTournee = FirstDateOfWeekContreTourneeISO8601(this.Edite.Annee, this.Edite.Semaine);
-
+            
+           
             if (Edite.Tournee.ID == 3)
             {
                 for (int colonne = this.colonneDepart; colonne < this.colonneDepart + 7; colonne++)
@@ -153,7 +156,7 @@ namespace TraiteurBernardWPF.Gui
                     if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_POTAGE && ligne != LIGNE_FROMAGE)
                     {
                         // Textbox
-                        TextBox txt = new TextBox
+                        this.txt = new TextBox()
                         {
                             Width = 105,
                             Height = 80,
@@ -173,6 +176,7 @@ namespace TraiteurBernardWPF.Gui
 
                         gridMain.Children.Add(txt);
 
+
                     }
 
                     ComboBox cb = new ComboBox
@@ -182,8 +186,23 @@ namespace TraiteurBernardWPF.Gui
                         Margin = new Thickness(0, 5, 5, 0),
                         HorizontalAlignment = HorizontalAlignment.Right,
                         VerticalAlignment = VerticalAlignment.Top,
-                        ItemsSource = new int[5] { 0, 1, 2, 3, 4 },
+                        
+                        ItemsSource = new int[6] { 0, 1, 2, 3, 4, 10 }, 
+ 
                     };
+
+                    cb.SelectionChanged += cb_ValChanged;
+                    txt.Tag = new Coordonnees { Ligne = ligne, Colonne = colonne };
+                    
+
+                    for (int i = 0; i< 7; i++)
+                    {
+                        if (i == 6)
+                        {
+                            cb.SelectedItem = "S";
+                        }
+                    }
+                    
 
                     if (ligne == LIGNE_BAGUETTE || ligne == LIGNE_PLAT1 || ligne == LIGNE_PLAT2 || ligne == LIGNE_PLAT3)
                     {
@@ -192,17 +211,18 @@ namespace TraiteurBernardWPF.Gui
                     else
                     {
                         cb.SelectedItem = 1;
+                        
                     }
 
-
                     cb.TabIndex = tabindex;
-
 
                     gridMain.RegisterName("cb" + this.itemNames[indexTxtNames++] + jour, cb);
                     cb.SetValue(Grid.ColumnProperty, colonne);
                     cb.SetValue(Grid.RowProperty, ligne);
 
+                    
                     gridMain.Children.Add(cb);
+                    
 
                     tabindex = tabindex + 7;
                     
@@ -223,8 +243,33 @@ namespace TraiteurBernardWPF.Gui
                 txt.Background = Brushes.Pink;
                 this.txtChange = true;
                 coordonneesModifiees.Add(coord);
+             
 
             }
+        }
+
+        private void cb_ValChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var cb = sender as ComboBox;
+            var coord = txt.Tag as Coordonnees;
+            
+
+            if (cb.SelectedItem.ToString() == "10")
+            {
+                txt.Background = Brushes.LightBlue;
+                coordonneesModifiees.Add(coord);
+            }
+            else if(cb.SelectedItem.ToString() == "1")
+            {
+                txt.Background = Brushes.LightGreen;
+                coordonneesModifiees.Add(coord);
+            }
+            else
+            {
+                txt.Background = Brushes.Transparent;
+                coordonneesModifiees.Add(coord);
+            }
+
         }
 
         /// <summary>
@@ -237,7 +282,6 @@ namespace TraiteurBernardWPF.Gui
             this.db = db;
             this.Edite = edite;
             this.soirBackground = soirBackground;
-            //this.pffffff = edite.Tournee;
             lblSemaine.Content = this.Edite.Semaine;
             lblPersonne.Content = this.Edite.Personne;
             this.IDs = IDs;
@@ -296,6 +340,18 @@ namespace TraiteurBernardWPF.Gui
                                 var control = (gridMain.FindName("txt" + this.itemNames[ligne] + saisie.Jour) as TextBox);
                                 control.Text = data[ligne].Libelle;
                                 var sd = data[ligne];
+                                if (sd.Quantite != 0)
+                                {
+                                    control.Background = Brushes.LightGreen;
+                                }
+                                else if (sd.Type == 0 || sd.Type == 1 && sd.Quantite == 10)
+                                {
+                                    control.Background = Brushes.LightBlue;
+                                }
+                                else
+                                {
+                                    control.Background = Brushes.Transparent;
+                                }
                                 if (sd.Modifie)
                                 {
                                     control.Background = Brushes.Pink;
@@ -312,7 +368,6 @@ namespace TraiteurBernardWPF.Gui
                             else
                             {
                                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
-                                Console.WriteLine("Num de jour: " + saisie.Jour);
                                 controlCB.SelectedItem = data[ligne].Quantite;
                             }
                         }
@@ -352,7 +407,7 @@ namespace TraiteurBernardWPF.Gui
                             {
                                 var control = gridMain.FindName("txt" + this.itemNames[ligne] + menu.Jour) as TextBox;
                                 control.Text = plats[numeroPlatCourant].Name;
-                                control.IsTabStop = true;
+                                control.IsTabStop = false;
                                 numeroPlatCourant++;
                             }
                         }
@@ -384,6 +439,7 @@ namespace TraiteurBernardWPF.Gui
         {
             Enregistrer();
             Close();
+            SaisieCreerPopupWpf popupWpf = new SaisieCreerPopupWpf(this.Edite.Semaine, this.Edite.Annee);
             popupWpf.Show();
         }
 
@@ -471,8 +527,22 @@ namespace TraiteurBernardWPF.Gui
                 indexSaisies++;
             }
 
-            this.db.SaveChanges();
-            this.db.Dispose();
+            
+            
+            MessageBoxResult res = MessageBox.Show("Voulez-vous créer le pdf ?", "PDF", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if (res == MessageBoxResult.Yes)
+            {
+                PdfCreerWpf createPDF = new PdfCreerWpf(this.Edite.Semaine, true, false);
+                createPDF.Show();
+                this.db.SaveChanges();
+                this.db.Dispose();
+            }
+            else
+            {
+                this.db.SaveChanges();
+                this.db.Dispose();
+            }
+            
         }
 
         private bool ChercheSiTexteModifie(int ligne, int colonne)
@@ -488,6 +558,18 @@ namespace TraiteurBernardWPF.Gui
 
             return false;
         }
+
+    /*    private bool ChercheSiComboModifie(int ligne, int colonne)
+        {
+            foreach (var coord in coordonneesModifieesCombo)
+            {
+                if (ligne == coord.Ligne && colonne == coord.Colonne)
+                {
+                    return true;
+                }
+            }
+            return false;    
+        }*/
 
         private void Soir(object sender, RoutedEventArgs e)
         {

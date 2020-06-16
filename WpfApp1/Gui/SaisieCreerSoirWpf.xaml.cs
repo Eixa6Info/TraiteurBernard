@@ -138,6 +138,8 @@ namespace TraiteurBernardWPF.Gui
 
                     txt.TextChanged += Txt_TextChanged;
                     txt.Tag = new Coordonnees { Ligne = ligne, Colonne = colonne };
+                    
+                    gridMain.Children.Add(txt);
 
                     // Combobox
                     ComboBox cb = new ComboBox
@@ -156,7 +158,7 @@ namespace TraiteurBernardWPF.Gui
                     cb.SetValue(Grid.RowProperty, ligne);
 
                     // Ajout des éléments
-                    gridMain.Children.Add(txt);
+                    
                     gridMain.Children.Add(cb);
 
                     tabindex = tabindex + 7;
@@ -260,6 +262,12 @@ namespace TraiteurBernardWPF.Gui
                                 (gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox).SelectedItem = data[ligne + nombrePlatsAMidi].Quantite;
 
                                 var sd = data[ligne + nombrePlatsAMidi];
+
+                                if (sd.Quantite != 0)
+                                {
+                                    control.Background = Brushes.LightGreen;
+                                }
+
                                 if (sd.Modifie)
                                 {
                                     control.Background = Brushes.Pink;
