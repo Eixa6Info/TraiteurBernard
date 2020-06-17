@@ -45,8 +45,8 @@
                 </MenuItem> 
                 <MenuItem Header="_Saisies">
                     <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
-                    <MenuItem Header="_Génerer PDF" Click="MenuItem_Saisies_Pdf_Click" />
-                    <MenuItem Header="_Génerer PDF Clients" Click="MenuItem_Saisies_Pdf_Client_Click" />
+                    <!--<MenuItem Header="_Génerer PDF" Click="MenuItem_Saisies_Pdf_Click" />-->
+                    <MenuItem Header="_Génerer PDF par clients" Click="MenuItem_Saisies_Pdf_Client_Click" />
                     <MenuItem Header="_Génerer les compositions" Click="MenuItem_Saisies_PdfCompositions_Click" />
                 </MenuItem>
                 <MenuItem Header="_Options" HorizontalAlignment="Right">
