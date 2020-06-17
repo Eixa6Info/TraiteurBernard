@@ -663,7 +663,9 @@ namespace TraiteurBernardWPF
             }
             catch(System.IO.IOException a)
             {
-
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
             }
         }
 

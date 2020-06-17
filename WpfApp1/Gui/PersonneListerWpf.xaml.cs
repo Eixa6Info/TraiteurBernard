@@ -84,8 +84,6 @@ namespace TraiteurBernardWPF.Gui
                     data.Add(p);
                     data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                 }
-               
-
             }
 
             dataGridPersonnes.ItemsSource = data;
@@ -542,7 +540,7 @@ namespace TraiteurBernardWPF.Gui
                             calendar.DisplayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
                             // Afficher sur le calendrier les jours de livraison par rapport au saisie
-                            DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
+                            DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
 
                             int j = leJourDeLivraison.Day;
                             int m = leJourDeLivraison.Month;
