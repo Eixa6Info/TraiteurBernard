@@ -117,7 +117,27 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Actif" xml:space="preserve">
+    <value>Actif</value>
+  </data>
+  <data name="ActifInactif" xml:space="preserve">
+    <value>Actif &amp; Inactif</value>
+  </data>
+  <data name="AllTournees" xml:space="preserve">
+    <value>Toutes les tournées</value>
+  </data>
+  <data name="CT" xml:space="preserve">
+    <value>contre-tournée</value>
+  </data>
+  <data name="imgCircle" xml:space="preserve">
+    <value>C:\\eixa6\\circle.png</value>
+  </data>
+  <data name="Inactif" xml:space="preserve">
+    <value>Inactif</value>
+  </data>
+  <data name="Marennes" xml:space="preserve">
+    <value>Marennes</value>
+  </data>
   <data name="MessageLogCopyFichierDbLocalToNas" xml:space="preserve">
     <value>Le fichier traiteur.db est copié de local au nas</value>
   </data>
@@ -192,5 +212,11 @@
   </data>
   <data name="TitrePopUpInfo" xml:space="preserve">
     <value>Information</value>
+  </data>
+  <data name="Ville1" xml:space="preserve">
+    <value>ville 1</value>
+  </data>
+  <data name="Ville2" xml:space="preserve">
+    <value>ville 2</value>
   </data>
 </root>
