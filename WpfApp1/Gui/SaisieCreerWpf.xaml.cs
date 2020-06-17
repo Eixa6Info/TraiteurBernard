@@ -30,11 +30,12 @@ namespace TraiteurBernardWPF.Gui
         private int colonneDepart = 1;
         private int ligneDepart = 2;
         public static bool infoCal = true;
+        public static Personne personneCal;
         private bool txtChange = false;
         List<TextBox> ListTxt = new List<TextBox>();
         TextBox txt;
         Dictionary<int,string> EntreeSoir = new Dictionary<int, string>();
-        new Dictionary<int, string> DessertSoir = new Dictionary<int, string>();
+        Dictionary<int, string> DessertSoir = new Dictionary<int, string>();
         private int[] IDs;
         
         int nombreDeChampsPourMidi = 8;
@@ -78,7 +79,7 @@ namespace TraiteurBernardWPF.Gui
             internal int Colonne { get; set; }
         }
 
-        public class ComboData
+        class ComboData
         {
             public int Id { get; set; }
             public string Value { get; set; }
@@ -125,7 +126,6 @@ namespace TraiteurBernardWPF.Gui
                 }
             }
 
-
             int tabindex = 0;
             
             // Pour chaques colonnes et chaque lignes, on génére un textbox et une combobox par cellules
@@ -159,7 +159,6 @@ namespace TraiteurBernardWPF.Gui
                     tabindex = 1;
                 }
                 
-             
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
              
@@ -259,6 +258,7 @@ namespace TraiteurBernardWPF.Gui
             var cb = sender as ComboBox;
             var coordCb = cb.Tag as Coordonnees;
             int col = 0;
+            int lig = 0;
             TextBox textBox = new TextBox();
 
             foreach(var l in ListTxt)
@@ -267,6 +267,7 @@ namespace TraiteurBernardWPF.Gui
                 if (coordTxt.Colonne == coordCb.Colonne && coordTxt.Ligne == coordCb.Ligne)
                 {
                     col = coordTxt.Colonne;
+                    lig = coordTxt.Ligne;
                     textBox = l as TextBox;
                 }
             }
@@ -274,13 +275,28 @@ namespace TraiteurBernardWPF.Gui
             if (cb.SelectedValue.ToString() == "10")
             {
                 textBox.Background = Brushes.LightBlue;
-                foreach (KeyValuePair<int, string> k in EntreeSoir)
+                if (lig == 4)
                 {
-                    if (col == k.Key)
+                    foreach (KeyValuePair<int, string> k in EntreeSoir)
                     {
-                        textBox.Text = k.Value;
+                        if (k.Key == col)
+                        {
+                            stateOfText = 0;
+                            textBox.Text = k.Value;
+                        }
                     }
                 }
+                else if (lig == 9)
+                {
+                    foreach (KeyValuePair<int, string> k in DessertSoir)
+                    {
+                        if (k.Key == col)
+                        {
+                            stateOfText = 0;
+                            textBox.Text = k.Value;
+                        }
+                    }
+                } 
             }
             else if (cb.SelectedValue.ToString() == "1")
             {
@@ -329,11 +345,16 @@ namespace TraiteurBernardWPF.Gui
                                                           s.Semaine == this.Edite.Semaine
                                                         select s;
 
-            // Dans une saisie, on doit avoir 11 champs, y compris baguette, potages, et fromage (sur le midi)
+            List<TraiteurBernardWPF.Modele.Menu> reqMenu = MenuDao.getAllFromWeek(this.Edite.Semaine);
 
+            // Tableau des plats qui va servir plus tard
+            Plat[] plats1 = new Plat[nombreDeChampsPourMidi];
+
+            // Dans une saisie, on doit avoir 11 champs, y compris baguette, potages, et fromage (sur le midi)
+            int valE = 1;
+            int valD = 1;
             if (saisiesDejaExistantes.Any())
             {
-
                 List<Saisie> req = new List<Saisie>();
 
                 foreach (Saisie saisie in saisiesDejaExistantes)
@@ -345,13 +366,17 @@ namespace TraiteurBernardWPF.Gui
                 // On va afficher les plats dans les textboxs et les quantité dans les combobox
                 // Tableau des plats qui va servir plus tard
                 SaisieData[] data = new SaisieData[nombreDeChampsPourMidi];
-                int val = 0;
+                
                 foreach (Saisie saisie in req)
                 {
                     data = saisie.data.OrderBy(sd => sd.Type).ToArray();
-                    
-                    EntreeSoir.Add(val++,data[8].Libelle);
-                    DessertSoir.Add(val++,data[10].Libelle);
+
+                    foreach (TraiteurBernardWPF.Modele.Menu menu in reqMenu)
+                    {
+                        plats1 = menu.Plats.OrderBy(p => p != null ? p.Type : 9).ToArray();
+                        EntreeSoir.Add(valE++, plats1[5].Name);
+                        DessertSoir.Add(valD++, plats1[7].Name);
+                    }
 
                     for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
                     {
@@ -419,7 +444,8 @@ namespace TraiteurBernardWPF.Gui
                 {
 
                     plats = menu.Plats.OrderBy(p => p != null ? p.Type : 9).ToArray();
-
+                    EntreeSoir.Add(valE++, plats[5].Name);
+                    DessertSoir.Add(valD++, plats[7].Name);
                     int numeroPlatCourant = 0;
 
                     for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
@@ -440,10 +466,7 @@ namespace TraiteurBernardWPF.Gui
 
                 }
             }
-
             stateOfText = 1;
-         
-
         }
 
         /// <summary>
@@ -466,8 +489,6 @@ namespace TraiteurBernardWPF.Gui
             {
                 Close();
             }
-            
-
         }
 
         private void EnregistrerEtNouveau(object sender, RoutedEventArgs e)
@@ -554,22 +575,18 @@ namespace TraiteurBernardWPF.Gui
 
                 }
 
-
                 if (saisie.ID == 0) this.db.Add(saisie);
 
                 indexTxtNames = 0;
                 jour++;
                 indexSaisies++;
-            }  
-            
+            }             
             this.db.SaveChanges();
-            this.db.Dispose();
-               
+            this.db.Dispose();   
         }
 
         private bool ChercheSiTexteModifie(int ligne, int colonne)
         {
-
             foreach (var coord in coordonneesModifiees)
             {
                 if (ligne == coord.Ligne && colonne == coord.Colonne)
@@ -577,27 +594,13 @@ namespace TraiteurBernardWPF.Gui
                     return true;
                 }
             }
-
             return false;
         }
-
-    /*    private bool ChercheSiComboModifie(int ligne, int colonne)
-        {
-            foreach (var coord in coordonneesModifieesCombo)
-            {
-                if (ligne == coord.Ligne && colonne == coord.Colonne)
-                {
-                    return true;
-                }
-            }
-            return false;    
-        }*/
 
         private void Soir(object sender, RoutedEventArgs e)
         {
             // enregistrer les 8 premières infos afin que les plats du soir soient en position 8,9 et 10 dans les saisies
             Enregistrer();
-
 
             var form = new SaisieCreerSoirWpf(Edite, IDs);
             form.gridMain.Background = soirBackground;
@@ -670,9 +673,7 @@ namespace TraiteurBernardWPF.Gui
         {
          
             this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, IDs);
-            this.Edite = new Saisie { Semaine = 1, Annee = DateTime.Now.Year };
-            edition.DataContext = this.Edite;
-            if (infoCal == false) { 
+            if (infoCal == false) {
                 wpf1.Show();
             }
         }

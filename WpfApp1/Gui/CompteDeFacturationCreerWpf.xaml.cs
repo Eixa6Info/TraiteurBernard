@@ -84,7 +84,7 @@ namespace TraiteurBernardWPF.Gui
             catch (IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "CompteDeFacturationCréeWpf.xaml.cs");
-                throw a;
+                throw;
             }
         }
 

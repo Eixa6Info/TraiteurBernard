@@ -36,9 +36,11 @@ namespace TraiteurBernardWPF.Gui
         CalenderBackground background;
         private int semaineDisplay;
         private int anneeDisplay;
-
+        private Personne personne;
         public SaisieCreerCalendrierWpf(Saisie edite, BaseContext db, int[] IDs)
         {
+            if (edite == null) throw new ArgumentNullException(nameof(edite));
+
             InitializeComponent(); 
             //this.db = new BaseContext();
             this.db = db;
@@ -46,6 +48,7 @@ namespace TraiteurBernardWPF.Gui
             this.IDs = IDs;
             this.semaineDisplay = edite.Semaine;
             this.anneeDisplay = edite.Annee;
+            this.personne = Edite.Personne;
         }
 
         private void calendar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -56,6 +59,7 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Closed(object sender, EventArgs e)
         {
             this.Visibility = Visibility.Hidden;
+            //Close();
             SaisieCreerWpf.infoCal = false;
         }
 
@@ -63,7 +67,7 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
-                Personne personne = Edite.Personne;
+                
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
                 background.AddOverlay("circle", @"C:\\eixa6\\circle.png");
@@ -72,6 +76,17 @@ namespace TraiteurBernardWPF.Gui
                
                 string resJour = "";
                 int resMois;
+
+                /*if (SaisieCreerWpf.nbCal == 0)
+                {
+                    SaisieCreerWpf.personneCal = personne;
+                }
+                else
+                {
+                    personne = SaisieCreerWpf.personneCal;
+
+                }*/
+                Console.WriteLine("Personne: " + personne.ToString() + "  ID: " + personne.ID.ToString());
 
                 IQueryable<Saisie> req = from t in db.Saisies
                                          where
@@ -100,14 +115,14 @@ namespace TraiteurBernardWPF.Gui
                         calendar.DisplayDate = new DateTime(JourDAffichage.Year, JourDAffichage.Month, JourDAffichage.Day);
                         DateTime leJourDeLivraison;
 
-                        if (p.Tournee.Nom == "")
+                        if ( p.Tournee == null || p.Tournee.Nom == "")
                         {
-                            leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, personne.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
+                            leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(personne.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
                         }
                         else
                         {
                             // Afficher sur le calendrier les jours de livraison par rapport au saisie
-                            leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(db, p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
+                            leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
                         }
                             
                         int j = leJourDeLivraison.Day;

@@ -11,7 +11,7 @@ namespace TraiteurBernardWPF.DAO
 {
     class LivraisonDAO
     {
-        internal static DateTime JourDeLivraisonCal(BaseContext db, string tournee, int annee, int semaine, DateTime jourDeSaisie)
+        internal static DateTime JourDeLivraisonCal(string tournee, int annee, int semaine, DateTime jourDeSaisie)
         {
             
             String jourStr = jourDeSaisie.DayOfWeek.ToString();
