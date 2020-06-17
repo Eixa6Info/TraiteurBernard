@@ -553,7 +553,7 @@ namespace TraiteurBernardWPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MenuItem_Saisies_Pdf_Click(object sender, RoutedEventArgs e)
+   /*     private void MenuItem_Saisies_Pdf_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -567,7 +567,7 @@ namespace TraiteurBernardWPF
                 Console.WriteLine(a.Message);
                 return;
             }
-        }
+        }*/
 
         /// <summary>
         /// Ouverture de la fenêtre d'imporation JSON
