@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GregorianCalendar = System.Globalization.GregorianCalendar;
 using Calendar = System.Globalization.Calendar;
+using System.Globalization;
 
 namespace TraiteurBernardWPF.Utils
 {
@@ -78,6 +79,12 @@ namespace TraiteurBernardWPF.Utils
             }
 
             return resJour;
+        }
+
+        internal static int TrouverLeNumSemaineAvecMois(DateTime dateTime)
+        {
+            int num_semaine = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstFullWeek, DayOfWeek.Monday);
+            return num_semaine;
         }
 
         internal static int TrouverLeMoisAvecNumSemaine(int semaine, int année)

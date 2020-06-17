@@ -62,6 +62,15 @@ namespace TraiteurBernardWPF.Gui
                 }
             }
             ListBoxPersonne.ItemsSource = data2;
+            int laDate = GestionDeDateCalendrier.TrouverLeNumSemaineAvecMois(DateTime.Now);
+            
+            if (laDate % 2 == 0)
+            {
+                // pair
+                laDate = laDate - 1;
+            }
+          
+            txtSemaine.Text = laDate.ToString();
         }
 
         private bool VerifierDonnees()
@@ -70,7 +79,15 @@ namespace TraiteurBernardWPF.Gui
 
             if (txtSemaine.Text.Length != 0 && ListBoxPersonne.SelectedItem != null)
             {
-                retval = true;
+                if (Int32.Parse(txtSemaine.Text) % 2 == 0)
+                {
+                    retval = false;
+                }
+                else
+                {
+                    retval = true;
+                }
+                
             }
 
             return retval;
@@ -94,7 +111,7 @@ namespace TraiteurBernardWPF.Gui
                 }
                 else
                 {
-                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "la semaine et la personne sont indispensables", MessageBoxButton.OK);
+                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables ou incorrecte", "la semaine et la personne sont indispensables et la semaine doit être impaire.", MessageBoxButton.OK);
                     WinFormWpf.CenterToParent(wpf, this);
                     wpf.ShowDialog();
                 }
