@@ -44,10 +44,12 @@ namespace TraiteurBernardWPF.Gui
 
         const int LIGNE_BAGUETTE = 2;
         const int LIGNE_POTAGE = 3;
+        const int LIGNE_ENTREE = 4;
         const int LIGNE_PLAT1 = 5;
         const int LIGNE_PLAT2 = 6;
         const int LIGNE_PLAT3 = 7;
         const int LIGNE_FROMAGE = 8;
+        const int LIGNE_DESSERT = 9;
 
         private string[] itemNames = new string[8]
         {
@@ -98,7 +100,7 @@ namespace TraiteurBernardWPF.Gui
 
             int jour = 1;
             int indexTxtNames = 0;
-            int keyTxt = 0;
+            //int keyTxt = 0;
             
           
             // pour chaque jour, afficher la date
@@ -187,6 +189,26 @@ namespace TraiteurBernardWPF.Gui
                         gridMain.Children.Add(txt);
 
                     }
+                    List<ComboData> ListData = new List<ComboData>();
+                    if (ligne == LIGNE_ENTREE || ligne== LIGNE_DESSERT)
+                    {
+                        ListData.Add(new ComboData { Id = 0, Value = "0" });
+                        ListData.Add(new ComboData { Id = 1, Value = "1" });
+                        ListData.Add(new ComboData { Id = 2, Value = "2" });
+                        ListData.Add(new ComboData { Id = 3, Value = "3" });
+                        ListData.Add(new ComboData { Id = 4, Value = "4" });
+                        ListData.Add(new ComboData { Id = 5, Value = "5" });
+                        ListData.Add(new ComboData { Id = 10, Value = "Soir" });
+                    }
+                    else
+                    {
+                        ListData.Add(new ComboData { Id = 0, Value = "0" });
+                        ListData.Add(new ComboData { Id = 1, Value = "1" });
+                        ListData.Add(new ComboData { Id = 2, Value = "2" });
+                        ListData.Add(new ComboData { Id = 3, Value = "3" });
+                        ListData.Add(new ComboData { Id = 4, Value = "4" });
+                        ListData.Add(new ComboData { Id = 5, Value = "5" });
+                    }
        
                     //ComboBox
 
@@ -199,20 +221,10 @@ namespace TraiteurBernardWPF.Gui
                         VerticalAlignment = VerticalAlignment.Top,
                     };
 
-                    List<ComboData> ListData = new List<ComboData>();
-                    ListData.Add(new ComboData { Id = 0, Value = "0" });
-                    ListData.Add(new ComboData { Id = 1, Value = "1" });
-                    ListData.Add(new ComboData { Id = 2, Value = "2" });
-                    ListData.Add(new ComboData { Id = 3, Value = "3" });
-                    ListData.Add(new ComboData { Id = 4, Value = "4" });
-                    ListData.Add(new ComboData { Id = 5, Value = "5" });
-                    ListData.Add(new ComboData { Id = 10, Value = "Soir" });
-
                     cb.ItemsSource = ListData;
                     cb.DisplayMemberPath = "Value";
                     cb.SelectedValuePath = "Id";
 
-                    
                     cb.SelectionChanged += cb_ValChanged;
                     cb.Tag = new Coordonnees { Ligne = ligne, Colonne = colonne};
 
@@ -692,7 +704,7 @@ namespace TraiteurBernardWPF.Gui
             for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
             {
                     var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 1) as ComboBox;
-                    controlCB.SelectedItem = 0;
+                    controlCB.SelectedValue = 0;
             }   
         }
         private void MettreAZeroMardi(object sender, EventArgs e)
@@ -700,7 +712,7 @@ namespace TraiteurBernardWPF.Gui
             for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
             {
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 2) as ComboBox;
-                controlCB.SelectedItem = 0;
+                controlCB.SelectedValue = 0;
             }
         }
         private void MettreAZeroMercredi(object sender, EventArgs e)
@@ -708,7 +720,7 @@ namespace TraiteurBernardWPF.Gui
             for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
             {
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 3) as ComboBox;
-                controlCB.SelectedItem = 0;
+                controlCB.SelectedValue = 0;
             }
         }
         private void MettreAZeroJeudi(object sender, EventArgs e)
@@ -716,7 +728,7 @@ namespace TraiteurBernardWPF.Gui
             for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
             {
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 4) as ComboBox;
-                controlCB.SelectedItem = 0;
+                controlCB.SelectedValue = 0;
             }
         }
         private void MettreAZeroVendredi(object sender, EventArgs e)
@@ -724,7 +736,7 @@ namespace TraiteurBernardWPF.Gui
             for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
             {
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 5) as ComboBox;
-                controlCB.SelectedItem = 0;
+                controlCB.SelectedValue = 0;
             }
         }
         private void MettreAZeroSamedi(object sender, EventArgs e)
@@ -732,7 +744,7 @@ namespace TraiteurBernardWPF.Gui
             for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
             {
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 6) as ComboBox;
-                controlCB.SelectedItem = 0;
+                controlCB.SelectedValue = 0;
             }
         }
         private void MettreAZeroDimanche(object sender, EventArgs e)
@@ -740,7 +752,7 @@ namespace TraiteurBernardWPF.Gui
             for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
             {
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 7) as ComboBox;
-                controlCB.SelectedItem = 0;
+                controlCB.SelectedValue = 0;
             }
         }
     }

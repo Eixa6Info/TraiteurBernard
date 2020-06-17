@@ -70,7 +70,7 @@ namespace TraiteurBernardWPF.Gui
                 
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
-                background.AddOverlay("circle", @"C:\\eixa6\\circle.png");
+                background.AddOverlay("circle", Properties.Resources.imgCircle);
                 calendar.SelectedDates.Clear();
                 background.ClearDates();
                

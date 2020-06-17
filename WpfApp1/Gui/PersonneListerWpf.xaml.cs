@@ -311,14 +311,14 @@ namespace TraiteurBernardWPF.Gui
                     this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
                     this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
 
-                    if (cbActif.SelectedItem.ToString() == "Actif")
+                    if (cbActif.SelectedItem.ToString() == Properties.Resources.Actif)
                     {
                         if (p.Actif == true)
                         {
                             data.Add(p);
                         }
                     }
-                    else if (cbActif.SelectedItem.ToString() == "Inactif")
+                    else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
                     {
                         if (p.Actif == false)
                         {
@@ -355,7 +355,7 @@ namespace TraiteurBernardWPF.Gui
                     // voir pour plus de détails 
                     this.db.Entry(p).Reference(s => s.Tournee).Load();
                     this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
-                    this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
+                    this.db.Entry(p).Reference(s => s.ContactDurgence).Load();               
 
                     if (cbTournee.SelectedItem.ToString() == "ville 1")
                     {
@@ -381,7 +381,7 @@ namespace TraiteurBernardWPF.Gui
                             }
                         }
                     }
-                
+
                     if (cbTournee.SelectedItem.ToString() == "ville 2")
                     {
                         if (p.Tournee.Nom == "ville 2")
@@ -479,6 +479,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         data.Add(p);
                     }
+                    
                 }
                 dataGridPersonnes.ItemsSource = data;
             }
@@ -495,7 +496,7 @@ namespace TraiteurBernardWPF.Gui
             try
             {
                 background = new CalenderBackground(calendar);
-                background.AddOverlay("circle", @"C:\\eixa6\\circle.png");
+                background.AddOverlay("circle", Properties.Resources.imgCircle);
                 calendar.SelectedDates.Clear();
                 DataGrid gd = (DataGrid)sender;
                 row_selected = gd.SelectedItem as Personne;

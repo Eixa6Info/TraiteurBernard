@@ -61,6 +61,69 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Actif.
+        /// </summary>
+        internal static string Actif {
+            get {
+                return ResourceManager.GetString("Actif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Actif &amp; Inactif.
+        /// </summary>
+        internal static string ActifInactif {
+            get {
+                return ResourceManager.GetString("ActifInactif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Toutes les tournées.
+        /// </summary>
+        internal static string AllTournees {
+            get {
+                return ResourceManager.GetString("AllTournees", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à contre-tournée.
+        /// </summary>
+        internal static string CT {
+            get {
+                return ResourceManager.GetString("CT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à C:\\eixa6\\circle.png.
+        /// </summary>
+        internal static string imgCircle {
+            get {
+                return ResourceManager.GetString("imgCircle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Inactif.
+        /// </summary>
+        internal static string Inactif {
+            get {
+                return ResourceManager.GetString("Inactif", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Marennes.
+        /// </summary>
+        internal static string Marennes {
+            get {
+                return ResourceManager.GetString("Marennes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Le fichier traiteur.db est copié de local au nas.
         /// </summary>
         internal static string MessageLogCopyFichierDbLocalToNas {
@@ -282,6 +345,24 @@ namespace TraiteurBernardWPF.Properties {
         internal static string TitrePopUpInfo {
             get {
                 return ResourceManager.GetString("TitrePopUpInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à ville 1.
+        /// </summary>
+        internal static string Ville1 {
+            get {
+                return ResourceManager.GetString("Ville1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à ville 2.
+        /// </summary>
+        internal static string Ville2 {
+            get {
+                return ResourceManager.GetString("Ville2", resourceCulture);
             }
         }
     }
