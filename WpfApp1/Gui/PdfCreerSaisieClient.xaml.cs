@@ -2,16 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.PDF;
@@ -93,6 +86,11 @@ namespace TraiteurBernardWPF.Gui
             return retval;
         }
 
+        /// <summary>
+        /// Valider selection
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
             try
@@ -111,7 +109,7 @@ namespace TraiteurBernardWPF.Gui
                 }
                 else
                 {
-                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables ou incorrecte", "la semaine et la personne sont indispensables et la semaine doit être impaire.", MessageBoxButton.OK);
+                    MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpInfoIndispensableIncorrecte, Properties.Resources.MessagePopUpErrorIndiIncorrecte, MessageBoxButton.OK);
                     WinFormWpf.CenterToParent(wpf, this);
                     wpf.ShowDialog();
                 }
@@ -119,13 +117,20 @@ namespace TraiteurBernardWPF.Gui
             catch (IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "PdfCreerSaisieClient.xaml.cs");
-                throw a;
+                throw;
             }
         }
+
+        /// <summary>
+        /// fermer fenêtre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Fermer(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
         private void VerifierFormatSemaine(object sender, TextCompositionEventArgs e)
         {
             ControlsVerification.DigitsOnly(e);
@@ -180,6 +185,11 @@ namespace TraiteurBernardWPF.Gui
             }
         }*/
        
+            /// <summary>
+            /// Basculer les personnes de la liste box au label
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
         private void ListBoxPersonne_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try

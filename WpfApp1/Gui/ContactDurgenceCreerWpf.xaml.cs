@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Security;
@@ -96,7 +84,7 @@ namespace TraiteurBernardWPF.Gui
             }
             else
             {
-                MessageBoxWpf wpf = new MessageBoxWpf("Information indispensable", "Le nom, le prénom et le numéro de téléphone sont indispensables", MessageBoxButton.OK);
+                MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpErrorIndispensable, Properties.Resources.MessagePopUpErrorIndispensable3, MessageBoxButton.OK);
                 WinFormWpf.CenterToParent(wpf, this);
                 wpf.ShowDialog();
             }

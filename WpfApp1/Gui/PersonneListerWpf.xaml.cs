@@ -1,21 +1,10 @@
-﻿using com.ibm.icu.util;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Utils;
@@ -25,9 +14,7 @@ using System.Globalization;
 using GregorianCalendar = System.Globalization.GregorianCalendar;
 using Calendar = System.Globalization.Calendar;
 using System.IO;
-using java.sql;
 using TraiteurBernardWPF.DAO;
-using TraiteurBernardWPF.Properties;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -204,7 +191,11 @@ namespace TraiteurBernardWPF.Gui
                 throw a;
             }
         }
-
+        /// <summary>
+        /// Recherche client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textChangedRechercheClient(object sender, TextChangedEventArgs e)
         {
             try
@@ -293,6 +284,11 @@ namespace TraiteurBernardWPF.Gui
             }
         }
 
+        /// <summary>
+        /// Gestion personne Active/Inactive
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbActif_SelectionChanged(object sender, SelectionChangedEventArgs e)
         { 
             try
@@ -338,7 +334,11 @@ namespace TraiteurBernardWPF.Gui
                 throw a;
             }
         }
-
+        /// <summary>
+        /// Gestion de la tournée
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cbTournee_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -357,122 +357,158 @@ namespace TraiteurBernardWPF.Gui
                     this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
                     this.db.Entry(p).Reference(s => s.ContactDurgence).Load();               
 
-                    if (cbTournee.SelectedItem.ToString() == "ville 1")
+                    if (cbTournee.SelectedItem.ToString() == Properties.Resources.Ville1)
                     {
-                        if (p.Tournee.Nom == "ville 1")
+                        if (p.Tournee.Nom == Properties.Resources.Ville1)
                         {
-                            if (cbActif.SelectedItem.ToString() == "Actif")
+                            if(cbActif.SelectedItem != null)
                             {
-                                if (p.Actif == true)
+                                if (cbActif.SelectedItem.ToString() == Properties.Resources.Actif)
                                 {
-                                    data.Add(p);
+                                    if (p.Actif == true)
+                                    {
+                                        data.Add(p);
+                                    }
                                 }
-                            }
-                            else if (cbActif.SelectedItem.ToString() == "Inactif")
-                            {
-                                if (p.Actif == false)
+                                else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
+                                {
+                                    if (p.Actif == false)
+                                    {
+                                        data.Add(p);
+                                    }
+                                }
+                                else
                                 {
                                     data.Add(p);
                                 }
                             }
                             else
-                            {
-                                data.Add(p);
+                            {                              
+                                cbActif.SelectedItem = Properties.Resources.ActifInactif;
                             }
+                            
                         }
                     }
 
-                    if (cbTournee.SelectedItem.ToString() == "ville 2")
+                    if (cbTournee.SelectedItem.ToString() == Properties.Resources.Ville2)
                     {
-                        if (p.Tournee.Nom == "ville 2")
+                        if (p.Tournee.Nom == Properties.Resources.Ville2)
                         {
-                            if (cbActif.SelectedItem.ToString() == "Actif")
+                            if (cbActif.SelectedItem != null)
                             {
-                                if (p.Actif == true)
+                                if (cbActif.SelectedItem.ToString() == Properties.Resources.Actif)
                                 {
-                                    data.Add(p);
+                                    if (p.Actif == true)
+                                    {
+                                        data.Add(p);
+                                    }
                                 }
-                            }
-                            else if (cbActif.SelectedItem.ToString() == "Inactif")
-                            {
-                                if (p.Actif == false)
+                                else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
+                                {
+                                    if (p.Actif == false)
+                                    {
+                                        data.Add(p);
+                                    }
+                                }
+                                else
                                 {
                                     data.Add(p);
                                 }
                             }
                             else
                             {
-                                data.Add(p);
+                                cbActif.SelectedItem = Properties.Resources.ActifInactif;
                             }
                         }
                     }
-                    else if (cbTournee.SelectedItem.ToString() == "Marennes")
+                    else if (cbTournee.SelectedItem.ToString() == Properties.Resources.Marennes)
                     {
-                        if (p.Tournee.Nom == "Marennes")
+                        if (p.Tournee.Nom == Properties.Resources.Marennes)
                         {
-                            if (cbActif.SelectedItem.ToString() == "Actif")
+                            if (cbActif.SelectedItem != null)
                             {
-                                if (p.Actif == true)
+                                if (cbActif.SelectedItem.ToString() == Properties.Resources.Actif)
                                 {
-                                    data.Add(p);
+                                    if (p.Actif == true)
+                                    {
+                                        data.Add(p);
+                                    }
                                 }
-                            }
-                            else if (cbActif.SelectedItem.ToString() == "Inactif")
-                            {
-                                if (p.Actif == false)
+                                else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
+                                {
+                                    if (p.Actif == false)
+                                    {
+                                        data.Add(p);
+                                    }
+                                }
+                                else
                                 {
                                     data.Add(p);
                                 }
                             }
                             else
                             {
-                                data.Add(p);
+                                cbActif.SelectedItem = Properties.Resources.ActifInactif;
                             }
                         }
                     }
-                    else if (cbTournee.SelectedItem.ToString() == "contre-tournée")
+                    else if (cbTournee.SelectedItem.ToString() == Properties.Resources.CT)
                     {
-                        if (p.Tournee.Nom == "contre-tournée")
+                        if (p.Tournee.Nom == Properties.Resources.CT)
                         {
-                            if (cbActif.SelectedItem.ToString() == "Actif")
+                            if (cbActif.SelectedItem != null)
                             {
-                                if (p.Actif == true)
+                                if (cbActif.SelectedItem.ToString() == Properties.Resources.Actif)
                                 {
-                                    data.Add(p);
+                                    if (p.Actif == true)
+                                    {
+                                        data.Add(p);
+                                    }
                                 }
-                            }
-                            else if (cbActif.SelectedItem.ToString() == "Inactif")
-                            {
-                                if (p.Actif == false)
+                                else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
+                                {
+                                    if (p.Actif == false)
+                                    {
+                                        data.Add(p);
+                                    }
+                                }
+                                else
                                 {
                                     data.Add(p);
                                 }
                             }
                             else
                             {
-                                data.Add(p);
+                                cbActif.SelectedItem = Properties.Resources.ActifInactif;
                             }
                         }
                     }
-                    else if (cbTournee.SelectedItem.ToString() == "Toutes les tournées")
+                    else if (cbTournee.SelectedItem.ToString() == Properties.Resources.AllTournees)
                     {
-                        if (cbActif.SelectedItem.ToString() == "Actif")
+                        if(cbActif.SelectedItem != null)
                         {
-                            if (p.Actif == true)
+                            if (cbActif.SelectedItem.ToString() == Properties.Resources.Actif)
+                            {
+                                if (p.Actif == true)
+                                {
+                                    data.Add(p);
+                                }
+                            }
+                            else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
+                            {
+                                if (p.Actif == false)
+                                {
+                                    data.Add(p);
+                                }
+                            }
+                            else if (cbActif.SelectedItem.ToString() == Properties.Resources.ActifInactif)
                             {
                                 data.Add(p);
                             }
-                        }
-                        if (cbActif.SelectedItem.ToString() == "Inactif")
+                        }    
+                        else
                         {
-                            if (p.Actif == false)
-                            {
-                                data.Add(p);
-                            }
-                        }
-                        if (cbActif.SelectedItem.ToString() == "Actif & Inactif")
-                        {
-                            data.Add(p);
+                            cbActif.SelectedItem = Properties.Resources.ActifInactif;
                         }
                     }
                     else
@@ -486,11 +522,15 @@ namespace TraiteurBernardWPF.Gui
             catch (IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "PersonneListerWpf.xaml.cs");
-                throw a;
+                throw;
             } 
         }
 
-
+        /// <summary>
+        /// Calendrier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dataGridPersonnes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
@@ -571,12 +611,20 @@ namespace TraiteurBernardWPF.Gui
                 throw a;
             }
         }
-
+        /// <summary>
+        /// Calendrier
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="calendarDateChangedEventArgs"></param>
         private void CalenderOnDisplayDateChanged(object sender, CalendarDateChangedEventArgs calendarDateChangedEventArgs)
         {
             calendar.Background = background.GetBackground();
         }
-
+        /// <summary>
+        /// Calendrier double clique ouvre une saisie
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cal_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
        /*     System.Windows.Controls.Primitives.CalendarDayButton button = sender as System.Windows.Controls.Primitives.CalendarDayButton;

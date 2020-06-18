@@ -106,6 +106,60 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeMidiContre.png.
+        /// </summary>
+        internal static string ImgTourneeCT {
+            get {
+                return ResourceManager.GetString("ImgTourneeCT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeSoirContre.png.
+        /// </summary>
+        internal static string ImgTourneeCTSoir {
+            get {
+                return ResourceManager.GetString("ImgTourneeCTSoir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeMidiMarennes.png.
+        /// </summary>
+        internal static string ImgTourneeMarennes {
+            get {
+                return ResourceManager.GetString("ImgTourneeMarennes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeSoirMarennes.png.
+        /// </summary>
+        internal static string ImgTourneeMarennesSoir {
+            get {
+                return ResourceManager.GetString("ImgTourneeMarennesSoir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeMidiVille.png.
+        /// </summary>
+        internal static string ImgTourneeVille {
+            get {
+                return ResourceManager.GetString("ImgTourneeVille", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeSoirVille.png.
+        /// </summary>
+        internal static string ImgTourneeVilleSoir {
+            get {
+                return ResourceManager.GetString("ImgTourneeVilleSoir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Inactif.
         /// </summary>
         internal static string Inactif {
@@ -277,11 +331,65 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Vous êtes sur le point de supprimer ce compte de facturation, voulez vous continuer ?.
+        /// </summary>
+        internal static string MessagePopUpDelFacturation {
+            get {
+                return ResourceManager.GetString("MessagePopUpDelFacturation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Vous êtes sur le point de supprimer ce menu, voulez vous continuer ?.
+        /// </summary>
+        internal static string MessagePopUpDelMenu {
+            get {
+                return ResourceManager.GetString("MessagePopUpDelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Problème avec le fichier de données ! Contacter EIXA6 Informatique.
         /// </summary>
         internal static string MessagePopUpEixa6Alerte {
             get {
                 return ResourceManager.GetString("MessagePopUpEixa6Alerte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à la semaine et la personne sont indispensables et la semaine doit être impaire..
+        /// </summary>
+        internal static string MessagePopUpErrorIndiIncorrecte {
+            get {
+                return ResourceManager.GetString("MessagePopUpErrorIndiIncorrecte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à L&apos;année, la semaine et la personne sont indispensables.
+        /// </summary>
+        internal static string MessagePopUpErrorIndispensable {
+            get {
+                return ResourceManager.GetString("MessagePopUpErrorIndispensable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le numéro de la semaine et le numéro du jour sont indispensables.
+        /// </summary>
+        internal static string MessagePopUpErrorIndispensable2 {
+            get {
+                return ResourceManager.GetString("MessagePopUpErrorIndispensable2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le nom, le prénom et le numéro de téléphone sont indispensables.
+        /// </summary>
+        internal static string MessagePopUpErrorIndispensable3 {
+            get {
+                return ResourceManager.GetString("MessagePopUpErrorIndispensable3", resourceCulture);
             }
         }
         
@@ -295,6 +403,24 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Informations indispensables.
+        /// </summary>
+        internal static string MessagePopUpInfoIndispensable {
+            get {
+                return ResourceManager.GetString("MessagePopUpInfoIndispensable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Informations indispensables ou incorrecte.
+        /// </summary>
+        internal static string MessagePopUpInfoIndispensableIncorrecte {
+            get {
+                return ResourceManager.GetString("MessagePopUpInfoIndispensableIncorrecte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Vous n&apos;avez pas accès au NAS voulez-vous travailler en local ?.
         /// </summary>
         internal static string MessagePopUpNasExistePas {
@@ -304,11 +430,29 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le nom est indispensable.
+        /// </summary>
+        internal static string MessagePopUpNomIndi {
+            get {
+                return ResourceManager.GetString("MessagePopUpNomIndi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Le fichier de données est enregistré sur le NAS..
         /// </summary>
         internal static string MessagePopUpSauvegardeLocalToNas {
             get {
                 return ResourceManager.GetString("MessagePopUpSauvegardeLocalToNas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Vous devez selectioner le type de personnes (Actif/Inactif)..
+        /// </summary>
+        internal static string MessagePopUpTypeIndi {
+            get {
+                return ResourceManager.GetString("MessagePopUpTypeIndi", resourceCulture);
             }
         }
         
@@ -336,6 +480,15 @@ namespace TraiteurBernardWPF.Properties {
         internal static string TitrePopUpAlerte {
             get {
                 return ResourceManager.GetString("TitrePopUpAlerte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Confirmation.
+        /// </summary>
+        internal static string TitrePopUpConfirmation {
+            get {
+                return ResourceManager.GetString("TitrePopUpConfirmation", resourceCulture);
             }
         }
         

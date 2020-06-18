@@ -1,5 +1,4 @@
-﻿using org.apache.pdfbox.pdmodel.common.function.type4;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -180,6 +179,11 @@ namespace TraiteurBernardWPF.Gui
 
         }
 
+        /// <summary>
+        /// Quand le texte du textbox change de valeur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (stateOfText > 0)
@@ -194,6 +198,11 @@ namespace TraiteurBernardWPF.Gui
             }
         }
 
+        /// <summary>
+        /// Quand la valeur du comboBox change de valeur
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cb_ValChanged(object sender, SelectionChangedEventArgs e)
         {
             var cb = sender as ComboBox;
