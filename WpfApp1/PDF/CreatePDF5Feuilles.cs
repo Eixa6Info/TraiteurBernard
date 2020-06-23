@@ -28,8 +28,8 @@ namespace TraiteurBernardWPF.PDF
 
         private static double minX = margin;
         private static double minY = margin;
-        private static double columnSpace = 12.5;//12,5%
-        private static double choiceSize = 25;//25Px
+        private static double columnSpace = 32;//12,5%
+        private static double choiceSize = 51;//25Px
 
         private static PDType1Font BOLD = PDType1Font.HELVETICA_BOLD;
         private static PDType1Font NORMAL = PDType1Font.HELVETICA;
@@ -71,7 +71,7 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(1);
             Semaine = semaine;
 
-            namePdf = "saisies_Cuisine" + semaine + "_" + annee + ".pdf";
+            namePdf = "saisies_Cuisine_5_feuilles" + semaine + "_" + annee + ".pdf";
 
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
@@ -105,33 +105,61 @@ namespace TraiteurBernardWPF.PDF
          */
         private static void print(int annee, int semaine)
         {
-            PrintCuisine(annee, semaine);
+            PrintCuisinef1(annee, semaine);
+            PrintCuisinef2(annee, semaine);
+            PrintCuisinef3(annee, semaine);
+            PrintCuisinef4(annee, semaine);
 
         }
 
-        private static void PrintCuisine(int annee, int semaine)
+        private static void PrintCuisinef1(int annee, int semaine)
         {
             //Création d'une nouvelle page
             newPageAndPrintAll(annee, semaine);
 
             //Ajout de toute les infirmation
-            printJours();
+            printJours1();
 
             //Close de la page
             contentStream.close();
         }
 
-        private static void PrintCuisineJambon(int annee, int semaine)
+        private static void PrintCuisinef2(int annee, int semaine)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllJambon(annee, semaine);
+            newPageAndPrintAll(annee, semaine);
 
             //Ajout de toute les infirmation
-            printJours();
+            printJours2();
 
             //Close de la page
             contentStream.close();
         }
+
+        private static void PrintCuisinef3(int annee, int semaine)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAll(annee, semaine);
+
+            //Ajout de toute les infirmation
+            printJours3();
+
+            //Close de la page
+            contentStream.close();
+        }
+
+        private static void PrintCuisinef4(int annee, int semaine)
+        {
+            //Création d'une nouvelle page
+            newPageAndPrintAll(annee, semaine);
+
+            //Ajout de toute les infirmation
+            printJours4();
+
+            //Close de la page
+            contentStream.close();
+        }
+
 
         /**
          * Function identique a toute les page du midi
@@ -157,37 +185,11 @@ namespace TraiteurBernardWPF.PDF
             printDescLine();
 
             //Ajout des menus ou des saisies dans les case
-            printSaisie(annee, semaine);
+            printSaisie1(annee, semaine);
 
         }
 
-        /**
-        * Function identique a toute les page du midi
-        * si l'argument est true, on print les saies
-        * sinon on print les menu
-        * @throws IOException ...
-        */
-        private static void newPageAndPrintAllJambon(int annee, int semaine)
-        {
-            //Récup du document
-            getDocument();
-
-            //création du cadre
-            printCadre();
-
-            //Création de toute les ligne
-            PrintLines();
-
-            //Création de toute les column
-            printColumn();
-
-            //Ajout des description a gauche du tableaux
-            printDescLine();
-
-            //Ajout des menus ou des saisies dans les case
-            printSaisieJambon(annee, semaine);
-
-        }
+    
 
         /**
          * Print sur le PDF des jours pour la page 1 (Tourner 1)
@@ -247,7 +249,7 @@ namespace TraiteurBernardWPF.PDF
             return result.AddDays(-3);
         }
 
-        private static void PrintCenter(printJourOuSoir fct)
+        private static void PrintCenter1(printJourOuSoir fct)
         {
             DateTime today = DateTime.Today;
             DateTime laDate;
@@ -277,42 +279,116 @@ namespace TraiteurBernardWPF.PDF
             laDate = laDate.AddDays(1);
             fct(laDate, sdf, text, fontSize, column);
 
-            //Print du MERCREDI
-            text = "MERCREDI";
-            column = 3;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
-
-            //Print du JEUDI
-            text = "JEUDI";
-            column = 4;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
-
-            //Print du VENDREDI
-            text = "VENDREDI";
-            column = 5;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
-
-            //Print du SAMEDI
-            text = "SAMEDI";
-            column = 6;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
-
-            //Print du DIMANCHE
-            text = "DIMANCHE";
-            column = 7;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
         }
 
-        private static void printJours()
+        private static void PrintCenter2(printJourOuSoir fct)
         {
-            PrintCenter(printCenterDay);
+            DateTime today = DateTime.Today;
+            DateTime laDate;
+
+            laDate = FirstDateOfWeekISO8601(today.Year, Semaine);
+
+            var sdf = new DateTimeFormatInfo();
+
+            //variavle réutiliser
+            String text;
+            int column;
+            float fontSize = 10;
+
+            //Print du Lundi
+            //Text a afficher
+            text = "MARDI";
+
+            //Column n°
+            column = 1;
+            laDate = laDate.AddDays(1);
+            //Print de l'information au centre de la case
+            fct(laDate, sdf, text, fontSize, column);
         }
 
+        private static void PrintCenter3(printJourOuSoir fct)
+        {
+            DateTime today = DateTime.Today;
+            DateTime laDate;
+
+            laDate = FirstDateOfWeekISO8601(today.Year, Semaine);
+
+            var sdf = new DateTimeFormatInfo();
+
+            //variavle réutiliser
+            String text;
+            int column;
+            float fontSize = 10;
+
+            //Print du Lundi
+            //Text a afficher
+            text = "MERCREDI";
+
+            //Column n°
+            column = 1;
+            laDate = laDate.AddDays(1);
+            //Print de l'information au centre de la case
+            fct(laDate, sdf, text, fontSize, column);
+
+            //Print du MARDI
+            text = "JEUDI";
+            column = 2;
+            laDate = laDate.AddDays(1);
+            fct(laDate, sdf, text, fontSize, column);
+
+        }
+
+        private static void PrintCenter4(printJourOuSoir fct)
+        {
+            DateTime today = DateTime.Today;
+            DateTime laDate;
+
+            laDate = FirstDateOfWeekISO8601(today.Year, Semaine);
+
+            var sdf = new DateTimeFormatInfo();
+
+            //variavle réutiliser
+            String text;
+            int column;
+            float fontSize = 10;
+
+            //Print du Lundi
+            //Text a afficher
+            text = "LUNDI";
+
+            //Column n°
+            column = 1;
+            laDate = laDate.AddDays(1);
+            //Print de l'information au centre de la case
+            fct(laDate, sdf, text, fontSize, column);
+
+            //Print du MARDI
+            text = "MARDI";
+            column = 2;
+            laDate = laDate.AddDays(1);
+            fct(laDate, sdf, text, fontSize, column);
+
+        }
+
+        private static void printJours1()
+        {
+            PrintCenter1(printCenterDay);
+        }
+
+        private static void printJours2()
+        {
+            PrintCenter2(printCenterDay);
+        }
+
+        private static void printJours3()
+        {
+            PrintCenter3(printCenterDay);
+        }
+
+        private static void printJours4()
+        {
+            PrintCenter4(printCenterDay);
+        }
 
         delegate void printJourOuSoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column);
 
@@ -339,13 +415,13 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Fonction, pout ptiny les plats et quantités de toutes les saises
         */
-        private static void printSaisie(int annee, int semaine, bool composition = false)
+        private static void printSaisie1(int annee, int semaine, bool composition = false)
         {
             BaseContext db = new BaseContext();
             int jour = 1;
             // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
             // de ce même jour
-            for (jour = 1; jour < 8; jour++)
+            for (jour = 1; jour < 3; jour++)
             {
                 double column = columnSpace * jour;
                 List<Saisie> saisiesList = new List<Saisie>();
@@ -506,7 +582,7 @@ namespace TraiteurBernardWPF.PDF
                                     var txt = entry.Key;
                                     var txtQ = entry.Value.ToString();
                                     PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, font);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, font);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5 + 35, getX(column + columnSpace) + 50 + 35 - (choiceSize + 5), line, 8, font);
                                     line -= 10;
                                 }
                             }
@@ -520,13 +596,13 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Fonction, pout ptiny les plats et quantités de toutes les saises
         */
-        private static void printSaisieJambon(int annee, int semaine, bool composition = false)
+        private static void printSaisie2(int annee, int semaine, bool composition = false)
         {
             BaseContext db = new BaseContext();
             int jour = 1;
             // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
             // de ce même jour
-            for (jour = 1; jour < 8; jour++)
+            for (jour = 2; jour < 3; jour++)
             {
                 double column = columnSpace * jour;
                 List<Saisie> saisiesList = new List<Saisie>();
@@ -697,6 +773,7 @@ namespace TraiteurBernardWPF.PDF
             }
             db.Dispose();
         }
+
 
         private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font)
         {
@@ -827,7 +904,7 @@ namespace TraiteurBernardWPF.PDF
          */
         private static void printColumn()
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 //Left bar Jour 1
                 drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), menuYTopNoLivraison, menuYBottom);
@@ -884,7 +961,7 @@ namespace TraiteurBernardWPF.PDF
             text = "Plat 3".ToUpper();
             drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(44, 56, BOLD, fontSize), text);
 
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 2; i++)
             {
                 text = "Fromage";
                 drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * (1 + i), columnSpace * (1 + i + 1) - (choiceSize / maxX * 100), NORMAL, text, fontSize), getMiddelofYBetweenTowPoint(41, 44, NORMAL, fontSize), text);

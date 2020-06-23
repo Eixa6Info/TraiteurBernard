@@ -273,17 +273,10 @@ namespace TraiteurBernardWPF.PDF
         private static void printSaisieJambon(int annee, int semaine, bool composition = false)
         {
             BaseContext db = new BaseContext();
-            int jour = 1;
-            int a = 92;
-            int b = 0;
-            int c = 102;
-            int d = 0;
-            int e = 102;
+            int jour = 1, a = 92, b = 0, c = 102, d = 0, e = 102, qtt, qttct = 0, leJour = 0;
             var perOld = "";
             var newPer = "";
-            int qtt = 0;
-            int qttct = 0;
-            int leJour = 0;
+
             // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
             // de ce même jour
             for (jour = 1; jour < 8; jour++)
