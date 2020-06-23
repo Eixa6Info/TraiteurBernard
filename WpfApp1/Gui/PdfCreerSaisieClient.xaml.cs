@@ -120,6 +120,15 @@ namespace TraiteurBernardWPF.Gui
                 throw;
             }
         }
+        public static void PrintClient(Personne personne, int semaine)
+        {
+                var outputfile = CreatePDFClient.Start(595.27563F, 841.8898F, semaine, DateTime.Today.Year, true, personne);
+                if (!string.IsNullOrEmpty(outputfile))
+                {
+                    System.Diagnostics.Process.Start(outputfile);
+                }
+            
+        }
 
         /// <summary>
         /// fermer fenêtre

@@ -114,6 +114,7 @@ namespace TraiteurBernardWPF.DAO
             {
                 db.Entry(saisie).Collection(s => s.data).Load();
                 db.Entry(saisie).Reference(s => s.Personne).Load();
+                db.Entry(saisie).Reference(s => s.Tournee).Load();
                 saisies.Add(saisie);
             }
 
@@ -123,6 +124,7 @@ namespace TraiteurBernardWPF.DAO
 
         }
 
+        
         /// <summary>
         /// Récupérer toutes les saisies en fonction de l'année et de la semaine
         /// </summary>

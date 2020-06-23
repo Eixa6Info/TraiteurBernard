@@ -30,9 +30,12 @@ namespace TraiteurBernardWPF.Gui
         private bool txtChange = false;
         List<TextBox> ListTxt = new List<TextBox>();
         TextBox txt;
+        Label rectangle;
         Dictionary<int,string> EntreeSoir = new Dictionary<int, string>();
         Dictionary<int, string> DessertSoir = new Dictionary<int, string>();
         private int[] IDs;
+        public static Personne per;
+        public static int semaine;
         
         int nombreDeChampsPourMidi = 8;
 
@@ -163,7 +166,7 @@ namespace TraiteurBernardWPF.Gui
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
              
-                    if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_POTAGE && ligne != LIGNE_FROMAGE)
+                    if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_FROMAGE)
                     {
                         // Textbox
                         this.txt = new TextBox()
@@ -188,8 +191,9 @@ namespace TraiteurBernardWPF.Gui
                         gridMain.Children.Add(txt);
 
                     }
+
                     List<ComboData> ListData = new List<ComboData>();
-                    if (ligne == LIGNE_ENTREE || ligne== LIGNE_DESSERT)
+                    if (ligne == LIGNE_ENTREE || ligne== LIGNE_DESSERT || ligne == LIGNE_POTAGE)
                     {
                         ListData.Add(new ComboData { Id = 0, Value = "0" });
                         ListData.Add(new ComboData { Id = 1, Value = "1" });
@@ -296,7 +300,7 @@ namespace TraiteurBernardWPF.Gui
             if (cb.SelectedValue.ToString() == "10")
             {
                 textBox.Background = Brushes.LightBlue;
-                if (lig == LIGNE_ENTREE)
+                if (lig == LIGNE_ENTREE || lig == LIGNE_POTAGE)
                 {
                     foreach (KeyValuePair<int, string> k in EntreeSoir)
                     {
@@ -342,6 +346,8 @@ namespace TraiteurBernardWPF.Gui
             lblSemaine.Content = this.Edite.Semaine;
             lblPersonne.Content = this.Edite.Personne;
             this.IDs = IDs;
+            semaine = this.Edite.Semaine;
+            per = this.Edite.Personne;
         }
 
         /// <summary>
@@ -404,7 +410,7 @@ namespace TraiteurBernardWPF.Gui
                         if (data[ligne] != null)
                         {
                             
-                            if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_POTAGE - 2 && ligne != LIGNE_FROMAGE - 2)
+                            if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2 && ligne != LIGNE_POTAGE - 2)
                             {
                                 var control = (gridMain.FindName("txt" + this.itemNames[ligne] + saisie.Jour) as TextBox);
                                 control.Text = data[ligne].Libelle;
@@ -472,7 +478,7 @@ namespace TraiteurBernardWPF.Gui
                     for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
                     {
                         // dans les menus, n'apparaissent pas les baguettes et potages, ni le fromage
-                        if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_POTAGE - 2 && ligne != LIGNE_FROMAGE - 2)
+                        if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2 && ligne != LIGNE_POTAGE - 2)
                         {
                             if (plats[numeroPlatCourant] != null)
                             {
@@ -502,9 +508,7 @@ namespace TraiteurBernardWPF.Gui
             MessageBoxResult res = MessageBox.Show("Voulez-vous créer le pdf ?", "PDF", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (res == MessageBoxResult.Yes)
             {
-                PdfCreerWpf createPDF = new PdfCreerWpf(this.Edite.Semaine, true, false);
-                createPDF.Show();
-                Close();
+                PdfCreerSaisieClient.PrintClient(per, semaine);
             }
             else
             {
@@ -575,7 +579,7 @@ namespace TraiteurBernardWPF.Gui
                     string cbValueVal0;
                     string cbValue;
                     int qte;
-                    if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_POTAGE && ligne != LIGNE_FROMAGE)
+                    if (ligne != LIGNE_BAGUETTE && ligne != LIGNE_FROMAGE)
                     {
                         txtValue = (gridMain.FindName("txt" + this.itemNames[indexTxtNames] + jour) as TextBox).Text;
                     }

@@ -45,7 +45,11 @@
                 </MenuItem> 
                 <MenuItem Header="_Saisies">
                     <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
-                    <!--<MenuItem Header="_Génerer PDF" Click="MenuItem_Saisies_Pdf_Click" />-->
+                    <MenuItem Header="_Génerer PDF pour cuisine">
+                        <MenuItem Header="_Génerer PDF récap semaine" Click="MenuItem_Saisies_Pdf_Click"/>
+                        <MenuItem Header="_Génerer PDF 5 feuilles" Click="MenuItem_Saisies_Pdf5Feuilles_Click"/>
+                        <MenuItem Header="_Génerer PDF récap jambon" Click="MenuItem_Saisies_PdfJambon_Click"/>
+                    </MenuItem>
                     <MenuItem Header="_Génerer PDF par clients" Click="MenuItem_Saisies_Pdf_Client_Click" />
                     <MenuItem Header="_Génerer les compositions" Click="MenuItem_Saisies_PdfCompositions_Click" />
                 </MenuItem>

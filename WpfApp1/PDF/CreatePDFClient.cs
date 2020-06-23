@@ -77,15 +77,15 @@ namespace TraiteurBernardWPF.PDF
             CreatePDFClient.semaineN1 = semaine + 1;
 
             CreatePDFClient.nom = personne.ToString();
-            
+
             CreatePDFClient.tel = personne.Telephone;
-            
+
             CreatePDFClient.personneIdRecup = personne.ID;
 
 
             // Si c'est pour la saisie ou le menu
             namePdf = "saisies_" + semaine + "&" + semaineN1 + "_" + annee + "_" + personne.Nom + "_" + personne.Prenom + ".pdf";
-            
+
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
             {
@@ -96,8 +96,8 @@ namespace TraiteurBernardWPF.PDF
             document = new PDDocument();
 
 
-      
-            
+
+
             if (personne.Tournee.ID == 3 && personne.ID == personne.ID)
             {
                 PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
@@ -118,7 +118,7 @@ namespace TraiteurBernardWPF.PDF
             {
                 PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine impaire
                 PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine paire
-                                                                        // soir
+                                                                      // soir
                 PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine impaire
                 PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine paire
             }
@@ -1312,8 +1312,6 @@ namespace TraiteurBernardWPF.PDF
 
                     double height = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2) * strings.Count;
                     /*AtomicReference<String> maxLength = new AtomicReference<>("");
-
-
                     strings.forEach(s-> {
                         if (s.length() > maxLength.get().length())
                         {

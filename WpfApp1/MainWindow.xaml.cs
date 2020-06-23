@@ -450,7 +450,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(1, false);
+                PdfCreerWpf wpf = new PdfCreerWpf(1, 4);   // valeur 1 pour le numero de semaine valeur 4 pour dire que c'est un menu
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
@@ -461,6 +461,7 @@ namespace TraiteurBernardWPF
                 return;
             }
         }
+
 
         /// <summary>
         /// Ouverture de la fenêtre qui liste les tournées
@@ -549,15 +550,15 @@ namespace TraiteurBernardWPF
 
 
         /// <summary>
-        /// Création d'un PDF
+        /// Création d'un PDF pour la cuisine
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-   /*     private void MenuItem_Saisies_Pdf_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Saisies_Pdf_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(1,true);
+                PdfCreerWpf wpf = new PdfCreerWpf(1,1);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
@@ -567,7 +568,49 @@ namespace TraiteurBernardWPF
                 Console.WriteLine(a.Message);
                 return;
             }
-        }*/
+        }
+
+        /// <summary>
+        /// Création d'un PDF pour la cuisine
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Saisies_Pdf5Feuilles_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PdfCreerWpf wpf = new PdfCreerWpf(1, 2);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+        }
+
+        /// <summary>
+        /// Création d'un PDF pour la cuisine
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MenuItem_Saisies_PdfJambon_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PdfCreerWpf wpf = new PdfCreerWpf(1, 3);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+        }
 
         /// <summary>
         /// Ouverture de la fenêtre d'imporation JSON
@@ -636,7 +679,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(1, true, true);
+                PdfCreerWpf wpf = new PdfCreerWpf(1, 1, true);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }

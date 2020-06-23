@@ -57,7 +57,7 @@ namespace TraiteurBernardWPF.PDF
          * @return boolean
          * @throws Exception ...
          */
-        public static string Start(float width, float height, int semaine, int annee, bool printSaisieBool)
+        public static string Start(float width, float height, int semaine, int annee, int printSaisieInt)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -78,11 +78,11 @@ namespace TraiteurBernardWPF.PDF
 
 
             // Si c'est pour la saisie ou le menu
-            if (printSaisieBool == true)
+            if (printSaisieInt == 1)
             {
                 namePdf = "saisies_" + semaine + "&" + semaineN1 + "_" + annee + ".pdf";
             }
-            else
+            else if (printSaisieInt == 4)
             {
                 namePdf = "menus_" + semaine + "&" + semaineN1 + "_" + annee + ".pdf";
             }
@@ -101,23 +101,23 @@ namespace TraiteurBernardWPF.PDF
 
 
             // midi ville 1 2
-            PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine impaire
-            PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine paire
+            PrintMidiVille1ou2(annee, semaine, printSaisieInt);  // semaine impaire
+            PrintMidiVille1ou2(annee, semaine, printSaisieInt);  // semaine paire
             // soir ville 1 2
-            PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine impaire
-            PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine paire
+            PrintSoirVille1ou2(annee, semaine, printSaisieInt);    // semaine impaire
+            PrintSoirVille1ou2(annee, semaine, printSaisieInt);    // semaine paire
             // midi contre tournée
-            PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
-            PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+            PrintMidiContreTournee(annee, semaine, printSaisieInt);    // semaine impaire
+            PrintMidiContreTournee(annee, semaine, printSaisieInt);    // semaine paire
             // soir contre tournée
-            PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
-            PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+            PrintSoirContreTournee(annee, semaine, printSaisieInt);    // semaine impaire
+            PrintSoirContreTournee(annee, semaine, printSaisieInt);    // semaine paire
             //midi marennes
-            PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine impaire
-            PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine paire
+            PrintMidiMarennes(annee, semaine, printSaisieInt); // semaine impaire
+            PrintMidiMarennes(annee, semaine, printSaisieInt); // semaine paire
             // soir marennes
-            PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine impaire
-            PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine paire
+            PrintSoirMarennes(annee, semaine, printSaisieInt); // semaine impaire
+            PrintSoirMarennes(annee, semaine, printSaisieInt); // semaine paire
 
 
             //Saving the document
@@ -221,19 +221,19 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void printMidi(int annee, int semaine, bool printSaisieBool)
+        private static void printMidi(int annee, int semaine, int printSaisieInt)
         {
-            PrintMidiVille1ou2(annee, semaine, printSaisieBool);
+            PrintMidiVille1ou2(annee, semaine, printSaisieInt);
 
-            PrintMidiContreTournee(annee, semaine, printSaisieBool);
+            PrintMidiContreTournee(annee, semaine, printSaisieInt);
 
-            PrintMidiMarennes(annee, semaine, printSaisieBool);
+            PrintMidiMarennes(annee, semaine, printSaisieInt);
         }
 
-        private static void PrintMidiMarennes(int annee, int semaine, bool printSaisieBool)
+        private static void PrintMidiMarennes(int annee, int semaine, int printSaisieInt)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool, "Marennes");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieInt, "Marennes");
 
             //Définition des jour de livraison
             jour1Livraison = "samedi";
@@ -259,10 +259,10 @@ namespace TraiteurBernardWPF.PDF
             contentStream.close();
         }
 
-        private static void PrintMidiContreTournee(int annee, int semaine, bool printSaisieBool)
+        private static void PrintMidiContreTournee(int annee, int semaine, int printSaisieInt)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool, "contre-tournée");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieInt, "contre-tournée");
 
             //Définition des jour de livraison
             jour1Livraison = "lundi";
@@ -288,10 +288,10 @@ namespace TraiteurBernardWPF.PDF
             contentStream.close();
         }
 
-        private static void PrintMidiVille1ou2(int annee, int semaine, bool printSaisieBool)
+        private static void PrintMidiVille1ou2(int annee, int semaine, int printSaisieInt)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForMidi(annee, semaine, printSaisieBool, "ville 1", "ville 2");
+            newPageAndPrintAllForMidi(annee, semaine, printSaisieInt, "ville 1", "ville 2");
             jour3Livraison = "vendredi";
 
             //Print du header de livraison
@@ -320,19 +320,19 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void printSoir(int annee, int semaine, bool printSaisieBool)
+        private static void printSoir(int annee, int semaine, int printSaisieInt)
         {
-            PrintSoirVille1ou2(annee, semaine, printSaisieBool);
+            PrintSoirVille1ou2(annee, semaine, printSaisieInt);
 
-            PrintSoirContreTournee(annee, semaine, printSaisieBool);
+            PrintSoirContreTournee(annee, semaine, printSaisieInt);
 
-            PrintSoirMarennes(annee, semaine, printSaisieBool);
+            PrintSoirMarennes(annee, semaine, printSaisieInt);
         }
 
-        private static void PrintSoirMarennes(int annee, int semaine, bool printSaisieBool)
+        private static void PrintSoirMarennes(int annee, int semaine, int printSaisieInt)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool, "Marennes");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieInt, "Marennes");
 
             //Définition des jour de livraison
             jour1Livraison = "samedi";
@@ -358,10 +358,10 @@ namespace TraiteurBernardWPF.PDF
             contentStream.close();
         }
 
-        private static void PrintSoirContreTournee(int annee, int semaine, bool printSaisieBool)
+        private static void PrintSoirContreTournee(int annee, int semaine, int printSaisieInt)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool, "contre-tournée");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieInt, "contre-tournée");
 
             //Définition des jour de livraison
             jour1Livraison = "lundi";
@@ -387,10 +387,10 @@ namespace TraiteurBernardWPF.PDF
             contentStream.close();
         }
 
-        private static void PrintSoirVille1ou2(int annee, int semaine, bool printSaisieBool)
+        private static void PrintSoirVille1ou2(int annee, int semaine, int printSaisieInt)
         {
             //Création d'une nouvelle page
-            newPageAndPrintAllForSoir(annee, semaine, printSaisieBool, "ville 1", "ville 2");
+            newPageAndPrintAllForSoir(annee, semaine, printSaisieInt, "ville 1", "ville 2");
             jour3Livraison = "vendredi";
 
             printLivraisonSoirVille1et2();
@@ -417,7 +417,7 @@ namespace TraiteurBernardWPF.PDF
          * sinon on print les menu
          * @throws IOException ...
          */
-        private static void newPageAndPrintAllForMidi(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2 = "")
+        private static void newPageAndPrintAllForMidi(int annee, int semaine, int printSaisieInt, string tournee1, string tournee2 = "")
         {
             //Récup du document
             getDocument();
@@ -445,7 +445,7 @@ namespace TraiteurBernardWPF.PDF
             printReserve();
 
             //ajout de la signature
-            if (!printSaisieBool) printSignature();
+            if (printSaisieInt != 1) printSignature();
 
             //ajout des infromation pour la saisie
             printNB();
@@ -454,8 +454,14 @@ namespace TraiteurBernardWPF.PDF
             printDescLine();
 
             //Ajout des menus ou des saisies dans les case
-            if (printSaisieBool) printSaisie(tournee1, tournee2, annee, semaine);
-            else printMenu();
+            if (printSaisieInt == 1)
+            {
+                printSaisie(tournee1, tournee2, annee, semaine);
+            }
+            else if (printSaisieInt == 4)
+            {
+                printMenu();
+            }
 
             // On enleve le 'a remettre avant le 
             //Ajout de la date en haut
@@ -469,7 +475,7 @@ namespace TraiteurBernardWPF.PDF
          *
          * @throws IOException ...
          */
-        private static void newPageAndPrintAllForSoir(int annee, int semaine, bool printSaisieBool, string tournee1, string tournee2 = "")
+        private static void newPageAndPrintAllForSoir(int annee, int semaine, int printSaisieInt, string tournee1, string tournee2 = "")
         {
             //Récup du document
             getDocument();
@@ -494,10 +500,10 @@ namespace TraiteurBernardWPF.PDF
             }
 
             //Ajout des mentions de reserve
-            if (!printSaisieBool) printReserveSoir();
+            if (printSaisieInt != 1) printReserveSoir();
 
             //ajout de la signature
-            if (!printSaisieBool) printSignature();
+            if (printSaisieInt != 1) printSignature();
 
             //ajout des infromation pour la saisie
             printNB();
@@ -507,8 +513,15 @@ namespace TraiteurBernardWPF.PDF
 
 
             //Ajout des menus ou des saisies dans les case
-            if (printSaisieBool) printSaisieSoir(annee, semaine, tournee1, tournee2);
-            else printMenuSoir();
+            if (printSaisieInt == 1) 
+            {
+                printSaisieSoir(annee, semaine, tournee1, tournee2);
+            }
+            else if (printSaisieInt == 4)
+            {
+                printMenuSoir();
+            } 
+                
 
             // On enleve le 'a remettre avant le 
             //Ajout de la date en haut
