@@ -335,7 +335,10 @@
     <Compile Include="Gui\SaisieCreerCalendrierWpf.xaml.cs">
       <DependentUpon>SaisieCreerCalendrierWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PDF\CreatePDF5Feuilles.cs" />
     <Compile Include="PDF\CreatePDFClient.cs" />
+    <Compile Include="PDF\CreatePDFCuisine.cs" />
+    <Compile Include="PDF\CreatePDFJambon.cs" />
     <Compile Include="Utils\CalenderBackground.cs" />
     <Compile Include="Utils\GestionDeDateCalendrier.cs" />
     <Compile Include="Utils\GestionFichier.cs" />

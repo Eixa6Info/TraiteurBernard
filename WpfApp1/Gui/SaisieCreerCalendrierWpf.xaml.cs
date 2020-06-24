@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
 using GregorianCalendar = System.Globalization.GregorianCalendar;
@@ -19,9 +11,7 @@ using Calendar = System.Globalization.Calendar;
 using System.IO;
 using TraiteurBernardWPF.Utils;
 using TraiteurBernardWPF.DAO;
-using System.Data.Entity;
-using java.lang;
-using System.Collections.Immutable;
+
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -77,17 +67,6 @@ namespace TraiteurBernardWPF.Gui
                 string resJour = "";
                 int resMois;
 
-                /*if (SaisieCreerWpf.nbCal == 0)
-                {
-                    SaisieCreerWpf.personneCal = personne;
-                }
-                else
-                {
-                    personne = SaisieCreerWpf.personneCal;
-
-                }*/
-                Console.WriteLine("Personne: " + personne.ToString() + "  ID: " + personne.ID.ToString());
-
                 IQueryable<Saisie> req = from t in db.Saisies
                                          where
                                          t.Personne.ID == personne.ID
@@ -115,7 +94,7 @@ namespace TraiteurBernardWPF.Gui
                         calendar.DisplayDate = new DateTime(JourDAffichage.Year, JourDAffichage.Month, JourDAffichage.Day);
                         DateTime leJourDeLivraison;
 
-                        if ( p.Tournee == null || p.Tournee.Nom == "")
+                        if (p.Tournee == null || p.Tournee.Nom == "")
                         {
                             leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(personne.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
                         }
@@ -140,7 +119,7 @@ namespace TraiteurBernardWPF.Gui
             catch (IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "PersonneListerWpf.xaml.cs");
-                throw a;
+                throw;
             }
         }
         private void CalenderOnDisplayDateChanged(object sender, CalendarDateChangedEventArgs calendarDateChangedEventArgs)

@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TraiteurBernardWPF.PDF;
 using TraiteurBernardWPF.Security;
 
@@ -23,19 +11,19 @@ namespace TraiteurBernardWPF.Gui
     /// </summary>
     public partial class PdfCreerWpf : Window
     {
-        bool printSaisieBool;
+        int printSaisieInt;
         bool composition;
 
         /// <summary>
         /// Constructeur premier paramètre : saisie ou menu
         /// deuxieem paramètre : composition ou non
         /// </summary>
-        /// <param name="printSaisieBool"></param>
+        /// <param name="printSaisieInt"></param>
         /// <param name="composition"></param>
-        public PdfCreerWpf(int semaine, bool printSaisieBool, bool composition = false)
+        public PdfCreerWpf(int semaine, int printSaisieInt, bool composition = false)
         {
             InitializeComponent();
-            this.printSaisieBool = printSaisieBool;
+            this.printSaisieInt = printSaisieInt;
             txtSemaine.Text = semaine.ToString();
             this.composition = composition;
         }
@@ -58,11 +46,38 @@ namespace TraiteurBernardWPF.Gui
         private void Valider(object sender, RoutedEventArgs e)
         {
             if (!this.composition)
-            {
-                var outputfile = CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), DateTime.Today.Year, this.printSaisieBool);
-                if (!string.IsNullOrEmpty(outputfile))
+            {                
+                if (printSaisieInt == 1)
                 {
-                    System.Diagnostics.Process.Start(outputfile);
+                    var outputfile = CreatePDFCuisine.Start(841.8898F, 1190.55126F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                    if (!string.IsNullOrEmpty(outputfile))
+                    {
+                        System.Diagnostics.Process.Start(outputfile);
+                    }
+                }
+                else if ( printSaisieInt == 2)
+                {
+                    var outputfile = CreatePDF5Feuilles.Start(841.8898F, 595.27563F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                    if (!string.IsNullOrEmpty(outputfile))
+                    {
+                        System.Diagnostics.Process.Start(outputfile);
+                    }
+                }
+                else if (printSaisieInt == 3)
+                {
+                    var outputfile = CreatePDFJambon.Start(841.8898F, 595.27563F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                    if (!string.IsNullOrEmpty(outputfile))
+                    {
+                        System.Diagnostics.Process.Start(outputfile);
+                    }
+                }
+                else if (printSaisieInt == 4)
+                {
+                    var outputfile = CreatePDF.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), DateTime.Today.Year, this.printSaisieInt);
+                    if (!string.IsNullOrEmpty(outputfile))
+                    {
+                        System.Diagnostics.Process.Start(outputfile);
+                    }
                 }
             }
             else

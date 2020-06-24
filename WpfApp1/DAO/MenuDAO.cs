@@ -122,5 +122,33 @@ namespace TraiteurBernardWPF.DAO
             return data;
 
         }
+
+        internal static List<String> getPlatsJambonNameFromWeekDay(int semaine, int jour)
+        {
+            BaseContext db = new BaseContext();
+
+            IQueryable<Menu> req = from t in db.Menu
+                                   where t.Semaine == semaine && t.Jour == jour
+                                   select t;
+
+            List<String> data = new List<String>();
+
+            foreach (Menu menu in req)
+            {
+                db.Entry(menu).Collection(m => m.Plats).Load();
+
+                foreach (Plat plat in menu.Plats)
+                {
+                    if (plat.Type == 4)
+                    {
+                        data.Add(plat.Name);
+                    }  
+                }
+            }
+
+            return data;
+
+        }
+
     }
 }

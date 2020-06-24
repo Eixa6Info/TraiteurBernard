@@ -1,19 +1,11 @@
-﻿using java.util;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
@@ -113,34 +105,34 @@ namespace TraiteurBernardWPF.Gui
                     this.Edite.Tournee = this.Edite.Personne.Tournee;
 
                     // suivant la tournée, ouvrir une saisir ou une autre
-                    if (this.Edite.Tournee.Nom == "ville 1" || this.Edite.Tournee.Nom == "ville 2")
+                    if (this.Edite.Tournee.Nom == Properties.Resources.Ville1 || this.Edite.Tournee.Nom == Properties.Resources.Ville2)
                     {
                         Close();
                         int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
-                        var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirVille.png", UriKind.RelativeOrAbsolute)));
+                        var soirBackground = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeVilleSoir, UriKind.RelativeOrAbsolute)));
                         SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                        wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiVille.png", UriKind.RelativeOrAbsolute)));
+                        wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeVille, UriKind.RelativeOrAbsolute)));
                         WinFormWpf.CornerTopLeftToParent(wpf, this);
                         wpf.ShowDialog(); 
                        
                     }
-                    else if (this.Edite.Tournee.Nom == "contre-tournée")
+                    else if (this.Edite.Tournee.Nom == Properties.Resources.CT)
                     {
                         Close();
                         int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
-                        var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirContre.png", UriKind.RelativeOrAbsolute)));
+                        var soirBackground = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeCTSoir, UriKind.RelativeOrAbsolute)));
                         SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                        wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiContre.png", UriKind.RelativeOrAbsolute)));
+                        wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeCT, UriKind.RelativeOrAbsolute)));
                         WinFormWpf.CornerTopLeftToParent(wpf, this);
                         wpf.ShowDialog();
                     }
-                    else if (this.Edite.Tournee.Nom == "Marennes")
+                    else if (this.Edite.Tournee.Nom == Properties.Resources.Marennes)
                     {
                         Close();
                         int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
-                        var soirBackground = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeSoirMarennes.png", UriKind.RelativeOrAbsolute)));
+                        var soirBackground = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeMarennesSoir, UriKind.RelativeOrAbsolute)));
                         SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                        wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri("/eixa6/TourneeMidiMarennes.png", UriKind.RelativeOrAbsolute)));
+                        wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeMarennes, UriKind.RelativeOrAbsolute)));
                         WinFormWpf.CornerTopLeftToParent(wpf, this);
                         wpf.ShowDialog();
                     }
@@ -154,7 +146,7 @@ namespace TraiteurBernardWPF.Gui
                 }
                 else
                 {
-                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "L'année, la semaine et la personne sont indispensables", MessageBoxButton.OK);
+                    MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpInfoIndispensable, Properties.Resources.MessagePopUpErrorIndispensable, MessageBoxButton.OK);
                     WinFormWpf.CenterToParent(wpf, this);
                     wpf.ShowDialog();
                 }

@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
@@ -119,7 +110,7 @@ namespace TraiteurBernardWPF.Gui
         private void Supprimer(object sender, RoutedEventArgs e)
         {
 
-            MessageBoxWpf wpf = new MessageBoxWpf("Confirmation", "Vous êtes sur le point de supprimer ce menu, voulez vous continuer ?", MessageBoxButton.YesNo);
+            MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.TitrePopUpConfirmation, Properties.Resources.MessagePopUpDelMenu, MessageBoxButton.YesNo);
             WinFormWpf.CenterToParent(wpf, this);
             wpf.ShowDialog();
             if (!wpf.YesOrNo) return;
