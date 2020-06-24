@@ -217,7 +217,7 @@
     <value>Problème avec le fichier de données ! Contacter EIXA6 Informatique</value>
   </data>
   <data name="MessagePopUpErrorIndiIncorrecte" xml:space="preserve">
-    <value>la semaine et la personne sont indispensables et la semaine doit être impaire.</value>
+    <value>La semaine et la personne sont indispensables et la semaine doit être impaire et pas supérieure à 53.</value>
   </data>
   <data name="MessagePopUpErrorIndispensable" xml:space="preserve">
     <value>L'année, la semaine et la personne sont indispensables</value>

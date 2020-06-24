@@ -36,7 +36,14 @@ namespace TraiteurBernardWPF.Gui
         private int[] IDs;
         public static Personne per;
         public static int semaine;
-        
+      
+        private static string txtBoxOld = "";
+        private static string txtBoxChangeOld = "";
+        TextBox textBoxChange;
+        private static int ColOld = 0;
+        private static int LigOld = 0;
+        private static int cpt = 0;
+
         int nombreDeChampsPourMidi = 8;
 
         int stateOfText = 0;
@@ -255,6 +262,126 @@ namespace TraiteurBernardWPF.Gui
             
         }
 
+        private void ColorChanged(ComboBox cb, TextBox txt, string qt, Coordonnees coord) 
+        {
+            
+            if (txt != null)
+            {
+                int ligne = coord.Ligne;
+                int colonne = coord.Colonne;
+                if (txt.Background != Brushes.Pink)
+                {
+                    if (qt == "10")
+                    {
+                        txt.Background = Brushes.LightBlue;
+                        if (ligne == LIGNE_ENTREE || ligne == LIGNE_POTAGE)
+                        {
+                            foreach (KeyValuePair<int, string> k in EntreeSoir)
+                            {
+                                if (k.Key == colonne)
+                                {
+                                    stateOfText = 0;
+                                    txtBoxOld = txt.Text;
+                                    Console.WriteLine("txtBoxOld: " + txtBoxOld);
+                                    txt.Text = k.Value;
+                                }
+                            }
+                        }
+                        else if (ligne == LIGNE_DESSERT)
+                        {
+                            foreach (KeyValuePair<int, string> k in DessertSoir)
+                            {
+                                if (k.Key == colonne)
+                                {
+                                    stateOfText = 0;
+                                    txt.Text = k.Value;
+                                }
+                            }
+                        }
+                    }
+                    else if (qt == "0")
+                    {
+                        if (ligne == LIGNE_POTAGE)
+                        {
+                            stateOfText = 0;
+                            txt.Background = Brushes.Transparent;
+                            txt.Text = "";
+                        }
+                        else
+                        {
+                            txt.Background = Brushes.Transparent;
+                        }
+                    }
+                    else if (qt == "txt")
+                    {
+                        if (stateOfText > 0)
+                        {
+                            txtBoxChangeOld = txt.Text;
+                            textBoxChange = txt;
+                            txt.Background = Brushes.Pink;
+                            this.txtChange = true;
+                            coordonneesModifiees.Add(coord);
+                        }
+                    }
+                    else
+                    {
+                        if ((ligne == LIGNE_ENTREE || ligne == LIGNE_DESSERT) && txtBoxOld != "")
+                        {
+                            stateOfText = 0;
+                            txt.Background = Brushes.LightGreen;
+                            txt.Text = txtBoxOld;
+                        }
+                        else if (ligne == LIGNE_POTAGE)
+                        {
+                            stateOfText = 0;
+                            txt.Background = Brushes.LightGreen;
+                            txt.Text = "";
+                        }
+                        else
+                        {
+                            txt.Background = Brushes.LightGreen;
+                        }
+                    }
+                }
+                else
+                {
+                    if (qt == "0")
+                    {    
+                        stateOfText = 0;
+                        txt.Background = Brushes.Transparent;
+                        txt.Text = "";
+                    }
+                    else if (qt == "txt")
+                    {
+                        if (stateOfText > 0)
+                        {
+                            txtBoxChangeOld = txt.Text;
+                            textBoxChange = txt;
+                            txt.Background = Brushes.Pink;
+                            this.txtChange = true;
+                            coordonneesModifiees.Add(coord);
+                        }
+                    }
+                    else
+                    {
+                        if ((ligne == LIGNE_ENTREE || ligne == LIGNE_DESSERT) && txtBoxOld != "")
+                        {
+                            stateOfText = 0;
+                            txt.Text = txtBoxOld;
+                        }
+                        else if (ligne == LIGNE_POTAGE)
+                        {
+                            stateOfText = 0;
+                            txt.Text = "";
+                        }
+                    }
+                }
+                
+            }
+            
+
+        }
+
         /// <summary>
         /// Quand on modifie le texte d'une textBox
         /// </summary>
@@ -262,15 +389,10 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (stateOfText > 0)
-            {
-                var txt = sender as TextBox;
-                var coord = txt.Tag as Coordonnees;
+            var txt = sender as TextBox;
+            var coord = txt.Tag as Coordonnees;
 
-                txt.Background = Brushes.Pink;
-                this.txtChange = true;
-                coordonneesModifiees.Add(coord);
-            }
+            ColorChanged(null, txt, "txt", coord);
         }
 
         /// <summary>
@@ -285,8 +407,9 @@ namespace TraiteurBernardWPF.Gui
             int col = 0;
             int lig = 0;
             TextBox textBox = new TextBox();
+            var coord = Tag as Coordonnees;
 
-            foreach(var l in ListTxt)
+            foreach (var l in ListTxt)
             {
                 var coordTxt = l.Tag as Coordonnees;
                 if (coordTxt.Colonne == coordCb.Colonne && coordTxt.Ligne == coordCb.Ligne)
@@ -294,44 +417,13 @@ namespace TraiteurBernardWPF.Gui
                     col = coordTxt.Colonne;
                     lig = coordTxt.Ligne;
                     textBox = l as TextBox;
+                    coord = coordTxt;
                 }
             }
 
-            if (cb.SelectedValue.ToString() == "10")
-            {
-                textBox.Background = Brushes.LightBlue;
-                if (lig == LIGNE_ENTREE || lig == LIGNE_POTAGE)
-                {
-                    foreach (KeyValuePair<int, string> k in EntreeSoir)
-                    {
-                        if (k.Key == col)
-                        {
-                            stateOfText = 0;
-                            textBox.Text = k.Value;
-                        }
-                    }
-                }
-                else if (lig == LIGNE_DESSERT)
-                {
-                    foreach (KeyValuePair<int, string> k in DessertSoir)
-                    {
-                        if (k.Key == col)
-                        {
-                            stateOfText = 0;
-                            textBox.Text = k.Value;
-                        }
-                    }
-                } 
-            }
-            else if (cb.SelectedValue.ToString() == "1")
-            {
-                textBox.Background = Brushes.LightGreen;
-            }
-            else
-            {
-                textBox.Background = Brushes.Transparent;
-            }
+            ColorChanged(cb, textBox, cb.SelectedValue.ToString(), coordCb);
         }
+    
 
         /// <summary>
         /// Constructeur avec en paramètre la saisie qui contient la semaine, le jour, la tournée, l'année et la personne
@@ -416,18 +508,22 @@ namespace TraiteurBernardWPF.Gui
                                 control.Text = data[ligne].Libelle;
                                 
                                 var sd = data[ligne];
-                                if (sd.Quantite != 0)
+                                /*if (sd.Quantite != 0)
                                 {
                                     control.Background = Brushes.LightGreen;
                                 }
-                                else if (sd.Type == 0 || sd.Type == 1 && sd.Quantite == 10)
+                                else if ((sd.Type == 0 || sd.Type == 1 || sd.Type == 5) && sd.Quantite == 10)
                                 {
                                     control.Background = Brushes.LightBlue;
                                 }
-                                else
+                                else if (sd.Quantite == 0)
                                 {
                                     control.Background = Brushes.Transparent;
-                                }
+                                }*/
+                                ColorChanged(null, control, sd.Quantite.ToString(), control.Tag as Coordonnees);
+
+                                Console.WriteLine("sd.Modifier: " + sd.Modifie);
+
                                 if (sd.Modifie)
                                 {
                                     control.Background = Brushes.Pink;
@@ -486,6 +582,7 @@ namespace TraiteurBernardWPF.Gui
                                 control.Text = plats[numeroPlatCourant].Name;
                                 control.IsTabStop = false;
                                 numeroPlatCourant++;
+
                             }
                         }
 
@@ -505,15 +602,7 @@ namespace TraiteurBernardWPF.Gui
         {
             Enregistrer();
 
-            MessageBoxResult res = MessageBox.Show("Voulez-vous créer le pdf ?", "PDF", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-            if (res == MessageBoxResult.Yes)
-            {
-                PdfCreerSaisieClient.PrintClient(per, semaine);
-            }
-            else
-            {
-                Close();
-            }
+            
         }
 
         /// <summary>
@@ -571,7 +660,7 @@ namespace TraiteurBernardWPF.Gui
                         data = new HashSet<SaisieData>()
                     };
                 }
-
+                
                 // Pour toutes les lignes (les repas entree, plat1, plat2 etc)
                 for (int ligne = this.ligneDepart; ligne < this.ligneDepart + nombreDeChampsPourMidi; ligne++)
                 {
@@ -591,13 +680,13 @@ namespace TraiteurBernardWPF.Gui
                     int type = this.types[indexTxtNames++];
 
                     var donnee = from d in saisie.data
-                                 where d.Type == type
-                                 select d;
+                                    where d.Type == type
+                                    select d;
 
                     if (!donnee.Any())
                     {
                         var modifie = ChercheSiTexteModifie(ligne, colonne);
-                        saisie.data.Add(new SaisieData { Quantite = qte, Libelle = txtValue, Type = type, Modifie = modifie }); ;
+                        saisie.data.Add(new SaisieData { Quantite = qte, Libelle = txtValue, Type = type, Modifie = modifie });
                     }
                     else
                     {
@@ -605,7 +694,7 @@ namespace TraiteurBernardWPF.Gui
                         data.Quantite = qte;
                         data.Libelle = txtValue;
                     }
-
+                    
                 }
 
                 if (saisie.ID == 0) this.db.Add(saisie);
@@ -613,9 +702,10 @@ namespace TraiteurBernardWPF.Gui
                 indexTxtNames = 0;
                 jour++;
                 indexSaisies++;
-            }             
+            }
+            
             this.db.SaveChanges();
-            this.db.Dispose();   
+            this.db.Dispose();       
         }
 
         private bool ChercheSiTexteModifie(int ligne, int colonne)

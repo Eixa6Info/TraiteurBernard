@@ -1030,21 +1030,29 @@ namespace TraiteurBernardWPF.PDF
                                 //platString += " " + entry.Value + "*" + entry.Key + " ";
 
 
-                                PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, font);
-                                PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, font);
-                                line -= 10;
+                                if (entry.Value == 10)
+                                {
+                                    var txt = entry.Key;
+                                    var txtQ = "1";
 
+                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                                    line -= 10;
+                                }
+                                else
+                                {
+                                    var txt = entry.Key;
+                                    var txtQ = entry.Value.ToString();
+                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                                    line -= 10;
+                                }
                             }
-
                         }
-
                     }
                 }
-
             }
-
             db.Dispose();
-
         }
 
         /**
