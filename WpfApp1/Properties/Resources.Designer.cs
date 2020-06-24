@@ -358,7 +358,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à la semaine et la personne sont indispensables et la semaine doit être impaire..
+        ///   Recherche une chaîne localisée semblable à La semaine et la personne sont indispensables et la semaine doit être impaire et pas supérieure à 53..
         /// </summary>
         internal static string MessagePopUpErrorIndiIncorrecte {
             get {
