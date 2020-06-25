@@ -448,6 +448,24 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Semaine incorrecte.
+        /// </summary>
+        internal static string MessagePopUpSemaine {
+            get {
+                return ResourceManager.GetString("MessagePopUpSemaine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Vous ne pouvez prendre une semaine supérieur à 52. Choisissez une autre semaine..
+        /// </summary>
+        internal static string MessagePopUpSemaineHorsAnnee {
+            get {
+                return ResourceManager.GetString("MessagePopUpSemaineHorsAnnee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Vous devez selectioner le type de personnes (Actif/Inactif)..
         /// </summary>
         internal static string MessagePopUpTypeIndi {
