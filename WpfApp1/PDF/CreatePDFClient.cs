@@ -879,7 +879,7 @@ namespace TraiteurBernardWPF.PDF
                             String platString = plat.Name;//.toLowerCase();
 
                             platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.toLowerCase();
-                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL,0,0,0);
                         }
                         catch (IOException e)
                         {
@@ -1005,7 +1005,25 @@ namespace TraiteurBernardWPF.PDF
                         {
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
-                                PDType1Font font = OBLIQUE;
+                                PDType1Font font = NORMAL;
+
+                                int R = 253;
+                                int G = 108;
+                                int B = 158;
+
+                                if (line != getMiddelofYBetweenTowPoint(76, 79, NORMAL, 11) && line != getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11))
+                                {
+                                    font = OBLIQUE;
+                                    R = 253;
+                                    G = 108;
+                                    B = 158;
+                                }
+                                else
+                                {
+                                    R = 0;
+                                    G = 0;
+                                    B = 0;
+                                }
 
                                 // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
                                 // Si on est en mode  composition , on met pas le plat du menu
@@ -1025,6 +1043,9 @@ namespace TraiteurBernardWPF.PDF
                                 {
                                     if (composition) continue;
                                     font = NORMAL;
+                                    R = 0;
+                                    G = 0;
+                                    B = 0;
                                 }
                                 // si cest pas egal a une menu faut surligner en rose
                                 //platString += " " + entry.Value + "*" + entry.Key + " ";
@@ -1034,17 +1055,19 @@ namespace TraiteurBernardWPF.PDF
                                 {
                                     var txt = entry.Key;
                                     var txtQ = "1";
-
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                                    R = 30;
+                                    G = 127;
+                                    B = 203;
+                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL,R,G,B);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL,R,G,B);
                                     line -= 10;
                                 }
                                 else
                                 {
                                     var txt = entry.Key;
                                     var txtQ = entry.Value.ToString();
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL,R,G,B);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL,R,G,B);
                                     line -= 10;
                                 }
                             }
@@ -1122,7 +1145,7 @@ namespace TraiteurBernardWPF.PDF
                             String platString = plat.Name;//.toLowerCase();
 
                             platString = platString.Substring(0, 1).ToUpper() + platString.Substring(1);//.toLowerCase();
-                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
+                            PrintTextBetweenTowPoint(platString, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL,0,0,0);
                         }
                         catch (IOException e)
                         {
@@ -1238,8 +1261,8 @@ namespace TraiteurBernardWPF.PDF
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
                                 //platString += " " + entry.Value + "*" + entry.Key + " ";
-                                PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL);
-                                PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL);
+                                PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, 0,0,0);
+                                PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL,0,0,0);
                                 line -= 10;
 
                             }
@@ -1254,13 +1277,13 @@ namespace TraiteurBernardWPF.PDF
         }
 
 
-        private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font)
+        private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font , int R, int G, int B)
         {
             double width = (font.getStringWidth(str) / 1000 * fontSize);
 
             if (x + width < maxX)
             {
-                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, str, fontSize), y, str);
+                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, str, fontSize), y, str, R, G, B);
             }
             else
             {
@@ -1333,7 +1356,7 @@ namespace TraiteurBernardWPF.PDF
                         if (s.Length > maxLength.Length) maxLength = s;
                     }
 
-                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings);
+                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
                 }
             }
         }
@@ -1426,9 +1449,9 @@ namespace TraiteurBernardWPF.PDF
             String text3 = baseText + jour3Livraison;
             double fontSize = 12;
 
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text1);
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text2);
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text1,0,0,0);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text2,0,0,0);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3,0,0,0);
         }
 
 
@@ -1444,7 +1467,7 @@ namespace TraiteurBernardWPF.PDF
 
             //drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, "", fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), "");
             //drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, "", fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), "");
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(82, 85, BOLD, fontSize), text3,0,0,0);
         }
 
         /**
@@ -1465,10 +1488,13 @@ namespace TraiteurBernardWPF.PDF
             String text2 = baseText + jour2Livraison;
             String text3 = baseText + jour3Livraison;
             double fontSize = 12;
+            int R = 0;
+            int G = 0;
+            int B = 0;
 
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text1);
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text2);
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 1, columnSpace * 3, BOLD, text1, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text1, R,G,B);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 3, columnSpace * 5, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text2, R, G, B);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3, R, G, B);
         }
 
         private static void printLivraisonSoirVille1et2()
@@ -1482,7 +1508,7 @@ namespace TraiteurBernardWPF.PDF
             String text3 = baseText + jour3Livraison;
             double fontSize = 12;
 
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * 5, columnSpace * 8, BOLD, text3, fontSize), getMiddelofYBetweenTowPoint(79, 82, BOLD, fontSize), text3, 0,0,0);
         }
 
         /**
@@ -1532,43 +1558,46 @@ namespace TraiteurBernardWPF.PDF
             //Baguettes
             String text;
             float fontSize = 10;
+            int R = 0;
+            int G = 0;
+            int B = 0;
 
             text = "Baguettes".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(76, 79, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(76, 79, BOLD, fontSize), text, R, G, B);
 
             text = "Potages".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(73, 76, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(73, 76, BOLD, fontSize), text, R, G, B);
 
             text = "Entrées".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text, R, G, B);
 
 
             text = "Plats".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text, R, G, B);
 
             text = "Au".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text, R, G, B);
 
             text = "Choix".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text, R, G, B);
 
             text = "Plat 1".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(51, 63, BOLD, fontSize), text, R, G, B);
 
             text = "Plat 2".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(39, 51, BOLD, fontSize), text, R, G, B);
 
             text = "Plat 3".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 39, BOLD, fontSize), text, R, G, B);
 
             for (int i = 0; i < 7; i++)
             {
                 text = "Fromage";
-                drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * (1 + i), columnSpace * (1 + i + 1) - (choiceSize / maxX * 100), NORMAL, text, fontSize), getMiddelofYBetweenTowPoint(24, 27, NORMAL, fontSize), text);
+                drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * (1 + i), columnSpace * (1 + i + 1) - (choiceSize / maxX * 100), NORMAL, text, fontSize), getMiddelofYBetweenTowPoint(24, 27, NORMAL, fontSize), text, R, G, B);
             }
 
             text = "Desserts".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(14, 24, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(14, 24, BOLD, fontSize), text, R, G, B);
         }
 
         /**
@@ -1581,15 +1610,18 @@ namespace TraiteurBernardWPF.PDF
             //Baguettes
             String text;
             float fontSize = 10;
+            int R = 0;
+            int G = 0;
+            int B = 0;
 
             text = "Entrées".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(63, 73, BOLD, fontSize), text, R, G, B);
 
             text = "PLAT du SOIR".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 63, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(27, 63, BOLD, fontSize), text, R, G, B);
 
             text = "Desserts".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(18, 27, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(18, 27, BOLD, fontSize), text, R, G, B);
         }
 
         /**
@@ -1603,7 +1635,7 @@ namespace TraiteurBernardWPF.PDF
             drawText(BOLD, 12, getX(0) + 2, getY(93),
                     "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
                     "NOM et ADRESSE :     " + CreatePDFClient.nom + "          TELEPHONE :       " + CreatePDFClient.tel + "                PAIN : OUI / NON               SEMAINE : " + CreatePDFClient.semaine);
-            drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
+            drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette",0,0,0);
             drawLine(getX(0), getX(100), getY(88), getY(88));
         }
 
@@ -1613,7 +1645,7 @@ namespace TraiteurBernardWPF.PDF
             drawText(BOLD, 12, getX(0) + 2, getY(93),
                     "Maison BERNARD Traiteur - 49 Route de Meursac 17600 SABLONCEAUX - 05 46 02 83 62 - eric.bernard17@orange.fr",
                     "NOM et ADRESSE :     " + CreatePDFClient.nom + "          TELEPHONE :       " + CreatePDFClient.tel + "                PAIN : OUI / NON               SEMAINE : " + CreatePDFClient.semaineN1);
-            drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette");
+            drawText(OBLIQUE, 11, getX(0) + 2, getY(93) - ((12 * 2) + 2), "Supplément Baguette : 0,50 euro la demi baguette / 1 euro la baguette",0,0,0);
             drawLine(getX(0), getX(100), getY(88), getY(88));
         }
 
@@ -1663,13 +1695,13 @@ namespace TraiteurBernardWPF.PDF
             float fontSize = 12;
 
             text = "Bon pour Accord :";
-            drawText(BOLD, fontSize, getMiddelOfX(26, BOLD, text, fontSize), getY(2), text);
+            drawText(BOLD, fontSize, getMiddelOfX(26, BOLD, text, fontSize), getY(2), text,0,0,0);
 
             text = "Date :";
-            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getY(2), text);
+            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getY(2), text,0,0,0);
 
             text = "Signature :";
-            drawText(BOLD, fontSize, getMiddelOfX(78, BOLD, text, fontSize), getY(2), text);
+            drawText(BOLD, fontSize, getMiddelOfX(78, BOLD, text, fontSize), getY(2), text,0,0,0);
         }
 
         /**
@@ -1685,7 +1717,7 @@ namespace TraiteurBernardWPF.PDF
             String text = "Nous nous réservons le droit de modifier la composition des menus en fonction des arrivages";
             float fontSize = 12;
 
-            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(10, 14, BOLD, fontSize), text);
+            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(10, 14, BOLD, fontSize), text,0,0,0);
         }
 
         /**
@@ -1704,9 +1736,9 @@ namespace TraiteurBernardWPF.PDF
             String text3 = "6,80 euros TTC le Repas du soir UNIQUEMENT livré avec le reps du midi";
             float fontSize = 12;
 
-            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(14, 18, BOLD, fontSize), text2);
-            drawText(NORMAL, fontSize, getMiddelOfX(50, NORMAL, text1, fontSize), getMiddelofYBetweenTowPoint(10, 14, NORMAL, fontSize), text1);
-            drawText(BOLD, fontSize + 2, getMiddelOfX(50, BOLD, text3, fontSize + 2), getMiddelofYBetweenTowPoint(83, 85, BOLD, fontSize + 2), text3);
+            drawText(BOLD, fontSize, getMiddelOfX(50, BOLD, text2, fontSize), getMiddelofYBetweenTowPoint(14, 18, BOLD, fontSize), text2,0,0,0);
+            drawText(NORMAL, fontSize, getMiddelOfX(50, NORMAL, text1, fontSize), getMiddelofYBetweenTowPoint(10, 14, NORMAL, fontSize), text1,0,0,0);
+            drawText(BOLD, fontSize + 2, getMiddelOfX(50, BOLD, text3, fontSize + 2), getMiddelofYBetweenTowPoint(83, 85, BOLD, fontSize + 2), text3,0,0,0);
         }
 
         /**
@@ -1754,7 +1786,7 @@ namespace TraiteurBernardWPF.PDF
          * @param text     String
          * @throws IOException ...
          */
-        private static void drawText(PDFont font, double fontSize, double x, double y, String text)
+        private static void drawText(PDFont font, double fontSize, double x, double y, String text, int R, int G, int B)
         {
 
             //Begin the Content stream
@@ -1762,6 +1794,9 @@ namespace TraiteurBernardWPF.PDF
 
             //Setting the font to the Content stream
             contentStream.setFont(font, (float)fontSize);
+
+            //Setting Color
+            contentStream.setNonStrokingColor(R, G, B);
 
             //Setting the position for the line
             //TODO contentStream.newLineAtOffset((float) x, (float) y);
@@ -1790,7 +1825,7 @@ namespace TraiteurBernardWPF.PDF
             int count = 0;
             foreach (var s in text)
             {
-                drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s);
+                drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s,0,0,0);
                 count = count + 1;
             }
         }
@@ -1805,12 +1840,12 @@ namespace TraiteurBernardWPF.PDF
          * @param text     ArrayList Of String
          * @throws IOException ...
          */
-        private static void drawText(PDFont font, double fontSize, double x, double y, List<String> text)
+        private static void drawText(PDFont font, double fontSize, double x, double y, List<String> text, int R, int G, int B)
         {
             int count = 0;
             foreach (String s in text)
             {
-                drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s);
+                drawText(font, fontSize, x, (y - ((fontSize + 2) * count)), s, R,G,B);
                 count = count + 1;
             }
         }

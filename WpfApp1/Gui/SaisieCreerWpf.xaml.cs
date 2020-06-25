@@ -262,9 +262,9 @@ namespace TraiteurBernardWPF.Gui
             
         }
 
-        private void ColorChanged(ComboBox cb, TextBox txt, string qt, Coordonnees coord) 
+        private void ColorChanged(ComboBox cb, TextBox txt, string qt, Coordonnees coord)
         {
-            
+
             if (txt != null)
             {
                 int ligne = coord.Ligne;
@@ -346,7 +346,7 @@ namespace TraiteurBernardWPF.Gui
                 else
                 {
                     if (qt == "0")
-                    {    
+                    {
                         stateOfText = 0;
                         txt.Background = Brushes.Transparent;
                         txt.Text = "";
@@ -376,10 +376,8 @@ namespace TraiteurBernardWPF.Gui
                         }
                     }
                 }
-                
-            }
-            
 
+            }
         }
 
         /// <summary>
@@ -391,7 +389,6 @@ namespace TraiteurBernardWPF.Gui
         {
             var txt = sender as TextBox;
             var coord = txt.Tag as Coordonnees;
-            coordonneesModifiees.Add(coord);
             ColorChanged(null, txt, "txt", coord);
         }
 
@@ -407,6 +404,7 @@ namespace TraiteurBernardWPF.Gui
             int col = 0;
             int lig = 0;
             TextBox textBox = new TextBox();
+            var coord = Tag as Coordonnees;
 
             foreach (var l in ListTxt)
             {
@@ -416,6 +414,7 @@ namespace TraiteurBernardWPF.Gui
                     col = coordTxt.Colonne;
                     lig = coordTxt.Ligne;
                     textBox = l as TextBox;
+                    coord = coordTxt;
                 }
             }
 
@@ -506,20 +505,10 @@ namespace TraiteurBernardWPF.Gui
                                 control.Text = data[ligne].Libelle;
                                 
                                 var sd = data[ligne];
-                                /*if (sd.Quantite != 0)
-                                {
-                                    control.Background = Brushes.LightGreen;
-                                }
-                                else if ((sd.Type == 0 || sd.Type == 1 || sd.Type == 5) && sd.Quantite == 10)
-                                {
-                                    control.Background = Brushes.LightBlue;
-                                }
-                                else if (sd.Quantite == 0)
-                                {
-                                    control.Background = Brushes.Transparent;
-                                }*/
+                                
                                 ColorChanged(null, control, sd.Quantite.ToString(), control.Tag as Coordonnees);
 
+                                Console.WriteLine("sdtexte " + sd.Libelle);
                                 Console.WriteLine("sd.Modifier: " + sd.Modifie);
 
                                 if (sd.Modifie)
@@ -692,6 +681,7 @@ namespace TraiteurBernardWPF.Gui
                     if (!donnee.Any())
                     {
                         var modifie = ChercheSiTexteModifie(ligne, colonne);
+                        Console.WriteLine("On enregistre que c'est modifier");
                         saisie.data.Add(new SaisieData { Quantite = qte, Libelle = txtValue, Type = type, Modifie = modifie });
                     }
                     else
@@ -899,7 +889,6 @@ namespace TraiteurBernardWPF.Gui
             }
             mettreMenuSaisie(7);
         }
-
 
         private void mettreMenuSaisie(int jour)
         {
