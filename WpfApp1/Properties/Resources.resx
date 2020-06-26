@@ -246,6 +246,12 @@
   <data name="MessagePopUpSauvegardeLocalToNas" xml:space="preserve">
     <value>Le fichier de données est enregistré sur le NAS.</value>
   </data>
+  <data name="MessagePopUpSemaine" xml:space="preserve">
+    <value>Semaine incorrecte</value>
+  </data>
+  <data name="MessagePopUpSemaineHorsAnnee" xml:space="preserve">
+    <value>Vous ne pouvez prendre une semaine supérieur à 52. Choisissez une autre semaine.</value>
+  </data>
   <data name="MessagePopUpTypeIndi" xml:space="preserve">
     <value>Vous devez selectioner le type de personnes (Actif/Inactif).</value>
   </data>

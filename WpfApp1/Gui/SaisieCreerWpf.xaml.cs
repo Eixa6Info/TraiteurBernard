@@ -262,9 +262,9 @@ namespace TraiteurBernardWPF.Gui
             
         }
 
-        private void ColorChanged(ComboBox cb, TextBox txt, string qt, Coordonnees coord) 
+        private void ColorChanged(ComboBox cb, TextBox txt, string qt, Coordonnees coord)
         {
-            
+
             if (txt != null)
             {
                 int ligne = coord.Ligne;
@@ -346,7 +346,7 @@ namespace TraiteurBernardWPF.Gui
                 else
                 {
                     if (qt == "0")
-                    {    
+                    {
                         stateOfText = 0;
                         txt.Background = Brushes.Transparent;
                         txt.Text = "";
@@ -376,10 +376,8 @@ namespace TraiteurBernardWPF.Gui
                         }
                     }
                 }
-                
-            }
-            
 
+            }
         }
 
         /// <summary>
@@ -391,7 +389,6 @@ namespace TraiteurBernardWPF.Gui
         {
             var txt = sender as TextBox;
             var coord = txt.Tag as Coordonnees;
-
             ColorChanged(null, txt, "txt", coord);
         }
 
@@ -508,20 +505,10 @@ namespace TraiteurBernardWPF.Gui
                                 control.Text = data[ligne].Libelle;
                                 
                                 var sd = data[ligne];
-                                /*if (sd.Quantite != 0)
-                                {
-                                    control.Background = Brushes.LightGreen;
-                                }
-                                else if ((sd.Type == 0 || sd.Type == 1 || sd.Type == 5) && sd.Quantite == 10)
-                                {
-                                    control.Background = Brushes.LightBlue;
-                                }
-                                else if (sd.Quantite == 0)
-                                {
-                                    control.Background = Brushes.Transparent;
-                                }*/
+                                
                                 ColorChanged(null, control, sd.Quantite.ToString(), control.Tag as Coordonnees);
 
+                                Console.WriteLine("sdtexte " + sd.Libelle);
                                 Console.WriteLine("sd.Modifier: " + sd.Modifie);
 
                                 if (sd.Modifie)
@@ -601,8 +588,16 @@ namespace TraiteurBernardWPF.Gui
         private void Valider(object sender, RoutedEventArgs e)
         {
             Enregistrer();
-
-            
+            MessageBoxResult res = MessageBox.Show("Voulez-vous créer le pdf ?", "PDF", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if (res == MessageBoxResult.Yes)
+            {
+                PdfCreerSaisieClient.PrintClient(per, semaine);
+                Close();
+            }
+            else
+            {
+                Close();
+            }
         }
 
         /// <summary>
@@ -686,6 +681,7 @@ namespace TraiteurBernardWPF.Gui
                     if (!donnee.Any())
                     {
                         var modifie = ChercheSiTexteModifie(ligne, colonne);
+                        Console.WriteLine("On enregistre que c'est modifier");
                         saisie.data.Add(new SaisieData { Quantite = qte, Libelle = txtValue, Type = type, Modifie = modifie });
                     }
                     else
@@ -836,7 +832,8 @@ namespace TraiteurBernardWPF.Gui
             {
                     var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 1) as ComboBox;
                     controlCB.SelectedValue = 0;
-            }   
+            }
+            mettreMenuSaisie(1);   
         }
         private void MettreAZeroMardi(object sender, EventArgs e)
         {
@@ -845,6 +842,7 @@ namespace TraiteurBernardWPF.Gui
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 2) as ComboBox;
                 controlCB.SelectedValue = 0;
             }
+            mettreMenuSaisie(2);
         }
         private void MettreAZeroMercredi(object sender, EventArgs e)
         {
@@ -853,6 +851,7 @@ namespace TraiteurBernardWPF.Gui
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 3) as ComboBox;
                 controlCB.SelectedValue = 0;
             }
+            mettreMenuSaisie(3);
         }
         private void MettreAZeroJeudi(object sender, EventArgs e)
         {
@@ -861,6 +860,7 @@ namespace TraiteurBernardWPF.Gui
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 4) as ComboBox;
                 controlCB.SelectedValue = 0;
             }
+            mettreMenuSaisie(4);
         }
         private void MettreAZeroVendredi(object sender, EventArgs e)
         {
@@ -869,6 +869,7 @@ namespace TraiteurBernardWPF.Gui
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 5) as ComboBox;
                 controlCB.SelectedValue = 0;
             }
+            mettreMenuSaisie(5);
         }
         private void MettreAZeroSamedi(object sender, EventArgs e)
         {
@@ -877,6 +878,7 @@ namespace TraiteurBernardWPF.Gui
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 6) as ComboBox;
                 controlCB.SelectedValue = 0;
             }
+            mettreMenuSaisie(6);
         }
         private void MettreAZeroDimanche(object sender, EventArgs e)
         {
@@ -885,6 +887,53 @@ namespace TraiteurBernardWPF.Gui
                 var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + 7) as ComboBox;
                 controlCB.SelectedValue = 0;
             }
+            mettreMenuSaisie(7);
+        }
+
+        private void mettreMenuSaisie(int jour)
+        {
+            IEnumerable<Saisie> saisiesDejaExistantes = from s in this.db.Saisies
+                                                        where
+                                                          s.Annee == this.Edite.Annee &&
+                                                          s.Personne == this.Edite.Personne &&
+                                                          s.Semaine == this.Edite.Semaine &&
+                                                          s.Jour == jour
+                                                          
+                                                        select s;
+
+            // On affiche les plats par défaut dans les checkbox
+            // Liste des menus par rapport à la semaine en cours
+            List<TraiteurBernardWPF.Modele.Menu> req = MenuDao.getAllFromDay(this.Edite.Semaine, jour);
+
+            // Tableau des plats qui va servir plus tard
+            Plat[] plats = new Plat[nombreDeChampsPourMidi];
+
+            // Baguette et Potage ne sont pas dans les menus, mais peuvent être dans la saisie
+
+            // Pour chaque menus, on affiche les plats dans les textbox associé
+            foreach (TraiteurBernardWPF.Modele.Menu menu in req)
+            {
+
+                 plats = menu.Plats.OrderBy(p => p != null ? p.Type : 9).ToArray();
+                 /*EntreeSoir.Add(valE++, plats[5].Name);
+                 DessertSoir.Add(valD++, plats[7].Name);*/
+                int numeroPlatCourant = 0;
+
+                for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
+                {
+                    // dans les menus, n'apparaissent pas les baguettes et potages, ni le fromage
+                    if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2 && ligne != LIGNE_POTAGE - 2)
+                    {                    
+                        var control = gridMain.FindName("txt" + this.itemNames[ligne] + menu.Jour) as TextBox;
+                        control.Text = plats[numeroPlatCourant].Name;
+                        control.IsTabStop = false;
+                        numeroPlatCourant++; 
+                    }
+
+                }
+
+            }
+            stateOfText = 1;
         }
     }
 }
