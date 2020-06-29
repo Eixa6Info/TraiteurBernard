@@ -683,7 +683,8 @@ namespace TraiteurBernardWPF.Gui
                     else
                     {
                         var data = donnee.First();
-                      
+                        var modifie = ChercheSiTexteModifie(ligne, colonne);
+                        data.Modifie = modifie;
                         data.Quantite = qte;
                         data.Libelle = txtValue;
                     }
