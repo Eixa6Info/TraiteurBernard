@@ -38,12 +38,7 @@ namespace TraiteurBernardWPF.Gui
         public static int semaine;
       
         private static string txtBoxOld = "";
-        private static string txtBoxChangeOld = "";
-        TextBox textBoxChange;
-        private static int ColOld = 0;
-        private static int LigOld = 0;
-        private static int cpt = 0;
-
+    
         int nombreDeChampsPourMidi = 8;
 
         int stateOfText = 0;
@@ -316,8 +311,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if (stateOfText > 0)
                         {
-                            txtBoxChangeOld = txt.Text;
-                            textBoxChange = txt;
+                           
                             txt.Background = Brushes.Pink;
                             this.txtChange = true;
                             coordonneesModifiees.Add(coord);
@@ -355,8 +349,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if (stateOfText > 0)
                         {
-                            txtBoxChangeOld = txt.Text;
-                            textBoxChange = txt;
+                            
                             txt.Background = Brushes.Pink;
                             this.txtChange = true;
                             coordonneesModifiees.Add(coord);
