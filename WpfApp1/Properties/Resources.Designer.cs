@@ -457,7 +457,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Vous ne pouvez prendre une semaine supérieur à 52. Choisissez une autre semaine..
+        ///   Recherche une chaîne localisée semblable à Vous ne pouvez prendre un numéro de semaine supérieur à 52. Choisissez une autre semaine..
         /// </summary>
         internal static string MessagePopUpSemaineHorsAnnee {
             get {
