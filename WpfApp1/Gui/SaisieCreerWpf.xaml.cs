@@ -509,7 +509,9 @@ namespace TraiteurBernardWPF.Gui
                                     control.Background = Brushes.Pink;
                                     coordonneesModifiees.Add(control.Tag as Coordonnees);
                                     var controlCB = gridMain.FindName("cb" + this.itemNames[ligne] + saisie.Jour) as ComboBox;
-                                    controlCB.SelectedValue = 1;
+                                    // ### Anomalie du poids non restitué
+                                    controlCB.SelectedValue = sd.Quantite;
+                                    //controlCB.SelectedValue = 1;
                                 }
                                 else
                                 {
@@ -671,6 +673,7 @@ namespace TraiteurBernardWPF.Gui
                                     where d.Type == type
                                     select d;
 
+                    // S'il n'y a pas encore d'enregistrements
                     if (!donnee.Any())
                     {
                         var modifie = ChercheSiTexteModifie(ligne, colonne);
@@ -680,6 +683,7 @@ namespace TraiteurBernardWPF.Gui
                     else
                     {
                         var data = donnee.First();
+                      
                         data.Quantite = qte;
                         data.Libelle = txtValue;
                     }
