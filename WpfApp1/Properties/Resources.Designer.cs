@@ -394,6 +394,15 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le numéro de la semaine doit être inférieur ou égal à 52..
+        /// </summary>
+        internal static string MessagePopUpErrorSemaineSup52 {
+            get {
+                return ResourceManager.GetString("MessagePopUpErrorSemaineSup52", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable..
         /// </summary>
         internal static string MessagePopUpFicherLockExiste {

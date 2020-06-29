@@ -228,6 +228,9 @@
   <data name="MessagePopUpErrorIndispensable3" xml:space="preserve">
     <value>Le nom, le prénom et le numéro de téléphone sont indispensables</value>
   </data>
+  <data name="MessagePopUpErrorSemaineSup52" xml:space="preserve">
+    <value>Le numéro de la semaine doit être inférieur ou égal à 52.</value>
+  </data>
   <data name="MessagePopUpFicherLockExiste" xml:space="preserve">
     <value>Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable.</value>
   </data>
