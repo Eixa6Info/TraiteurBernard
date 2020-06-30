@@ -84,7 +84,6 @@ namespace TraiteurBernardWPF.Gui
                 IQueryable<Livraison> reqLiv = from t in db.Livraisons
                                                select t;
 
-                SaisieDAO.DateDeLivraisons(db, anneeDisplay, GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(semaineDisplay, anneeDisplay), personne);
 
                 foreach (Saisie p in req)
                 {
