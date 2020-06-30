@@ -57,10 +57,19 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
-                
+
+                // https://stackoverflow.com/questions/53371091/displaying-dates-as-holiday-in-wpf-calendar
+                // Voir ce lien pour la couleur background avec un converter
+
+                // https://social.msdn.microsoft.com/Forums/vstudio/en-US/d264d00b-b948-4862-908d-bc90bb6d9424/set-bold-dates-in-calendar?forum=wpf
+                // https://www.codeproject.com/Articles/104081/Extending-the-WPF-Calendar-Control
+                // Pour le bold
+
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
                 background.AddOverlay("circle", Properties.Resources.imgCircle);
+                background.AddOverlay("trait", Properties.Resources.imgTrait);
+
                 calendar.SelectedDates.Clear();
                 background.ClearDates();
                
@@ -74,7 +83,9 @@ namespace TraiteurBernardWPF.Gui
 
                 IQueryable<Livraison> reqLiv = from t in db.Livraisons
                                                select t;
-               
+
+                SaisieDAO.DateDeLivraisons(db, anneeDisplay, GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(semaineDisplay, anneeDisplay), personne);
+
                 foreach (Saisie p in req)
                 {
                         
@@ -89,14 +100,16 @@ namespace TraiteurBernardWPF.Gui
                         resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(semaineDisplay, anneeDisplay);
                         DateTime JourDAffichage = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(anneeDisplay, semaineDisplay, "lundi");
                         calendar.SelectedDates.Add(JourDeSaisie);
-
+                        background.AddDate(JourDeSaisie, "trait");
 
                         calendar.DisplayDate = new DateTime(JourDAffichage.Year, JourDAffichage.Month, JourDAffichage.Day);
+
                         DateTime leJourDeLivraison;
 
                         if (p.Tournee == null || p.Tournee.Nom == "")
                         {
-                            leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(personne.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
+                            throw new Exception("Tournée null impossible");
+                           // leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(personne.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
                         }
                         else
                         {
@@ -104,17 +117,16 @@ namespace TraiteurBernardWPF.Gui
                             leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
                         }
                             
-                        int j = leJourDeLivraison.Day;
-                        int m = leJourDeLivraison.Month;
-                        int y = leJourDeLivraison.Year;
 
-                        background.AddDate(new DateTime(y, m, j), "circle");
+                        background.AddDate(leJourDeLivraison, "circle");
 
                         calendar.Background = background.GetBackground();
 
                         calendar.DisplayDateChanged += CalenderOnDisplayDateChanged;
                     }
                 }
+                calendar.SelectedDate = new DateTime(anneeDisplay, GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(semaineDisplay, anneeDisplay), 1);
+
             }
             catch (IOException a)
             {

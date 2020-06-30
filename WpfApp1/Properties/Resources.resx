@@ -150,6 +150,9 @@
   <data name="ImgTourneeVilleSoir" xml:space="preserve">
     <value>/eixa6/TourneeSoirVille.png</value>
   </data>
+  <data name="imgTrait" xml:space="preserve">
+    <value>C:\\eixa6\\trait.png</value>
+  </data>
   <data name="Inactif" xml:space="preserve">
     <value>Inactif</value>
   </data>

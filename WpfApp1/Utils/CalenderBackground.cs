@@ -125,8 +125,9 @@ namespace TraiteurBernardWPF.Utils
         {
             var overlay = new BitmapImage(new Uri(filename, UriKind.Relative));
             imageBrush = new ImageBrush();
+            //imageBrush
             imageBrush.ImageSource = overlay;
-            imageBrush.Stretch = Stretch.Uniform;
+            //imageBrush.Stretch = Stretch.;
             imageBrush.TileMode = TileMode.None;
             imageBrush.AlignmentX = AlignmentX.Center;
             imageBrush.AlignmentY = AlignmentY.Center;

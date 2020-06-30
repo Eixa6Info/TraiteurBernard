@@ -160,6 +160,15 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à C:\\eixa6\\trait.png.
+        /// </summary>
+        internal static string imgTrait {
+            get {
+                return ResourceManager.GetString("imgTrait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Inactif.
         /// </summary>
         internal static string Inactif {

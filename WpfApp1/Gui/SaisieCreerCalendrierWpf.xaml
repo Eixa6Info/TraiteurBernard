@@ -6,14 +6,23 @@
       xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
       mc:Ignorable="d"
       xml:lang="fr"
-      Title="Calendrier" Width="405" Height="497" Closed="Window_Closed" Loaded="Window_Loaded">
+      Title="Calendrier" Width="405" Height="497" Closed="Window_Closed" Loaded="Window_Loaded" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="NearestNeighbor" >
 
+   
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="331*"/>
             <ColumnDefinition Width="13*"/>
         </Grid.ColumnDefinitions>
-        <Calendar x:Name="calendar" Margin="56,30,42,0" SelectionMode="MultipleRange" Foreground="#DD000000" VerticalAlignment="Top" MouseDoubleClick="calendar_MouseDoubleClick" Height="416" >
+
+
+        <Calendar x:Name="calendar" Margin="56,30,42,0" SelectionMode="MultipleRange" UseLayoutRounding="True" RenderOptions.BitmapScalingMode="HighQuality" Foreground="#DD000000" VerticalAlignment="Top" MouseDoubleClick="calendar_MouseDoubleClick" Height="416" >
         </Calendar>
+        
+
+
     </Grid>
+    
+    
 </Window>
