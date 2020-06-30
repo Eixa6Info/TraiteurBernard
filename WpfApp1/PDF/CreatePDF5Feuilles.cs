@@ -12,10 +12,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.PDF
 {
@@ -87,8 +89,6 @@ namespace TraiteurBernardWPF.PDF
             // print
             print(annee, semaine);
 
-
-
             //Saving the document
             document.save(output);
 
@@ -105,695 +105,166 @@ namespace TraiteurBernardWPF.PDF
          */
         private static void print(int annee, int semaine)
         {
-            PrintCuisinef1(annee, semaine);
-            PrintCuisinef2(annee, semaine);
-            PrintCuisinef3(annee, semaine);
-            PrintCuisinef4(annee, semaine);
+            // On créer les 5 pages (jour 1,2,3,4,5)
+            for(int i = 1; i < 6; i++)
+            {
+                PrintPage(annee, semaine,i);
 
+            }
         }
 
-        private static void PrintCuisinef1(int annee, int semaine)
+        private static void PrintPage(int annee, int semaine, int jour)
         {
-            //Création d'une nouvelle page
-            newPageAndPrintAll(annee, semaine);
 
-            //Ajout de toute les infirmation
-            printJours1();
-
-            //Close de la page
-            contentStream.close();
-        }
-
-        private static void PrintCuisinef2(int annee, int semaine)
-        {
-            //Création d'une nouvelle page
-            newPageAndPrintAll(annee, semaine);
-
-            //Ajout de toute les infirmation
-            printJours2();
-
-            //Close de la page
-            contentStream.close();
-        }
-
-        private static void PrintCuisinef3(int annee, int semaine)
-        {
-            //Création d'une nouvelle page
-            newPageAndPrintAll(annee, semaine);
-
-            //Ajout de toute les infirmation
-            printJours3();
-
-            //Close de la page
-            contentStream.close();
-        }
-
-        private static void PrintCuisinef4(int annee, int semaine)
-        {
-            //Création d'une nouvelle page
-            newPageAndPrintAll(annee, semaine);
-
-            //Ajout de toute les infirmation
-            printJours4();
-
-            //Close de la page
-            contentStream.close();
-        }
-
-
-        /**
-         * Function identique a toute les page du midi
-         * si l'argument est true, on print les saies
-         * sinon on print les menu
-         * @throws IOException ...
-         */
-        private static void newPageAndPrintAll(int annee, int semaine)
-        {
-            //Récup du document
             getDocument();
 
-            //création du cadre
-            printCadre();
+            // Echelle de la partie des compositions (100 par défaut)
+            var echelle = 100;
 
-            //Création de toute les ligne
-            PrintLines();
+            // Valeurs de Y
+            var Y_AU_PLUS_HAUT = 100;
+            var Y_AU_PLUS_BAS = 0;
 
-            //Création de toute les column
-            printColumn();
+            // Valeurs de X
+            var X_AU_PLUS_A_GAUCHE = 0;
+            var X_AU_PLUS_A_DROITE = 100;
 
-            //Ajout des description a gauche du tableaux
-            printDescLine();
+            // Décalage x et y de la partie des compositions (0 par défaut)
+            var xDecalage = 0;
+            var yDecalage = 0;
 
-            //Ajout des menus ou des saisies dans les case
-            printSaisie1(annee, semaine);
+            // Paramètres pour le header
+            var hauteurDuHeader = 4;
 
-        }
-
-    
-
-        /**
-         * Print sur le PDF des jours pour la page 1 (Tourner 1)
-         *
-         * @throws IOException ...
-         */
-        public static DateTime FirstDateOfWeekISO8601(int year, int weekOfYear)
-        {
-            DateTime jan1 = new DateTime(year, 1, 1);
-            int daysOffset = DayOfWeek.Wednesday - jan1.DayOfWeek;
-
-            // Use first Thursday in January to get first week of the year as
-            // it will never be in Week 52/53
-            DateTime firstThursday = jan1.AddDays(daysOffset);
-            var cal = CultureInfo.CurrentCulture.Calendar;
-            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-            var weekNum = weekOfYear;
-            // As we're adding days to a date in Week 1,
-            // we need to subtract 1 in order to get the right date for week #1
-            if (firstWeek == 1)
+            // Si on est lundi ou mercredi
+            if (jour == 1 || jour == 3)
             {
-                weekNum -= 1;
+                // On met l'échelle des compositions a 65 pour laisser de la place aux menus
+                echelle = 65;
+                xDecalage = 100 - echelle;
+
+                // Lignes verticales
+                drawLine(getX(xDecalage * ((double)1 / 3)), getX(xDecalage * ((double)1 / 3)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+                drawLine(getX(xDecalage * ((double)2 / 3)), getX(xDecalage * ((double)2 / 3)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+                drawLine(getX(xDecalage * ((double)3 / 3)), getX(xDecalage * ((double)3 / 3)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+
+                // Les trucd qu'ont va afficher
+                int[] lesTrucs = new int[] {
+                    SaisieData.ENTREE_MIDI,
+                    SaisieData.PLAT_MIDI_1,
+                    SaisieData.PLAT_MIDI_2,
+                    SaisieData.PLAT_MIDI_3,
+                    SaisieData.ENTREE_SOIR,
+                    SaisieData.PLAT_SOIR_1,
+                    SaisieData.DESSERT_SOIR
+                };
+
+                // On récpère la liste des plats
+                BaseContext dbTemp = new BaseContext();
+                Menu menu = MenuDao.getFirstFromWeekAndDay(semaine, jour, dbTemp);
+                Plat[] plats = menu.Plats.ToArray();
+                dbTemp.Dispose();
+
+                int lesTrucsLen = lesTrucs.Length;
+                double y = Y_AU_PLUS_HAUT - hauteurDuHeader;
+                
+                // On affiche les plats
+                for (int i = 0; i < lesTrucsLen; i++)
+                {
+                    if(plats.Any(p => p.Type == lesTrucs[i]))
+                    {
+                        Plat plat = plats.First(p => p.Type == lesTrucs[i]);
+                        string intitule = SaisieDataDAO.GetIntituleFromId(lesTrucs[i]);
+                        double diff = (Y_AU_PLUS_HAUT - hauteurDuHeader) * ((double)1 / lesTrucsLen);
+                        drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(xDecalage), getY(y), getY(y));
+                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, xDecalage * ((double)1 / 3), BOLD, intitule, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), intitule, 0, 0, 0);
+                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(xDecalage * ((double)1 / 3), xDecalage * ((double)2 / 3), BOLD, plat.Name, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), plat.Name, 0, 0, 0);
+                        // Utiliser PrintText pour que ça dépasse pas
+                        //PrintTextBetweenTowPoint(intitule, (xDecalage), (xDecalage * ((double)1 / 3)), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), 10, NORMAL,0,0,0);
+
+                        y -= diff;
+                    }
+                   
+                }
+
             }
 
-            // Using the first Thursday as starting week ensures that we are starting in the right year
-            // then we add number of weeks multiplied with days
-            var result = firstThursday.AddDays(weekNum * 7);
+            // #### CADRE ####
+            drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_GAUCHE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+            drawLine(getX(X_AU_PLUS_A_DROITE), getX(X_AU_PLUS_A_DROITE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
 
-            // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
-            return result.AddDays(-3);
-        }
-        public static DateTime FirstDateOfWeekContreTourneeISO8601(int year, int weekOfYear)
-        {
-            DateTime jan1 = new DateTime(year, 1, 1);
-            int daysOffset = DayOfWeek.Thursday - jan1.DayOfWeek;
+            // #### HEADER ####
+            // - les deux lignes horizontales
+            drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_DROITE), getY(Y_AU_PLUS_HAUT), getY(Y_AU_PLUS_HAUT));
+            drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_DROITE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_HAUT - hauteurDuHeader));
+            // - les deux lignes verticales
+            drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_GAUCHE), getY(Y_AU_PLUS_HAUT), getY(Y_AU_PLUS_HAUT - hauteurDuHeader));
+            drawLine(getX(X_AU_PLUS_A_DROITE), getX(X_AU_PLUS_A_DROITE), getY(Y_AU_PLUS_HAUT), getY(Y_AU_PLUS_HAUT - hauteurDuHeader));
+            // - le texte
+            var ge = "jour - " + jour + " - semaine " + semaine + " - année " + annee;
+            drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, X_AU_PLUS_A_DROITE, BOLD, ge, 10), getMiddelofYBetweenTowPoint(Y_AU_PLUS_HAUT, Y_AU_PLUS_HAUT - hauteurDuHeader, BOLD, 10), ge, 0, 0, 0);
 
-            // Use first Thursday in January to get first week of the year as
-            // it will never be in Week 52/53
-            DateTime firstThursday = jan1.AddDays(daysOffset);
-            var cal = CultureInfo.CurrentCulture.Calendar;
-            int firstWeek = cal.GetWeekOfYear(firstThursday, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            // #### COLONNE DES QUANTITES ####
+            // - les deux lignes verticales
+            drawLine(getX(50 * echelle / 100 + xDecalage), getX(50 * echelle / 100 + xDecalage), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+            drawLine(getX(60 * echelle / 100 + xDecalage), getX(60 * echelle / 100 + xDecalage), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
 
-            var weekNum = weekOfYear;
-            // As we're adding days to a date in Week 1,
-            // we need to subtract 1 in order to get the right date for week #1
-            if (firstWeek == 1)
+            // Les données des saisies
+            BaseContext db = new BaseContext();
+         
+            // Récupération de toutes les informations pour générer les compositions
+            List<Saisie> saisiesList = new List<Saisie>();
+            List<Saisie> saisiesListCompo = new List<Saisie>();
+            int nomDeJoursDans1Jour = jour == 5 ? 3 : 1;
+            for(int i = jour; i < jour + nomDeJoursDans1Jour; i++)
             {
-                weekNum -= 1;
+                List<Saisie> saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, i, db);
+                List<Saisie> saisiesListVille2 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 2", "", annee, semaine, i, db);
+                List<Saisie> saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, i, db);
+                List<Saisie> saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, i, db);
+                saisiesList.AddRange(saisiesListVille1);
+                saisiesList.AddRange(saisiesListVille2);
+                saisiesList.AddRange(saisiesListCT);
+                saisiesList.AddRange(saisiesListMarennes);
             }
+            
 
-            // Using the first Thursday as starting week ensures that we are starting in the right year
-            // then we add number of weeks multiplied with days
-            var result = firstThursday.AddDays(weekNum * 7);
+            Random random = new Random();
 
-            // Subtract 3 days from Thursday to get Monday, which is the first weekday in ISO8601
-            return result.AddDays(-3);
+            var espacementEntreTexte = 2;
+            var yDesTextes = 100 - hauteurDuHeader - espacementEntreTexte;
+            
+            // Affichage des compositions
+            foreach (Saisie saisie in saisiesList)
+            {
+                foreach (SaisieData saisieData in saisie.data)
+                {
+                    int index = 0;
+                    if (saisieData.Modifie == true)
+                    {
+                        var r = random.Next(190);
+                        var g = random.Next(190);
+                        var b = random.Next(190);
+                        var nomPrenom = saisieData.Saisie.Personne.Nom + " " + saisieData.Saisie.Personne.Prenom;
+                        // Composition
+                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, saisieData.Libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), saisieData.Libelle, r, g, b);
+                        // Quantité
+                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(50 * echelle / 100 + xDecalage, 60 * echelle / 100 + xDecalage, BOLD, saisieData.Quantite.ToString(), 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), saisieData.Quantite.ToString(), r, g, b);
+                        // Personne
+                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(60 * echelle / 100 + xDecalage, X_AU_PLUS_A_DROITE * echelle / 100 + xDecalage, BOLD, nomPrenom, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), nomPrenom, r, g, b);
+                        yDesTextes -= espacementEntreTexte;
+                    }
+
+                }
+            }
+          
+
+            //Close de la page
+            contentStream.close();
         }
 
-        private static void PrintCenter1(printJourOuSoir fct)
-        {
-            DateTime today = DateTime.Today;
-            DateTime laDate;
-
-            laDate = FirstDateOfWeekISO8601(today.Year, Semaine);
-
-            var sdf = new DateTimeFormatInfo();
-
-            //variavle réutiliser
-            String text;
-            int column;
-            float fontSize = 10;
-
-            //Print du Lundi
-            //Text a afficher
-            text = "Lundi composition";
-
-            //Column n°
-            column = 1;
-            laDate = laDate.AddDays(1);
-            //Print de l'information au centre de la case
-            fct(laDate, sdf, text, fontSize, column);
-
-            //Print du MARDI
-            text = "MARDI Contre-tournée";
-            column = 2;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
-
-        }
-
-        private static void PrintCenter2(printJourOuSoir fct)
-        {
-            DateTime today = DateTime.Today;
-            DateTime laDate;
-
-            laDate = FirstDateOfWeekISO8601(today.Year, Semaine);
-
-            var sdf = new DateTimeFormatInfo();
-
-            //variavle réutiliser
-            String text;
-            int column;
-            float fontSize = 10;
-
-            //Print du Lundi
-            //Text a afficher
-            text = "MARDI";
-
-            //Column n°
-            column = 1;
-            laDate = laDate.AddDays(1);
-            //Print de l'information au centre de la case
-            fct(laDate, sdf, text, fontSize, column);
-        }
-
-        private static void PrintCenter3(printJourOuSoir fct)
-        {
-            DateTime today = DateTime.Today;
-            DateTime laDate;
-
-            laDate = FirstDateOfWeekISO8601(today.Year, Semaine);
-
-            var sdf = new DateTimeFormatInfo();
-
-            //variavle réutiliser
-            String text;
-            int column;
-            float fontSize = 10;
-
-            //Print du Lundi
-            //Text a afficher
-            text = "MERCREDI";
-
-            //Column n°
-            column = 1;
-            laDate = laDate.AddDays(1);
-            //Print de l'information au centre de la case
-            fct(laDate, sdf, text, fontSize, column);
-
-            //Print du MARDI
-            text = "JEUDI";
-            column = 2;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
-
-        }
-
-        private static void PrintCenter4(printJourOuSoir fct)
-        {
-            DateTime today = DateTime.Today;
-            DateTime laDate;
-
-            laDate = FirstDateOfWeekISO8601(today.Year, Semaine);
-
-            var sdf = new DateTimeFormatInfo();
-
-            //variavle réutiliser
-            String text;
-            int column;
-            float fontSize = 10;
-
-            //Print du Lundi
-            //Text a afficher
-            text = "LUNDI";
-
-            //Column n°
-            column = 2;
-            laDate = laDate.AddDays(1);
-            //Print de l'information au centre de la case
-            fct(laDate, sdf, text, fontSize, column);
-
-            //Print du MARDI
-            text = "MARDI";
-            column = 1;
-            laDate = laDate.AddDays(1);
-            fct(laDate, sdf, text, fontSize, column);
-
-        }
-
-        private static void printJours1()
-        {
-            PrintCenter1(printCenterDay);
-        }
-
-        private static void printJours2()
-        {
-            PrintCenter2(printCenterDay);
-        }
-
-        private static void printJours3()
-        {
-            PrintCenter3(printCenterDay);
-        }
-
-        private static void printJours4()
-        {
-            PrintCenter4(printCenterDay);
-        }
 
         delegate void printJourOuSoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column);
-
-
-        /**
-         * Print des date de consomation des plats
-         *
-         * @param cal      Calendar
-         * @param sdf      SimpleDateFormat
-         * @param text     String
-         * @param fontSize float
-         * @param column   int
-         * @throws IOException ...
-         */
-        private static void printCenterDay(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column)
-        {
-            var str = dt.ToShortDateString().ToUpper();
-            double max = ((columnSpace * column) + (columnSpace - choiceSize / maxX * 100));
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(96, 99, BOLD, fontSize), text, 0,0,0);
-            drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * column, max, NORMAL, str, fontSize), getMiddelofYBetweenTowPoint(93, 96, NORMAL, fontSize), str, 0,0,0);
-        }
-
-
-        /**
-         * Fonction, pout ptiny les plats et quantités de toutes les saises
-        */
-        private static void printSaisie1(int annee, int semaine, bool composition = false)
-        {
-            BaseContext db = new BaseContext();
-            int jour = 1;
-            // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
-            // de ce même jour
-            for (jour = 1; jour < 3; jour++)
-            {
-                double column = columnSpace * jour;
-                List<Saisie> saisiesList = new List<Saisie>();
-                List<Saisie> saisiesListCompo = new List<Saisie>();
-                List<Saisie> saisiesListVille1;
-                List<Saisie> saisiesListVille2;
-                List<Saisie> saisiesListCT;
-                List<Saisie> saisiesListMarennes;
-
-                saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, jour, db);
-                saisiesListVille2 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 2", "", annee, semaine, jour, db);
-                saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, jour, db);
-                saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, jour, db);
-
-                if (jour == 1)
-                {
-                    foreach (var v1 in saisiesListVille1)
-                    {
-                        saisiesListCompo.Add(v1);
-                    }
-                    foreach (var v2 in saisiesListVille2)
-                    {
-                        saisiesListCompo.Add(v2);
-                    }
-                    foreach (var ct in saisiesListCT)
-                    {
-                        saisiesListCompo.Add(ct);
-                    }
-                    foreach(var mn in saisiesListMarennes)
-                    {
-                        saisiesListCompo.Add(mn);
-                    }
-                }
-                else if (jour == 2 )
-                {
-                    foreach (var ct in saisiesListCT)
-                    {
-                        saisiesList.Add(ct);
-                    }
-                }
-
-                // Les données des saisies
-                List<SaisieData> saisiesDatas = new List<SaisieData>();
-                List<SaisieData> saisiesDatasCompo = new List<SaisieData>();
-
-                // On remplit les données des saisies
-                foreach (Saisie saisie in saisiesList)
-                {
-                    foreach (SaisieData saisieData in saisie.data)
-                    {
-                        if (saisieData.Modifie == true)
-                        {
-                            saisiesDatasCompo.Add(saisieData);
-                        }
-                        else
-                        {
-                            saisiesDatas.Add(saisieData);
-                        }
-                    }
-                }
-
-
-                // Pour tous les repas (entrée, plat1, plat2 etc)
-                for (int repas = -1; repas < 10; repas++)
-                {
-                    // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
-                    Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
-
-                    // Pour toutes les données des saisies du jours et par repas 
-                    foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
-                    {
-
-                        string libelle = sd.Libelle;
-                        int quantite = sd.Quantite;
-
-                        // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
-                        if (repasIntituleQuantite.ContainsKey(libelle))
-                        {
-                            repasIntituleQuantite[libelle] += quantite;
-                        }
-                        else
-                        {
-                            repasIntituleQuantite.Add(libelle, quantite);
-                        }
-
-                    }
-
-
-                    double line = 0;
-
-                    switch (repas)
-                    {
-
-                        case SaisieData.BAGUETTE:
-                            line = getMiddelofYBetweenTowPoint(96, 99, NORMAL, 9);
-                            break;
-                        case SaisieData.POTAGE:
-                            line = getMiddelofYBetweenTowPoint(90, 93, NORMAL, 9);
-                            break;
-                        case SaisieData.ENTREE_MIDI:
-                            line = getMiddelofYBetweenTowPoint(80, 90, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_MIDI_1:
-                            line = getMiddelofYBetweenTowPoint(68, 80, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_MIDI_2:
-                            line = getMiddelofYBetweenTowPoint(56, 68, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_MIDI_3:
-                            line = getMiddelofYBetweenTowPoint(44, 56, NORMAL, 9);
-                            break;
-                        case SaisieData.FROMAGE:
-                            line = getMiddelofYBetweenTowPoint(41, 44, NORMAL, 9);
-                            break;
-                        case SaisieData.DESSERT_MIDI:
-                            line = getMiddelofYBetweenTowPoint(31, 41, NORMAL, 9);
-                            break;
-                        case SaisieData.ENTREE_SOIR:
-                            line = getMiddelofYBetweenTowPoint(21, 31, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_SOIR_1:
-                            line = getMiddelofYBetweenTowPoint(11, 21, NORMAL, 9);
-                            break;
-                        case SaisieData.DESSERT_SOIR:
-                            line = getMiddelofYBetweenTowPoint(1, 11, NORMAL, 9);
-                            break;
-
-                    }
-
-                    // Ecriture des repas sur le PDF
-                    if (line != 0)
-                    {
-
-                        foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
-                        {
-
-                            if (!String.IsNullOrEmpty(entry.Key))
-                            {
-                                PDType1Font font = OBLIQUE;
-                                int R = 30;
-                                int G = 127;
-                                int B = 203;
-
-
-                                // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
-                                // Si on est en mode  composition , on met pas le plat du menu
-                                List<String> plats;
-
-                                plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
-                                Console.WriteLine(plats.ToString());
-
-                                if (plats.Contains(entry.Key))
-                                {
-                                    if (composition) continue;
-                                    font = NORMAL;
-                                    R = 0;
-                                    G = 0;
-                                    B = 0;
-                                }
-                                // si cest pas egal a une menu faut surligner en rose
-                                //platString += " " + entry.Value + "*" + entry.Key + " ";
-
-                                if (entry.Value == 10)
-                                {
-                                    var txt = entry.Key;
-                                    var txtQ = "1";
-
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B) ;
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
-                                    line -= 10;
-                                }
-                                else
-                                {
-                                    var txt = entry.Key;
-                                    var txtQ = entry.Value.ToString();
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, font, R, G, B);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5 + 35, getX(column + columnSpace) + 50 + 35 - (choiceSize + 5), line, 8, font, R, G, B);
-                                    line -= 10;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            db.Dispose();
-        }
-
-        /**
-         * Fonction, pout ptiny les plats et quantités de toutes les saises
-        */
-        private static void printSaisie2(int annee, int semaine, bool composition = false)
-        {
-            BaseContext db = new BaseContext();
-            int jour = 1;
-            // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
-            // de ce même jour
-            for (jour = 2; jour < 3; jour++)
-            {
-                double column = columnSpace * jour;
-                List<Saisie> saisiesList = new List<Saisie>();
-                List<Saisie> saisiesListVille1;
-                List<Saisie> saisiesListVille2;
-                List<Saisie> saisiesListCT;
-                List<Saisie> saisiesListMarennes;
-
-                saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, jour, db);
-                saisiesListVille2 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 2", "", annee, semaine, jour, db);
-                saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, jour, db);
-                saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, jour, db);
-
-                if (jour == 1 || jour == 3 || jour == 5 || jour == 6 || jour == 7)
-                {
-                    foreach (var v1 in saisiesListVille1)
-                    {
-                        saisiesList.Add(v1);
-                    }
-                    foreach (var v2 in saisiesListVille2)
-                    {
-                        saisiesList.Add(v2);
-                    }
-                    foreach (var ct in saisiesListCT)
-                    {
-                        saisiesList.Add(ct);
-                    }
-                }
-                else if (jour == 2 || jour == 4)
-                {
-                    foreach (var v1 in saisiesListVille1)
-                    {
-                        saisiesList.Add(v1);
-                    }
-                    foreach (var v2 in saisiesListVille2)
-                    {
-                        saisiesList.Add(v2);
-                    }
-                }
-
-                // Les données des saisies
-                List<SaisieData> saisiesDatas = new List<SaisieData>();
-
-                // On remplit les données des saisies
-                foreach (Saisie saisie in saisiesList)
-                {
-                    foreach (SaisieData saisieData in saisie.data)
-                    {
-                        saisiesDatas.Add(saisieData);
-                    }
-                }
-
-
-                // Pour tous les repas (entrée, plat1, plat2 etc)
-                for (int repas = -1; repas < 10; repas++)
-                {
-                    // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
-                    Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
-
-                    // Pour toutes les données des saisies du jours et par repas 
-                    foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
-                    {
-
-                        string libelle = sd.Libelle;
-                        int quantite = sd.Quantite;
-
-                        // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
-                        if (repasIntituleQuantite.ContainsKey(libelle))
-                        {
-                            repasIntituleQuantite[libelle] += quantite;
-                        }
-                        else
-                        {
-                            repasIntituleQuantite.Add(libelle, quantite);
-                        }
-
-                    }
-
-
-                    double line = 0;
-
-                    switch (repas)
-                    {
-
-                        case SaisieData.BAGUETTE:
-                            line = getMiddelofYBetweenTowPoint(96, 99, NORMAL, 9);
-                            break;
-                        case SaisieData.POTAGE:
-                            line = getMiddelofYBetweenTowPoint(90, 93, NORMAL, 9);
-                            break;
-                        case SaisieData.ENTREE_MIDI:
-                            line = getMiddelofYBetweenTowPoint(80, 90, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_MIDI_1:
-                            line = getMiddelofYBetweenTowPoint(68, 80, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_MIDI_2:
-                            line = getMiddelofYBetweenTowPoint(56, 68, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_MIDI_3:
-                            line = getMiddelofYBetweenTowPoint(44, 56, NORMAL, 9);
-                            break;
-                        case SaisieData.FROMAGE:
-                            line = getMiddelofYBetweenTowPoint(41, 44, NORMAL, 9);
-                            break;
-                        case SaisieData.DESSERT_MIDI:
-                            line = getMiddelofYBetweenTowPoint(31, 41, NORMAL, 9);
-                            break;
-                        case SaisieData.ENTREE_SOIR:
-                            line = getMiddelofYBetweenTowPoint(21, 31, NORMAL, 9);
-                            break;
-                        case SaisieData.PLAT_SOIR_1:
-                            line = getMiddelofYBetweenTowPoint(11, 21, NORMAL, 9);
-                            break;
-                        case SaisieData.DESSERT_SOIR:
-                            line = getMiddelofYBetweenTowPoint(1, 11, NORMAL, 9);
-                            break;
-
-                    }
-
-                    // Ecriture des repas sur le PDF
-                    if (line != 0)
-                    {
-
-                        foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
-                        {
-
-                            if (!String.IsNullOrEmpty(entry.Key))
-                            {
-                                PDType1Font font = OBLIQUE;
-                                int R = 253;
-                                int G = 108;
-                                int B = 158;
-                                // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
-                                // Si on est en mode  composition , on met pas le plat du menu
-                                List<String> plats;
-
-                                plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
-                                Console.WriteLine(plats.ToString());
-
-                                if (plats.Contains(entry.Key))
-                                {
-                                    if (composition) continue;
-                                    font = NORMAL;
-                                    R = 0;
-                                    G = 0;
-                                    B = 0;
-                                }
-                                // si cest pas egal a une menu faut surligner en rose
-                                //platString += " " + entry.Value + "*" + entry.Key + " ";
-
-                                if (entry.Value == 10)
-                                {
-                                    var txt = entry.Key;
-                                    var txtQ = "1";
-
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R,G,B);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R,G,B);
-                                    line -= 10;
-                                }
-                                else
-                                {
-                                    var txt = entry.Key;
-                                    var txtQ = entry.Value.ToString();
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, font, R, G, B);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, font, R, G, B);
-                                    line -= 10;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            db.Dispose();
-        }
 
 
         private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font ,int R, int G, int B)
@@ -874,155 +345,6 @@ namespace TraiteurBernardWPF.PDF
             }
         }
 
-
-        private static void PrintLines()
-        {
-
-            //Jours Bottom Line
-            drawLine(getX(0), getX(columnSpace), getY(96), getY(96));
-
-            //Baguette Bottom Line
-            drawLine(getX(0), getX(100), getY(96), getY(96));
-
-            //Semaine Bottom Line
-            drawLine(getX(0), getX(100), getY(93), getY(93));
-
-            //Potages Bottom Line
-            drawLine(getX(0), getX(100), getY(88), getY(88));
-
-            //Entrees Line
-            drawLine(getX(0), getX(100), getY(80), getY(80));
-
-            //Plat 1 Bottom Line
-            drawLine(getX(columnSpace / 2), getX(100), getY(68), getY(68));
-
-            //Plat 2 Bottom Line
-            drawLine(getX(columnSpace / 2), getX(100), getY(56), getY(56));
-
-            //Plat 3 Bottom Line Line
-            drawLine(getX(0), getX(100), getY(44), getY(44));
-
-            //Formage Bottom Line
-            drawLine(getX(0), getX(100), getY(41), getY(41));
-
-            //Dessert Bottom Line
-            drawLine(getX(0), getX(100), getY(31), getY(31));
-            drawLine(getX(0), getX(100), getY(30.8), getY(30.8));
-
-            //Entrée Bottom Line Soir
-            drawLine(getX(0), getX(100), getY(21), getY(21));
-
-            //Plat Bottom Line Soir
-            drawLine(getX(0), getX(100), getY(11), getY(11));
-        }
-
-
-
-        /**
-         * Print de toute les column
-         *
-         * @throws IOException ...
-         */
-        private static void printColumn()
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                //Left bar Jour 1
-                drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), menuYTopNoLivraison, menuYBottom);
-
-                //Left Bar Jour 1 choice
-                drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, menuYTopNoLivraison, menuYBottom);
-            }
-
-            drawLine(getX(columnSpace / 2), getX(columnSpace / 2), getY(80), getY(44));
-        }
-
-
-
-        /**
-         * Print des description et du fromage a gauche du tableaux
-         *
-         * @throws IOException ...
-         */
-        private static void printDescLine()
-        {
-            //Baguettes
-            String text;
-            float fontSize = 9;
-            int R = 0;
-            int G = 0;
-            int B = 0;
-
-            text = "Baguettes".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(96, 99, BOLD, fontSize), text, R, G, B);
-
-            text = "Semaine " + Semaine;
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(93, 96, BOLD, fontSize), text, R, G, B);
-
-            text = "Potages".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(90, 93, BOLD, fontSize), text, R, G, B);
-
-            text = "Entrées".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(80, 90, BOLD, fontSize), text, R, G, B);
-
-
-            text = "Plats".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(68, 80, BOLD, fontSize), text, R, G, B);
-
-            text = "Au".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(56, 68, BOLD, fontSize), text, R, G, B);
-
-            text = "Choix".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace / 2, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(44, 56, BOLD, fontSize), text, R, G, B);
-
-            text = "Plat 1".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(68, 80, BOLD, fontSize), text, R, G, B);
-
-            text = "Plat 2".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(56, 68, BOLD, fontSize), text, R, G, B);
-
-            text = "Plat 3".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(columnSpace / 2, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(44, 56, BOLD, fontSize), text, R, G, B);
-
-            for (int i = 0; i < 2; i++)
-            {
-                text = "Fromage";
-                drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(columnSpace * (1 + i), columnSpace * (1 + i + 1) - (choiceSize / maxX * 100), NORMAL, text, fontSize), getMiddelofYBetweenTowPoint(41, 44, NORMAL, fontSize), text, R, G, B);
-            }
-
-            text = "Desserts".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(31, 41, BOLD, fontSize), text, R, G, B);
-
-            text = "Entrées du soir".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(21, 31, BOLD, fontSize), text, R, G, B);
-
-            text = "PLAT du SOIR".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(11, 21, BOLD, fontSize), text, R, G, B);
-
-            text = "Desserts du soir".ToUpper();
-            drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(1, 11, BOLD, fontSize), text, R, G, B);
-        }
-
-
-        /**
-         * Function de print pour le cadre (quatre ligne)
-         *
-         * @throws IOException ...
-         */
-        private static void printCadre()
-        {
-            //Left Line
-            drawLine(getX(1), getX(1), getY(100), getY(1));
-
-            //Right Line
-            drawLine(getX(100), getX(100), getY(1), getY(100));
-
-            //Top Line
-            //  drawLine(getX(0), getX(100), getY(100), getY(100));
-
-            //Bottom Line
-            drawLine(getX(0), getX(100), getY(1), getY(1));
-        }
 
 
 
