@@ -162,6 +162,10 @@ namespace TraiteurBernardWPF.PDF
                 // On récpère la liste des plats
                 BaseContext dbTemp = new BaseContext();
                 Menu menu = MenuDao.getFirstFromWeekAndDay(semaine, jour, dbTemp);
+                if(menu == null)
+                {
+                    menu = new Menu() { Plats = new HashSet<Plat>() };
+                }
                 Plat[] plats = menu.Plats.ToArray();
                 dbTemp.Dispose();
 
@@ -171,20 +175,22 @@ namespace TraiteurBernardWPF.PDF
                 // On affiche les plats
                 for (int i = 0; i < lesTrucsLen; i++)
                 {
-                    if(plats.Any(p => p.Type == lesTrucs[i]))
+                    string intitule = SaisieDataDAO.GetIntituleFromId(lesTrucs[i]);
+                    double diff = (Y_AU_PLUS_HAUT - hauteurDuHeader) * ((double)1 / lesTrucsLen);
+
+                    drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, xDecalage * ((double)1 / 3), BOLD, intitule, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), intitule, 0, 0, 0);
+                    drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(xDecalage), getY(y), getY(y));
+
+                    if (plats.Any(p => p.Type == lesTrucs[i]))
                     {
                         Plat plat = plats.First(p => p.Type == lesTrucs[i]);
-                        string intitule = SaisieDataDAO.GetIntituleFromId(lesTrucs[i]);
-                        double diff = (Y_AU_PLUS_HAUT - hauteurDuHeader) * ((double)1 / lesTrucsLen);
-                        drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(xDecalage), getY(y), getY(y));
-                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, xDecalage * ((double)1 / 3), BOLD, intitule, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), intitule, 0, 0, 0);
                         drawText(BOLD, 10, getMiddelofXBetweenTowPoint(xDecalage * ((double)1 / 3), xDecalage * ((double)2 / 3), BOLD, plat.Name, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), plat.Name, 0, 0, 0);
                         // Utiliser PrintText pour que ça dépasse pas
                         //PrintTextBetweenTowPoint(intitule, (xDecalage), (xDecalage * ((double)1 / 3)), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), 10, NORMAL,0,0,0);
-
-                        y -= diff;
                     }
-                   
+                    y -= diff;
+
+
                 }
 
             }
