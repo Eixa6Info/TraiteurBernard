@@ -97,6 +97,42 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Dessert midi.
+        /// </summary>
+        internal static string DessertMidi {
+            get {
+                return ResourceManager.GetString("DessertMidi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Dessert soir.
+        /// </summary>
+        internal static string DessertSoir {
+            get {
+                return ResourceManager.GetString("DessertSoir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Entrée midi.
+        /// </summary>
+        internal static string EntreeMidi {
+            get {
+                return ResourceManager.GetString("EntreeMidi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Entrée soir.
+        /// </summary>
+        internal static string EntreeSoir {
+            get {
+                return ResourceManager.GetString("EntreeSoir", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à C:\\eixa6\\circle.png.
         /// </summary>
         internal static string imgCircle {
@@ -507,6 +543,42 @@ namespace TraiteurBernardWPF.Properties {
         internal static string MessagePopUpXmlNoLocal {
             get {
                 return ResourceManager.GetString("MessagePopUpXmlNoLocal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Plat 1 midi.
+        /// </summary>
+        internal static string Plat1Midi {
+            get {
+                return ResourceManager.GetString("Plat1Midi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Plat 2 midi.
+        /// </summary>
+        internal static string Plat2Midi {
+            get {
+                return ResourceManager.GetString("Plat2Midi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Plat 3 midi.
+        /// </summary>
+        internal static string Plat3Midi {
+            get {
+                return ResourceManager.GetString("Plat3Midi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Plat soir.
+        /// </summary>
+        internal static string PlatSoir {
+            get {
+                return ResourceManager.GetString("PlatSoir", resourceCulture);
             }
         }
         

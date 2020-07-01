@@ -140,23 +140,24 @@ namespace TraiteurBernardWPF.PDF
             if (jour == 1 || jour == 3)
             {
                 // On met l'échelle des compositions a 65 pour laisser de la place aux menus
-                echelle = 65;
+                echelle = 60;
                 xDecalage = 100 - echelle;
-
+                
                 // Lignes verticales
-                drawLine(getX(xDecalage * ((double)1 / 3)), getX(xDecalage * ((double)1 / 3)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
-                drawLine(getX(xDecalage * ((double)2 / 3)), getX(xDecalage * ((double)2 / 3)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
-                drawLine(getX(xDecalage * ((double)3 / 3)), getX(xDecalage * ((double)3 / 3)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+                drawLine(getX(xDecalage * ((double)2 / 5)), getX(xDecalage * ((double)2 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+                drawLine(getX(xDecalage * ((double)4 / 5)), getX(xDecalage * ((double)4 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+                drawLine(getX(xDecalage * ((double)5 / 5)), getX(xDecalage * ((double)5 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
 
                 // Les trucd qu'ont va afficher
                 int[] lesTrucs = new int[] {
-                    SaisieData.ENTREE_MIDI,
-                    SaisieData.PLAT_MIDI_1,
-                    SaisieData.PLAT_MIDI_2,
-                    SaisieData.PLAT_MIDI_3,
-                    SaisieData.ENTREE_SOIR,
-                    SaisieData.PLAT_SOIR_1,
-                    SaisieData.DESSERT_SOIR
+                    Plat.ENTREE_MIDI,
+                    Plat.PLAT_MIDI_1,
+                    Plat.PLAT_MIDI_2,
+                    Plat.PLAT_MIDI_3,
+                    Plat.DESSERT_MIDI,
+                    Plat.ENTREE_SOIR,
+                    Plat.PLAT_SOIR_1,
+                    Plat.DESSERT_SOIR
                 };
 
                 // On récpère la liste des plats
@@ -175,18 +176,46 @@ namespace TraiteurBernardWPF.PDF
                 // On affiche les plats
                 for (int i = 0; i < lesTrucsLen; i++)
                 {
-                    string intitule = SaisieDataDAO.GetIntituleFromId(lesTrucs[i]);
+                    string intitule = "erreur";
+                    switch (lesTrucs[i])
+                    {
+                        case Plat.ENTREE_MIDI:
+                            intitule = Properties.Resources.EntreeMidi;
+                            break;
+                        case Plat.PLAT_MIDI_1:
+                            intitule = Properties.Resources.Plat1Midi;
+                            break;
+                        case Plat.PLAT_MIDI_2:
+                            intitule = Properties.Resources.Plat2Midi;
+                            break;
+                        case Plat.PLAT_MIDI_3:
+                            intitule = Properties.Resources.Plat3Midi;
+                            break;
+                        case Plat.DESSERT_MIDI:
+                            intitule = Properties.Resources.DessertMidi;
+                            break;
+                        case Plat.ENTREE_SOIR:
+                            intitule = Properties.Resources.EntreeSoir;
+                            break;
+                        case Plat.PLAT_SOIR_1:
+                            intitule = Properties.Resources.PlatSoir;
+                            break;
+                        case Plat.DESSERT_SOIR:
+                            intitule = Properties.Resources.DessertSoir;
+                            break;
+                    }
+
                     double diff = (Y_AU_PLUS_HAUT - hauteurDuHeader) * ((double)1 / lesTrucsLen);
 
-                    drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, xDecalage * ((double)1 / 3), BOLD, intitule, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), intitule, 0, 0, 0);
+                    drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, xDecalage * ((double)2 / 5), BOLD, intitule, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), intitule, 0, 0, 0);
                     drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(xDecalage), getY(y), getY(y));
 
                     if (plats.Any(p => p.Type == lesTrucs[i]))
                     {
                         Plat plat = plats.First(p => p.Type == lesTrucs[i]);
-                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(xDecalage * ((double)1 / 3), xDecalage * ((double)2 / 3), BOLD, plat.Name, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), plat.Name, 0, 0, 0);
+                        //drawText(BOLD, 10, getMiddelofXBetweenTowPoint(xDecalage * ((double)1 / 3), xDecalage * ((double)2 / 3), BOLD, plat.Name, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), plat.Name, 0, 0, 0);
                         // Utiliser PrintText pour que ça dépasse pas
-                        //PrintTextBetweenTowPoint(intitule, (xDecalage), (xDecalage * ((double)1 / 3)), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), 10, NORMAL,0,0,0);
+                        PrintTextBetweenTowPoint(plat.Name, (getX(xDecalage * ((double)2 / 5))), (getX(xDecalage * ((double)4 / 5))), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), 10, NORMAL,0,0,0);
                     }
                     y -= diff;
 
@@ -198,6 +227,7 @@ namespace TraiteurBernardWPF.PDF
             // #### CADRE ####
             drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_GAUCHE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
             drawLine(getX(X_AU_PLUS_A_DROITE), getX(X_AU_PLUS_A_DROITE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
+            drawLine(getX(X_AU_PLUS_A_DROITE), getX(X_AU_PLUS_A_GAUCHE), getY(Y_AU_PLUS_BAS), getY(Y_AU_PLUS_BAS));
 
             // #### HEADER ####
             // - les deux lignes horizontales

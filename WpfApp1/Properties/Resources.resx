@@ -129,6 +129,18 @@
   <data name="CT" xml:space="preserve">
     <value>contre-tournée</value>
   </data>
+  <data name="DessertMidi" xml:space="preserve">
+    <value>Dessert midi</value>
+  </data>
+  <data name="DessertSoir" xml:space="preserve">
+    <value>Dessert soir</value>
+  </data>
+  <data name="EntreeMidi" xml:space="preserve">
+    <value>Entrée midi</value>
+  </data>
+  <data name="EntreeSoir" xml:space="preserve">
+    <value>Entrée soir</value>
+  </data>
   <data name="imgCircle" xml:space="preserve">
     <value>C:\\eixa6\\circle.png</value>
   </data>
@@ -266,6 +278,18 @@
   </data>
   <data name="MessagePopUpXmlNoLocal" xml:space="preserve">
     <value>Veuillez configurer le fichier nas.xml</value>
+  </data>
+  <data name="Plat1Midi" xml:space="preserve">
+    <value>Plat 1 midi</value>
+  </data>
+  <data name="Plat2Midi" xml:space="preserve">
+    <value>Plat 2 midi</value>
+  </data>
+  <data name="Plat3Midi" xml:space="preserve">
+    <value>Plat 3 midi</value>
+  </data>
+  <data name="PlatSoir" xml:space="preserve">
+    <value>Plat soir</value>
   </data>
   <data name="TitrePopUpAlerte" xml:space="preserve">
     <value>Alerte</value>
