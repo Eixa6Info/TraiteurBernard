@@ -540,7 +540,9 @@ namespace TraiteurBernardWPF.Gui
                 calendar.SelectedDates.Clear();
                 DataGrid gd = (DataGrid)sender;
                 row_selected = gd.SelectedItem as Personne;
-                
+
+                if (row_selected == null) return;
+
                 List<string> jourLivraison = new List<string>();
                 List<string> jourRepas1 = new List<string>();
                 List<string> jourRepas2 = new List<string>();
