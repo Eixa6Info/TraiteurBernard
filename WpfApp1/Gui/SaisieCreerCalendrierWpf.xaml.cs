@@ -11,7 +11,9 @@ using Calendar = System.Globalization.Calendar;
 using System.IO;
 using TraiteurBernardWPF.Utils;
 using TraiteurBernardWPF.DAO;
-
+using System.Reflection;
+using System.Windows.Media.Imaging;
+using System.Drawing;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -68,7 +70,14 @@ namespace TraiteurBernardWPF.Gui
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
                 background.AddOverlay("circle", Properties.Resources.imgCircle);
-                background.AddOverlay("trait", Properties.Resources.imgTrait);
+
+       
+
+                var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+                var logoimage = Path.Combine(outPutDirectory, "Assets\\trait.png");
+                string relLogo = new Uri(logoimage).LocalPath;
+                Console.WriteLine("chemin de l'image : " + relLogo);
+                background.AddOverlay("trait", relLogo);
 
                 calendar.SelectedDates.Clear();
                 background.ClearDates();
