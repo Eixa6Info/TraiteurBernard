@@ -333,7 +333,24 @@ namespace TraiteurBernardWPF.Gui
                 }
                 else
                 {
-                    if (qt == "0")
+                    if (qt == "10")
+                    {
+                        txt.Background = Brushes.LightBlue;
+                        if (ligne == LIGNE_ENTREE || ligne == LIGNE_POTAGE)
+                        {
+                            foreach (KeyValuePair<int, string> k in EntreeSoir)
+                            {
+                                if (k.Key == colonne)
+                                {
+                                    stateOfText = 0;
+                                    txtBoxOld = txt.Text;
+                                    Console.WriteLine("txtBoxOld: " + txtBoxOld);
+                                    txt.Text = k.Value;
+                                }
+                            }
+                        }
+                    }
+                    else if (qt == "0")
                     {
                         stateOfText = 0;
                         txt.Background = Brushes.Transparent;
