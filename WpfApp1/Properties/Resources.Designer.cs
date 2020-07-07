@@ -142,7 +142,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeMidiContre.png.
+        ///   Recherche une chaîne localisée semblable à Assets/TourneeMidiContre.png.
         /// </summary>
         internal static string ImgTourneeCT {
             get {
@@ -151,7 +151,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeSoirContre.png.
+        ///   Recherche une chaîne localisée semblable à Assets/TourneeSoirContre.png.
         /// </summary>
         internal static string ImgTourneeCTSoir {
             get {
@@ -160,7 +160,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeMidiMarennes.png.
+        ///   Recherche une chaîne localisée semblable à Assets/TourneeMidiMarennes.png.
         /// </summary>
         internal static string ImgTourneeMarennes {
             get {
@@ -169,7 +169,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeSoirMarennes.png.
+        ///   Recherche une chaîne localisée semblable à Assets/TourneeSoirMarennes.png.
         /// </summary>
         internal static string ImgTourneeMarennesSoir {
             get {
@@ -178,7 +178,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeMidiVille.png.
+        ///   Recherche une chaîne localisée semblable à Assets/TourneeMidiVille.png.
         /// </summary>
         internal static string ImgTourneeVille {
             get {
@@ -187,7 +187,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à /eixa6/TourneeSoirVille.png.
+        ///   Recherche une chaîne localisée semblable à Assets/TourneeSoirVille.png.
         /// </summary>
         internal static string ImgTourneeVilleSoir {
             get {

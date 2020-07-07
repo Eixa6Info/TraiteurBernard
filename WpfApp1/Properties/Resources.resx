@@ -145,22 +145,22 @@
     <value>C:\\eixa6\\circle.png</value>
   </data>
   <data name="ImgTourneeCT" xml:space="preserve">
-    <value>/eixa6/TourneeMidiContre.png</value>
+    <value>Assets/TourneeMidiContre.png</value>
   </data>
   <data name="ImgTourneeCTSoir" xml:space="preserve">
-    <value>/eixa6/TourneeSoirContre.png</value>
+    <value>Assets/TourneeSoirContre.png</value>
   </data>
   <data name="ImgTourneeMarennes" xml:space="preserve">
-    <value>/eixa6/TourneeMidiMarennes.png</value>
+    <value>Assets/TourneeMidiMarennes.png</value>
   </data>
   <data name="ImgTourneeMarennesSoir" xml:space="preserve">
-    <value>/eixa6/TourneeSoirMarennes.png</value>
+    <value>Assets/TourneeSoirMarennes.png</value>
   </data>
   <data name="ImgTourneeVille" xml:space="preserve">
-    <value>/eixa6/TourneeMidiVille.png</value>
+    <value>Assets/TourneeMidiVille.png</value>
   </data>
   <data name="ImgTourneeVilleSoir" xml:space="preserve">
-    <value>/eixa6/TourneeSoirVille.png</value>
+    <value>Assets/TourneeSoirVille.png</value>
   </data>
   <data name="imgTrait" xml:space="preserve">
     <value>C:\\eixa6\\trait.png</value>

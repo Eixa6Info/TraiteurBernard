@@ -69,15 +69,13 @@ namespace TraiteurBernardWPF.Gui
 
                 calendar.IsTodayHighlighted = false;
                 background = new CalenderBackground(calendar);
-                background.AddOverlay("circle", Properties.Resources.imgCircle);
 
        
 
                 var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-                var logoimage = Path.Combine(outPutDirectory, "Assets\\trait.png");
-                string relLogo = new Uri(logoimage).LocalPath;
-                Console.WriteLine("chemin de l'image : " + relLogo);
-                background.AddOverlay("trait", relLogo);
+                background.AddOverlay("trait", new Uri(Path.Combine(outPutDirectory, "Assets\\trait.png")).LocalPath);
+                background.AddOverlay("circle", new Uri(Path.Combine(outPutDirectory, "Assets\\circle.png")).LocalPath);
+
 
                 calendar.SelectedDates.Clear();
                 background.ClearDates();

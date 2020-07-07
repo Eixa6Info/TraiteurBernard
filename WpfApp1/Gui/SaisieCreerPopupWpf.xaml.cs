@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -109,15 +110,19 @@ namespace TraiteurBernardWPF.Gui
                     if (semaine < 53)
                     {
                         this.Edite.Tournee = this.Edite.Personne.Tournee;
+                        
+                        // Objet pour récupérer les images
+                        var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 
                         // suivant la tournée, ouvrir une saisir ou une autre
                         if (this.Edite.Tournee.Nom == Properties.Resources.Ville1 || this.Edite.Tournee.Nom == Properties.Resources.Ville2)
                         {
                             Close();
                             int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
-                            var soirBackground = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeVilleSoir, UriKind.RelativeOrAbsolute)));
+                            var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeVilleSoir))));
                             SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                            wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeVille, UriKind.RelativeOrAbsolute)));
+
+                            wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeVille))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
 
@@ -126,9 +131,9 @@ namespace TraiteurBernardWPF.Gui
                         {
                             Close();
                             int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
-                            var soirBackground = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeCTSoir, UriKind.RelativeOrAbsolute)));
+                            var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeCTSoir))));
                             SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                            wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeCT, UriKind.RelativeOrAbsolute)));
+                            wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeCT))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
                         }
@@ -136,9 +141,9 @@ namespace TraiteurBernardWPF.Gui
                         {
                             Close();
                             int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
-                            var soirBackground = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeMarennesSoir, UriKind.RelativeOrAbsolute)));
+                            var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeMarennesSoir))));
                             SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
-                            wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Properties.Resources.ImgTourneeMarennes, UriKind.RelativeOrAbsolute)));
+                            wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeMarennes))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
                         }

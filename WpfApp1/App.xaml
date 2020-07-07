@@ -11,8 +11,8 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <BitmapImage x:Key="TableauSaisieMidiVille" >Assets/TourneeMidiVille.png</BitmapImage>
-            <BitmapImage x:Key="TableauSaisieSoirVille" >Assets/TourneeSoirVille.png</BitmapImage>
+         <!--   <BitmapImage x:Key="TableauSaisieMidiVille" >Assets/TourneeMidiVille.png</BitmapImage>
+            <BitmapImage x:Key="TableauSaisieSoirVille" >Assets/TourneeSoirVille.png</BitmapImage>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
