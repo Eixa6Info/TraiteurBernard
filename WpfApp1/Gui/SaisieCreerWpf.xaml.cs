@@ -293,6 +293,7 @@ namespace TraiteurBernardWPF.Gui
                                 }
                             }
                         }
+                        stateOfText = 1;
                     }
                     else if (qt == "0")
                     {
@@ -311,7 +312,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if (stateOfText > 0)
                         {
-                           
+
                             txt.Background = Brushes.Pink;
                             this.txtChange = true;
                             coordonneesModifiees.Add(coord);
@@ -321,7 +322,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if ((ligne == LIGNE_ENTREE || ligne == LIGNE_DESSERT) && txtBoxOld != "")
                         {
-                            stateOfText = 0;
+                            //stateOfText = 0;
                             txt.Background = Brushes.LightGreen;
                             txt.Text = txtBoxOld;
                         }
@@ -344,11 +345,11 @@ namespace TraiteurBernardWPF.Gui
                                 {
                                     stateOfText = 0;
                                     txtBoxOld = txt.Text;
-                                    Console.WriteLine("txtBoxOld: " + txtBoxOld);
                                     txt.Text = k.Value;
                                 }
                             }
                         }
+                        stateOfText = 1;
                     }
                     else if (qt == "0")
                     {
@@ -360,7 +361,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if (stateOfText > 0)
                         {
-                            
+
                             txt.Background = Brushes.Pink;
                             this.txtChange = true;
                             coordonneesModifiees.Add(coord);
@@ -370,7 +371,7 @@ namespace TraiteurBernardWPF.Gui
                     {
                         if ((ligne == LIGNE_ENTREE || ligne == LIGNE_DESSERT) && txtBoxOld != "")
                         {
-                            stateOfText = 0;
+                           // stateOfText = 0;
                             txt.Text = txtBoxOld;
                         }
                     }
