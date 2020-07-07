@@ -955,6 +955,10 @@ namespace TraiteurBernardWPF.PDF
                         {
                             if (quantite != 0)
                             {
+                                if (sd.Type == 0 && libelle == "")
+                                {
+                                    libelle = "Potage";
+                                }
                                 repasIntituleQuantite.Add(libelle, quantite);
                             }
                         }
@@ -1013,10 +1017,19 @@ namespace TraiteurBernardWPF.PDF
 
                                 if (line != getMiddelofYBetweenTowPoint(76, 79, NORMAL, 11) && line != getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11))
                                 {
-                                    font = OBLIQUE;
-                                    R = 253;
-                                    G = 108;
-                                    B = 158;
+                                    if (entry.Key != "Potage")
+                                    {
+                                        font = OBLIQUE;
+                                        R = 253;
+                                        G = 108;
+                                        B = 158;
+                                    }
+                                    else
+                                    {
+                                        R = 0;
+                                        G = 0;
+                                        B = 0;
+                                    }
                                 }
                                 else
                                 {

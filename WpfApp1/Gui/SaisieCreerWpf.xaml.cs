@@ -325,12 +325,6 @@ namespace TraiteurBernardWPF.Gui
                             txt.Background = Brushes.LightGreen;
                             txt.Text = txtBoxOld;
                         }
-                        else if (ligne == LIGNE_POTAGE)
-                        {
-                            stateOfText = 0;
-                            txt.Background = Brushes.LightGreen;
-                            txt.Text = "";
-                        }
                         else
                         {
                             txt.Background = Brushes.LightGreen;
@@ -361,11 +355,6 @@ namespace TraiteurBernardWPF.Gui
                         {
                             stateOfText = 0;
                             txt.Text = txtBoxOld;
-                        }
-                        else if (ligne == LIGNE_POTAGE)
-                        {
-                            stateOfText = 0;
-                            txt.Text = "";
                         }
                     }
                 }
@@ -407,10 +396,11 @@ namespace TraiteurBernardWPF.Gui
                     col = coordTxt.Colonne;
                     lig = coordTxt.Ligne;
                     textBox = l as TextBox;
+                   
                     coord = coordTxt;
                 }
             }
-
+            Console.WriteLine("je suis al" + textBox.ToString());
             ColorChanged(cb, textBox, cb.SelectedValue.ToString(), coordCb);
         }
     
@@ -492,7 +482,7 @@ namespace TraiteurBernardWPF.Gui
                         if (data[ligne] != null)
                         {
                             
-                            if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2 && ligne != LIGNE_POTAGE - 2)
+                            if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2)
                             {
                                 var control = (gridMain.FindName("txt" + this.itemNames[ligne] + saisie.Jour) as TextBox);
                                 control.Text = data[ligne].Libelle;
@@ -556,7 +546,7 @@ namespace TraiteurBernardWPF.Gui
                     for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
                     {
                         // dans les menus, n'apparaissent pas les baguettes et potages, ni le fromage
-                        if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2 && ligne != LIGNE_POTAGE - 2)
+                        if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2)
                         {
                             if (plats[numeroPlatCourant] != null)
                             {
