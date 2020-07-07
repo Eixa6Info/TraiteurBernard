@@ -500,7 +500,7 @@ namespace TraiteurBernardWPF.Gui
                         if (data[ligne] != null)
                         {
                             
-                            if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2)
+                            if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2 && ligne != LIGNE_POTAGE - 2)
                             {
                                 var control = (gridMain.FindName("txt" + this.itemNames[ligne] + saisie.Jour) as TextBox);
                                 control.Text = data[ligne].Libelle;
@@ -564,7 +564,7 @@ namespace TraiteurBernardWPF.Gui
                     for (int ligne = 0; ligne < nombreDeChampsPourMidi; ligne++)
                     {
                         // dans les menus, n'apparaissent pas les baguettes et potages, ni le fromage
-                        if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2)
+                        if (ligne != LIGNE_BAGUETTE - 2 && ligne != LIGNE_FROMAGE - 2 && ligne != LIGNE_POTAGE - 2)
                         {
                             if (plats[numeroPlatCourant] != null)
                             {
