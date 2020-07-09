@@ -195,6 +195,7 @@ namespace TraiteurBernardWPF.PDF
             //Ajout des menus ou des saisies dans les case
             // TODO : à revoir l'affichage des compositions
             printSaisie("", "", annee, semaine, true);
+            printSaisieSoir(annee, semaine, "", "", true);
 
             //Ajout de toute les infirmation
             printJoursT1();
@@ -978,19 +979,19 @@ namespace TraiteurBernardWPF.PDF
                             break;
                         case SaisieData.ENTREE_MIDI:
                             // line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
-                            line = getMiddelofYBetweenTowPoint(66, 76, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(63, 73, NORMAL, 11);
                             break;
                         case SaisieData.PLAT_MIDI_1:
                             //line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
-                            line = getMiddelofYBetweenTowPoint(54, 66, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(51, 63, NORMAL, 11);
                             break;
                         case SaisieData.PLAT_MIDI_2:
                             //line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
-                            line = getMiddelofYBetweenTowPoint(42, 54, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(39, 51, NORMAL, 11);
                             break;
                         case SaisieData.PLAT_MIDI_3:
                             //line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
-                            line = getMiddelofYBetweenTowPoint(30, 42, NORMAL, 11);
+                            line = getMiddelofYBetweenTowPoint(27, 39, NORMAL, 11);
                             break;
                         case SaisieData.FROMAGE:
                             line = getMiddelofYBetweenTowPoint(21, 30, NORMAL, 11);
@@ -1175,7 +1176,7 @@ namespace TraiteurBernardWPF.PDF
         /**
          * Function pour print les Plats de tout les Menus
          */
-        private static void printSaisieSoir(int annee, int semaine, string tournee1, string tournee2)
+        private static void printSaisieSoir(int annee, int semaine, string tournee1, string tournee2, bool composition = false)
         {
 
             BaseContext db = new BaseContext();
@@ -1273,9 +1274,40 @@ namespace TraiteurBernardWPF.PDF
                         {
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
-                                //platString += " " + entry.Value + "*" + entry.Key + " ";
-                                PrintTextBetweenTowPoint(entry.Key, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, 0,0,0);
-                                PrintTextBetweenTowPoint(entry.Value.ToString(), getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL,0,0,0);
+                                PDType1Font font = NORMAL;
+                                int R = 253;
+                                int G = 108;
+                                int B = 158;
+
+
+                                // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
+                                // Si on est en mode  composition , on met pas le plat du menu
+                                List<String> plats;
+                                if (calculSemaine == false)
+                                {
+                                    plats = MenuDao.getPlatsNameFromWeekDay(semaineN1, jour);
+                                    Console.WriteLine(plats.ToString());
+                                }
+                                else
+                                {
+                                    plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
+                                    Console.WriteLine(plats.ToString());
+                                }
+
+                                if (plats.Contains(entry.Key))
+                                {
+                                    if (composition) continue;
+                                    font = NORMAL;
+                                    R = 0;
+                                    G = 0;
+                                    B = 0;
+                                }
+                               
+
+                                var txt = entry.Key;
+                                var txtQ = entry.Value.ToString();
+                                PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, R, G, B);
+                                PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL, R, G, B);
                                 line -= 10;
 
                             }

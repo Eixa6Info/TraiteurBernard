@@ -191,6 +191,7 @@ namespace TraiteurBernardWPF.Gui
                     if (qt == "0")
                     {
                         txt.Background = Brushes.Transparent;
+                        coordonneesModifiees.Remove(coord);
                     }
                     else if (qt == "txt")
                     {
@@ -201,17 +202,17 @@ namespace TraiteurBernardWPF.Gui
                         }
                     }
                     else
-                    { 
+                    {
                         txt.Background = Brushes.LightGreen;
+                        coordonneesModifiees.Remove(coord);
                     }
                 }
                 else
                 {
                     if (qt == "0")
                     {
-                        stateOfText = 0;
                         txt.Background = Brushes.Transparent;
-                        txt.Text = "";
+                        coordonneesModifiees.Remove(coord);
                     }
                     else if (qt == "txt")
                     {
@@ -232,14 +233,15 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Txt_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var coord = txt.Tag as Coordonnees;
             if (stateOfText > 0)
             {
                 var txt = sender as TextBox;
-                var coord = txt.Tag as Coordonnees;
+                coord = txt.Tag as Coordonnees;
                 coordonneesModifiees.Add(coord);
                 ColorChanged(null, txt, "txt", coord);
-
             }
+                       
         }
 
         /// <summary>
@@ -261,21 +263,7 @@ namespace TraiteurBernardWPF.Gui
                     textBox = l as TextBox;
                 }
             }
-
             ColorChanged(cb, textBox, cb.SelectedValue.ToString(), coordCb);
-            /*
-            if (cb.SelectedValue.ToString() == "10")
-            {
-                textBox.Background = Brushes.LightBlue;
-            }
-            else if (cb.SelectedValue.ToString() == "1")
-            {
-                textBox.Background = Brushes.LightGreen;
-            }
-            else
-            {
-                textBox.Background = Brushes.Transparent;
-            }*/
         }
 
         /// <summary>
@@ -308,12 +296,6 @@ namespace TraiteurBernardWPF.Gui
 
             // On regarde si il y a déjà une saisie existante pour cette personne a cette semaine
             // et cette année
-           /* IEnumerable<Saisie> saisiesDejaExistantes = from s in this.db.Saisies
-                      where
-                        s.Annee == this.Edite.Annee &&
-                        s.Personne == this.Edite.Personne &&
-                        s.Semaine == this.Edite.Semaine
-                      select s;*/
 
             List<Saisie> saisiesDejaExistantes = SaisieDAO.getAllFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
 
@@ -359,11 +341,14 @@ namespace TraiteurBernardWPF.Gui
 
                                 if (sd.Quantite != 0)
                                 {
+                                    Console.WriteLine("Je suis pas modifier est je m'appelle " + sd.Libelle);
                                     control.Background = Brushes.LightGreen;
+                                    coordonneesModifiees.Remove(control.Tag as Coordonnees);
                                 }
 
                                 if (sd.Modifie)
                                 {
+                                    Console.WriteLine("Je suis modifier est je m'appelle " + sd.Libelle);
                                     control.Background = Brushes.Pink;
                                     coordonneesModifiees.Add(control.Tag as Coordonnees);
                                 }
@@ -492,6 +477,7 @@ namespace TraiteurBernardWPF.Gui
                     else
                     {
                         var data = donnee.First();
+                        
                         var modifie = ChercheSiTexteModifie(ligne, colonne);
                         data.Modifie = modifie;
                         data.Quantite = qte;
@@ -658,25 +644,59 @@ namespace TraiteurBernardWPF.Gui
 
         private void mettreMenuSaisie(int jour)
         {
-            // On affiche les plats par défaut dans les checkbox
-            // Liste des menus par rapport à la semaine en cours
-            List<TraiteurBernardWPF.Modele.Menu> req = MenuDao.getAllFromDay(this.Edite.Semaine, jour);
+            IEnumerable<Saisie> saisiesDejaExistantes = from s in this.db.Saisies
+                                                        where
+                                                          s.Annee == this.Edite.Annee &&
+                                                          s.Personne == this.Edite.Personne &&
+                                                          s.Semaine == this.Edite.Semaine &&
+                                                          s.Jour == jour
 
+                                                        select s;
+
+
+            int nombrePlatsAMidi = 8;
+
+            List<Saisie> req = new List<Saisie>();
+
+            foreach (Saisie saisie in saisiesDejaExistantes)
+            {
+                this.db.Entry(saisie).Collection(s => s.data).Load();
+                req.Add(saisie);
+            }
+
+            // On va afficher les plats dans les textboxs et les quantité dans les combobox
             // Tableau des plats qui va servir plus tard
-            Plat[] plats = new Plat[8];
+            SaisieData[] data = new SaisieData[3];
 
-            // Pour chaque menus, on affiche les plats dans les textbox associé
-            foreach (TraiteurBernardWPF.Modele.Menu menu in req)
+            // Sert si pas de saisie pour le soir
+            List<TraiteurBernardWPF.Modele.Menu> menus = MenuDao.getAllFromDay(this.Edite.Semaine, jour);
+            int indiceMenu = 0;
+
+            foreach (Saisie saisie in req)
             {
 
-                plats = menu.Plats.OrderBy(p => p != null ? p.Type : 9).ToArray();
+                data = saisie.data.OrderBy(sd => sd.Type).ToArray();
+                
+                if (menus.Count <= indiceMenu) continue;
+
+                var plats = menus[indiceMenu].Plats.OrderBy(p => p != null ? p.Type : 9).ToArray();
+                // il n'y a que 8 plats dans les menus, on ajoutera potage, baguette et fromage
+
                 for (int i = 0; i < nombreDeChampsPourSoir; i++)
                 {
-                    if (plats[i] != null)
-                        (gridMain.FindName("txt" + this.itemNames[i] + menu.Jour) as TextBox).Text = plats[i].Name;
-
-                }
-
+                    // Ne pas toucher au stateOfText il est bien placé
+                    stateOfText = 0;
+                    var txt = gridMain.FindName("txt" + this.itemNames[i] + saisie.Jour) as TextBox;                
+                    var coord = txt.Tag as Coordonnees; 
+                    txt.Text = plats[i + nombrePlatsAMidi - 3].Name;
+                    var sd = data[i + nombrePlatsAMidi];
+                    sd.Modifie = false;
+                    Console.WriteLine("Je suis " + sd.Libelle + " et mon etat est " + sd.Modifie);
+                    coordonneesModifiees.Remove(coord);
+                    ColorChanged(null, txt, "0", coord);
+                    
+                }  
+                indiceMenu++;
             }
             stateOfText = 1;
         }
