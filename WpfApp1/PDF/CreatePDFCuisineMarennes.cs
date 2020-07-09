@@ -21,7 +21,7 @@ using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.PDF
 {
-    public static class CreatePDFCuisine 
+    public static class CreatePDFCuisineMarennes 
     {
         /**
          * Variable pour le placement
@@ -73,7 +73,7 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(1);
             Semaine = semaine;
                 
-            namePdf = "saisies_Cuisine" + semaine + "_" + annee + ".pdf";
+            namePdf = "saisies_Cuisine_Marennes_" + semaine + "_" + annee + ".pdf";
             
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
@@ -311,48 +311,15 @@ namespace TraiteurBernardWPF.PDF
             {
                 double column = columnSpace * jour;
                 List<Saisie> saisiesList = new List<Saisie>();
-                List<Saisie> saisiesListVille1;
-                List<Saisie> saisiesListVille2;
-                List<Saisie> saisiesListCT;
-                //List<Saisie> saisiesListMarennes;
+                List<Saisie> saisiesListMarennes;
 
-                saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, jour, db);
-                saisiesListVille2 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 2", "", annee, semaine, jour, db);
-                saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, jour, db);
-                //saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, jour, db);
-               
-                if (jour == 1 || jour == 3 || jour == 5 || jour == 6 || jour == 7)
-                {
-                    foreach(var v1 in saisiesListVille1)
-                    {
-                        saisiesList.Add(v1);
-                    }
-                    foreach (var v2 in saisiesListVille2)
-                    {
-                        saisiesList.Add(v2);
-                    }
-                    foreach (var ct in saisiesListCT)
-                    {
-                        saisiesList.Add(ct);
-                    }
-                }
-                else if (jour == 2 || jour == 4)
-                {
-                    foreach (var v1 in saisiesListVille1)
-                    {
-                        saisiesList.Add(v1);
-                    }
-                    foreach (var v2 in saisiesListVille2)
-                    {
-                        saisiesList.Add(v2);
-                    }
-                }
+                saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, jour, db);
 
                 // Les données des saisies
                 List<SaisieData> saisiesDatas = new List<SaisieData>();
 
                 // On remplit les données des saisies
-                foreach (Saisie saisie in saisiesList)
+                foreach (Saisie saisie in saisiesListMarennes)
                 {
                     foreach (SaisieData saisieData in saisie.data)
                     {
@@ -508,7 +475,7 @@ namespace TraiteurBernardWPF.PDF
 
             if (x + width < maxX)
             {
-                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFCuisine.maxX * 100), (maxX / CreatePDFCuisine.maxX * 100), font, str, fontSize), y, str, R, G, B);
+                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFCuisineMarennes.maxX * 100), (maxX / CreatePDFCuisineMarennes.maxX * 100), font, str, fontSize), y, str, R, G, B);
             }
             else
             {
@@ -575,7 +542,7 @@ namespace TraiteurBernardWPF.PDF
                         if (s.Length > maxLength.Length) maxLength = s;
                     }
 
-                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFCuisine.maxX * 100), (maxX / CreatePDFCuisine.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
+                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFCuisineMarennes.maxX * 100), (maxX / CreatePDFCuisineMarennes.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
                 }
             }
         }
@@ -662,7 +629,7 @@ namespace TraiteurBernardWPF.PDF
             text = "Baguettes".ToUpper();
             drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(96, 99, BOLD, fontSize), text, R, G, B);
 
-            text = "Semaine "+ Semaine;
+            text = "Semaine "+ Semaine + "   MARENNES";
             drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, text, fontSize), getMiddelofYBetweenTowPoint(93, 96, BOLD, fontSize), text, R, G, B);
 
             text = "Potages".ToUpper();

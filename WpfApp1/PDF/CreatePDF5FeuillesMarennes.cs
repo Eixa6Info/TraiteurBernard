@@ -21,7 +21,7 @@ using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.PDF
 {
-    class CreatePDF5Feuilles
+    class CreatePDF5FeuillesMarennes
     {
              /**
          * Variable pour le placement
@@ -73,7 +73,7 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(1);
             Semaine = semaine;
 
-            namePdf = "saisies_Cuisine_5_feuilles" + semaine + "_" + annee + ".pdf";
+            namePdf = "saisies_Cuisine_5_feuilles_Marennes_" + semaine + "_" + annee + ".pdf";
 
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
@@ -136,94 +136,6 @@ namespace TraiteurBernardWPF.PDF
             // Paramètres pour le header
             var hauteurDuHeader = 4;
 
-            // Si on est lundi ou mercredi
-            if (jour == 1 || jour == 3)
-            {
-                // On met l'échelle des compositions a 65 pour laisser de la place aux menus
-                echelle = 60;
-                xDecalage = 100 - echelle;
-                
-                // Lignes verticales
-                drawLine(getX(xDecalage * ((double)2 / 5)), getX(xDecalage * ((double)2 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
-                drawLine(getX(xDecalage * ((double)4 / 5)), getX(xDecalage * ((double)4 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
-                drawLine(getX(xDecalage * ((double)5 / 5)), getX(xDecalage * ((double)5 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
-
-                // Les trucd qu'ont va afficher
-                int[] lesTrucs = new int[] {
-                    Plat.ENTREE_MIDI,
-                    Plat.PLAT_MIDI_1,
-                    Plat.PLAT_MIDI_2,
-                    Plat.PLAT_MIDI_3,
-                    Plat.DESSERT_MIDI,
-                    Plat.ENTREE_SOIR,
-                    Plat.PLAT_SOIR_1,
-                    Plat.DESSERT_SOIR
-                };
-
-                // On récpère la liste des plats
-                BaseContext dbTemp = new BaseContext();
-                Menu menu = MenuDao.getFirstFromWeekAndDay(semaine, jour, dbTemp);
-                if(menu == null)
-                {
-                    menu = new Menu() { Plats = new HashSet<Plat>() };
-                }
-                Plat[] plats = menu.Plats.ToArray();
-                dbTemp.Dispose();
-
-                int lesTrucsLen = lesTrucs.Length;
-                double y = Y_AU_PLUS_HAUT - hauteurDuHeader;
-                
-                // On affiche les plats
-                for (int i = 0; i < lesTrucsLen; i++)
-                {
-                    string intitule = "erreur";
-                    switch (lesTrucs[i])
-                    {
-                        case Plat.ENTREE_MIDI:
-                            intitule = Properties.Resources.EntreeMidi;
-                            break;
-                        case Plat.PLAT_MIDI_1:
-                            intitule = Properties.Resources.Plat1Midi;
-                            break;
-                        case Plat.PLAT_MIDI_2:
-                            intitule = Properties.Resources.Plat2Midi;
-                            break;
-                        case Plat.PLAT_MIDI_3:
-                            intitule = Properties.Resources.Plat3Midi;
-                            break;
-                        case Plat.DESSERT_MIDI:
-                            intitule = Properties.Resources.DessertMidi;
-                            break;
-                        case Plat.ENTREE_SOIR:
-                            intitule = Properties.Resources.EntreeSoir;
-                            break;
-                        case Plat.PLAT_SOIR_1:
-                            intitule = Properties.Resources.PlatSoir;
-                            break;
-                        case Plat.DESSERT_SOIR:
-                            intitule = Properties.Resources.DessertSoir;
-                            break;
-                    }
-
-                    double diff = (Y_AU_PLUS_HAUT - hauteurDuHeader) * ((double)1 / lesTrucsLen);
-
-                    drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, xDecalage * ((double)2 / 5), BOLD, intitule, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), intitule, 0, 0, 0);
-                    drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(xDecalage), getY(y), getY(y));
-
-                    if (plats.Any(p => p.Type == lesTrucs[i]))
-                    {
-                        Plat plat = plats.First(p => p.Type == lesTrucs[i]);
-                        //drawText(BOLD, 10, getMiddelofXBetweenTowPoint(xDecalage * ((double)1 / 3), xDecalage * ((double)2 / 3), BOLD, plat.Name, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), plat.Name, 0, 0, 0);
-                        // Utiliser PrintText pour que ça dépasse pas
-                        PrintTextBetweenTowPoint(plat.Name, (getX(xDecalage * ((double)2 / 5))), (getX(xDecalage * ((double)4 / 5))), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), 10, NORMAL,0,0,0);
-                    }
-                    y -= diff;
-
-
-                }
-
-            }
-
             // #### CADRE ####
             drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_GAUCHE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
             drawLine(getX(X_AU_PLUS_A_DROITE), getX(X_AU_PLUS_A_DROITE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
@@ -237,7 +149,7 @@ namespace TraiteurBernardWPF.PDF
             drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_GAUCHE), getY(Y_AU_PLUS_HAUT), getY(Y_AU_PLUS_HAUT - hauteurDuHeader));
             drawLine(getX(X_AU_PLUS_A_DROITE), getX(X_AU_PLUS_A_DROITE), getY(Y_AU_PLUS_HAUT), getY(Y_AU_PLUS_HAUT - hauteurDuHeader));
             // - le texte
-            var ge = "jour - " + jour + " - semaine " + semaine + " - année " + annee;
+            var ge = "jour - " + jour + " - semaine " + semaine + " - année " + annee + "    MARENNES";
             drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE, X_AU_PLUS_A_DROITE, BOLD, ge, 10), getMiddelofYBetweenTowPoint(Y_AU_PLUS_HAUT, Y_AU_PLUS_HAUT - hauteurDuHeader, BOLD, 10), ge, 0, 0, 0);
 
             // #### COLONNE DES QUANTITES ####
@@ -254,14 +166,14 @@ namespace TraiteurBernardWPF.PDF
             int nomDeJoursDans1Jour = jour == 5 ? 3 : 1;
             for(int i = jour; i < jour + nomDeJoursDans1Jour; i++)
             {
-                List<Saisie> saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, i, db);
+               /* List<Saisie> saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, i, db);
                 List<Saisie> saisiesListVille2 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 2", "", annee, semaine, i, db);
-                List<Saisie> saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, i, db);
-              //  List<Saisie> saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, i, db);
-                saisiesList.AddRange(saisiesListVille1);
+                List<Saisie> saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, i, db);*/
+                List<Saisie> saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, i, db);
+              /*  saisiesList.AddRange(saisiesListVille1);
                 saisiesList.AddRange(saisiesListVille2);
-                saisiesList.AddRange(saisiesListCT);
-                //saisiesList.AddRange(saisiesListMarennes);
+                saisiesList.AddRange(saisiesListCT);*/
+                saisiesList.AddRange(saisiesListMarennes);
             }
             
 
@@ -309,7 +221,7 @@ namespace TraiteurBernardWPF.PDF
 
             if (x + width < maxX)
             {
-                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF5Feuilles.maxX * 100), (maxX / CreatePDF5Feuilles.maxX * 100), font, str, fontSize), y, str, R, G, B);
+                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF5FeuillesMarennes.maxX * 100), (maxX / CreatePDF5FeuillesMarennes.maxX * 100), font, str, fontSize), y, str, R, G, B);
             }
             else
             {
@@ -376,7 +288,7 @@ namespace TraiteurBernardWPF.PDF
                         if (s.Length > maxLength.Length) maxLength = s;
                     }
 
-                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF5Feuilles.maxX * 100), (maxX / CreatePDF5Feuilles.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
+                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDF5FeuillesMarennes.maxX * 100), (maxX / CreatePDF5FeuillesMarennes.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
                 }
             }
         }

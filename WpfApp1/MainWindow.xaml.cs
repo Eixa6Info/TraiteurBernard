@@ -712,5 +712,38 @@ namespace TraiteurBernardWPF
             }
         }
 
+        private void MenuItem_Saisies_PdfMarennes_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PdfCreerWpf wpf = new PdfCreerWpf(1, 5);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+
+        }
+
+        private void MenuItem_Saisies_Pdf5FeuillesMarennse_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                PdfCreerWpf wpf = new PdfCreerWpf(1, 6);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+        }
+
     }
 }

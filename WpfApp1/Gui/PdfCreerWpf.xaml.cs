@@ -91,6 +91,22 @@ namespace TraiteurBernardWPF.Gui
                             System.Diagnostics.Process.Start(outputfile);
                         }
                     }
+                    else if (printSaisieInt == 5)
+                    {
+                        var outputfile = CreatePDFCuisineMarennes.Start(841.8898F, 1190.55126F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                        if (!string.IsNullOrEmpty(outputfile))
+                        {
+                            System.Diagnostics.Process.Start(outputfile);
+                        }
+                    }
+                    else if (printSaisieInt == 6)
+                    {
+                        var outputfile = CreatePDF5FeuillesMarennes.Start(841.8898F, 595.27563F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                        if (!string.IsNullOrEmpty(outputfile))
+                        {
+                            System.Diagnostics.Process.Start(outputfile);
+                        }
+                    }
                 }
                 else
                 {
