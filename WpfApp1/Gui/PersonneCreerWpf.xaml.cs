@@ -84,7 +84,6 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            
             try
             {
                 if (VerifierDonnees())
@@ -116,7 +115,7 @@ namespace TraiteurBernardWPF.Gui
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             IQueryable<TypeTournee> req = from t in this.db.TypeTournee
-                      select t;
+                                          select t;
 
             List<TypeTournee> data = new List<TypeTournee>();
 
@@ -125,9 +124,9 @@ namespace TraiteurBernardWPF.Gui
                 this.db.Entry(tt).Collection(s => s.JoursLivraisonsRepas).Load();
                 data.Add(tt);
             }
-
+            String[] couleur = {"Vert", "Rose", "Jaune","Gris"};
             cbTournee.ItemsSource = data;
-  
+            cbTourneeCouleur.ItemsSource = couleur;
             this.UpdateStatus(lblContactDurgence, this.edite.ContactDurgence, "Pas de contact d'urgence"); 
             this.UpdateStatus(lblCompte, this.edite.CompteDeFacturation, "Pas de compte de facturation"); 
         }
@@ -332,6 +331,18 @@ namespace TraiteurBernardWPF.Gui
         }
 
         private void cbTournee_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbTournee.SelectedIndex == 2)
+            {
+                cbTourneeCouleur.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cbTourneeCouleur.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void cbTourneeCouleur_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }

@@ -193,6 +193,52 @@ namespace TraiteurBernardWPF.DAO
 
         }
 
+        internal static String getPlatsNamePlatJour(int semaine, int jour, int type)
+        {
+            BaseContext db = new BaseContext();
+
+            IQueryable<Menu> req = from t in db.Menu
+                                   where t.Semaine == semaine && t.Jour == jour
+                                   select t;
+
+
+            String data = "";
+
+            foreach (Menu menu in req)
+            {
+                db.Entry(menu).Collection(m => m.Plats).Load();
+                foreach (Plat platJ in menu.Plats)
+                {
+                    if (type == Plat.ENTREE_MIDI)
+                    {
+                        if (platJ.Type == type)
+                        {
+                            data = platJ.Name;
+                        }
+                    }
+                    else if (type == Plat.PLAT_MIDI_1)
+                    {
+                        data = platJ.Name;
+                    }
+                    else if (type == Plat.PLAT_MIDI_2)
+                    {
+                        data = platJ.Name;
+                    }
+                    else if (type == Plat.PLAT_MIDI_3)
+                    {
+                        data = platJ.Name;
+                    }
+                    else if (type == Plat.DESSERT_MIDI)
+                    {
+                        data = platJ.Name;
+                    }
+                }
+            }
+
+            return data;
+
+        }
+
         internal static List<String> getPlatsJambonNameFromWeekDay(int semaine, int jour)
         {
             BaseContext db = new BaseContext();

@@ -73,7 +73,7 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(1);
             Semaine = semaine;
                 
-            namePdf = "saisies_Cuisine" + semaine + "_" + annee + ".pdf";
+            namePdf = "saisies_Cuisine_" + semaine + "_" + annee + ".pdf";
             
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
@@ -147,7 +147,7 @@ namespace TraiteurBernardWPF.PDF
             printDescLine();
 
             //Ajout des menus ou des saisies dans les case
-            printSaisie(annee, semaine);
+            printSaisie(annee, semaine, false);
 
         }
 
@@ -438,62 +438,45 @@ namespace TraiteurBernardWPF.PDF
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
                                 PDType1Font font = NORMAL;
-                                int R = 253;
-                                int G = 108;
-                                int B = 158;
-
-                                if (line != getMiddelofYBetweenTowPoint(96, 99, NORMAL, 9) && line != getMiddelofYBetweenTowPoint(41, 44, NORMAL, 9))
-                                {
-                                    font = OBLIQUE;
-                                    R = 253;
-                                    G = 108;
-                                    B = 158;
-                                }
-                                else
-                                {
-                                    R = 0;
-                                    G = 0;
-                                    B = 0;
-                                }
-                                
+                                int R = 0;
+                                int G = 0;
+                                int B = 0;
 
                                 // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
                                 // Si on est en mode  composition , on met pas le plat du menu
                                 List<String> plats;
                                
                                 plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
-                                Console.WriteLine(plats.ToString());
-
+                                
                                 if (plats.Contains(entry.Key))
                                 {
-                                    if (composition) continue;
                                     font = NORMAL;
-                                    R = 0;
-                                    G = 0;
-                                    B = 0;
+                                    
+                                    if (entry.Value == 10)
+                                    {
+                                        var txt = entry.Key;
+                                        var txtQ = "1";
+                                        R = 30;
+                                        G = 127;
+                                        B = 203;
+                                        PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                        PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                        line -= 10;
+                                    }
+                                    else
+                                    {
+                                        var txt = entry.Key;
+                                        var txtQ = entry.Value.ToString();
+                                        PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, font, R, G, B);
+                                        PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, font, R, G, B);
+                                        line -= 10;
+                                    }
                                 }
+                               
                                 // si cest pas egal a une menu faut surligner en rose
                                 //platString += " " + entry.Value + "*" + entry.Key + " ";
 
-                                if (entry.Value == 10)
-                                {
-                                    var txt = entry.Key;
-                                    var txtQ = "1";
-                                    R = 30;
-                                    G = 127;
-                                    B = 203;
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
-                                    line -= 10;
-                                }
-                                else
-                                {
-                                    var txt = entry.Key;
-                                    var txtQ = entry.Value.ToString();
-                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, font, R, G, B);
-                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, font, R, G, B);
-                                    line -= 10;
-                                }
+                                
                             }
                         }
                     }

@@ -73,7 +73,7 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(1);
             Semaine = semaine;
 
-            namePdf = "saisies_Cuisine_5_feuilles" + semaine + "_" + annee + ".pdf";
+            namePdf = "saisies_Cuisine_Composition_" + semaine + "_" + annee + ".pdf";
 
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
@@ -278,9 +278,22 @@ namespace TraiteurBernardWPF.PDF
                     int index = 0;
                     if (saisieData.Modifie == true)
                     {
-                        var r = random.Next(190);
-                        var g = random.Next(190);
-                        var b = random.Next(190);
+                        var r = 0;
+                        var g = 0;
+                        var b = 0;
+                        if (saisieData.Saisie.Tournee.Nom == Properties.Resources.Ville1)
+                        {
+                            r = 0;
+                            g = 155;
+                            b = 0;
+                        }
+                        else if (saisieData.Saisie.Tournee.Nom == Properties.Resources.Ville2)
+                        {
+                            r = 200;
+                            g = 220;
+                            b = 0;
+                        }
+                        
                         var nomPrenom = saisieData.Saisie.Personne.Nom + " " + saisieData.Saisie.Personne.Prenom;
                         // Composition
                         drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, saisieData.Libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), saisieData.Libelle, r, g, b);

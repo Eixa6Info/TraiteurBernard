@@ -58,7 +58,6 @@ namespace TraiteurBernardWPF.Gui
             {
                 if (!this.composition)
                 {
-
                     if (printSaisieInt == 1)
                     {
                         var outputfile = CreatePDFCuisine.Start(841.8898F, 1190.55126F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
@@ -113,7 +112,7 @@ namespace TraiteurBernardWPF.Gui
                     var outputfile = CreatePDF.StartComposition(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
                     if (!string.IsNullOrEmpty(outputfile)) System.Diagnostics.Process.Start(outputfile);
                 }
-                Close();
+                this.Close();
             }
 
 

@@ -73,7 +73,7 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(1);
             Semaine = semaine;
 
-            namePdf = "saisies_Cuisine_5_feuilles_Marennes_" + semaine + "_" + annee + ".pdf";
+            namePdf = "saisies_Cuisine_Composition_Marennes_" + semaine + "_" + annee + ".pdf";
 
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
