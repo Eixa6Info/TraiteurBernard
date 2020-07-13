@@ -3,10 +3,12 @@ using org.apache.pdfbox.pdmodel;
 using org.apache.pdfbox.pdmodel.common;
 using org.apache.pdfbox.pdmodel.edit;
 using org.apache.pdfbox.pdmodel.font;
+using sun.tools.tree;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
@@ -102,25 +104,34 @@ namespace TraiteurBernardWPF.PDF
             {
                 PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
                 PrintMidiContreTournee(annee, semaine, printSaisieBool);    // semaine paire
-                                                                            // soir contre tournée
-                PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
-                PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+                if (!IsSoirEmpty(annee, semaine, personne)){
+                    // soir
+                    PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine impaire
+                    PrintSoirContreTournee(annee, semaine, printSaisieBool);    // semaine paire
+                }                                                       // soir contre tournée
+               
             }
             else if (personne.Tournee.ID == 4 && personne.ID == personne.ID)
             {
                 PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine impaire
                 PrintMidiMarennes(annee, semaine, printSaisieBool); // semaine paire
-                                                                    // soir marennes
-                PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine impaire
-                PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine paire
+                if (!IsSoirEmpty(annee, semaine, personne)){
+                    // soir
+                    PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine impaire
+                    PrintSoirMarennes(annee, semaine, printSaisieBool); // semaine paire
+                }                                                 // soir marennes
+               
             }
             else if (personne.ID == personne.ID)
             {
                 PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine impaire
                 PrintMidiVille1ou2(annee, semaine, printSaisieBool);  // semaine paire
-                                                                      // soir
-                PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine impaire
-                PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine paire
+                if(!IsSoirEmpty(annee, semaine, personne)){
+                    // soir
+                    PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine impaire
+                    PrintSoirVille1ou2(annee, semaine, printSaisieBool);    // semaine paire
+                }
+                
             }
 
             //Saving the document
@@ -130,6 +141,28 @@ namespace TraiteurBernardWPF.PDF
             document.close();
 
             return output;
+        }
+
+        private static bool IsSoirEmpty(int annee, int semaine, Personne personne)
+        {
+            BaseContext db = new BaseContext();
+            List<Saisie> saisiesList = SaisieDAO.getAllFromYearWeekPersonne(annee, semaine, personne, db);
+
+            int quantite = 0;
+            foreach(Saisie saisie in saisiesList)
+            {
+                foreach(int type in new int[] {SaisieData.ENTREE_SOIR, SaisieData.PLAT_SOIR_1, SaisieData.DESSERT_SOIR })
+                {
+                    if(saisie.data.Any(s => s.Type == type)){
+                        SaisieData saisieData = saisie.data.First(s => s.Type == type);
+                        quantite += saisieData.Quantite;
+                    }
+                    
+                }
+            }
+
+            return quantite > 0 ? false : true;
+
         }
 
         /**
