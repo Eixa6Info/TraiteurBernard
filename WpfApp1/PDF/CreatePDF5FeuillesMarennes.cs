@@ -187,6 +187,8 @@ namespace TraiteurBernardWPF.PDF
             {
                 foreach (SaisieData saisieData in saisie.data)
                 {
+                    string startLibelle = "";
+
                     int index = 0;
                     if (saisieData.Modifie == true)
                     {
@@ -194,8 +196,10 @@ namespace TraiteurBernardWPF.PDF
                         var g = random.Next(190);
                         var b = random.Next(190);
                         var nomPrenom = saisieData.Saisie.Personne.Nom + " " + saisieData.Saisie.Personne.Prenom;
+                        string libelle = saisieData.Libelle + (saisieData.Sauce ? " SANS SAUCE " : "") + (saisieData.Mixe ? " MIXE " : "") + (saisieData.Nature ? " NATURE " : "");
+
                         // Composition
-                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, saisieData.Libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), saisieData.Libelle, r, g, b);
+                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), libelle, r, g, b);
                         // Quantité
                         drawText(BOLD, 10, getMiddelofXBetweenTowPoint(50 * echelle / 100 + xDecalage, 60 * echelle / 100 + xDecalage, BOLD, saisieData.Quantite.ToString(), 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), saisieData.Quantite.ToString(), r, g, b);
                         // Personne
