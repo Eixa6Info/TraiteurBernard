@@ -373,20 +373,19 @@ namespace TraiteurBernardWPF.PDF
                     {
 
                         string startLibelle = "";
-                        if (sd.Modifie == true && (sd.Sauce || sd.Mixe || sd.Nature))
-                        {
-                            startLibelle = "$$$ ";
-                        }
-                        else if (sd.Modifie == false && (sd.Sauce || sd.Mixe || sd.Nature))
+                        string libelle;
+                        
+                        if (sd.Modifie == false && (sd.Sauce || sd.Mixe || sd.Nature))
                         {
                             startLibelle = "ùùù ";
+                            libelle = startLibelle + (sd.Sauce ? " SANS SAUCE " : "") + (sd.Mixe ? " MIXE " : "") + (sd.Nature ? " NATURE " : "");
                         }
-                       /* else
+                        else
                         {
                             startLibelle = "";
+                            libelle = startLibelle + sd.Libelle + (sd.Sauce ? " SANS SAUCE " : "") + (sd.Mixe ? " MIXE " : "") + (sd.Nature ? " NATURE " : "");
                         }
-                        */
-                        string libelle = startLibelle + sd.Libelle + (sd.Sauce ? " SANS SAUCE " : "") + (sd.Mixe ? " MIXE " : "") + (sd.Nature ? " NATURE " : "");
+                        
                         int quantite = sd.Quantite;
 
                         // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
