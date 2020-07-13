@@ -32,6 +32,10 @@ namespace TraiteurBernardWPF.Utils
 
         public List<ComboData> quantiteSansSoirCombobox; // ComboBox normales
 
+        public List<string> libelleBaguetteCombobox; // ComboBox baguettes
+
+        public List<ComboData> quantiteBaguetteCombobox;
+
         /// <summary>
         /// Classe pour map les combos box pour la valeur (ce que l'on voit) et l'ID (la valeur qui rentre en bdd)
         /// </summary>
@@ -106,6 +110,12 @@ namespace TraiteurBernardWPF.Utils
 
             // ComboBox sans soir, on prend juste les ID inférieur à 10
             quantiteSansSoirCombobox = temp.Where(t => t.Id < 10).ToList();
+
+            // Combobox pour le libelle des baguetes
+            libelleBaguetteCombobox = new List<string>() { "Solenne", "Blanche" };
+            
+            // Combobox pour le libelle des baguetes
+            quantiteBaguetteCombobox = new List<ComboData>() { new ComboData { Id = 0, Value = "0" }, new ComboData { Id = -1, Value = "1/2 (Demi)" }, new ComboData { Id = 1, Value = "1/1 (Entière)" } };
         }
 
         /// <summary>
@@ -123,7 +133,7 @@ namespace TraiteurBernardWPF.Utils
                 {
                     Libelle = libelle,
                     Modifie = false,
-                    Quantite = new int[] { SaisieData.PLAT_MIDI_1, SaisieData.PLAT_MIDI_2, SaisieData.PLAT_MIDI_3 }.Contains(this.types[i]) ? 0 : 1,
+                    Quantite = new int[] { SaisieData.PLAT_MIDI_1, SaisieData.PLAT_MIDI_2, SaisieData.PLAT_MIDI_3, SaisieData.BAGUETTE }.Contains(this.types[i]) ? 0 : 1,
                     Sauce = false,
                     Mixe = false,
                     Nature = false,
@@ -202,7 +212,7 @@ namespace TraiteurBernardWPF.Utils
                     // ##### GENERATION DES COMBOBOXS POUR LA QUANTITE
                     ComboBox comboBox = new ComboBox
                     {
-                        Width = 25,
+                        Width = 35,
                         Height = 30,
                         Margin = new Thickness(0, 5, 5, 0),
                         HorizontalAlignment = HorizontalAlignment.Right,
@@ -215,6 +225,8 @@ namespace TraiteurBernardWPF.Utils
                     if (new int[] { SaisieData.POTAGE, SaisieData.ENTREE_MIDI, SaisieData.DESSERT_MIDI }.Contains(this.types[i]))
                         comboBox.ItemsSource = quantiteAvecSoirCombobox;
                     // Si non on met les combobox normals
+                    else if(SaisieData.BAGUETTE == this.types[i])
+                        comboBox.ItemsSource = quantiteBaguetteCombobox;
                     else
                         comboBox.ItemsSource = quantiteSansSoirCombobox;
 
@@ -328,57 +340,113 @@ namespace TraiteurBernardWPF.Utils
 
                     }
 
+                    // Pour les baguettes on genere une combobox 
+                    if (SaisieData.BAGUETTE == this.types[i]) {
+                        ComboBox comboBox1 = new ComboBox
+                        {
+                            Width = 105,
+                            Height = 28,
+                            Margin = new Thickness(5, 0, 15, 0),
 
-                    // ##### GENERATION DES TEXTBOXS POUR LE LIBELLE
-                    TextBox textBox = new TextBox()
-                    {
-                        Width = 105,
-                        Height = 80,
-                        Margin = new Thickness(5, 5, 15, 0),
-                        HorizontalAlignment = HorizontalAlignment.Left,
-                        VerticalAlignment = VerticalAlignment.Top,
-                        TextWrapping = TextWrapping.Wrap,
-                        IsTabStop = false
-                    };
-
-                    // On positionne la textbox dans la grille
-                    textBox.SetValue(Grid.ColumnProperty, colonne);
-                    textBox.SetValue(Grid.RowProperty, ligne);
-
-                    textBox.SetBinding(TextBox.TextProperty, new Binding("Libelle")
-                    {
-                        Source = saisieData,
-                        Mode = BindingMode.TwoWay,
-                        UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-                    });
-
-                    // On créait un multibinding pour envoyer des informations au converter qui va s'occuper de générer
-                    // une couleur on fonction des propriétés de la saisiedata
-                    MultiBinding multiBindingBackground = new MultiBinding();
-                    multiBindingBackground.Converter = new RenameConverter();
-
-                    // On bind le flag 'Modifie' au converter
-                    Binding bindingBackgroundModifie = new Binding("Modifie")
-                    {
-                        Source = saisieData,
-                        Mode = BindingMode.OneWay
-                    };
-
-                    // On bind la propriété 'Quantite' au converter
-                    Binding bindingBackgroundQuantite = new Binding("Quantite")
-                    {
-                        Source = saisieData,
-                        Mode = BindingMode.OneWay
-                    };
-
-                    // On ajoute les bindings au mutlbinding
-                    multiBindingBackground.Bindings.Add(bindingBackgroundModifie);
-                    multiBindingBackground.Bindings.Add(bindingBackgroundQuantite);
-                    textBox.SetBinding(TextBox.BackgroundProperty, multiBindingBackground);
+                            HorizontalAlignment = HorizontalAlignment.Left,
+                            VerticalAlignment = VerticalAlignment.Top
+                        };
 
 
-                    // Ajout de la combobox à la grille
-                    this.grid.Children.Add(textBox);
+                        comboBox1.ItemsSource = libelleBaguetteCombobox;
+
+                        // On positionne la combobox dans la grille
+                        comboBox1.SetValue(Grid.ColumnProperty, colonne);
+                        comboBox1.SetValue(Grid.RowProperty, ligne);
+
+                        // On lie la valeur séléctionné à la propriété 'Quantite' de la saisiedata courante
+                        comboBox1.SetBinding(ComboBox.SelectedValueProperty, new Binding("Libelle")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.TwoWay,
+                            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                        });
+
+                        // On créait un multibinding pour envoyer des informations au converter qui va s'occuper de générer
+                        // une couleur on fonction des propriétés de la saisiedata
+                        MultiBinding multiBindingBackground = new MultiBinding();
+                        multiBindingBackground.Converter = new RenameConverter();
+
+                        // On bind le flag 'Modifie' au converter
+                        Binding bindingBackgroundModifie = new Binding("Modifie")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.OneWay
+                        };
+
+                        // On bind la propriété 'Quantite' au converter
+                        Binding bindingBackgroundQuantite = new Binding("Quantite")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.OneWay
+                        };
+
+                        // On ajoute les bindings au mutlbinding
+                        multiBindingBackground.Bindings.Add(bindingBackgroundModifie);
+                        multiBindingBackground.Bindings.Add(bindingBackgroundQuantite);
+                        comboBox1.SetBinding(TextBox.BackgroundProperty, multiBindingBackground);
+
+
+                        // Ajout de la combobox à la grille
+                        this.grid.Children.Add(comboBox1);
+
+                    } else {
+                        // ##### GENERATION DES TEXTBOXS POUR LE 
+                        TextBox textBox = new TextBox()
+                        {
+                            Width = 105,
+                            Height = 80,
+                            Margin = new Thickness(5, 5, 15, 0),
+                            HorizontalAlignment = HorizontalAlignment.Left,
+                            VerticalAlignment = VerticalAlignment.Top,
+                            TextWrapping = TextWrapping.Wrap,
+                            IsTabStop = false
+                        };
+
+                        // On positionne la textbox dans la grille
+                        textBox.SetValue(Grid.ColumnProperty, colonne);
+                        textBox.SetValue(Grid.RowProperty, ligne);
+
+                        textBox.SetBinding(TextBox.TextProperty, new Binding("Libelle")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.TwoWay,
+                            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                        });
+
+                        // On créait un multibinding pour envoyer des informations au converter qui va s'occuper de générer
+                        // une couleur on fonction des propriétés de la saisiedata
+                        MultiBinding multiBindingBackground = new MultiBinding();
+                        multiBindingBackground.Converter = new RenameConverter();
+
+                        // On bind le flag 'Modifie' au converter
+                        Binding bindingBackgroundModifie = new Binding("Modifie")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.OneWay
+                        };
+
+                        // On bind la propriété 'Quantite' au converter
+                        Binding bindingBackgroundQuantite = new Binding("Quantite")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.OneWay
+                        };
+
+                        // On ajoute les bindings au mutlbinding
+                        multiBindingBackground.Bindings.Add(bindingBackgroundModifie);
+                        multiBindingBackground.Bindings.Add(bindingBackgroundQuantite);
+                        textBox.SetBinding(TextBox.BackgroundProperty, multiBindingBackground);
+
+
+                        // Ajout de la combobox à la grille
+                        this.grid.Children.Add(textBox);
+                    }
 
                     ligne++;
 

@@ -223,7 +223,7 @@ namespace TraiteurBernardWPF.Modele
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 
-                Console.WriteLine(propertyName + " vient de changer | Libelle : " + this.Libelle + " | Quantite : " + this.Quantite + " | Mixé : " + this.Mixe + " | Avec saucé " + this.Sauce + " | Nature : " + this.Nature);
+                Console.WriteLine(propertyName + " vient de changer | Libelle : " + this.Libelle + " | Modifie : " + this.Modifie + " | Quantite : " + this.Quantite + " | Mixé : " + this.Mixe + " | Avec saucé " + this.Sauce + " | Nature : " + this.Nature);
 
                 switch (propertyName)
                 {
@@ -267,7 +267,15 @@ namespace TraiteurBernardWPF.Modele
                         // Si la quantité est 0 on la met à 1
                         if (this.Quantite == 0) this.Quantite = 1;
 
+                        // Si on change le type de baguette on laisse le flag Modifie à false
+                        if (this.Type == BAGUETTE)
+                        {
+                            this.Modifie = false;
+                            break;
+                        }
+
                         this.Modifie = true;
+                        
                         break;
 
                     // La quantité change
