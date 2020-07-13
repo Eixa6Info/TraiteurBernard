@@ -18,12 +18,13 @@ namespace TraiteurBernardWPF.DAO
                          where m.Jour == day && m.Semaine == week
                          select m).FirstOrDefault();
 
-            db.Entry(menu).Collection(m => m.Plats).Load();
-
-            db.Dispose();
+         
 
             try
             {
+                db.Entry(menu).Collection(m => m.Plats).Load();
+
+                db.Dispose();
                 // Si il y a pas de plat on renvoie une chaine vide (baguette etc)
                 if (menu == null) return "";
                 if (menu.Plats == null) return "";

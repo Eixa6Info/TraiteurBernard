@@ -47,6 +47,13 @@
         <Button Content="Enregistrer" Click="SaveButtonClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Top" Width="110" Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,130,0"/>
         <Button Content="Annuler" Click="Annuler" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="115" Grid.Column="7" Grid.Row="0"/>
 
+        <Label x:Name="date1" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="1" Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90" />
+        <Label x:Name="date2" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="2"  Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90"  />
+        <Label x:Name="date3" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="3"  Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90" />
+        <Label x:Name="date4" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="4"  Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90" />
+        <Label x:Name="date5" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="5"  Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90"  />
+        <Label x:Name="date6" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="6"  Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90" />
+        <Label x:Name="date7" HorizontalAlignment="Left" FontWeight="Bold"  Content="fefe" Grid.Column="7"  Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90"  />
 
     </Grid>
 </Window>
