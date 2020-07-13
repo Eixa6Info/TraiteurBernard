@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
          ResizeMode="NoResize"
-        Title="Création d'une saisie" Height="900" Width="1400" Loaded="Window_Loaded">
+        Title="Création d'une saisie" Height="900" Width="1400" Loaded="Window_Loaded" Closed="Fermer" >
 
 
     <Grid x:Name="gridMain">
@@ -44,8 +44,8 @@
 
         <Label x:Name="lblSemaine" Grid.Row="0" Grid.Column="7" Content="Semaine : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="76" Margin="76,62,0,0"/>
         <Label x:Name="lblPersonne" Grid.Row="0" Grid.Column="1" Content="Personne : undefined" HorizontalAlignment="Left"  VerticalAlignment="Top" FontWeight="Bold" FontSize="14" Height="27" Width="268" Grid.ColumnSpan="2" Margin="56,59,0,0"/>
-        <Button Content="Enregistrer" Click="SaveButtonClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Top" Width="110" Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,130,0"/>
-        <Button Content="Annuler" Click="Annuler" HorizontalAlignment="Right" Height="26" Margin="0,0,10,0" VerticalAlignment="Top" Width="115" Grid.Column="7" Grid.Row="0"/>
+        <Button Content="Enregistrer et quitter" Click="SaveAndCloseButtonClick" HorizontalAlignment="Right" Height="26" VerticalAlignment="Top" Width="166" Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Margin="0,10,5,0"/>
+        <Button Content="Remettre à zéro" Click="ResetButtonClick" HorizontalAlignment="Right" Height="26" Margin="0,10,19,0" VerticalAlignment="Top" Width="202" Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="2"/>
 
         <Label x:Name="date1" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="1" Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90" />
         <Label x:Name="date2" HorizontalAlignment="Left" FontWeight="Bold" Content="fefe" Grid.Column="2"  Height="27" Grid.Row="1" VerticalAlignment="Top" Width="90"  />

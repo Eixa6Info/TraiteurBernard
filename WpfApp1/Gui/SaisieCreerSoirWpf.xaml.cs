@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -22,6 +23,7 @@ namespace TraiteurBernardWPF.Gui
         private int colonneDepart = 1;
         private int ligneDepart = 3;
 
+        private bool closeButton = true;
 
         private int[] types = new int[3] 
         {
@@ -68,10 +70,15 @@ namespace TraiteurBernardWPF.Gui
             this.saisieHelper.Save();
         }
 
-        private void SaveButtonClick(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Enregistrer et fermer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveAndCloseButtonClick(object sender, RoutedEventArgs e)
         {
             this.saisieHelper.Save();
-
+            this.closeButton = false;
             Close();
 
         }
@@ -85,11 +92,28 @@ namespace TraiteurBernardWPF.Gui
 
         }
 
-        private void Annuler(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// Remettre tout à 0
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ResetButtonClick(object sender, RoutedEventArgs e)
         {
-            this.db.Dispose();
-            Close();
+            this.saisieHelper.SetAllToZero();
         }
+
+        /// <summary>
+        /// A la fermeture de la fenetre
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Fermer(object sender, EventArgs e)
+        {
+            if(this.closeButton)
+                this.saisieHelper.SetAllToZero();
+        }
+
+
     }
 }
         

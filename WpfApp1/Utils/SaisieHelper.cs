@@ -119,6 +119,22 @@ namespace TraiteurBernardWPF.Utils
         }
 
         /// <summary>
+        /// Met toutes les quantités à zéro, mettant aussi les libelle par défaut
+        /// </summary>
+        public void SetAllToZero()
+        {
+            // Pour tous les types
+            foreach(Saisie saisie in this.saisieList)
+            {
+                for (int i = 0; i < this.types.Length; i++)
+                {
+                    SaisieData saisieData = saisie.data.First(sd => sd.Type == this.types[i]);
+                    saisieData.Quantite = 0;
+                }
+            }
+        }
+
+        /// <summary>
         /// On ajoute les saisiedata qui correspondent au tableau types
         /// </summary>
         /// <param name="saisie"></param>
@@ -133,7 +149,15 @@ namespace TraiteurBernardWPF.Utils
                 {
                     Libelle = libelle,
                     Modifie = false,
-                    Quantite = new int[] { SaisieData.PLAT_MIDI_1, SaisieData.PLAT_MIDI_2, SaisieData.PLAT_MIDI_3, SaisieData.BAGUETTE }.Contains(this.types[i]) ? 0 : 1,
+                    Quantite = new int[] { 
+                        SaisieData.PLAT_MIDI_1,
+                        SaisieData.PLAT_MIDI_2, 
+                        SaisieData.PLAT_MIDI_3, 
+                        SaisieData.BAGUETTE, 
+                        SaisieData.ENTREE_SOIR, 
+                        SaisieData.PLAT_SOIR_1,
+                        SaisieData.DESSERT_SOIR
+                    }.Contains(this.types[i]) ? 0 : 1,
                     Sauce = false,
                     Mixe = false,
                     Nature = false,
@@ -212,7 +236,7 @@ namespace TraiteurBernardWPF.Utils
                     // ##### GENERATION DES COMBOBOXS POUR LA QUANTITE
                     ComboBox comboBox = new ComboBox
                     {
-                        Width = 35,
+                        Width = this.types[i] == SaisieData.BAGUETTE ? 35 : 25,
                         Height = 30,
                         Margin = new Thickness(0, 5, 5, 0),
                         HorizontalAlignment = HorizontalAlignment.Right,

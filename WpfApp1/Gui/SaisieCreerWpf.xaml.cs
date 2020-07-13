@@ -160,7 +160,6 @@ namespace TraiteurBernardWPF.Gui
 
         }
 
-        private int cal = 0;
         public static bool infoCal = true;
         private SaisieCreerCalendrierWpf wpf1;
 
@@ -188,7 +187,6 @@ namespace TraiteurBernardWPF.Gui
         {
             this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, null);
             this.wpf1.Show();
-            cal = 1;
         }
 
 
@@ -200,8 +198,7 @@ namespace TraiteurBernardWPF.Gui
         private void fermer(object sender, EventArgs e)
         {
             this.wpf1.Close();
-            cal = 1;
-            // fermetur de la fenetre
+            this.db.Dispose();
             Close();
 
         }
