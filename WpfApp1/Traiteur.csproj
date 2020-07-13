@@ -374,6 +374,8 @@
     <Compile Include="Modele\SaisieData.cs" />
     <Compile Include="Modele\Saisie.cs" />
     <Compile Include="Security\ControlsVerification.cs" />
+    <Compile Include="Utils\RenameConverter.cs" />
+    <Compile Include="Utils\SaisieHelper.cs" />
     <Compile Include="Utils\WinFormWpf.cs" />
     <Page Include="Gui\AProposWpf.xaml">
       <SubType>Designer</SubType>

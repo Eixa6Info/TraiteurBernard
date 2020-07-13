@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using TraiteurBernardWPF.Data;
@@ -9,6 +10,32 @@ namespace TraiteurBernardWPF.DAO
 {
     class MenuDao
     {
+        internal static string GetPlatFromTypeWeekAndDay(int type, int week, int day)
+        {
+            BaseContext db = new BaseContext();
+
+            Menu menu = (from m in db.Menu
+                         where m.Jour == day && m.Semaine == week
+                         select m).FirstOrDefault();
+
+            db.Entry(menu).Collection(m => m.Plats).Load();
+
+            db.Dispose();
+
+            try
+            {
+                // Si il y a pas de plat on renvoie une chaine vide (baguette etc)
+                if (menu == null) return "";
+                if (menu.Plats == null) return "";
+                if (!menu.Plats.Any(p => p.Type == type)) return "";
+                return ((Plat)menu.Plats.FirstOrDefault(p => p.Type == type)).Name;
+            }
+            catch (IOException e)
+            {
+                LogHelper.WriteToFile(e.Message, "MenuDAO.xaml.cs");
+                throw e;
+            }
+        }
 
         /// <summary>
         /// Recupérer un menu en fonction de la semaine et du jour

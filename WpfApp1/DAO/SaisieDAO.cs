@@ -24,7 +24,7 @@ namespace TraiteurBernardWPF.DAO
 
             List<Saisie> saisies = new List<Saisie>();
 
-            foreach(Saisie saisie in req)
+            foreach (Saisie saisie in req)
             {
                 db.Entry(saisie).Reference(s => s.Personne).Load();
                 db.Entry(saisie).Reference(s => s.Tournee).Load();
@@ -32,7 +32,7 @@ namespace TraiteurBernardWPF.DAO
 
                 saisies.Add(saisie);
             }
-          
+
 
 
             return saisies;
@@ -53,7 +53,7 @@ namespace TraiteurBernardWPF.DAO
             IQueryable<Saisie> req = from s in db.Saisies where s.Personne == personne && s.Annee == anneee && s.Semaine == semaine select s;
             int[] tabId = new int[] { 0, 0, 0, 0, 0, 0, 0 };
             List<Saisie> saisies = new List<Saisie>();
-            foreach(Saisie s in req)
+            foreach (Saisie s in req)
             {
                 saisies.Add(s);
             }
@@ -83,7 +83,7 @@ namespace TraiteurBernardWPF.DAO
             IQueryable<Saisie> req = from s in db.Saisies where s.Jour == jour && s.Annee == anneee && s.Semaine == semaine select s;
 
             List<Saisie> saisies = new List<Saisie>();
-            foreach(Saisie saisie in req)
+            foreach (Saisie saisie in req)
             {
                 db.Entry(saisie).Collection(s => s.data).Load();
                 saisies.Add(saisie);
@@ -105,7 +105,7 @@ namespace TraiteurBernardWPF.DAO
         /// <returns></returns>
         internal static List<Saisie> getAllFromYearWeekDayForTournee(string tournee1, string tournee2, int anneee, int semaine, int jour, BaseContext db)
         {
-            IQueryable<Saisie> req = from s in db.Saisies 
+            IQueryable<Saisie> req = from s in db.Saisies
                                      where s.Jour == jour && s.Annee == anneee && s.Semaine == semaine && (s.Tournee.Nom == tournee1 || s.Tournee.Nom == tournee2)
                                      select s;
 
@@ -124,7 +124,7 @@ namespace TraiteurBernardWPF.DAO
 
         }
 
-        
+
         /// <summary>
         /// Récupérer toutes les saisies en fonction de l'année et de la semaine
         /// </summary>
@@ -140,7 +140,7 @@ namespace TraiteurBernardWPF.DAO
 
             List<Saisie> saisies = new List<Saisie>();
 
-            foreach(Saisie saisie in req)
+            foreach (Saisie saisie in req)
             {
                 db.Entry(saisie).Reference(s => s.Personne).Load();
                 db.Entry(saisie).Reference(s => s.Tournee).Load();
@@ -148,7 +148,7 @@ namespace TraiteurBernardWPF.DAO
 
                 saisies.Add(saisie);
             }
-          
+
 
 
             return saisies;
@@ -168,7 +168,7 @@ namespace TraiteurBernardWPF.DAO
 
             List<Saisie> saisies = new List<Saisie>();
 
-            foreach(Saisie saisie in req)
+            foreach (Saisie saisie in req)
             {
                 db.Entry(saisie).Reference(s => s.Personne).Load();
                 db.Entry(saisie).Reference(s => s.Tournee).Load();
@@ -176,12 +176,12 @@ namespace TraiteurBernardWPF.DAO
 
                 saisies.Add(saisie);
             }
-          
+
 
 
             return saisies;
         }
-        
+
         /// <summary>
         /// Récupérer toutes les saisones en fonction d'une année, d'une semaine et d'une personne
         /// </summary>
@@ -196,7 +196,7 @@ namespace TraiteurBernardWPF.DAO
 
             List<Saisie> saisies = new List<Saisie>();
 
-            foreach(Saisie saisie in req)
+            foreach (Saisie saisie in req)
             {
                 db.Entry(saisie).Reference(s => s.Personne).Load();
                 db.Entry(saisie).Reference(s => s.Tournee).Load();
@@ -204,7 +204,7 @@ namespace TraiteurBernardWPF.DAO
 
                 saisies.Add(saisie);
             }
-          
+
 
 
             return saisies;
@@ -228,7 +228,7 @@ namespace TraiteurBernardWPF.DAO
                                          t.Jour == jour
                                          select t;
 
-           
+
             List<int> jourDeSaisie = new List<int>();
 
             foreach (Saisie s in reqData)
@@ -239,11 +239,11 @@ namespace TraiteurBernardWPF.DAO
                 {
                     if (sd.Quantite != 0)   // si la Qantiter est diff de 0 
                     {
-                        jourDeSaisie.Add(sd.Quantite);  
+                        jourDeSaisie.Add(sd.Quantite);
                     }
                     else
                     {
-                        jourDeSaisie.Add(sd.Quantite);  
+                        jourDeSaisie.Add(sd.Quantite);
                     }
                 }
             }
