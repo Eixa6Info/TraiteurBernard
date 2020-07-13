@@ -323,9 +323,8 @@ namespace TraiteurBernardWPF.PDF
                     }
                 }
 
-
                 // Pour tous les repas (entrée, plat1, plat2 etc)
-                for (int repas = -1; repas <10 ; repas++)
+                for (int repas = -1; repas < 10; repas++)
                 {
                     // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
                     Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
@@ -334,7 +333,21 @@ namespace TraiteurBernardWPF.PDF
                     foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
                     {
 
-                        string libelle = sd.Libelle;
+                        string startLibelle = "";
+                        if (sd.Modifie == true && (sd.Sauce || sd.Mixe || sd.Nature))
+                        {
+                            startLibelle = "$$$ ";
+                        }
+                        else if (sd.Modifie == false && (sd.Sauce || sd.Mixe || sd.Nature))
+                        {
+                            startLibelle = "ùùù ";
+                        }
+                        /* else
+                         {
+                             startLibelle = "";
+                         }
+                         */
+                        string libelle = startLibelle + sd.Libelle + (sd.Sauce ? " SANS SAUCE " : "") + (sd.Mixe ? " MIXE " : "") + (sd.Nature ? " NATURE " : "");
                         int quantite = sd.Quantite;
 
                         // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
@@ -354,7 +367,7 @@ namespace TraiteurBernardWPF.PDF
 
                     switch (repas)
                     {
-                    
+
                         case SaisieData.BAGUETTE:
                             line = getMiddelofYBetweenTowPoint(96, 99, NORMAL, 9);
                             break;
@@ -362,28 +375,28 @@ namespace TraiteurBernardWPF.PDF
                             line = getMiddelofYBetweenTowPoint(90, 93, NORMAL, 9);
                             break;
                         case SaisieData.ENTREE_MIDI:
-                            line = getMiddelofYBetweenTowPoint(80, 90, NORMAL, 9);
+                            line = getMiddelofYBetweenTowPoint(83, 90, NORMAL, 9);
                             break;
-                       case SaisieData.PLAT_MIDI_1:
-                            line = getMiddelofYBetweenTowPoint(68, 80, NORMAL, 9);
+                        case SaisieData.PLAT_MIDI_1:
+                            line = getMiddelofYBetweenTowPoint(71, 83, NORMAL, 9);
                             break;
                         case SaisieData.PLAT_MIDI_2:
-                            line = getMiddelofYBetweenTowPoint(56, 68, NORMAL, 9);
+                            line = getMiddelofYBetweenTowPoint(59, 71, NORMAL, 9);
                             break;
                         case SaisieData.PLAT_MIDI_3:
-                            line = getMiddelofYBetweenTowPoint(44, 56, NORMAL, 9);
+                            line = getMiddelofYBetweenTowPoint(47, 59, NORMAL, 9);
                             break;
                         case SaisieData.FROMAGE:
-                            line = getMiddelofYBetweenTowPoint(41, 44, NORMAL, 9);
+                            line = getMiddelofYBetweenTowPoint(44, 47, NORMAL, 9);
                             break;
                         case SaisieData.DESSERT_MIDI:
-                            line = getMiddelofYBetweenTowPoint(31, 41, NORMAL, 9);
+                            line = getMiddelofYBetweenTowPoint(34, 44, NORMAL, 9);
                             break;
                         case SaisieData.ENTREE_SOIR:
-                            line = getMiddelofYBetweenTowPoint(21, 31, NORMAL, 9);
+                            line = getMiddelofYBetweenTowPoint(24, 34, NORMAL, 9);
                             break;
                         case SaisieData.PLAT_SOIR_1:
-                            line = getMiddelofYBetweenTowPoint(11, 21, NORMAL, 9);
+                            line = getMiddelofYBetweenTowPoint(14, 24, NORMAL, 9);
                             break;
                         case SaisieData.DESSERT_SOIR:
                             line = getMiddelofYBetweenTowPoint(1, 11, NORMAL, 9);
@@ -397,7 +410,9 @@ namespace TraiteurBernardWPF.PDF
 
                         foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
                         {
-                           
+                            var txt = entry.Key;
+                            bool compoMixe = false;
+
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
                                 PDType1Font font = NORMAL;
@@ -405,36 +420,70 @@ namespace TraiteurBernardWPF.PDF
                                 int G = 0;
                                 int B = 0;
 
-                                // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
-                                // Si on est en mode  composition , on met pas le plat du menu
                                 List<String> plats;
-                               
+
                                 plats = MenuDao.getPlatsNameFromWeekDay(semaine, jour);
 
-                                if (plats.Contains(entry.Key))
+                                if (entry.Key.Length > 3)
                                 {
-                                    font = NORMAL;
+                                    var test = entry.Key.Substring(0, 3);
 
+                                    if (test == "ùùù")
+                                    {
+                                        compoMixe = true;
+                                        R = 0;
+                                        G = 155;
+                                        B = 0;
+                                        txt = txt.Remove(0, 3);
+                                    }
+                                }
+
+                                if (plats.Contains(txt))
+                                {
                                     if (entry.Value == 10)
                                     {
-                                        var txt = entry.Key;
                                         var txtQ = "1";
                                         R = 30;
                                         G = 127;
                                         B = 203;
-                             
                                         PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B);
                                         PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
-                                        line -= 10;
+                                        line -= 20;
+                                    }
+                                    else if (entry.Value == 20)
+                                    {
+                                        var txtQ = "2";
+                                        R = 30;
+                                        G = 127;
+                                        B = 203;
+                                        PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                        PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                        line -= 20;
+                                    }
+                                    else if (entry.Value == 30)
+                                    {
+                                        var txtQ = "3";
+                                        R = 30;
+                                        G = 127;
+                                        B = 203;
+                                        PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                        PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                        line -= 20;
                                     }
                                     else
                                     {
-                                        var txt = entry.Key;
                                         var txtQ = entry.Value.ToString();
                                         PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, font, R, G, B);
                                         PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, font, R, G, B);
-                                        line -= 10;
+                                        line -= 20;
                                     }
+                                }
+                                else if (compoMixe == true)
+                                {
+                                    var txtQ = entry.Value.ToString();
+                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                    line -= 20;
                                 }
                             }
                         }
@@ -503,10 +552,9 @@ namespace TraiteurBernardWPF.PDF
                         }
                     }
 
-                    if (!strings[strings.Count - 1].Equals(line.ToString()))
-                    {
-                        strings.Add(line.ToString());
-                    }
+              
+                    strings.Add(line.ToString());
+                  
 
                     double height = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2) * strings.Count;
                 

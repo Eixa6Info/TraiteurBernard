@@ -944,10 +944,23 @@ namespace TraiteurBernardWPF.PDF
                     // Pour toutes les données des saisies du jours et par repas 
                     foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
                     {
-
-                        string libelle = sd.Libelle;
+                        string startLibelle;
+                        if (sd.Modifie == true && (sd.Sauce || sd.Mixe || sd.Nature))
+                        {
+                            startLibelle = "$$$ ";
+                        }
+                        else if (sd.Modifie == false && (sd.Sauce || sd.Mixe || sd.Nature))
+                        {
+                            startLibelle = "ùùù ";
+                        }
+                        else
+                        {
+                            startLibelle = "";
+                        }
+                        
+                        string libelle = startLibelle + sd.Libelle + (sd.Sauce ? " SANS SAUCE " : "") + (sd.Mixe ? " MIXE " : "") + (sd.Nature ? " NATURE " : "");
                         int quantite = sd.Quantite;
-                       
+
                        // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
                         if (repasIntituleQuantite.ContainsKey(libelle))
                         {
@@ -1015,6 +1028,7 @@ namespace TraiteurBernardWPF.PDF
                         {
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
+                                var txt = entry.Key;
                                 PDType1Font font = NORMAL;
 
                                 int R = 253;
@@ -1053,19 +1067,41 @@ namespace TraiteurBernardWPF.PDF
 
                                 if (plats.Contains(entry.Key))
                                 {
+                                    
                                     if (composition) continue;
                                     font = NORMAL;
                                     R = 0;
                                     G = 155;
                                     B = 0;
                                 }
+                                
+                                // savoir si c'est nature mixe ou sauce
+                                if (entry.Key.Length > 3)
+                                {
+                                    var test = entry.Key.Substring(0, 3);
+                                    Console.WriteLine("Nature mixe ou sauce  " + test);
+                                    if (test == "ùùù")
+                                    {
+                                        R = 0;
+                                        G = 155;
+                                        B = 0;
+                                        txt = txt.Remove(0, 3);
+                                    }
+                                    else if (test == "$$$")
+                                    {
+                                        R = 253;
+                                        G = 108;
+                                        B = 158;
+                                        txt = txt.Remove(0, 3);
+                                    }
+                                }
+                                
+
                                 // si cest pas egal a une menu faut surligner en rose
                                 //platString += " " + entry.Value + "*" + entry.Key + " ";
 
-
                                 if (entry.Value == 10)
                                 {
-                                    var txt = entry.Key;
                                     var txtQ = "1";
                                     R = 30;
                                     G = 127;
@@ -1076,7 +1112,6 @@ namespace TraiteurBernardWPF.PDF
                                 }
                                 else if (entry.Value == 0)
                                 {
-                                    var txt = entry.Key;
                                     var txtQ = entry.Value.ToString();
                                     R = 0;
                                     G = 0;
@@ -1087,7 +1122,7 @@ namespace TraiteurBernardWPF.PDF
                                 }
                                 else
                                 {
-                                    var txt = entry.Key;
+                                    Console.WriteLine("Je suis la valeur: " + txt);
                                     var txtQ = entry.Value.ToString();
                                     PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL,R,G,B);
                                     PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL,R,G,B);
@@ -1233,7 +1268,21 @@ namespace TraiteurBernardWPF.PDF
                     // Pour toutes les données des saisies du jours et par repas 
                     foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
                     {
-                        string libelle = sd.Libelle;
+                        string startLibelle;
+                        if (sd.Modifie == true && (sd.Sauce || sd.Mixe || sd.Nature))
+                        {
+                            startLibelle = "$$$ ";
+                        }
+                        else if (sd.Modifie == false && (sd.Sauce || sd.Mixe || sd.Nature))
+                        {
+                            startLibelle = "ùùù ";
+                        }
+                        else
+                        {
+                            startLibelle = "";
+                        }
+
+                        string libelle = startLibelle + sd.Libelle + (sd.Sauce ? " SANS SAUCE " : "") + (sd.Mixe ? " MIXE " : "") + (sd.Nature ? " NATURE " : "");
                         int quantite = sd.Quantite;
 
                         if (repasIntituleQuantite.ContainsKey(libelle))
@@ -1247,9 +1296,7 @@ namespace TraiteurBernardWPF.PDF
                                 repasIntituleQuantite.Add(libelle, quantite);
                             }
                         }
-
                         // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
-
                     }
 
 
@@ -1281,13 +1328,13 @@ namespace TraiteurBernardWPF.PDF
 
                         foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
                         {
+                            var txt = entry.Key;
                             if (!String.IsNullOrEmpty(entry.Key))
                             {
                                 PDType1Font font = NORMAL;
                                 int R = 253;
                                 int G = 108;
                                 int B = 158;
-
 
                                 // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
                                 // Si on est en mode  composition , on met pas le plat du menu
@@ -1311,11 +1358,30 @@ namespace TraiteurBernardWPF.PDF
                                     G = 155;
                                     B = 0;
                                 }
-                               
-                                if(entry.Value != 0)
+
+                                // savoir si c'est nature mixe ou sauce
+                                if (entry.Key.Length > 3)
                                 {
-                                    
-                                    var txt = entry.Key;
+                                    var test = entry.Key.Substring(0, 3);
+                                    Console.WriteLine("Nature mixe ou sauce  " + test);
+                                    if (test == "ùùù")
+                                    {
+                                        R = 0;
+                                        G = 155;
+                                        B = 0;
+                                        txt = txt.Remove(0, 3);
+                                    }
+                                    else if (test == "$$$")
+                                    {
+                                        R = 253;
+                                        G = 108;
+                                        B = 158;
+                                        txt = txt.Remove(0, 3);
+                                    }
+                                }
+
+                                if (entry.Value != 0)
+                                {
                                     var txtQ = entry.Value.ToString();
                                     PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, R, G, B);
                                     PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL, R, G, B);
@@ -1326,7 +1392,6 @@ namespace TraiteurBernardWPF.PDF
                                     R = 0;
                                     G = 0;
                                     B = 0;
-                                    var txt = entry.Key;
                                     var txtQ = entry.Value.ToString();
                                     PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, R, G, B);
                                     PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL, R, G, B);
