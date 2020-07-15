@@ -56,6 +56,8 @@ namespace TraiteurBernardWPF.Gui
 
             this.Edite = edite;
             this.db = db;
+            lblSemaine.Content = this.Edite.Semaine;
+            lblPersonne.Content = this.Edite.Personne;
 
             this.saisieHelper = new SaisieHelper(this.gridMain, this.types, this.typesBis, this.Edite, 1, 3, this.db);
 
@@ -109,8 +111,8 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Fermer(object sender, EventArgs e)
         {
-            if(this.closeButton)
-                this.saisieHelper.SetAllToZero();
+            if (this.closeButton)
+                Close();
         }
 
 
