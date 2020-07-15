@@ -1,4 +1,5 @@
-﻿using org.hamcrest.core;
+﻿using java.io;
+using org.hamcrest.core;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -84,7 +85,7 @@ namespace TraiteurBernardWPF.Gui
         /// Constructeur avec en paramètre la saisie qui contient la semaine, le jour, la tournée, l'année et la personne
         /// </summary>
         /// <param name="edite"></param>
-        public SaisieCreerWpf(Saisie edite, BaseContext db, int[] IDs, ImageBrush soirBackground)
+        public SaisieCreerWpf(Saisie edite, BaseContext db,  ImageBrush soirBackground)
         {
             InitializeComponent();
             this.soirBackground = soirBackground;
@@ -127,10 +128,35 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void EnregistrerEtNouveau(object sender, RoutedEventArgs e)
         {
+
+            BaseContext newDb = new BaseContext();
+            var persons = (from p in newDb.Personnes where p.Tournee == this.Edite.Personne.Tournee && p.Actif == true select p).ToList();
+            persons = persons.OrderBy(p => p.Nom).ToList();
+            int index = persons.FindIndex(i => i.ID == this.Edite.Personne.ID);
+            if (index + 2 > persons.Count)
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf("Information", "Il n'y a pas d'autres personnes dans cette tournée.", MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+                return;
+            }
+            Personne nextPerson = persons[index + 1];
+
+            newDb.Entry(nextPerson).Reference(s => s.Tournee).Load();
+            newDb.Entry(nextPerson).Reference(s => s.CompteDeFacturation).Load();
+            newDb.Entry(nextPerson).Reference(s => s.ContactDurgence).Load();
+
             Save();
-            Close();
-            SaisieCreerPopupWpf popupWpf = new SaisieCreerPopupWpf(this.Edite.Semaine, this.Edite.Annee);
-            popupWpf.Show();
+            this.db.Dispose();
+           
+            this.Edite.Personne = nextPerson;
+            this.Edite.Tournee = nextPerson.Tournee;
+
+            SaisieCreerWpf saisieCreerWpf = new SaisieCreerWpf(this.Edite, newDb, this.soirBackground);
+            saisieCreerWpf.gridMain.Background = this.gridMain.Background;
+            WinFormWpf.CornerTopLeftToParent(saisieCreerWpf, this);
+            this.Close();
+            saisieCreerWpf.Show();
         }
 
 

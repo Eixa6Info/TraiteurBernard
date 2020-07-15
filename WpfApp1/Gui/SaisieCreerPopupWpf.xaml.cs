@@ -118,9 +118,8 @@ namespace TraiteurBernardWPF.Gui
                         if (this.Edite.Tournee.Nom == Properties.Resources.Ville1 || this.Edite.Tournee.Nom == Properties.Resources.Ville2)
                         {
                             Close();
-                            int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
                             var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeVilleSoir))));
-                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db,  soirBackground);
 
                             wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeVille))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
@@ -130,9 +129,8 @@ namespace TraiteurBernardWPF.Gui
                         else if (this.Edite.Tournee.Nom == Properties.Resources.CT)
                         {
                             Close();
-                            int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
                             var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeCTSoir))));
-                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, soirBackground);
                             wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeCT))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
@@ -140,9 +138,8 @@ namespace TraiteurBernardWPF.Gui
                         else if (this.Edite.Tournee.Nom == Properties.Resources.Marennes)
                         {
                             Close();
-                            int[] ID = SaisieDAO.getIdsFromYearWeekPersonne(this.Edite.Annee, this.Edite.Semaine, this.Edite.Personne, this.db);
                             var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeMarennesSoir))));
-                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, ID, soirBackground);
+                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, soirBackground);
                             wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeMarennes))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
