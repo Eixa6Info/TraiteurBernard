@@ -1,4 +1,5 @@
-﻿using System;
+﻿using com.sun.org.apache.xpath.@internal.functions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Entity;
@@ -285,6 +286,8 @@ namespace TraiteurBernardWPF.Modele
                         if (this.Quantite == 0)
                         {
                             ResetLibelleWithDefaultValue();
+                            (this.Nature, this.Mixe, this.Sauce) = (false, false, false);
+                            
                             break;
                         }
 
