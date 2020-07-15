@@ -170,10 +170,7 @@ namespace TraiteurBernardWPF.Utils
                         SaisieData.PLAT_MIDI_1,
                         SaisieData.PLAT_MIDI_2, 
                         SaisieData.PLAT_MIDI_3, 
-                        SaisieData.BAGUETTE, 
-                        SaisieData.ENTREE_SOIR, 
-                        SaisieData.PLAT_SOIR_1,
-                        SaisieData.DESSERT_SOIR
+                        SaisieData.BAGUETTE
                     }.Contains(this.types[i]) 
                     // Si il manque un menu, on met tout a zéro
                     || this.IsEmptyMenu(saisie.Semaine, saisie.Jour) ? 0 : 1,
