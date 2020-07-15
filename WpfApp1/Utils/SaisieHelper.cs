@@ -134,6 +134,23 @@ namespace TraiteurBernardWPF.Utils
             }
         }
 
+
+        /// <summary>
+        /// Vérifie sur le jour contient tous les menus
+        /// </summary>
+        /// <param name="semaine"></param>
+        /// <param name="jour"></param>
+        /// <returns></returns>
+        private bool IsEmptyMenu(int semaine, int jour)
+        {
+            string menuCumul = "";
+            for (int i = 0; i < this.types.Length; i++)
+            {
+                menuCumul += MenuDao.GetPlatFromTypeWeekAndDay(this.typesBis[i], semaine, jour);
+            }
+            return menuCumul == "";
+        }
+
         /// <summary>
         /// On ajoute les saisiedata qui correspondent au tableau types
         /// </summary>
@@ -157,7 +174,9 @@ namespace TraiteurBernardWPF.Utils
                         SaisieData.ENTREE_SOIR, 
                         SaisieData.PLAT_SOIR_1,
                         SaisieData.DESSERT_SOIR
-                    }.Contains(this.types[i]) ? 0 : 1,
+                    }.Contains(this.types[i]) 
+                    // Si il manque un menu, on met tout a zéro
+                    || this.IsEmptyMenu(saisie.Semaine, saisie.Jour) ? 0 : 1,
                     Sauce = false,
                     Mixe = false,
                     Nature = false,
