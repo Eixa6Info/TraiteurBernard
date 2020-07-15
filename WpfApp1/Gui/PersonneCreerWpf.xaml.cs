@@ -316,12 +316,10 @@ namespace TraiteurBernardWPF.Gui
                 string l;
                 tau = float.Parse(txtAPATauxClient.Text);
                 l = String.Format("{0:0.##}", txtAPALivraisonPrix.Text);
-                Console.WriteLine("l= " + l);
                 liv = float.Parse(l, CultureInfo.InvariantCulture.NumberFormat);
-                Console.WriteLine("liv=" + liv);
                 res = liv - (liv * (tau / 100));
                 txtAPACovid.Text = res.ToString();
-                Console.WriteLine("APACovid = " + txtAPACovid.Text);
+                
             }
             catch (IOException a)
             {
@@ -339,6 +337,15 @@ namespace TraiteurBernardWPF.Gui
             else
             {
                 cbTourneeCouleur.Visibility = Visibility.Hidden;
+            }
+
+            if (cbTournee.SelectedIndex == 0)
+            {
+                cbTourneeCouleur.SelectedValue = "Vert";
+            }
+            else if (cbTournee.SelectedIndex == 1)
+            {
+                cbTourneeCouleur.SelectedValue = "Jaune";
             }
         }
 
