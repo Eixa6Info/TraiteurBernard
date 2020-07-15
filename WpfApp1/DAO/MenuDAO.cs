@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using TraiteurBernardWPF.Data;
+using TraiteurBernardWPF.Gui;
 using TraiteurBernardWPF.Modele;
 
 namespace TraiteurBernardWPF.DAO
@@ -22,11 +24,13 @@ namespace TraiteurBernardWPF.DAO
 
             try
             {
+                // Si il y a pas de menus, on renvoie une chaine vide
+                if (menu == null) return "";
+
                 db.Entry(menu).Collection(m => m.Plats).Load();
 
                 db.Dispose();
                 // Si il y a pas de plat on renvoie une chaine vide (baguette etc)
-                if (menu == null) return "";
                 if (menu.Plats == null) return "";
                 if (!menu.Plats.Any(p => p.Type == type)) return "";
                 return ((Plat)menu.Plats.FirstOrDefault(p => p.Type == type)).Name;
