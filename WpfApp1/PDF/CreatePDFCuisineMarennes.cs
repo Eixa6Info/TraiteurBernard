@@ -327,7 +327,7 @@ namespace TraiteurBernardWPF.PDF
                 for (int repas = -1; repas < 10; repas++)
                 {
                     // Dictionnaire des formules (ex 2 * frites, 1 * salade, etc)
-                    Dictionary<string, int> repasIntituleQuantite = new Dictionary<string, int>();
+                    Dictionary<string, double> repasIntituleQuantite = new Dictionary<string, double>();
 
                     // Pour toutes les données des saisies du jours et par repas 
                     foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisiesDatas))
@@ -347,7 +347,8 @@ namespace TraiteurBernardWPF.PDF
                             libelle = startLibelle + sd.Libelle + (sd.Sauce ? " SANS SAUCE " : "") + (sd.Mixe ? " MIXE " : "") + (sd.Nature ? " NATURE " : "");
                         }
 
-                        int quantite = sd.Quantite;
+                        double quantite = sd.Quantite == -1 ? 0.5 : sd.Quantite;
+
 
                         // On additionne les quantité des repas déjà existant, sinon on l'ajoute dans le dictionnaire
                         if (repasIntituleQuantite.ContainsKey(libelle))
@@ -407,7 +408,7 @@ namespace TraiteurBernardWPF.PDF
                     if (line != 0)
                     {
 
-                        foreach (KeyValuePair<string, int> entry in repasIntituleQuantite)
+                        foreach (KeyValuePair<string, double> entry in repasIntituleQuantite)
                         {
                             var txt = entry.Key;
                             bool compoMixe = false;
@@ -483,6 +484,19 @@ namespace TraiteurBernardWPF.PDF
                                     PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 8, NORMAL, R, G, B);
                                     PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 50, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
                                     line -= 20;
+                                }
+                                else if (txt == "Solene")
+                                {
+                                    var txtQ = entry.Value.ToString();
+                                    PrintTextBetweenTowPoint("S", getX(column) + +50 + 50, getX(column + columnSpace) + 25 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 75, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 8, NORMAL, R, G, B);
+                                }
+                                else if (txt == "Blanche")
+                                {
+                                    var txtQ = entry.Value.ToString();
+                                    PrintTextBetweenTowPoint("B", getX(column) + +50 + 50, getX(column + columnSpace) + 25 - (choiceSize + 5), line - 20, 8, NORMAL, R, G, B);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 75, getX(column + columnSpace) + 50 - (choiceSize + 5), line - 20, 8, NORMAL, R, G, B);
+
                                 }
                             }
                         }
