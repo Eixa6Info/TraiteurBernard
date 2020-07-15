@@ -11,6 +11,7 @@ namespace TraiteurBernardWPF.Modele
         public int ID { get; set; }
         public string Nom { get; set; }
 
+
         // Exemple : 4 types de tournée
         // Tournée : <lundi,[lundi]>, ..., <samedi,[samedi, dimanche]>
         // ContreTournée : <lundi,[mardi, mercredi]>, ...

@@ -192,9 +192,10 @@ namespace TraiteurBernardWPF.PDF
                     int index = 0;
                     if (saisieData.Modifie == true)
                     {
-                        var r = random.Next(190);
-                        var g = random.Next(190);
-                        var b = random.Next(190);
+                        var r = 0 ;
+                        var g = 0 ;
+                        var b = 0 ;
+
                         var nomPrenom = saisieData.Saisie.Personne.Nom + " " + saisieData.Saisie.Personne.Prenom;
                         string libelle = saisieData.Libelle + (saisieData.Sauce ? " SANS SAUCE " : "") + (saisieData.Mixe ? " MIXE " : "") + (saisieData.Nature ? " NATURE " : "");
 

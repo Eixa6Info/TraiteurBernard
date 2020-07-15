@@ -51,6 +51,8 @@ namespace TraiteurBernardWPF.PDF
         private static PDPage blankPage;
         private static PDPageContentStream contentStream;
 
+        private static PersonnesHelper personnesHelper = new PersonnesHelper();
+
         /**
          * Function d'enter pour créer le PDF
          *
@@ -284,25 +286,15 @@ namespace TraiteurBernardWPF.PDF
                         var r = 0;
                         var g = 0;
                         var b = 0;
-                        if (saisieData.Saisie.Tournee.Nom == Properties.Resources.Ville1)
-                        {
-                            r = 0;
-                            g = 155;
-                            b = 0;
-                        }
-                        else if (saisieData.Saisie.Tournee.Nom == Properties.Resources.Ville2)
-                        {
-                            r = 200;
-                            g = 220;
-                            b = 0;
-                        }
                         
+                        personnesHelper.CouleurPersonne(saisieData.Saisie.Personne.Couleur, ref r, ref g, ref b);
+
                         var nomPrenom = saisieData.Saisie.Personne.Nom + " " + saisieData.Saisie.Personne.Prenom;
-                        string libelle =  saisieData.Libelle + (saisieData.Sauce ? " SANS SAUCE " : "") + (saisieData.Mixe ? " MIXE " : "") + (saisieData.Nature ? " NATURE " : "");
+                        string libelle = saisieData.Libelle + (saisieData.Sauce ? " SANS SAUCE " : "") + (saisieData.Mixe ? " MIXE " : "") + (saisieData.Nature ? " NATURE " : "");
 
                         PrintTextBetweenTowPoint(libelle, getX(xDecalage), getX((xDecalage + ((100 - xDecalage) / 2))), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), 10, BOLD, r, g, b);
                         // Composition
-                       // drawText(BOLD, 8, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), libelle, r, g, b);
+                        // drawText(BOLD, 8, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), libelle, r, g, b);
                         // Quantité
                         drawText(BOLD, 10, getMiddelofXBetweenTowPoint(50 * echelle / 100 + xDecalage, 60 * echelle / 100 + xDecalage, BOLD, saisieData.Quantite.ToString(), 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), saisieData.Quantite.ToString(), r, g, b);
                         // Personne
@@ -318,6 +310,7 @@ namespace TraiteurBernardWPF.PDF
             contentStream.close();
         }
 
+        
 
         delegate void printJourOuSoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column);
 

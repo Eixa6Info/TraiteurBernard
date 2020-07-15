@@ -54,6 +54,8 @@ namespace TraiteurBernardWPF.Modele
 
         public TypeTournee Tournee { get; set; }
 
+        public string Couleur { get; set; }
+
         public ContactDurgence ContactDurgence { get; set; }
 
         public float APAMontantMax { get; set; }
