@@ -179,7 +179,7 @@ namespace TraiteurBernardWPF.PDF
 
             Random random = new Random();
 
-            var espacementEntreTexte = 2;
+            var espacementEntreTexte = 3;
             var yDesTextes = 100 - hauteurDuHeader - espacementEntreTexte;
             
             // Affichage des compositions
@@ -199,7 +199,8 @@ namespace TraiteurBernardWPF.PDF
                         string libelle = saisieData.Libelle + (saisieData.Sauce ? " SANS SAUCE " : "") + (saisieData.Mixe ? " MIXE " : "") + (saisieData.Nature ? " NATURE " : "");
 
                         // Composition
-                        drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), libelle, r, g, b);
+                        PrintTextBetweenTowPoint(libelle, getX(xDecalage), getX((xDecalage + ((100 - xDecalage) / 2))), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), 10, BOLD, r, g, b);
+                        //drawText(BOLD, 10, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), libelle, r, g, b);
                         // Quantité
                         drawText(BOLD, 10, getMiddelofXBetweenTowPoint(50 * echelle / 100 + xDecalage, 60 * echelle / 100 + xDecalage, BOLD, saisieData.Quantite.ToString(), 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), saisieData.Quantite.ToString(), r, g, b);
                         // Personne
