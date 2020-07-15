@@ -112,7 +112,7 @@ namespace TraiteurBernardWPF.Utils
             quantiteSansSoirCombobox = temp.Where(t => t.Id < 10).ToList();
 
             // Combobox pour le libelle des baguetes
-            libelleBaguetteCombobox = new List<string>() { "Solenne", "Blanche" };
+            libelleBaguetteCombobox = new List<string>() { "Solene", "Blanche" };
             
             // Combobox pour le libelle des baguetes
             quantiteBaguetteCombobox = new List<ComboData>() { new ComboData { Id = 0, Value = "0" }, new ComboData { Id = -1, Value = "1/2 (Demi)" }, new ComboData { Id = 1, Value = "1/1 (Entière)" } };
