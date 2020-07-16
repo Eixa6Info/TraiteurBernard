@@ -1147,11 +1147,31 @@ namespace TraiteurBernardWPF.PDF
                                 else if (entry.Value == 10)
                                 {
                                     var txtQ = "1";
-                                    R = 30;
-                                    G = 127;
-                                    B = 203;
+                                    R = 70;
+                                    G = 174;
+                                    B = 255;
                                     PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL,R,G,B);
                                     PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL,R,G,B);
+                                    line -= 10;
+                                }
+                                else if (entry.Value == 20)
+                                {
+                                    var txtQ = "2";
+                                    R = 70;
+                                    G = 174;
+                                    B = 255;
+                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, R, G, B);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL, R, G, B);
+                                    line -= 10;
+                                }
+                                else if (entry.Value == 30)
+                                {
+                                    var txtQ = "3";
+                                    R = 70;
+                                    G = 174;
+                                    B = 255;
+                                    PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, R, G, B);
+                                    PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL, R, G, B);
                                     line -= 10;
                                 }
                                 else if (entry.Value == 0)
