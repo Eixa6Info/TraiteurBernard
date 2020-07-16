@@ -1078,9 +1078,9 @@ namespace TraiteurBernardWPF.PDF
                                 }
                                 else
                                 {
-                                    R = 0;
-                                    G = 155;
-                                    B = 0;
+                                    R = 30;
+                                    G = 223;
+                                    B = 30;
                                 }
                                
                                 // Si le plat fait partit du menu, on le met en normal, sinon il sera en italique
@@ -1100,9 +1100,9 @@ namespace TraiteurBernardWPF.PDF
                                     
                                     if (composition) continue;
                                     font = NORMAL;
-                                    R = 0;
-                                    G = 155;
-                                    B = 0;
+                                    R = 30;
+                                    G = 233;
+                                    B = 30;
                                 }
                                 
                                 // savoir si c'est nature mixe ou sauce
@@ -1111,9 +1111,9 @@ namespace TraiteurBernardWPF.PDF
                                     var test = entry.Key.Substring(0, 3);
                                     if (test == "ùùù")
                                     {
-                                        R = 0;
-                                        G = 155;
-                                        B = 0;
+                                        R = 30;
+                                        G = 233;
+                                        B = 30;
                                         txt = txt.Remove(0, 3);
                                     }
                                     else if (test == "$$$")
@@ -1127,9 +1127,9 @@ namespace TraiteurBernardWPF.PDF
                                 
                                 if(entry.Key == "Solene" || entry.Key == "Blanche")
                                 {
-                                    R = 0;
-                                    G = 155;
-                                    B = 0;
+                                    R = 30;
+                                    G = 233;
+                                    B = 30;
                                 }
 
                                 // si cest pas egal a une menu faut surligner en rose
@@ -1137,9 +1137,9 @@ namespace TraiteurBernardWPF.PDF
                                 if (entry.Value == -1)
                                 {
                                     var txtQ = "1/2";
-                                    R = 0;
-                                    G = 155;
-                                    B = 0;
+                                    R = 30;
+                                    G = 223;
+                                    B = 30;
                                     PrintTextBetweenTowPoint(txt, getX(column) + 5, getX(column + columnSpace) - (choiceSize + 5), line, 10, NORMAL, R, G, B);
                                     PrintTextBetweenTowPoint(txtQ, getX(column) + 50 + 5, getX(column + columnSpace) + 50 - (choiceSize + 5), line, 10, NORMAL, R, G, B);
                                     line -= 10;
@@ -1452,9 +1452,23 @@ namespace TraiteurBernardWPF.PDF
         private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font , int R, int G, int B)
         {
             double width = (font.getStringWidth(str) / 1000 * fontSize);
+            double heightB = (font.getFontDescriptor().getCapHeight()) / 1000 * fontSize;
+            bool drawRect = false;
+           // if(R != 0 && G != 0 && G != 0)
+           // {
+                drawRect = true;
+                contentStream.setNonStrokingColor(R, G, B); //gray background
+            if (R == 0 && G == 0 && B == 0) drawRect = false;
+          //  }
+            R = 0;
+            B = 0;
+            G = 0;
 
             if (x + width < maxX)
             {
+                if( drawRect)
+                    contentStream.fillRect((float)getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, str, fontSize), (float)y, (float)width, (float)heightB);
+
                 drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, str, fontSize), y, str, R, G, B);
             }
             else
@@ -1514,6 +1528,8 @@ namespace TraiteurBernardWPF.PDF
                     }
 
                     double height = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2) * strings.Count;
+
+                    double heighfet = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize) * strings.Count;
                     /*AtomicReference<String> maxLength = new AtomicReference<>("");
                     strings.forEach(s-> {
                         if (s.length() > maxLength.get().length())
@@ -1527,6 +1543,11 @@ namespace TraiteurBernardWPF.PDF
                     {
                         if (s.Length > maxLength.Length) maxLength = s;
                     }
+
+                    double idefe = (font.getStringWidth(strings.OrderByDescending(s => s.Length).First()) / 1000 * fontSize);
+                    if ( drawRect)
+
+                    contentStream.fillRect((float)getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), (float)((float)y - heighfet), (float)idefe, (float)heighfet*2);
 
                     drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
                 }
