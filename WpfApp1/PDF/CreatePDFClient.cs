@@ -1473,13 +1473,13 @@ namespace TraiteurBernardWPF.PDF
         {
             double width = (font.getStringWidth(str) / 1000 * fontSize);
             double heightB = (font.getFontDescriptor().getCapHeight()) / 1000 * fontSize;
-            bool drawRect = false;
-           // if(R != 0 && G != 0 && G != 0)
-           // {
-                drawRect = true;
-                contentStream.setNonStrokingColor(R, G, B); //gray background
+            bool drawRect = true;
+        
+            contentStream.setNonStrokingColor(R, G, B);
+            
             if (R == 0 && G == 0 && B == 0) drawRect = false;
-          //  }
+            
+            // On met le texte en noir
             R = 0;
             B = 0;
             G = 0;
@@ -1549,7 +1549,9 @@ namespace TraiteurBernardWPF.PDF
 
                     double height = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize / 2) * strings.Count;
 
-                    double heighfet = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize) * strings.Count;
+                    double heightForRectangle = ((font.getFontDescriptor().getCapHeight()) / 1000 * fontSize) * strings.Count;
+                    double widthForRectangle = (font.getStringWidth(strings.OrderByDescending(s => s.Length).First()) / 1000 * fontSize);
+
                     /*AtomicReference<String> maxLength = new AtomicReference<>("");
                     strings.forEach(s-> {
                         if (s.length() > maxLength.get().length())
@@ -1564,10 +1566,8 @@ namespace TraiteurBernardWPF.PDF
                         if (s.Length > maxLength.Length) maxLength = s;
                     }
 
-                    double idefe = (font.getStringWidth(strings.OrderByDescending(s => s.Length).First()) / 1000 * fontSize);
-                    if ( drawRect)
-
-                    contentStream.fillRect((float)getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), (float)((float)y - heighfet), (float)idefe, (float)heighfet*2);
+                    if (drawRect)
+                        contentStream.fillRect((float)getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), (float)((float)y - heightForRectangle), (float)widthForRectangle, (float)heightForRectangle * 2);
 
                     drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFClient.maxX * 100), (maxX / CreatePDFClient.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
                 }
