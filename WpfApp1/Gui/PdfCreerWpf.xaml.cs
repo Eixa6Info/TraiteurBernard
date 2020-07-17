@@ -1,4 +1,6 @@
-﻿using System;
+﻿using com.sun.tools.javac.util;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using TraiteurBernardWPF.PDF;
@@ -14,6 +16,7 @@ namespace TraiteurBernardWPF.Gui
     {
         int printSaisieInt;
         bool composition;
+        Dictionary<int, string> comment;
 
         /// <summary>
         /// Constructeur premier paramètre : saisie ou menu
@@ -27,6 +30,16 @@ namespace TraiteurBernardWPF.Gui
             this.printSaisieInt = printSaisieInt;
             txtSemaine.Text = semaine.ToString();
             this.composition = composition;
+        }
+
+        public PdfCreerWpf(int semaine, int printSaisieInt, Dictionary<int, string> Comment, bool composition = false)
+        {
+            InitializeComponent();
+            this.printSaisieInt = printSaisieInt;
+            txtSemaine.Text = semaine.ToString();
+            this.composition = composition;
+            this.comment = Comment;
+
         }
 
         /// <summary>
@@ -68,7 +81,7 @@ namespace TraiteurBernardWPF.Gui
                     }
                     else if (printSaisieInt == 2)
                     {
-                        var outputfile = CreatePDF5Feuilles.Start(841.8898F, 595.27563F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                        var outputfile = CreatePDF5Feuilles.Start(841.8898F, 595.27563F, short.Parse(txtSemaine.Text), DateTime.Today.Year, comment);
                         if (!string.IsNullOrEmpty(outputfile))
                         {
                             System.Diagnostics.Process.Start(outputfile);

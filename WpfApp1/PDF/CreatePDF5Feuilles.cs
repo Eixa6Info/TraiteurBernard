@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
+using TraiteurBernardWPF.Gui;
 using TraiteurBernardWPF.Modele;
 using TraiteurBernardWPF.Utils;
 
@@ -44,6 +45,7 @@ namespace TraiteurBernardWPF.PDF
         private static double menuYBottom;
 
         private static int Semaine;
+        private static Dictionary<int, string> Comment;
         private static bool calculSemaine = true;
         private static string namePdf;
         private static string output;
@@ -61,7 +63,7 @@ namespace TraiteurBernardWPF.PDF
          * @return boolean
          * @throws Exception ...
          */
-        public static string Start(float width, float height, int semaine, int annee)
+        public static string Start(float width, float height, int semaine, int annee, Dictionary<int, string> comment)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -74,6 +76,7 @@ namespace TraiteurBernardWPF.PDF
             menuYTopNoDay = getY(99);
             menuYBottom = getY(1);
             Semaine = semaine;
+            Comment = comment;
 
             namePdf = "saisies_Cuisine_Composition_" + semaine + "_" + annee + ".pdf";
 
@@ -268,10 +271,11 @@ namespace TraiteurBernardWPF.PDF
             
 
             Random random = new Random();
+            BoiteDialogueCompoWpf compoWpf = new BoiteDialogueCompoWpf(1);
 
             var espacementEntreTexte = 3;
             var yDesTextes = 100 - hauteurDuHeader - espacementEntreTexte;
-            
+
             // Affichage des compositions
             foreach (Saisie saisie in saisiesList)
             {
@@ -286,13 +290,14 @@ namespace TraiteurBernardWPF.PDF
                         var r = 0;
                         var g = 0;
                         var b = 0;
-                        
+
                         personnesHelper.CouleurPersonne(saisieData.Saisie.Personne.Couleur, ref r, ref g, ref b);
 
                         var nomPrenom = saisieData.Saisie.Personne.Nom + " " + saisieData.Saisie.Personne.Prenom;
                         string libelle = saisieData.Libelle + (saisieData.Sauce ? " SANS SAUCE " : "") + (saisieData.Mixe ? " MIXE " : "") + (saisieData.Nature ? " NATURE " : "");
 
                         PrintTextBetweenTowPoint(libelle, getX(xDecalage), getX((xDecalage + ((100 - xDecalage) / 2))), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), 10, BOLD, r, g, b);
+
                         // Composition
                         // drawText(BOLD, 8, getMiddelofXBetweenTowPoint(X_AU_PLUS_A_GAUCHE * echelle / 100 + xDecalage, 50 * echelle / 100 + xDecalage, BOLD, libelle, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), libelle, r, g, b);
                         // Quantité
@@ -301,16 +306,31 @@ namespace TraiteurBernardWPF.PDF
                         drawText(BOLD, 10, getMiddelofXBetweenTowPoint(60 * echelle / 100 + xDecalage, X_AU_PLUS_A_DROITE * echelle / 100 + xDecalage, BOLD, nomPrenom, 10), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, BOLD, 10), nomPrenom, r, g, b);
                         yDesTextes -= espacementEntreTexte;
                     }
-
+                    
                 }
             }
-          
-
+            foreach (var c in Comment)
+            {
+                if (jour == 5 || jour == 6 || jour == 7)
+                {
+                    if (c.Value != null && c.Key == 5 || c.Key == 6 || c.Key == 7)
+                    {
+                        PrintTextBetweenTowPoint(c.Value, getX(xDecalage), getX((xDecalage + ((100 - xDecalage) / 2))), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, NORMAL, 10), 10, BOLD, 0, 0, 0);
+                        yDesTextes -= espacementEntreTexte;
+                    }
+                }
+                else
+                {
+                    if (c.Value != null && c.Key == jour)
+                    {
+                        PrintTextBetweenTowPoint(c.Value, getX(xDecalage), getX((xDecalage + ((100 - xDecalage) / 2))), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, NORMAL, 10), 10, BOLD, 0, 0, 0);
+                        yDesTextes -= espacementEntreTexte;
+                    }
+                }
+            }
             //Close de la page
             contentStream.close();
         }
-
-        
 
         delegate void printJourOuSoir(DateTime dt, DateTimeFormatInfo sdf, String text, float fontSize, int column);
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -31,6 +32,24 @@ namespace TraiteurBernardWPF.Modele
         {
             get;
             set;
+        }
+
+        private String CommentValue;
+        [NotMapped]
+        public String Comment
+        {
+            get
+            {
+                return this.CommentValue;
+            }
+            set
+            {
+                if (value != this.CommentValue)
+                {
+                    this.CommentValue = value;
+                    NotifyPropertyChanged();
+                }
+            }
         }
 
         private int typeValue;
@@ -101,7 +120,7 @@ namespace TraiteurBernardWPF.Modele
             }
         }
 
-        // Ajouter DELPRAT Bastien  04/06/2020
+        // Ajout DELPRAT Bastien  04/06/2020
         private Saisie saisieValue;
         public Saisie Saisie
         {
