@@ -50,6 +50,7 @@ namespace TraiteurBernardWPF.PDF
         private static PDDocument document;
         private static PDPage blankPage;
         private static PDPageContentStream contentStream;
+        private static Dictionary<int, string> Comment;
 
         /**
          * Function d'enter pour créer le PDF
@@ -211,7 +212,26 @@ namespace TraiteurBernardWPF.PDF
 
                 }
             }
-          
+
+            foreach (var c in Comment)
+            {
+                if (jour == 5 || jour == 6 || jour == 7)
+                {
+                    if (c.Value != null && c.Key == 5 || c.Key == 6 || c.Key == 7)
+                    {
+                        PrintTextBetweenTowPoint(c.Value, getX(xDecalage), getX((xDecalage + ((100 - xDecalage) / 2))), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, NORMAL, 10), 10, BOLD, 0, 0, 0);
+                        yDesTextes -= espacementEntreTexte;
+                    }
+                }
+                else
+                {
+                    if (c.Value != null && c.Key == jour)
+                    {
+                        PrintTextBetweenTowPoint(c.Value, getX(xDecalage), getX((xDecalage + ((100 - xDecalage) / 2))), getMiddelofYBetweenTowPoint(yDesTextes, yDesTextes, NORMAL, 10), 10, BOLD, 0, 0, 0);
+                        yDesTextes -= espacementEntreTexte;
+                    }
+                }
+            }
 
             //Close de la page
             contentStream.close();

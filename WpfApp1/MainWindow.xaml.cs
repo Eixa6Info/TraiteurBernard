@@ -579,7 +579,8 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(1, 2);
+                BoiteDialogueCompoWpf wpf = new BoiteDialogueCompoWpf(1);
+                //PdfCreerWpf wpf = new PdfCreerWpf(1, 2);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
@@ -733,7 +734,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(1, 6);
+                BoiteDialogueCompoWpf wpf = new BoiteDialogueCompoWpf(2);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }

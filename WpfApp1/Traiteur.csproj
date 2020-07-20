@@ -329,6 +329,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DAO\LivraisonDAO.cs" />
+    <Compile Include="Gui\BoiteDialogueCompoWpf.xaml.cs">
+      <DependentUpon>BoiteDialogueCompoWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\PdfCreerSaisieClient.xaml.cs">
       <DependentUpon>PdfCreerSaisieClient.xaml</DependentUpon>
     </Compile>
@@ -379,6 +382,10 @@
     <Compile Include="Utils\SaisieHelper.cs" />
     <Compile Include="Utils\WinFormWpf.cs" />
     <Page Include="Gui\AProposWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\BoiteDialogueCompoWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
