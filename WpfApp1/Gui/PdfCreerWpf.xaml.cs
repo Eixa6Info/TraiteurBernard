@@ -113,7 +113,7 @@ namespace TraiteurBernardWPF.Gui
                     }
                     else if (printSaisieInt == 6)
                     {
-                        var outputfile = CreatePDF5FeuillesMarennes.Start(841.8898F, 595.27563F, short.Parse(txtSemaine.Text), DateTime.Today.Year);
+                        var outputfile = CreatePDF5FeuillesMarennes.Start(841.8898F, 595.27563F, short.Parse(txtSemaine.Text), DateTime.Today.Year, comment);
                         if (!string.IsNullOrEmpty(outputfile))
                         {
                             System.Diagnostics.Process.Start(outputfile);

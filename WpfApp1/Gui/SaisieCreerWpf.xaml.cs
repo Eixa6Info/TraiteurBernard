@@ -111,10 +111,11 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Soir(object sender, RoutedEventArgs e)
         {
+            BaseContext newDb = new BaseContext();
             // enregistrer les 8 premières infos afin que les plats du soir soient en position 8,9 et 10 dans les saisies
             this.saisieHelper.Save();
 
-            var form = new SaisieCreerSoirWpf(Edite, null, this.db);
+            var form = new SaisieCreerSoirWpf(Edite, null, newDb);
             form.gridMain.Background = this.soirBackground;
             form.ShowDialog();
 
@@ -227,6 +228,35 @@ namespace TraiteurBernardWPF.Gui
             this.db.Dispose();
             Close();
 
+        }
+
+        private void MettreAZeroLundi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(1);
+        }
+        private void MettreAZeroMardi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(2);
+        }
+        private void MettreAZeroMercredi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(3);
+        }
+        private void MettreAZeroJeudi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(4);
+        }
+        private void MettreAZeroVendredi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(5);
+        }
+        private void MettreAZeroSamedi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(6);
+        }
+        private void MettreAZeroDimanche(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(7);
         }
     }
 }
