@@ -6,12 +6,16 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
         mc:Ignorable="d"
-        Title="BoiteDialogueCompoWpf" Height="243.59" Width="450" Loaded="Window_Loaded">
+        Title="Inscrire votre composition" Height="243.59" Width="450" Loaded="Window_Loaded">
     <Grid>
-        <TextBox Text="{Binding Comment}"  x:Name="txtBoxComment" Height="34" Margin="44,95,44,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Button x:Name="btnOK" Content="Ok" Margin="353,0,14,10" Height="31" Click="btnOK_Click" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="txtNumJour" materialDesign:HintAssist.Hint="Jour N°" materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="205,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="177"/>
-        <Label x:Name="labelDate" Content="Compo" HorizontalAlignment="Left" Margin="44,22,0,0" VerticalAlignment="Top" Width="173"/>
-        <Button x:Name="btnSuivant" Content="Suivant" Margin="0,0,107,10" Height="31" Click="BtnSuivant" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="98"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox Text="{Binding Comment}"  x:Name="txtBoxComment" Margin="44,95,0,0" TextWrapping="Wrap" Height="34" VerticalAlignment="Top" HorizontalAlignment="Left" Width="354" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnOK" Content="Valider" Margin="251.091,0,0,10" Height="31" Click="btnOK_Click" HorizontalAlignment="Left" Width="75" VerticalAlignment="Bottom" Grid.Column="1"/>
+        <TextBox x:Name="txtNumJour" materialDesign:HintAssist.Hint="Jour N°" materialDesign:HintAssist.IsFloating="True" Margin="44,10,0,0" TextWrapping="Wrap" Height="40" VerticalAlignment="Top" HorizontalAlignment="Left" Width="177" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnSuivant" Content="Suivant" Margin="135.091,0,0,10" Height="31" Click="BtnSuivant" HorizontalAlignment="Left" Width="98" VerticalAlignment="Bottom" Grid.Column="1"/>
+        <Button x:Name="btnClose" Content="Fermer" Margin="24,0,0,10" Height="31" Click="btnClose_Click" HorizontalAlignment="Left" Width="75" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

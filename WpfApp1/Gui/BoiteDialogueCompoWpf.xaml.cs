@@ -29,7 +29,6 @@ namespace TraiteurBernardWPF.Gui
         public BoiteDialogueCompoWpf(int Type)
         {
             InitializeComponent();
-            Title += "Ajout commentaire";
             this.edite = new SaisieData();
             type = Type;
         }
@@ -42,7 +41,6 @@ namespace TraiteurBernardWPF.Gui
             {
                 
                 ListCommentaire.Add(jourId, txtBoxComment.Text);
-                Console.WriteLine("le commentaire = " + edite.Comment);
                 if (type == 1)
                 {
                     PdfCreerWpf wpf = new PdfCreerWpf(1, 2, ListCommentaire);
@@ -55,7 +53,7 @@ namespace TraiteurBernardWPF.Gui
                     WinFormWpf.CornerTopLeftToParent(wpf, this);
                     wpf.ShowDialog();
                 }
-                
+                Close();         
             }
             catch (System.IO.IOException a)
             {
@@ -81,10 +79,12 @@ namespace TraiteurBernardWPF.Gui
             {
                 this.btnOK_Click(sender,e);
                 Close();
-            }
-            
-            
-            
+            }         
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

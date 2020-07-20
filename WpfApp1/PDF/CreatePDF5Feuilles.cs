@@ -271,8 +271,7 @@ namespace TraiteurBernardWPF.PDF
             
 
             Random random = new Random();
-            BoiteDialogueCompoWpf compoWpf = new BoiteDialogueCompoWpf(1);
-
+            
             var espacementEntreTexte = 3;
             var yDesTextes = 100 - hauteurDuHeader - espacementEntreTexte;
 
