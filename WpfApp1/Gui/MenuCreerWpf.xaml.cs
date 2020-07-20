@@ -19,6 +19,7 @@ namespace TraiteurBernardWPF.Gui
     {
 
         private BaseContext db;
+        private bool modif = false;
 
         // La classe Menu existe déjà donc on utilise le namespace pour distinguer
         // notre classe métier de la classe déjà existante
@@ -39,14 +40,16 @@ namespace TraiteurBernardWPF.Gui
         /// <summary>
         /// Constructeur avec paramètres pour modification
         /// </summary>
-        public MenuCreerWpf(TraiteurBernardWPF.Modele.Menu edite, BaseContext db)
+        public MenuCreerWpf(TraiteurBernardWPF.Modele.Menu edite, BaseContext db, bool modifie)
         {
             InitializeComponent();
             Title += "Modification d'un menu";
             this.db = db;
             this.Edite = edite;
             edition.DataContext = this.Edite;
+            this.modif = modifie;
             this.BinderLesDonnees();
+            
         }
 
         /// <summary>
@@ -71,7 +74,13 @@ namespace TraiteurBernardWPF.Gui
             txtEntreeSoir.Text = tabPlats[5] != null ? tabPlats[5].Name : "";
             txtPlatSoir.Text = tabPlats[6] != null ? tabPlats[6].Name : "";
             txtDessertSoir.Text = tabPlats[7] != null ? tabPlats[7].Name : "";
-
+           
+            if (modif == true)
+            {
+                this.txtNumJour.IsEnabled = false;
+                this.txtNumSemaine.IsEnabled = false;
+                this.btnValiderEtSuivant.Visibility = Visibility.Hidden;
+            }
 
         }
         /// <summary>
@@ -258,7 +267,6 @@ namespace TraiteurBernardWPF.Gui
             }
 
             this.BinderLesDonnees();
-
         }
 
         /// <summary>

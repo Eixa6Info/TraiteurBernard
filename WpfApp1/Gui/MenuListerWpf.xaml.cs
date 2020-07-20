@@ -159,7 +159,7 @@ namespace TraiteurBernardWPF.Gui
 
             TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
 
-            MenuCreerWpf wpf = new MenuCreerWpf(menu, this.db);
+            MenuCreerWpf wpf = new MenuCreerWpf(menu, this.db, true);
 
             wpf.ShowDialog();
 
