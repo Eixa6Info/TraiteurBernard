@@ -39,8 +39,12 @@ namespace TraiteurBernardWPF.Gui
 
             try
             {
+               
+                if (txtNumJour.Text != "")
+                {
+                    ListCommentaire.Add(jourId, txtBoxComment.Text);
+                }
                 
-                ListCommentaire.Add(jourId, txtBoxComment.Text);
                 if (type == 1)
                 {
                     PdfCreerWpf wpf = new PdfCreerWpf(1, 2, ListCommentaire);
@@ -68,11 +72,14 @@ namespace TraiteurBernardWPF.Gui
             int jourId = short.Parse(txtNumJour.Text);
             if (jourId < 7)
             {
-                if (jourId != 0 || txtBoxComment.Text != "")
-                {                   
-                    ListCommentaire.Add(jourId, txtBoxComment.Text);
+                if (jourId != 0)
+                {
+                    if (txtBoxComment.Text != "")
+                    {
+                        ListCommentaire.Add(jourId, txtBoxComment.Text);
+                    }
                     txtBoxComment.Text = "";
-                    txtNumJour.Text = (jourId + 1).ToString();                    
+                    txtNumJour.Text = (jourId + 1).ToString();
                 }
             }
             else
