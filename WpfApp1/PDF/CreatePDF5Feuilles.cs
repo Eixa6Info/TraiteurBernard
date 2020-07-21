@@ -114,13 +114,11 @@ namespace TraiteurBernardWPF.PDF
             for(int i = 1; i < 6; i++)
             {
                 PrintPage(annee, semaine,i);
-
             }
         }
 
         private static void PrintPage(int annee, int semaine, int jour)
         {
-
             getDocument();
 
             // Echelle de la partie des compositions (100 par défaut)
@@ -141,13 +139,33 @@ namespace TraiteurBernardWPF.PDF
             // Paramètres pour le header
             var hauteurDuHeader = 4;
 
+            // Les données des saisies
+            BaseContext db = new BaseContext();
+
+            // Récupération de toutes les informations pour générer les compositions
+            List<Saisie> saisiesList = new List<Saisie>();
+            List<Saisie> saisiesListCompo = new List<Saisie>();
+            List<Saisie> saisiesListCT = new List<Saisie>();
+            int nomDeJoursDans1Jour = jour == 5 ? 3 : 1;
+            for (int i = jour; i < jour + nomDeJoursDans1Jour; i++)
+            {
+                List<Saisie> saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, i, db);
+                List<Saisie> saisiesListVille2 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 2", "", annee, semaine, i, db);
+                saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, i, db);
+             
+                saisiesList.AddRange(saisiesListVille1);
+                saisiesList.AddRange(saisiesListVille2);
+                saisiesList.AddRange(saisiesListCT);
+                
+            }
+            
             // Si on est lundi ou mercredi
             if (jour == 1 || jour == 3)
             {
                 // On met l'échelle des compositions a 65 pour laisser de la place aux menus
                 echelle = 60;
                 xDecalage = 100 - echelle;
-                
+
                 // Lignes verticales
                 drawLine(getX(xDecalage * ((double)2 / 5)), getX(xDecalage * ((double)2 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
                 drawLine(getX(xDecalage * ((double)4 / 5)), getX(xDecalage * ((double)4 / 5)), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
@@ -155,20 +173,20 @@ namespace TraiteurBernardWPF.PDF
 
                 // Les trucd qu'ont va afficher
                 int[] lesTrucs = new int[] {
-                    Plat.ENTREE_MIDI,
-                    Plat.PLAT_MIDI_1,
-                    Plat.PLAT_MIDI_2,
-                    Plat.PLAT_MIDI_3,
-                    Plat.DESSERT_MIDI,
-                    Plat.ENTREE_SOIR,
-                    Plat.PLAT_SOIR_1,
-                    Plat.DESSERT_SOIR
-                };
+                        Plat.ENTREE_MIDI,
+                        Plat.PLAT_MIDI_1,
+                        Plat.PLAT_MIDI_2,
+                        Plat.PLAT_MIDI_3,
+                        Plat.DESSERT_MIDI,
+                        Plat.ENTREE_SOIR,
+                        Plat.PLAT_SOIR_1,
+                        Plat.DESSERT_SOIR
+                    };
 
                 // On récpère la liste des plats
                 BaseContext dbTemp = new BaseContext();
                 Menu menu = MenuDao.getFirstFromWeekAndDay(semaine, jour, dbTemp);
-                if(menu == null)
+                if (menu == null)
                 {
                     menu = new Menu() { Plats = new HashSet<Plat>() };
                 }
@@ -177,7 +195,28 @@ namespace TraiteurBernardWPF.PDF
 
                 int lesTrucsLen = lesTrucs.Length;
                 double y = Y_AU_PLUS_HAUT - hauteurDuHeader;
-                
+
+                List<SaisieData> saisieDatasJ1 = new List<SaisieData>();
+                List<SaisieData> saisieDatasJ3 = new List<SaisieData>();
+
+                foreach (Saisie saisie in saisiesListCT)
+                {
+
+                    if (saisie.Jour == 1)
+                    {
+                        foreach (SaisieData saisieData in saisie.data)
+                        {
+                            saisieDatasJ1.Add(saisieData);
+                        }
+                    }
+                    if (saisie.Jour == 3)
+                    {
+                        foreach (SaisieData saisieData in saisie.data)
+                        {
+                            saisieDatasJ3.Add(saisieData);
+                        }
+                    }
+                }
                 // On affiche les plats
                 for (int i = 0; i < lesTrucsLen; i++)
                 {
@@ -218,16 +257,47 @@ namespace TraiteurBernardWPF.PDF
                     if (plats.Any(p => p.Type == lesTrucs[i]))
                     {
                         Plat plat = plats.First(p => p.Type == lesTrucs[i]);
-                        //drawText(BOLD, 10, getMiddelofXBetweenTowPoint(xDecalage * ((double)1 / 3), xDecalage * ((double)2 / 3), BOLD, plat.Name, 10), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), plat.Name, 0, 0, 0);
-                        // Utiliser PrintText pour que ça dépasse pas
-                        PrintTextBetweenTowPoint(plat.Name, (getX(xDecalage * ((double)2 / 5))), (getX(xDecalage * ((double)4 / 5))), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), 10, NORMAL,0,0,0);
+                        PrintTextBetweenTowPoint(plat.Name, (getX(xDecalage * ((double)2 / 5))), (getX(xDecalage * ((double)4 / 5))), getMiddelofYBetweenTowPoint(y, y - diff, BOLD, 10), 10, NORMAL, 0, 0, 0);
+                        
                     }
                     y -= diff;
-
-
+                    if (i > 3)
+                    {
+                        i++;
+                    }
+                    i++;
+                    if (jour == 1)
+                    {
+                        int qtJ1 = 0;
+                        foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(i, saisieDatasJ1))
+                        {
+                            if (sd.Modifie == false)
+                            {
+                                qtJ1 += sd.Quantite;
+                            }  
+                        }
+                        PrintTextBetweenTowPoint(qtJ1.ToString(), (getX(xDecalage * ((double)2 / 5 * 1.5))), (getX(xDecalage * ((double)4 / 5 * 1.5))), getMiddelofYBetweenTowPoint(y, y - diff + 24, BOLD, 10), 10, NORMAL, 0, 0, 0);
+                    }
+                    else
+                    {
+                        int qtJ3 = 0;
+                        foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(i, saisieDatasJ3))
+                        {
+                            if (sd.Modifie == false)
+                            {
+                                qtJ3 += sd.Quantite;
+                            }
+                        }
+                        PrintTextBetweenTowPoint(qtJ3.ToString(), (getX(xDecalage * ((double)2 / 5 * 1.5))), (getX(xDecalage * ((double)4 / 5 * 1.5))), getMiddelofYBetweenTowPoint(y, y - diff + 24 , BOLD, 10), 10, NORMAL, 0, 0, 0);
+                    }
+                    i--;
+                    if (i > 3)
+                    {
+                        i--;
+                    } 
                 }
-
             }
+                    
 
             // #### CADRE ####
             drawLine(getX(X_AU_PLUS_A_GAUCHE), getX(X_AU_PLUS_A_GAUCHE), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
@@ -249,26 +319,7 @@ namespace TraiteurBernardWPF.PDF
             // - les deux lignes verticales
             drawLine(getX(50 * echelle / 100 + xDecalage), getX(50 * echelle / 100 + xDecalage), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
             drawLine(getX(60 * echelle / 100 + xDecalage), getX(60 * echelle / 100 + xDecalage), getY(Y_AU_PLUS_HAUT - hauteurDuHeader), getY(Y_AU_PLUS_BAS));
-
-            // Les données des saisies
-            BaseContext db = new BaseContext();
-         
-            // Récupération de toutes les informations pour générer les compositions
-            List<Saisie> saisiesList = new List<Saisie>();
-            List<Saisie> saisiesListCompo = new List<Saisie>();
-            int nomDeJoursDans1Jour = jour == 5 ? 3 : 1;
-            for(int i = jour; i < jour + nomDeJoursDans1Jour; i++)
-            {
-                List<Saisie> saisiesListVille1 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 1", "", annee, semaine, i, db);
-                List<Saisie> saisiesListVille2 = SaisieDAO.getAllFromYearWeekDayForTournee("ville 2", "", annee, semaine, i, db);
-                List<Saisie> saisiesListCT = SaisieDAO.getAllFromYearWeekDayForTournee("contre-tournée", "", annee, semaine, i, db);
-              //  List<Saisie> saisiesListMarennes = SaisieDAO.getAllFromYearWeekDayForTournee("Marennes", "", annee, semaine, i, db);
-                saisiesList.AddRange(saisiesListVille1);
-                saisiesList.AddRange(saisiesListVille2);
-                saisiesList.AddRange(saisiesListCT);
-                //saisiesList.AddRange(saisiesListMarennes);
-            }
-            
+     
 
             Random random = new Random();
             
