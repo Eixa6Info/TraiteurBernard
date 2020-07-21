@@ -134,6 +134,21 @@ namespace TraiteurBernardWPF.Utils
             }
         }
 
+        public void SetDayToZero(int day)
+        {
+            // Pour tous les types
+            foreach (Saisie saisie in this.saisieList)
+            {
+                if (saisie.Jour == day)
+                {
+                    for (int i = 0; i < this.types.Length; i++)
+                    {
+                        SaisieData saisieData = saisie.data.First(sd => sd.Type == this.types[i]);
+                        saisieData.Quantite = 0;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Vérifie sur le jour contient tous les menus
@@ -147,6 +162,7 @@ namespace TraiteurBernardWPF.Utils
             for (int i = 0; i < this.types.Length; i++)
             {
                 menuCumul += MenuDao.GetPlatFromTypeWeekAndDay(this.typesBis[i], semaine, jour);
+                Console.WriteLine("les menus : " + menuCumul);
             }
             return menuCumul == "";
         }
@@ -242,7 +258,9 @@ namespace TraiteurBernardWPF.Utils
 
                     (this.grid.FindName("date" + colonne) as Label).Content = this.FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine).AddDays(jour).ToString("dd/MM/yyyy");
 
+               
                 ++jour;
+                bool l = IsEmptyMenu(saisie.Semaine, saisie.Jour);
                 // Pour tous les types (de saisiedata)
                 for (int i = 0; i < this.types.Length; i++)
                 {
@@ -282,6 +300,18 @@ namespace TraiteurBernardWPF.Utils
                         UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                     });
 
+                    Console.WriteLine("Le truck que je sais pas: " + l);
+                    if(l == true)
+                    {
+                        comboBox.SetBinding(ComboBox.IsEnabledProperty, new Binding("Libelle")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.TwoWay,
+                            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                            Converter = new IsEnableConverter()
+                        });
+                    }
+                 
                     // Ajout de la combobox à la grille
                     this.grid.Children.Add(comboBox);
 
@@ -311,6 +341,14 @@ namespace TraiteurBernardWPF.Utils
                             Source = saisieData,
                             Mode = BindingMode.TwoWay,
                             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                        });
+
+                        checkBox1.SetBinding(CheckBox.VisibilityProperty, new Binding("Quantite")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.TwoWay,
+                            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                            Converter = new QuantityToVisibility()
                         });
 
                         // Ajout de la combobox à la grille
@@ -346,6 +384,13 @@ namespace TraiteurBernardWPF.Utils
                             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                         });
 
+                        checkBox1.SetBinding(CheckBox.VisibilityProperty, new Binding("Quantite")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.TwoWay,
+                            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                            Converter = new QuantityToVisibility()
+                        });
                         // Ajout de la combobox à la grille
                         this.grid.Children.Add(checkBox1);
 
@@ -375,6 +420,15 @@ namespace TraiteurBernardWPF.Utils
                             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                         });
 
+                        checkBox2.SetBinding(CheckBox.VisibilityProperty, new Binding("Quantite")
+                        {
+                            Source = saisieData,
+                            Mode = BindingMode.TwoWay,
+                            UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged,
+                            Converter = new QuantityToVisibility()
+                        });
+
+
                         // Ajout de la combobox à la grille
                         this.grid.Children.Add(checkBox2);
 
@@ -394,7 +448,7 @@ namespace TraiteurBernardWPF.Utils
 
 
                         comboBox1.ItemsSource = libelleBaguetteCombobox;
-
+               
                         // On positionne la combobox dans la grille
                         comboBox1.SetValue(Grid.ColumnProperty, colonne);
                         comboBox1.SetValue(Grid.RowProperty, ligne);
@@ -458,6 +512,8 @@ namespace TraiteurBernardWPF.Utils
                             Mode = BindingMode.TwoWay,
                             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                         });
+
+                        
 
                         // On créait un multibinding pour envoyer des informations au converter qui va s'occuper de générer
                         // une couleur on fonction des propriétés de la saisiedata

@@ -60,7 +60,7 @@ namespace TraiteurBernardWPF.PDF
          * @return boolean
          * @throws Exception ...
          */
-        public static string Start(float width, float height, int semaine, int annee)
+        public static string Start(float width, float height, int semaine, int annee, Dictionary<int, string> comment)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -73,6 +73,7 @@ namespace TraiteurBernardWPF.PDF
             menuYTopNoDay = getY(99);
             menuYBottom = getY(1);
             Semaine = semaine;
+            Comment = comment;
 
             namePdf = "saisies_Cuisine_Composition_Marennes_" + semaine + "_" + annee + ".pdf";
 

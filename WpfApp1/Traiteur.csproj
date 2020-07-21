@@ -347,6 +347,7 @@
     <Compile Include="Utils\CalenderBackground.cs" />
     <Compile Include="Utils\GestionDeDateCalendrier.cs" />
     <Compile Include="Utils\GestionFichier.cs" />
+    <Compile Include="Utils\IsEnableConverter.cs" />
     <Compile Include="Utils\LogHelper.cs" />
     <Compile Include="DAO\saisieDataDAO.cs" />
     <Compile Include="DAO\SaisieDAO.cs" />
@@ -378,6 +379,7 @@
     <Compile Include="Modele\Saisie.cs" />
     <Compile Include="Security\ControlsVerification.cs" />
     <Compile Include="Utils\PersonnesHelper.cs" />
+    <Compile Include="Utils\QuantityToVisibility.cs" />
     <Compile Include="Utils\RenameConverter.cs" />
     <Compile Include="Utils\SaisieHelper.cs" />
     <Compile Include="Utils\WinFormWpf.cs" />

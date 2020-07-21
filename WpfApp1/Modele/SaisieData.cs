@@ -276,6 +276,7 @@ namespace TraiteurBernardWPF.Modele
                             break;
                         }
 
+                                               
                         // Si la quantité est >= 10, ça veut dire qu'on est sur un plat du soir et qu'on essaye de changer la valeur,
                         // on met donc la quantité à 1 et le flag Modifie à true
                         if (this.Quantite >= 10)
@@ -334,6 +335,14 @@ namespace TraiteurBernardWPF.Modele
                             // On regarde le type de plat concerné
                             switch (this.Type)
                             {
+                                // on met la valeur par defaut a Blanche
+                                case BAGUETTE:
+                                    if (this.libelleValue == "")
+                                    {
+                                        this.Libelle = "Blanche";
+                                    }
+                                    
+                                    break;
                                 // Sur le potage on remet le plat d'o
                                 case POTAGE:
                                 case ENTREE_MIDI:

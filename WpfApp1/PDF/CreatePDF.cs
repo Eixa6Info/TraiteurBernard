@@ -487,7 +487,14 @@ namespace TraiteurBernardWPF.PDF
             printLinesSoir();
 
             //Création de toute les column
-            printColumnSoir();
+            if (printSaisieInt != 1)
+            {
+                printColumnSoir();
+            }
+            else
+            {
+                printColumnSaisieSoir();
+            }
 
             //Ajout du header
             if (calculSemaine == true)
@@ -1511,6 +1518,18 @@ namespace TraiteurBernardWPF.PDF
 
                 //Left Bar Jour 1 choice
                 drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, getY(79), getY(18));
+            }
+        }
+
+        private static void printColumnSaisieSoir()
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                //Left bar Jour 1
+                drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), getY(79), getY(2));
+
+                //Left Bar Jour 1 choice
+                drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, getY(79), getY(2));
             }
         }
 

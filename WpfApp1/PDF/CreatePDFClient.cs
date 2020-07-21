@@ -1753,10 +1753,10 @@ namespace TraiteurBernardWPF.PDF
             for (int i = 0; i < 7; i++)
             {
                 //Left bar Jour 1
-                drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), getY(79), getY(18));
+                drawLine(getX(columnSpace * (1 + i)), getX(columnSpace * (1 + i)), getY(79), getY(10));
 
                 //Left Bar Jour 1 choice
-                drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, getY(79), getY(18));
+                drawLine(getX(columnSpace * (2 + i)) - choiceSize, getX(columnSpace * (2 + i)) - choiceSize, getY(79), getY(10));
             }
         }
 

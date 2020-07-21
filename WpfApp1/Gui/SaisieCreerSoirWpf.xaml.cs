@@ -111,11 +111,44 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Fermer(object sender, EventArgs e)
         {
+            this.db.Dispose();
             if (this.closeButton)
                 Close();
         }
 
+        private void AnnulerButtonClick(object sender, RoutedEventArgs e)
+        {
+            Fermer(sender, e);
+        }
 
+        private void MettreAZeroLundi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(1);
+        }
+        private void MettreAZeroMardi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(2);
+        }
+        private void MettreAZeroMercredi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(3);
+        }
+        private void MettreAZeroJeudi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(4);
+        }
+        private void MettreAZeroVendredi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(5);
+        }
+        private void MettreAZeroSamedi(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(6);
+        }
+        private void MettreAZeroDimanche(object sender, EventArgs e)
+        {
+            saisieHelper.SetDayToZero(7);
+        }
     }
 }
         

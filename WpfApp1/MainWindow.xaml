@@ -47,11 +47,11 @@
                     <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
                     <MenuItem Header="_Génerer PDF pour cuisine">
                         <MenuItem Header="_Génerer PDF récap semaine">
-                            <MenuItem Header="_Toutes les tournées" Click="MenuItem_Saisies_Pdf_Click"/>
+                            <MenuItem Header="_Tournées sauf Marennes" Click="MenuItem_Saisies_Pdf_Click"/>
                             <MenuItem Header="_Tournée Marennes" Click="MenuItem_Saisies_PdfMarennes_Click"/>
                         </MenuItem>
                         <MenuItem Header="_Génerer PDF composition" Click="MenuItem_Saisies_Pdf5Feuilles_Click">
-                            <MenuItem Header="_Toutes les tournées" Click="MenuItem_Saisies_Pdf5Feuilles_Click"/>
+                            <MenuItem Header="_Tournées sauf Marennes" Click="MenuItem_Saisies_Pdf5Feuilles_Click"/>
                             <MenuItem Header="_Tournée Marennes" Click="MenuItem_Saisies_Pdf5FeuillesMarennse_Click"/>
                         </MenuItem>
                         <MenuItem Header="_Génerer PDF récap jambon" Click="MenuItem_Saisies_PdfJambon_Click"/>
