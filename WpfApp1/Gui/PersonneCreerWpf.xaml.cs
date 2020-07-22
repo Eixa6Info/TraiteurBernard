@@ -50,6 +50,7 @@ namespace TraiteurBernardWPF.Gui
             this.edite = edite;
             this.db = db;
             edition.DataContext = this.edite;
+           
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace TraiteurBernardWPF.Gui
         {
             bool retval = false;
 
-            if (txtNom.Text.Length != 0 && txtPrenom.Text.Length != 0 && cbTournee.SelectedItem != null)
+            if (txtNom.Text.Length != 0 && txtPrenom.Text.Length != 0 && cbTournee.SelectedItem != null && cbTourneeCouleur.SelectedItem != null)
             {
                 retval = true;
             }
@@ -94,7 +95,7 @@ namespace TraiteurBernardWPF.Gui
                 }
                 else
                 {
-                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom et la tournée sont indisensables", MessageBoxButton.OK);
+                    MessageBoxWpf wpf = new MessageBoxWpf("Informations indispensables", "Le nom, le prénom, la tournée et la couleur sont indisensables", MessageBoxButton.OK);
                     WinFormWpf.CenterToParent(wpf, this);
                     wpf.ShowDialog();
                 } 
@@ -129,6 +130,13 @@ namespace TraiteurBernardWPF.Gui
             cbTourneeCouleur.ItemsSource = couleur;
             this.UpdateStatus(lblContactDurgence, this.edite.ContactDurgence, "Pas de contact d'urgence"); 
             this.UpdateStatus(lblCompte, this.edite.CompteDeFacturation, "Pas de compte de facturation"); 
+            if (cbTournee.Text == "contre-tournée")
+            {
+                if(cbTourneeCouleur.Text == "")
+                {
+                    cbTourneeCouleur.SelectedIndex = 1;
+                }
+            }
         }
 
         /// <summary>

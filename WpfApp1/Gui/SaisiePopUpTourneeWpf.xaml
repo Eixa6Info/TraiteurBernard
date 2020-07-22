@@ -1,0 +1,28 @@
+﻿<Window x:Class="TraiteurBernardWPF.Gui.SaisiePopUpTourneeWpf"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:TraiteurBernardWPF.Gui"
+        mc:Ignorable="d"
+        x:Name="edition"
+        ResizeMode="NoResize"
+        Title="Créer une saisie par tournées" Height="245.5" Width="247" Loaded="Window_Loaded">
+    <Grid>
+        <TextBox x:Name="txtSemaine" PreviewTextInput="VerifierFormatSemaine" materialDesign:HintAssist.Hint="Semaine"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding Semaine}" VerticalAlignment="Top" Width="179"/>
+        <TextBox x:Name="txtAnnee" PreviewTextInput="VerifierFormatAnnee" materialDesign:HintAssist.Hint="Année"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,55,0,0" TextWrapping="Wrap" Text="{Binding Annee}" VerticalAlignment="Top" Width="179"/>
+
+        <ComboBox SelectedValue="{Binding Tournee}" x:Name="cbTournee" materialDesign:HintAssist.Hint="Tournee"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="179" IsTextSearchEnabled="True" IsEditable="True">
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+        </ComboBox>
+
+
+        <Button Content="Valider" Click="Valider" HorizontalAlignment="Right" Height="26" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75"  />
+        <Button Content="Fermer"  HorizontalAlignment="Right" Height="26" Margin="0,0,95,10" VerticalAlignment="Bottom" Width="75"  Click="Fermer"/>
+    </Grid>
+</Window>

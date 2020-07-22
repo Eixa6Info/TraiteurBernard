@@ -17,33 +17,31 @@ using TraiteurBernardWPF.Utils;
 namespace TraiteurBernardWPF.Gui
 {
     /// <summary>
-    /// Logique d'interaction pour SaisieCreerPopupWpf.xaml
+    /// Logique d'interaction pour SaisiePopUpTourneeWpf.xaml
     /// </summary>
-    public partial class SaisieCreerPopupWpf : Window
+    public partial class SaisiePopUpTourneeWpf : Window
     {
-
+      
         BaseContext db;
+        Saisie p1t1, p1t2, p1t3, p1t4;
 
         public Saisie Edite { get; set; }
 
-        /// <summary>
-        /// Constructeur
-        /// </summary>
-        public SaisieCreerPopupWpf(int semaine, int annee)
+        public SaisiePopUpTourneeWpf(int semaine, int annee, Personne personne)
         {
             InitializeComponent();
             this.db = new BaseContext();
-            this.Edite = new Saisie { Semaine = semaine , Annee = annee };
+            this.Edite = new Saisie { Semaine = semaine, Annee = annee, Personne = personne };
             edition.DataContext = this.Edite;
         }
-
+        /*
         public void SaisieCreerPopupSaveAndNewWpf(int semaine, int annee)
         {
             InitializeComponent();
             this.db = new BaseContext();
             this.Edite = new Saisie { Semaine = semaine, Annee = annee };
             edition.DataContext = this.Edite;
-        }
+        }*/
 
         /// <summary>
         /// On charge les tournées et les personnes pour les mettre dans des combobox
@@ -57,25 +55,59 @@ namespace TraiteurBernardWPF.Gui
         {
 
             // Chargement des personnes et assignation à la combobox
-            IQueryable<Personne> req2 = from t in this.db.Personnes
-                                          select t;
+            IQueryable<TypeTournee> req2 = from t in this.db.TypeTournee
+                                        select t;
+            IQueryable<Saisie> req3 = from t in this.db.Saisies
+                                        select t;
 
-            List<Personne> data2 = new List<Personne>();
            
-            foreach (Personne p in req2)
+            List<TypeTournee> data2 = new List<TypeTournee>();
+            List<Saisie> t1 = new List<Saisie>(); //ville 1
+            List<Saisie> t2 = new List<Saisie>(); //ville 2
+            List<Saisie> t3 = new List<Saisie>(); // ct
+            List<Saisie> t4 = new List<Saisie>(); // marennes
+
+            foreach (TypeTournee t in req2)
             {
-                this.db.Entry(p).Reference(s => s.Tournee).Load();
-                this.db.Entry(p).Reference(s => s.CompteDeFacturation).Load();
-                this.db.Entry(p).Reference(s => s.ContactDurgence).Load();
-             
-               
-                if (p.Actif == true)
-                {
-                    data2.Add(p);
-                    data2.Sort((x, y) => string.Compare(x.Nom, y.Nom));
-                } 
+                data2.Add(t);
             }
-            cbPersonne.ItemsSource = data2;
+            cbTournee.ItemsSource = data2;
+
+            foreach (Saisie sa in req3)
+            {
+                this.db.Entry(sa).Reference(s => s.Tournee).Load();
+                this.db.Entry(sa).Reference(s => s.Personne).Load();
+                //this.db.Entry(sa).Reference(s => s.Personne.ContactDurgence).Load();
+
+                if (sa.Personne.Actif == true)
+                {
+                    if(sa.Personne.Tournee.ID == 1)
+                    {
+                        t1.Add(sa);
+                        t1.Sort((x, y) => string.Compare(x.Personne.Nom, y.Personne.Nom));
+                    }
+                    else if (sa.Personne.Tournee.ID == 2)
+                    {
+                        t2.Add(sa);
+                        t2.Sort((x, y) => string.Compare(x.Personne.Nom, y.Personne.Nom));
+                    }
+                    else if (sa.Personne.Tournee.ID == 3)
+                    {
+                        t3.Add(sa);
+                        t3.Sort((x, y) => string.Compare(x.Personne.Nom, y.Personne.Nom));
+                    }
+                    else if (sa.Personne.Tournee.ID == 4)
+                    {
+                        t4.Add(sa);
+                        t4.Sort((x, y) => string.Compare(x.Personne.Nom, y.Personne.Nom));
+                    }
+                }
+            }
+            
+            p1t1 = t1.First();
+            p1t2 = t2.First();
+            p1t3 = t3.First();
+            p1t4 = t4.First();
         }
 
         /// <summary>
@@ -84,8 +116,8 @@ namespace TraiteurBernardWPF.Gui
         private bool VerifierDonnees()
         {
             bool retval = false;
-            
-            if (txtSemaine.Text.Length != 0 && txtAnnee.Text.Length != 0 && cbPersonne.SelectedItem != null)
+
+            if (txtSemaine.Text.Length != 0 && txtAnnee.Text.Length != 0 && cbTournee.SelectedItem != null)
             {
                 retval = true;
             }
@@ -100,17 +132,38 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Valider(object sender, RoutedEventArgs e)
         {
-            
+
             try
             {
                 if (this.VerifierDonnees())
                 {
                     int semaine = Int16.Parse(txtSemaine.Text);
+                    
 
                     if (semaine < 53)
                     {
-                        this.Edite.Tournee = this.Edite.Personne.Tournee;
-                        
+                     
+                        if (cbTournee.Text == "ville 1") 
+                        {
+                            this.Edite = p1t1;
+                            this.Edite.Semaine = semaine;
+                        }
+                        else if (cbTournee.Text == "ville 2")
+                        {
+                            this.Edite = p1t2;
+                            this.Edite.Semaine = semaine;
+                        }
+                        else if (cbTournee.Text == "contre-tournée")
+                        {
+                            this.Edite = p1t3;
+                            this.Edite.Semaine = semaine;
+                        }
+                        else if (cbTournee.Text == "Marennes")
+                        {
+                            this.Edite = p1t4;
+                            this.Edite.Semaine = semaine;
+                        }
+
                         // Objet pour récupérer les images
                         var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 
@@ -119,8 +172,7 @@ namespace TraiteurBernardWPF.Gui
                         {
                             Close();
                             var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeVilleSoir))));
-                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db,  soirBackground, true);
-
+                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, soirBackground, false);
                             wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeVille))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
@@ -130,7 +182,7 @@ namespace TraiteurBernardWPF.Gui
                         {
                             Close();
                             var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeCTSoir))));
-                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, soirBackground, true);
+                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, soirBackground, false);
                             wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeCT))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
@@ -139,7 +191,7 @@ namespace TraiteurBernardWPF.Gui
                         {
                             Close();
                             var soirBackground = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeMarennesSoir))));
-                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, soirBackground, true);
+                            SaisieCreerWpf wpf = new SaisieCreerWpf(this.Edite, this.db, soirBackground, false);
                             wpf.gridMain.Background = new ImageBrush(new BitmapImage(new Uri(Path.Combine(outPutDirectory, Properties.Resources.ImgTourneeMarennes))));
                             WinFormWpf.CornerTopLeftToParent(wpf, this);
                             wpf.ShowDialog();
@@ -165,13 +217,13 @@ namespace TraiteurBernardWPF.Gui
                     WinFormWpf.CenterToParent(wpf, this);
                     wpf.ShowDialog();
                 }
-                
+
             }
             catch (IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "SaisieCreerPopupWpf.xaml.cs");
                 throw a;
-            }            
+            }
         }
 
         /// <summary>
@@ -193,7 +245,7 @@ namespace TraiteurBernardWPF.Gui
         {
             ControlsVerification.DigitsOnly(e);
         }
-        
+
         /// <summary>
         /// Verifier que la saisie correspond bien a une année
         /// </summary>

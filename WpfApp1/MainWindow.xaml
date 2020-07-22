@@ -45,6 +45,7 @@
                 </MenuItem> 
                 <MenuItem Header="_Saisies">
                     <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
+                    <MenuItem Header="_Créer par tournée" Click="MenuItem_Saisies_Creer_Tournee_Click"/>
                     <MenuItem Header="_Génerer PDF pour cuisine">
                         <MenuItem Header="_Génerer PDF récap semaine">
                             <MenuItem Header="_Tournées sauf Marennes" Click="MenuItem_Saisies_Pdf_Click"/>

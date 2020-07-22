@@ -222,6 +222,7 @@ namespace TraiteurBernardWPF.Gui
                     if (recherche == "")
                     {
                         data.Add(p);
+                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                     }
 
                     // compte de le nombre de lettre dans la barre de recherche et réitère à charque nouvelle lettre
@@ -236,6 +237,7 @@ namespace TraiteurBernardWPF.Gui
                         if (wordPNameSplit.ToLower() == recherche.ToLower())
                         {
                             data.Add(p);
+                            data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                         }
                     } 
                 }
@@ -269,6 +271,7 @@ namespace TraiteurBernardWPF.Gui
 
 
                     data.Add(p);
+                    data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
 
                 }
                 cbTournee.Text = "Toutes les tournées";
@@ -312,6 +315,7 @@ namespace TraiteurBernardWPF.Gui
                         if (p.Actif == true)
                         {
                             data.Add(p);
+                            data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                         }
                     }
                     else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
@@ -319,11 +323,13 @@ namespace TraiteurBernardWPF.Gui
                         if (p.Actif == false)
                         {
                             data.Add(p);
+                            data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                         }
                     }
                     else
                     {
                         data.Add(p);
+                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                     }
                 }
                 dataGridPersonnes.ItemsSource = data;
@@ -368,6 +374,7 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == true)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
@@ -375,11 +382,13 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == false)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else
                                 {
                                     data.Add(p);
+                                    data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                 }
                             }
                             else
@@ -389,8 +398,7 @@ namespace TraiteurBernardWPF.Gui
                             
                         }
                     }
-
-                    if (cbTournee.SelectedItem.ToString() == Properties.Resources.Ville2)
+                    else if (cbTournee.SelectedItem.ToString() == Properties.Resources.Ville2)
                     {
                         if (p.Tournee.Nom == Properties.Resources.Ville2)
                         {
@@ -401,6 +409,7 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == true)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
@@ -408,11 +417,13 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == false)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else
                                 {
                                     data.Add(p);
+                                    data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                 }
                             }
                             else
@@ -432,6 +443,7 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == true)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
@@ -439,11 +451,13 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == false)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else
                                 {
                                     data.Add(p);
+                                    data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                 }
                             }
                             else
@@ -463,6 +477,7 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == true)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
@@ -470,11 +485,13 @@ namespace TraiteurBernardWPF.Gui
                                     if (p.Actif == false)
                                     {
                                         data.Add(p);
+                                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                     }
                                 }
                                 else
                                 {
                                     data.Add(p);
+                                    data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                 }
                             }
                             else
@@ -492,6 +509,7 @@ namespace TraiteurBernardWPF.Gui
                                 if (p.Actif == true)
                                 {
                                     data.Add(p);
+                                    data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                 }
                             }
                             else if (cbActif.SelectedItem.ToString() == Properties.Resources.Inactif)
@@ -499,11 +517,13 @@ namespace TraiteurBernardWPF.Gui
                                 if (p.Actif == false)
                                 {
                                     data.Add(p);
+                                    data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                                 }
                             }
                             else if (cbActif.SelectedItem.ToString() == Properties.Resources.ActifInactif)
                             {
                                 data.Add(p);
+                                data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                             }
                         }    
                         else
@@ -514,6 +534,7 @@ namespace TraiteurBernardWPF.Gui
                     else
                     {
                         data.Add(p);
+                        data.Sort((x, y) => string.Compare(x.Nom, y.Nom));
                     }
                     
                 }

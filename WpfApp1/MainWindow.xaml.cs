@@ -746,5 +746,20 @@ namespace TraiteurBernardWPF
             }
         }
 
+        private void MenuItem_Saisies_Creer_Tournee_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                SaisiePopUpTourneeWpf wpf = new SaisiePopUpTourneeWpf(1, DateTime.Now.Year, null);
+                WinFormWpf.CornerTopLeftToParent(wpf, this);               
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
+        }
     }
 }

@@ -15,17 +15,17 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Expander x:Name="expanderLivraisons" Header="{Binding Header}" >
-                                <DataGrid  x:Name="dataGridMenus" ItemsSource="{Binding Plats}" HorizontalAlignment="Left"    CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="false"  >
+                                <DataGrid  x:Name="dataGridMenus" ItemsSource="{Binding Plats}" HorizontalAlignment="Left"    CanUserAddRows="false" VerticalAlignment="Top" AutoGenerateColumns="false" >
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Jour N°" IsReadOnly="True" Binding="{Binding Jour}"/>
-                                        <DataGridTextColumn Header="Entrée du midi" IsReadOnly="True" Binding="{Binding EntreeMidi}"/>
-                                        <DataGridTextColumn Header="Plat 1 du midi" IsReadOnly="True" Binding="{Binding Plat1Midi}"/>
-                                        <DataGridTextColumn Header="Plat 2 du midi" IsReadOnly="True" Binding="{Binding Plat2Midi}"/>
-                                        <DataGridTextColumn Header="Plat 3 du midi" IsReadOnly="True" Binding="{Binding Plat3Midi}"/>
-                                        <DataGridTextColumn Header="Dessert du midi" IsReadOnly="True" Binding="{Binding DessertMidi}"/>
-                                        <DataGridTextColumn Header="Entrée du soir" IsReadOnly="True" Binding="{Binding EntreeSoir}"/>
-                                        <DataGridTextColumn Header="Plat du soir" IsReadOnly="True" Binding="{Binding PlatSoir}"/>
-                                        <DataGridTextColumn Header="Dessert du soir" IsReadOnly="True" Binding="{Binding DessertSoir}"/>
+                                        <DataGridTextColumn Header="Jour N°" IsReadOnly="True" Binding="{Binding Jour}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Entrée du midi" IsReadOnly="True" Binding="{Binding EntreeMidi}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Plat 1 du midi" IsReadOnly="True" Binding="{Binding Plat1Midi}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Plat 2 du midi" IsReadOnly="True" Binding="{Binding Plat2Midi}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Plat 3 du midi" IsReadOnly="True" Binding="{Binding Plat3Midi}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Dessert du midi" IsReadOnly="True" Binding="{Binding DessertMidi}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Entrée du soir" IsReadOnly="True" Binding="{Binding EntreeSoir}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Plat du soir" IsReadOnly="True" Binding="{Binding PlatSoir}" MaxWidth="125"/>
+                                        <DataGridTextColumn Header="Dessert du soir" IsReadOnly="True" Binding="{Binding DessertSoir}" MaxWidth="125"/>
                                         <DataGridTemplateColumn>
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>

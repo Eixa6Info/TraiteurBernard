@@ -1,4 +1,5 @@
-﻿using java.io;
+﻿using com.sun.xml.@internal.fastinfoset.vocab;
+using java.io;
 using org.hamcrest.core;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace TraiteurBernardWPF.Gui
         /// Constructeur avec en paramètre la saisie qui contient la semaine, le jour, la tournée, l'année et la personne
         /// </summary>
         /// <param name="edite"></param>
-        public SaisieCreerWpf(Saisie edite, BaseContext db,  ImageBrush soirBackground)
+        public SaisieCreerWpf(Saisie edite, BaseContext db,  ImageBrush soirBackground, bool byClientOrTournee)
         {
             InitializeComponent();
             this.soirBackground = soirBackground;
@@ -95,7 +96,18 @@ namespace TraiteurBernardWPF.Gui
             semaine = this.Edite.Semaine;
             per = this.Edite.Personne;
             this.db = db;
-
+            if (byClientOrTournee == true)
+            {
+                // c'est par un client
+                this.btnEnregistrerEtNouveau.Visibility = Visibility.Hidden;
+                this.btnEnregistrerEtNouveau2.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                // c'est par tournée
+                this.btnEnregistrerEtNouveau2.Visibility = Visibility.Hidden;
+                this.btnEnregistrerEtNouveau.Visibility = Visibility.Visible;
+            }
 
             this.saisieHelper = new SaisieHelper(this.gridMain, this.types, this.typesBis, this.Edite, 1, 2, this.db);
         }
@@ -153,13 +165,25 @@ namespace TraiteurBernardWPF.Gui
             this.Edite.Personne = nextPerson;
             this.Edite.Tournee = nextPerson.Tournee;
 
-            SaisieCreerWpf saisieCreerWpf = new SaisieCreerWpf(this.Edite, newDb, this.soirBackground);
+            SaisieCreerWpf saisieCreerWpf = new SaisieCreerWpf(this.Edite, newDb, this.soirBackground, false);
             saisieCreerWpf.gridMain.Background = this.gridMain.Background;
             WinFormWpf.CornerTopLeftToParent(saisieCreerWpf, this);
             this.Close();
             saisieCreerWpf.Show();
         }
 
+        private void EnregistrerEtNouveau2(object sender, RoutedEventArgs e)
+        {
+            DateTime dateTime = DateTime.Now;
+            int year = dateTime.Year;
+            int week = int.Parse(lblSemaine.Content.ToString());
+            Save();
+            Close();
+            SaisieCreerPopupWpf wpf = new SaisieCreerPopupWpf(week, year) ;
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
+
+        }
 
         /// <summary>
         /// Bouton enregistrer
@@ -258,6 +282,8 @@ namespace TraiteurBernardWPF.Gui
         {
             saisieHelper.SetDayToZero(7);
         }
+
+       
     }
 }
 

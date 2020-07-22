@@ -338,6 +338,9 @@
     <Compile Include="Gui\SaisieCreerCalendrierWpf.xaml.cs">
       <DependentUpon>SaisieCreerCalendrierWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\SaisiePopUpTourneeWpf.xaml.cs">
+      <DependentUpon>SaisiePopUpTourneeWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PDF\CreatePDF5FeuillesMarennes.cs" />
     <Compile Include="PDF\CreatePDF5Feuilles.cs" />
     <Compile Include="PDF\CreatePDFClient.cs" />
@@ -452,6 +455,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\SaisieCreerWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\SaisiePopUpTourneeWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
