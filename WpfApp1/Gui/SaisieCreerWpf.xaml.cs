@@ -123,15 +123,21 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Soir(object sender, RoutedEventArgs e)
         {
-            BaseContext newDb = new BaseContext();
-            // enregistrer les 8 premières infos afin que les plats du soir soient en position 8,9 et 10 dans les saisies
-            this.saisieHelper.Save();
-
-            var form = new SaisieCreerSoirWpf(Edite, null, newDb);
-            form.gridMain.Background = this.soirBackground;
-            form.ShowDialog();
-
-
+            try
+            {
+                BaseContext newDb = new BaseContext();
+                // enregistrer les 8 premières infos afin que les plats du soir soient en position 8,9 et 10 dans les saisies
+                this.saisieHelper.Save();
+                var form = new SaisieCreerSoirWpf(Edite, null, newDb);
+                form.gridMain.Background = this.soirBackground;
+                form.ShowDialog();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }
+            
         }
 
         /// <summary>
@@ -141,48 +147,63 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void EnregistrerEtNouveau(object sender, RoutedEventArgs e)
         {
-
-            BaseContext newDb = new BaseContext();
-            var persons = (from p in newDb.Personnes where p.Tournee == this.Edite.Personne.Tournee && p.Actif == true select p).ToList();
-            persons = persons.OrderBy(p => p.Nom).ToList();
-            int index = persons.FindIndex(i => i.ID == this.Edite.Personne.ID);
-            if (index + 2 > persons.Count)
+            try
             {
-                MessageBoxWpf wpf = new MessageBoxWpf("Information", "Il n'y a pas d'autres personnes dans cette tournée.", MessageBoxButton.OK);
-                WinFormWpf.CenterToParent(wpf, this);
-                wpf.ShowDialog();
-                return;
-            }
-            Personne nextPerson = persons[index + 1];
+                BaseContext newDb = new BaseContext();
+                var persons = (from p in newDb.Personnes where p.Tournee == this.Edite.Personne.Tournee && p.Actif == true select p).ToList();
+                persons = persons.OrderBy(p => p.Nom).ToList();
+                int index = persons.FindIndex(i => i.ID == this.Edite.Personne.ID);
+                if (index + 2 > persons.Count)
+                {
+                    MessageBoxWpf wpf = new MessageBoxWpf("Information", "Il n'y a pas d'autres personnes dans cette tournée.", MessageBoxButton.OK);
+                    WinFormWpf.CenterToParent(wpf, this);
+                    wpf.ShowDialog();
+                    return;
+                }
+                Personne nextPerson = persons[index + 1];
 
-            newDb.Entry(nextPerson).Reference(s => s.Tournee).Load();
-            newDb.Entry(nextPerson).Reference(s => s.CompteDeFacturation).Load();
-            newDb.Entry(nextPerson).Reference(s => s.ContactDurgence).Load();
+                newDb.Entry(nextPerson).Reference(s => s.Tournee).Load();
+                newDb.Entry(nextPerson).Reference(s => s.CompteDeFacturation).Load();
+                newDb.Entry(nextPerson).Reference(s => s.ContactDurgence).Load();
 
-            Save();
-            this.db.Dispose();
+                Save();
+                this.db.Dispose();
            
-            this.Edite.Personne = nextPerson;
-            this.Edite.Tournee = nextPerson.Tournee;
+                this.Edite.Personne = nextPerson;
+                this.Edite.Tournee = nextPerson.Tournee;
 
-            SaisieCreerWpf saisieCreerWpf = new SaisieCreerWpf(this.Edite, newDb, this.soirBackground, false);
-            saisieCreerWpf.gridMain.Background = this.gridMain.Background;
-            WinFormWpf.CornerTopLeftToParent(saisieCreerWpf, this);
-            this.Close();
-            saisieCreerWpf.Show();
+                SaisieCreerWpf saisieCreerWpf = new SaisieCreerWpf(this.Edite, newDb, this.soirBackground, false);
+                saisieCreerWpf.gridMain.Background = this.gridMain.Background;
+                WinFormWpf.CornerTopLeftToParent(saisieCreerWpf, this);
+                this.Close();
+                saisieCreerWpf.Show();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }
+            
         }
 
         private void EnregistrerEtNouveau2(object sender, RoutedEventArgs e)
         {
-            DateTime dateTime = DateTime.Now;
-            int year = dateTime.Year;
-            int week = int.Parse(lblSemaine.Content.ToString());
-            Save();
-            Close();
-            SaisieCreerPopupWpf wpf = new SaisieCreerPopupWpf(week, year) ;
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
-
+            try
+            {
+                DateTime dateTime = DateTime.Now;
+                int year = dateTime.Year;
+                int week = int.Parse(lblSemaine.Content.ToString());
+                Save();
+                Close();
+                SaisieCreerPopupWpf wpf = new SaisieCreerPopupWpf(week, year) ;
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         /// <summary>
@@ -190,25 +211,40 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         private void Save()
         {
-            this.saisieHelper.Save();
+            try
+            {
+                this.saisieHelper.Save();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            } 
         }
 
         private void SaveButtonClick(object sender, RoutedEventArgs e)
         {
-            this.saisieHelper.Save();
-            this.db.Dispose();
-
-            MessageBoxResult res = MessageBox.Show("Voulez-vous créer le pdf ?", "PDF", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-            if (res == MessageBoxResult.Yes)
+            try
             {
-                PdfCreerSaisieClient.PrintClient(per, semaine);
-                Close();
-            }
-            else
-            {
-                Close();
-            }
+                this.saisieHelper.Save();
+                this.db.Dispose();
 
+                MessageBoxResult res = MessageBox.Show("Voulez-vous créer le pdf ?", "PDF", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                if (res == MessageBoxResult.Yes)
+                {
+                    PdfCreerSaisieClient.PrintClient(per, semaine);
+                    Close();
+                }
+                else
+                {
+                    Close();
+                }
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         public static bool infoCal = true;
@@ -221,12 +257,19 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Calendrier(object sender, EventArgs e)
         {
-
-            this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, null);
-            if (infoCal == false)
+            try
             {
-                wpf1.Show();
+                this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, null);
+                if (infoCal == false)
+                {
+                    wpf1.Show();
+                }
             }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            } 
         }
 
         /// <summary>
@@ -236,8 +279,16 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, null);
-            this.wpf1.Show();
+            try
+            {
+                this.wpf1 = new SaisieCreerCalendrierWpf(this.Edite, this.db, null);
+                this.wpf1.Show();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            } 
         }
 
 
@@ -248,42 +299,103 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void fermer(object sender, EventArgs e)
         {
-            this.wpf1.Close();
-            this.db.Dispose();
-            Close();
-
+            try
+            {
+                this.wpf1.Close();
+                this.db.Dispose();
+                Close();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         private void MettreAZeroLundi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(1);
+            try
+            {
+                saisieHelper.SetDayToZero(1);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }
         }
         private void MettreAZeroMardi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(2);
+            try
+            {
+                saisieHelper.SetDayToZero(2);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }  
         }
         private void MettreAZeroMercredi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(3);
+            try
+            {
+                saisieHelper.SetDayToZero(3);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }  
         }
         private void MettreAZeroJeudi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(4);
+            try
+            {
+                saisieHelper.SetDayToZero(4);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }  
         }
         private void MettreAZeroVendredi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(5);
+            try
+            {
+                saisieHelper.SetDayToZero(5);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }  
         }
         private void MettreAZeroSamedi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(6);
+            try
+            {
+                saisieHelper.SetDayToZero(6);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            }  
         }
         private void MettreAZeroDimanche(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(7);
-        }
-
-       
+            try
+            {
+                saisieHelper.SetDayToZero(7);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerWpf.xaml.cs");
+                throw a;
+            } 
+        }  
     }
 }
 

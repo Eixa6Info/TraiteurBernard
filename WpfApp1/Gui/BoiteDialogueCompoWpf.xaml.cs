@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,7 @@ namespace TraiteurBernardWPF.Gui
 
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
+           
             int jourId = short.Parse(txtNumJour.Text);
 
             try
@@ -61,37 +63,53 @@ namespace TraiteurBernardWPF.Gui
             }
             catch (System.IO.IOException a)
             {
-                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
-                Console.WriteLine(a.Message);
+                LogHelper.WriteToFile(a.Message, "BoiteDialogueCompoWpf.xaml.cs");
                 return;
             }
         }
 
         private void BtnSuivant(object sender, RoutedEventArgs e)
         {
-            int jourId = short.Parse(txtNumJour.Text);
-            if (jourId < 7)
+            try
             {
-                if (jourId != 0)
+                int jourId = short.Parse(txtNumJour.Text);
+                if (jourId < 7)
                 {
-                    if (txtBoxComment.Text != "")
+                    if (jourId != 0)
                     {
-                        ListCommentaire.Add(jourId, txtBoxComment.Text);
+                        if (txtBoxComment.Text != "")
+                        {
+                            ListCommentaire.Add(jourId, txtBoxComment.Text);
+                        }
+                        txtBoxComment.Text = "";
+                        txtNumJour.Text = (jourId + 1).ToString();
                     }
-                    txtBoxComment.Text = "";
-                    txtNumJour.Text = (jourId + 1).ToString();
                 }
+                else
+                {
+                    this.btnOK_Click(sender,e);
+                    Close();
+                }    
             }
-            else
+            catch (IOException a)
             {
-                this.btnOK_Click(sender,e);
-                Close();
-            }         
+                LogHelper.WriteToFile(a.Message, "BoiteDialogueCompoWpf.xaml.cs");
+                throw a;
+            }
+                 
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            try
+            {
+                this.Close();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "BoiteDialogueCompoWPF.xaml.cs");
+                throw a;
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

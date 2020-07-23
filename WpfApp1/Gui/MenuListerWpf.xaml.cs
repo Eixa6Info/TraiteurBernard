@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,8 +36,16 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Fermer(object sender, RoutedEventArgs e)
         {
-            this.db.Dispose();
-            Close();
+            try
+            {
+                this.db.Dispose();
+                Close();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MenuListerWpf.xaml.cs");
+                throw a;
+            }
         }
 
         /// <summary>
@@ -109,16 +118,23 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Supprimer(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.TitrePopUpConfirmation, Properties.Resources.MessagePopUpDelMenu, MessageBoxButton.YesNo);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+                if (!wpf.YesOrNo) return;
 
-            MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.TitrePopUpConfirmation, Properties.Resources.MessagePopUpDelMenu, MessageBoxButton.YesNo);
-            WinFormWpf.CenterToParent(wpf, this);
-            wpf.ShowDialog();
-            if (!wpf.YesOrNo) return;
-
-            TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
-            this.db.Remove(menu);
-            this.db.SaveChanges();
-            this.Window_Loaded(new object(), new RoutedEventArgs());
+                TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
+                this.db.Remove(menu);
+                this.db.SaveChanges();
+                this.Window_Loaded(new object(), new RoutedEventArgs());
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MenuListerWpf.xaml.cs");
+                throw a;
+            } 
         }
 
         /// <summary>
@@ -156,17 +172,21 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Modifier(object sender, RoutedEventArgs e)
         {
-
-            TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
-
-            MenuCreerWpf wpf = new MenuCreerWpf(menu, this.db, true);
-
-            wpf.ShowDialog();
-
-
-            // On recharge les données car il n'y a pas de Binding donc les données ne changent
-            // pas automatiquement
-            this.Window_Loaded(new Object(), new RoutedEventArgs());
+            try
+            {
+                TraiteurBernardWPF.Modele.Menu menu = this.RecupererMenuSelectionne(sender);
+                MenuCreerWpf wpf = new MenuCreerWpf(menu, this.db, true);
+                wpf.ShowDialog();
+                // On recharge les données car il n'y a pas de Binding donc les données ne changent
+                // pas automatiquement
+                this.Window_Loaded(new Object(), new RoutedEventArgs());
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MenuListerWpf.xaml.cs");
+                throw a;
+            }
+            
         }
 
     }

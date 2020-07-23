@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -69,7 +70,15 @@ namespace TraiteurBernardWPF.Gui
         /// </summary>
         private void Save()
         {
-            this.saisieHelper.Save();
+            try
+            {
+                this.saisieHelper.Save();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
 
         /// <summary>
@@ -79,10 +88,17 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void SaveAndCloseButtonClick(object sender, RoutedEventArgs e)
         {
-            this.saisieHelper.Save();
-            this.closeButton = false;
-            Close();
-
+            try
+            {
+                this.saisieHelper.Save();
+                this.closeButton = false;
+                Close();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
         /// <summary>
         /// Au chargement de la page, on charge les menus
@@ -101,7 +117,15 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void ResetButtonClick(object sender, RoutedEventArgs e)
         {
-            this.saisieHelper.SetAllToZero();
+            try
+            {
+                this.saisieHelper.SetAllToZero();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }  
         }
 
         /// <summary>
@@ -111,43 +135,115 @@ namespace TraiteurBernardWPF.Gui
         /// <param name="e"></param>
         private void Fermer(object sender, EventArgs e)
         {
-            this.db.Dispose();
-            if (this.closeButton)
-                Close();
+            try
+            {
+                this.db.Dispose();
+                if (this.closeButton)
+                    Close();
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
 
         private void AnnulerButtonClick(object sender, RoutedEventArgs e)
         {
-            Fermer(sender, e);
+            try
+            {
+                Fermer(sender, e);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
 
         private void MettreAZeroLundi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(1);
+            try
+            {
+                saisieHelper.SetDayToZero(1); 
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
         private void MettreAZeroMardi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(2);
+            try
+            {
+                saisieHelper.SetDayToZero(2);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
         private void MettreAZeroMercredi(object sender, EventArgs e)
-        {
-            saisieHelper.SetDayToZero(3);
+        { 
+            try
+            {
+                saisieHelper.SetDayToZero(3);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
         private void MettreAZeroJeudi(object sender, EventArgs e)
-        {
-            saisieHelper.SetDayToZero(4);
+        { 
+            try
+            {
+                saisieHelper.SetDayToZero(4);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
         private void MettreAZeroVendredi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(5);
+            try
+            {
+                saisieHelper.SetDayToZero(5);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
         private void MettreAZeroSamedi(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(6);
+            try
+            {
+                saisieHelper.SetDayToZero(6);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            }
         }
         private void MettreAZeroDimanche(object sender, EventArgs e)
         {
-            saisieHelper.SetDayToZero(7);
+            try
+            {
+                saisieHelper.SetDayToZero(7);
+            }
+            catch (IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
+                throw a;
+            } 
         }
     }
 }

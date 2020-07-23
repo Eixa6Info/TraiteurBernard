@@ -274,7 +274,7 @@ namespace TraiteurBernardWPF.PDF
         private static void printSaisieJambon(int annee, int semaine, bool composition = false)
         {
             BaseContext db = new BaseContext();
-            int jour = 1, a = 92, b = 0, c = 102, d = 0, e = 102, qtt, qttct = 0, leJour = 0;
+            int jour = 1, a = 92, b = 0, c = 102, d = 0, e = 102, qtt, qttct = 0, leJour = 0, qttctl = 0;
             var perOld = "";
             var newPer = "";
 
@@ -375,6 +375,7 @@ namespace TraiteurBernardWPF.PDF
                 qtt = 0;
                 qtt += qttct;
                 qttct = 0;
+                qttctl = 0;
                 foreach (Saisie s in personnes)
                 {
                     
@@ -409,7 +410,12 @@ namespace TraiteurBernardWPF.PDF
                         d = c - 2;
                         personnesHelper.CouleurPersonne(s.Personne.Couleur, ref rouge, ref vert, ref bleu);
                         drawText(NORMAL, fontSize, getMiddelofXBetweenTowPoint(75, columnSpace, NORMAL, per, fontSize), getMiddelofYBetweenTowPoint(d - 12 , c - 12 , NORMAL, fontSize), per, rouge, vert, bleu); 
+                        if ( c <= 18 && d <= 16)
+                        {
+                            qttctl++;
+                        }
                         qttct++;
+                        Console.WriteLine("Le nom de la pers c'est   ->  " + per.ToString());
                     }
                     else if (s.Personne.Tournee.Nom == Properties.Resources.Marennes)
                     {
@@ -423,11 +429,17 @@ namespace TraiteurBernardWPF.PDF
                 
                 b = a - 12;
 
+                // drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, txt, fontSize), getMiddelofYBetweenTowPoint(b, a, BOLD, fontSize), txt, 0, 0, 0);
+                PrintTextBetweenTowPoint(txt, 0 , columnSpace +55 , getMiddelofYBetweenTowPoint(b, a, NORMAL, 10), 10, BOLD, 0, 0, 0);
                 
-
-                drawText(BOLD, fontSize, getMiddelofXBetweenTowPoint(0, columnSpace, BOLD, txt, fontSize), getMiddelofYBetweenTowPoint(b, a, BOLD, fontSize), txt, 0, 0, 0);
                 drawText(BOLD, 16, getMiddelofXBetweenTowPoint(175, columnSpace, BOLD, qtt.ToString(), 16), getMiddelofYBetweenTowPoint(b, a, BOLD, 16), qtt.ToString(), 0, 0 ,0);
+                if (qttctl != 0)
+                {
+                    drawText(BOLD, 16, getMiddelofXBetweenTowPoint(175, columnSpace, BOLD, qttctl.ToString(), 16), getMiddelofYBetweenTowPoint(b - 9, a - 9, BOLD, 16), qttctl.ToString(), 0, 0, 0);
+                }
 
+                Console.WriteLine("Le nb de qtt ->  " + qtt.ToString());
+                Console.WriteLine("Le nom c'est  ->  " + txt.ToString());
                 a = b;
             }
             db.Dispose();
