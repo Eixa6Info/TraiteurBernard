@@ -1417,9 +1417,9 @@ namespace TraiteurBernardWPF.PDF
                                 {
                                     if (composition) continue;
                                     font = NORMAL;
-                                    R = 0;
-                                    G = 155;
-                                    B = 0;
+                                    R = 30;
+                                    G = 233;
+                                    B = 30;
                                 }
 
                                 // savoir si c'est nature mixe ou sauce
@@ -1429,9 +1429,9 @@ namespace TraiteurBernardWPF.PDF
                                     Console.WriteLine("Nature mixe ou sauce  " + test);
                                     if (test == "ùùù")
                                     {
-                                        R = 0;
-                                        G = 155;
-                                        B = 0;
+                                        R = 30;
+                                        G = 233;
+                                        B = 30;
                                         txt = txt.Remove(0, 3);
                                     }
                                     else if (test == "$$$")

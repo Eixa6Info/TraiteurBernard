@@ -23,7 +23,7 @@ namespace TraiteurBernardWPF.Gui
 
         private int colonneDepart = 1;
         private int ligneDepart = 3;
-
+        private int close = 0;
         private bool closeButton = true;
 
         private int[] types = new int[3] 
@@ -90,6 +90,7 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
+                close = 1;
                 this.saisieHelper.Save();
                 this.closeButton = false;
                 Close();
@@ -128,18 +129,32 @@ namespace TraiteurBernardWPF.Gui
             }  
         }
 
+
         /// <summary>
         /// A la fermeture de la fenetre
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Fermer(object sender, EventArgs e)
+        private void Fermer(object sender, CancelEventArgs e)
         {
-            try
+           
+            try 
             {
-                this.db.Dispose();
-                if (this.closeButton)
-                    Close();
+                e.Cancel = true;
+                if (close == 1)
+                {
+                    this.db.Dispose();
+                    e.Cancel = false;
+                }
+                else
+                {
+                    MessageBoxResult res = MessageBox.Show("Êtes-vous sur de vouloirs quitter sans enregistrer ?", "Attention", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        this.db.Dispose();
+                        e.Cancel = false;
+                    }
+                } 
             }
             catch (IOException a)
             {
@@ -152,7 +167,7 @@ namespace TraiteurBernardWPF.Gui
         {
             try
             {
-                Fermer(sender, e);
+                Close();
             }
             catch (IOException a)
             {
@@ -244,6 +259,11 @@ namespace TraiteurBernardWPF.Gui
                 LogHelper.WriteToFile(a.Message, "SaisieCreerSoirWpf.xaml.cs");
                 throw a;
             } 
+        }
+
+        private void edition_Closing(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }
