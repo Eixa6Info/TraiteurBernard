@@ -610,7 +610,7 @@ namespace TraiteurBernardWPF.Gui
                             int m = leJourDeLivraison.Month;
                             int y = leJourDeLivraison.Year;
 
-                            background.AddDate(new DateTime(y, m, j), "circle");
+                            background.AddDate(new DateTime(y, m, j), "circle",true);
 
                             calendar.Background = background.GetBackground();
 

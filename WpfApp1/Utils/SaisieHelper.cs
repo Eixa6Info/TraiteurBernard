@@ -113,7 +113,7 @@ namespace TraiteurBernardWPF.Utils
 
             // Combobox pour le libelle des baguetes
             libelleBaguetteCombobox = new List<string>() { "Solene", "Blanche" };
-            
+
             // Combobox pour le libelle des baguetes
             quantiteBaguetteCombobox = new List<ComboData>() { new ComboData { Id = 0, Value = "0" }, new ComboData { Id = -1, Value = "1/2 (Demi)" }, new ComboData { Id = 1, Value = "1/1 (Entière)" } };
         }
@@ -124,7 +124,7 @@ namespace TraiteurBernardWPF.Utils
         public void SetAllToZero()
         {
             // Pour tous les types
-            foreach(Saisie saisie in this.saisieList)
+            foreach (Saisie saisie in this.saisieList)
             {
                 for (int i = 0; i < this.types.Length; i++)
                 {
@@ -182,12 +182,12 @@ namespace TraiteurBernardWPF.Utils
                 {
                     Libelle = libelle,
                     Modifie = false,
-                    Quantite = new int[] { 
+                    Quantite = new int[] {
                         SaisieData.PLAT_MIDI_1,
-                        SaisieData.PLAT_MIDI_2, 
-                        SaisieData.PLAT_MIDI_3, 
+                        SaisieData.PLAT_MIDI_2,
+                        SaisieData.PLAT_MIDI_3,
                         SaisieData.BAGUETTE
-                    }.Contains(this.types[i]) 
+                    }.Contains(this.types[i])
                     // Si il manque un menu, on met tout a zéro
                     || this.IsEmptyMenu(saisie.Semaine, saisie.Jour) ? 0 : 1,
                     Sauce = false,
@@ -258,7 +258,7 @@ namespace TraiteurBernardWPF.Utils
 
                     (this.grid.FindName("date" + colonne) as Label).Content = this.FirstDateOfWeekISO8601(this.Edite.Annee, this.Edite.Semaine).AddDays(jour).ToString("dd/MM/yyyy");
 
-               
+
                 ++jour;
                 bool l = IsEmptyMenu(saisie.Semaine, saisie.Jour);
                 // Pour tous les types (de saisiedata)
@@ -283,7 +283,7 @@ namespace TraiteurBernardWPF.Utils
                     if (new int[] { SaisieData.POTAGE, SaisieData.ENTREE_MIDI, SaisieData.DESSERT_MIDI }.Contains(this.types[i]))
                         comboBox.ItemsSource = quantiteAvecSoirCombobox;
                     // Si non on met les combobox normals
-                    else if(SaisieData.BAGUETTE == this.types[i])
+                    else if (SaisieData.BAGUETTE == this.types[i])
                         comboBox.ItemsSource = quantiteBaguetteCombobox;
                     else
                         comboBox.ItemsSource = quantiteSansSoirCombobox;
@@ -301,7 +301,7 @@ namespace TraiteurBernardWPF.Utils
                     });
 
                     Console.WriteLine("Le truck que je sais pas: " + l);
-                    if(l == true)
+                    if (l == true)
                     {
                         comboBox.SetBinding(ComboBox.IsEnabledProperty, new Binding("Libelle")
                         {
@@ -311,7 +311,7 @@ namespace TraiteurBernardWPF.Utils
                             Converter = new IsEnableConverter()
                         });
                     }
-                 
+
                     // Ajout de la combobox à la grille
                     this.grid.Children.Add(comboBox);
 
@@ -435,7 +435,8 @@ namespace TraiteurBernardWPF.Utils
                     }
 
                     // Pour les baguettes on genere une combobox 
-                    if (SaisieData.BAGUETTE == this.types[i]) {
+                    if (SaisieData.BAGUETTE == this.types[i])
+                    {
                         ComboBox comboBox1 = new ComboBox
                         {
                             Width = 105,
@@ -448,7 +449,7 @@ namespace TraiteurBernardWPF.Utils
 
 
                         comboBox1.ItemsSource = libelleBaguetteCombobox;
-               
+
                         // On positionne la combobox dans la grille
                         comboBox1.SetValue(Grid.ColumnProperty, colonne);
                         comboBox1.SetValue(Grid.RowProperty, ligne);
@@ -489,7 +490,9 @@ namespace TraiteurBernardWPF.Utils
                         // Ajout de la combobox à la grille
                         this.grid.Children.Add(comboBox1);
 
-                    } else {
+                    }
+                    else
+                    {
                         // ##### GENERATION DES TEXTBOXS POUR LE 
                         TextBox textBox = new TextBox()
                         {
@@ -513,7 +516,7 @@ namespace TraiteurBernardWPF.Utils
                             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                         });
 
-                        
+
 
                         // On créait un multibinding pour envoyer des informations au converter qui va s'occuper de générer
                         // une couleur on fonction des propriétés de la saisiedata

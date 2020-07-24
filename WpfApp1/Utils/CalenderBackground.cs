@@ -11,6 +11,7 @@ namespace TraiteurBernardWPF.Utils
 {
     class CalenderBackground
     {
+        private static bool startDate;
         private readonly List<Dates> datelist = new List<Dates>();
         private readonly List<Overlays> overlaylist = new List<Overlays>();
         public string grayoutweekends { get; set; }
@@ -41,12 +42,13 @@ namespace TraiteurBernardWPF.Utils
             overlaylist.Add(new Overlays(_id, _filename));
         }
 
-        public void AddDate(DateTime _date, string _overlay)
+        public void AddDate(DateTime _date, string _overlay, bool _debut)
         {
+            startDate = _debut;
             datelist.Add(new Dates(_date, _overlay));
         }
 
-        public void RemoveDate(DateTime _date, string _overlay)
+        public void RemoveDate(DateTime _date, string _overlay, bool _debut)
         {
             datelist.Remove(new Dates(_date, _overlay));
         }
@@ -85,8 +87,20 @@ namespace TraiteurBernardWPF.Utils
                 for (int y = 0; y < 6; y++)
                     for (int x = 0; x < 7; x++)
                     {
-                        int xpos = ((x * 22) + 27) - 22;
-                        int ypos = y * 15 + 60;
+                        int xpos = 0;
+                        int ypos = 0;
+                        if (startDate == true)
+                        {
+                            xpos = ((x * 22) + 27) - 22;
+                            ypos = y * 15 + 45;
+                        }
+                        else
+                        {
+                            xpos = ((x * 22) + 27) - 22;
+                            ypos = y * 15 + 60;
+                        }
+                        //int xpos = ((x * 22) + 27) - 22;
+                        //int ypos = y * 15 + 60;
                         if (y == 2) ypos -= 1;
                         if (y == 3) ypos -= 2;
                         if (y == 4) ypos -= 2;
@@ -145,6 +159,7 @@ namespace TraiteurBernardWPF.Utils
 
             public DateTime date { get; set; }
             public string overlay { get; set; }
+          
         }
 
         private class Overlays

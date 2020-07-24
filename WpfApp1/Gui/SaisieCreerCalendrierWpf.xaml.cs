@@ -25,7 +25,7 @@ namespace TraiteurBernardWPF.Gui
         private BaseContext db;
         private Saisie Edite { get; set; }
         private int[] IDs;
-        CalenderBackground background;
+        CalenderBackground background = new CalenderBackground();
         private int semaineDisplay;
         private int anneeDisplay;
         private Personne personne;
@@ -91,11 +91,13 @@ namespace TraiteurBernardWPF.Gui
                 IQueryable<Livraison> reqLiv = from t in db.Livraisons
                                                select t;
 
-
+                int newMois = 0;
+                int oldMois = 0;
                 foreach (Saisie p in req)
                 {
                         
                     List<int> reqJourDeSaisie = SaisieDAO.SaisiePourUneJournee(db, personne, p.Annee, p.Semaine, p.Jour);
+                   
                     // on calcule la sommes dans la liste
                     if (reqJourDeSaisie.Sum() > 0)
                     {
@@ -105,9 +107,29 @@ namespace TraiteurBernardWPF.Gui
                         DateTime JourDeSaisie = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(p.Annee, p.Semaine, resJour);
                         resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(semaineDisplay, anneeDisplay);
                         DateTime JourDAffichage = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(anneeDisplay, semaineDisplay, "lundi");
-                        calendar.SelectedDates.Add(JourDeSaisie);
-                        background.AddDate(JourDeSaisie, "trait");
-
+                        //calendar.SelectedDates.Add(JourDeSaisie);
+                        oldMois = JourDeSaisie.Month;
+                        if (newMois == 0)
+                        {
+                            newMois = oldMois;
+                        }
+                        if ((resJour == "Lundi" && JourDAffichage.Day == 1) || newMois == oldMois)
+                        {
+                            background.AddDate(JourDeSaisie, "trait", true);
+                            Console.WriteLine("je suis a true");
+                        }
+                        else
+                        {
+                            background.AddDate(JourDeSaisie, "trait", false);
+                            if (newMois != oldMois)
+                            {
+                                newMois = oldMois;
+                            }
+                            
+                            Console.WriteLine("Je suis a false");
+                        }
+                        
+                        Console.WriteLine("la date -> " + JourDeSaisie.ToString());
                         calendar.DisplayDate = new DateTime(JourDAffichage.Year, JourDAffichage.Month, JourDAffichage.Day);
 
                         DateTime leJourDeLivraison;
@@ -122,9 +144,16 @@ namespace TraiteurBernardWPF.Gui
                             // Afficher sur le calendrier les jours de livraison par rapport au saisie
                             leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
                         }
-                            
 
-                        background.AddDate(leJourDeLivraison, "circle");
+                        if (resJour == "lundi" && JourDAffichage.Day == 01)
+                        {
+                            background.AddDate(leJourDeLivraison, "circle", true);
+                        }
+                        else
+                        {
+                            background.AddDate(leJourDeLivraison, "circle",false);
+                        }
+                        
 
                         calendar.Background = background.GetBackground();
 

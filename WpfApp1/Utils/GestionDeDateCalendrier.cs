@@ -117,13 +117,20 @@ namespace TraiteurBernardWPF.Utils
             dictDays.Add("jeudi", DayOfWeek.Thursday);
             dictDays.Add("vendredi", DayOfWeek.Friday);
             dictDays.Add("samedi", DayOfWeek.Saturday);
+            
 
             DateTime value = new DateTime(year, 1, 1).AddDays(7 * weekNumber);
 
             int daysToAdd = 0;
             DayOfWeek day;
+            Console.WriteLine("le day " + dayWeek);
+            if (dayWeek == "Dimanche")
+            {
+                dayWeek = "dimanche";
+            }
+            dictDays.TryGetValue(dayWeek.ToLower(), out day);
 
-            if (dictDays.TryGetValue(dayWeek.ToLower(), out day).Equals(DayOfWeek.Sunday))
+            if (day == DayOfWeek.Sunday)
             {
                 daysToAdd = 7 - Convert.ToInt32(value.DayOfWeek);
             }
