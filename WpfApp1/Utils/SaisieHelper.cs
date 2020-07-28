@@ -247,7 +247,7 @@ namespace TraiteurBernardWPF.Utils
         public void GenerateControls()
         {
             int ligne = 0 + this.ligneDepart, colonne = 0 + this.colonneDepart, jour = 0;
-
+            int tabindex = 0;
             // Pour toutes les saisies
             foreach (Saisie saisie in this.saisieList)
             {
@@ -262,11 +262,41 @@ namespace TraiteurBernardWPF.Utils
                 ++jour;
                 bool l = IsEmptyMenu(saisie.Semaine, saisie.Jour);
                 // Pour tous les types (de saisiedata)
+
+                if (tabindex == 57)
+                {
+                    tabindex = 2;
+                }
+                else if (tabindex == 58)
+                {
+                    tabindex = 3;
+                }
+                else if (tabindex == 59)
+                {
+                    tabindex = 4;
+                }
+                else if (tabindex == 60)
+                {
+                    tabindex = 5;
+                }
+                else if (tabindex == 61)
+                {
+                    tabindex = 6;
+                }
+                else if (tabindex == 62)
+                {
+                    tabindex = 7;
+                }
+                else
+                {
+                    tabindex = 1;
+                }
+
                 for (int i = 0; i < this.types.Length; i++)
                 {
                     // On récupère la saisiedata associée au type
                     SaisieData saisieData = saisie.data.First(s => s.Type == this.types[i]);
-
+                    
                     // ##### GENERATION DES COMBOBOXS POUR LA QUANTITE
                     ComboBox comboBox = new ComboBox
                     {
@@ -277,6 +307,7 @@ namespace TraiteurBernardWPF.Utils
                         VerticalAlignment = VerticalAlignment.Top,
                         DisplayMemberPath = "Value",
                         SelectedValuePath = "Id",
+                        
                     };
 
                     // Si le type est potage ou entree midi ou dessert midi on met les combobox avec option soir
@@ -291,7 +322,10 @@ namespace TraiteurBernardWPF.Utils
                     // On positionne la combobox dans la grille
                     comboBox.SetValue(Grid.ColumnProperty, colonne);
                     comboBox.SetValue(Grid.RowProperty, ligne);
-
+                    
+                    comboBox.TabIndex = tabindex;
+                    Console.WriteLine("le tab " + comboBox.TabIndex.ToString());
+                    tabindex = tabindex + 7;
                     // On lie la valeur séléctionné à la propriété 'Quantite' de la saisiedata courante
                     comboBox.SetBinding(ComboBox.SelectedValueProperty, new Binding("Quantite")
                     {
@@ -314,6 +348,7 @@ namespace TraiteurBernardWPF.Utils
 
                     // Ajout de la combobox à la grille
                     this.grid.Children.Add(comboBox);
+                    //tabindex = tabindex + 7;
 
                     if (new int[] { SaisieData.ENTREE_MIDI, SaisieData.ENTREE_SOIR }.Contains(this.types[i]))
                     {
@@ -550,6 +585,7 @@ namespace TraiteurBernardWPF.Utils
                     ligne++;
 
                 }
+                
                 colonne++;
                 ligne = 0 + this.ligneDepart;
             }
