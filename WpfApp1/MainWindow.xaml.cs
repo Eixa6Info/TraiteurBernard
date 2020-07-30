@@ -803,5 +803,15 @@ namespace TraiteurBernardWPF
                 return;
             }
         }
+
+        private void MenuItem_Facture_ClientAPAMSA_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MenuItem_Facture_Client_Normal_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
