@@ -329,6 +329,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DAO\LivraisonDAO.cs" />
+    <Compile Include="DAO\PersonneDAO.cs" />
     <Compile Include="Gui\BoiteDialogueCompoWpf.xaml.cs">
       <DependentUpon>BoiteDialogueCompoWpf.xaml</DependentUpon>
     </Compile>
@@ -346,6 +347,7 @@
     <Compile Include="PDF\CreatePDFClient.cs" />
     <Compile Include="PDF\CreatePDFCuisineMarennes.cs" />
     <Compile Include="PDF\CreatePDFCuisine.cs" />
+    <Compile Include="PDF\CreatePDFFacturation.cs" />
     <Compile Include="PDF\CreatePDFJambon.cs" />
     <Compile Include="Utils\AnnivClient.cs" />
     <Compile Include="Utils\CalenderBackground.cs" />
