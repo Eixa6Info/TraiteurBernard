@@ -51,7 +51,7 @@
                             <MenuItem Header="_Tournées sauf Marennes" Click="MenuItem_Saisies_Pdf_Click"/>
                             <MenuItem Header="_Tournée Marennes" Click="MenuItem_Saisies_PdfMarennes_Click"/>
                         </MenuItem>
-                        <MenuItem Header="_Génerer PDF composition" Click="MenuItem_Saisies_Pdf5Feuilles_Click">
+                        <MenuItem Header="_Génerer PDF composition" >
                             <MenuItem Header="_Tournées sauf Marennes" Click="MenuItem_Saisies_Pdf5Feuilles_Click"/>
                             <MenuItem Header="_Tournée Marennes" Click="MenuItem_Saisies_Pdf5FeuillesMarennse_Click"/>
                         </MenuItem>
