@@ -371,13 +371,13 @@ namespace TraiteurBernardWPF.Modele
                                 // Dans le cas du dessert du midi on affiche le dessert du soir dans le libelle
                                 case DESSERT_MIDI:
                                     (this.forceChange, this.Libelle) = (true, MenuDao.GetPlatFromTypeWeekAndDay(Plat.DESSERT_SOIR, this.Saisie.Semaine, this.Saisie.Jour));
-                                  /*  Console.WriteLine(annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour));
+                                  
                                     if(annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour))
                                     {
 
                                         this.forceChange = true;
                                         this.Libelle += " + Portion anniversaire";
-                                    }*/
+                                    }
                                     break;
                             }
                         }
