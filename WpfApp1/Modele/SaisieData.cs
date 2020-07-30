@@ -220,12 +220,12 @@ namespace TraiteurBernardWPF.Modele
             var menuDessertMidi = "";
             if (this.Saisie.Personne.Tournee.ID == 3)
             {
-                menuDessertMidi = MenuDao.GetPlatFromTypeWeekAndDay(type, this.Saisie.Semaine, this.Saisie.Jour + 1) + " + Portion anniversaire";
+                menuDessertMidi = MenuDao.GetPlatFromTypeWeekAndDay(customType ? type : type - 1, this.Saisie.Semaine, this.Saisie.Jour + 1) + " + Portion anniversaire";
                 anniv = annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour + 1);
             }
             else
             {
-                menuDessertMidi = MenuDao.GetPlatFromTypeWeekAndDay(type, this.Saisie.Semaine, this.Saisie.Jour) + " + Portion anniversaire";
+                menuDessertMidi = MenuDao.GetPlatFromTypeWeekAndDay(customType ? type : type - 1, this.Saisie.Semaine, this.Saisie.Jour) + " + Portion anniversaire";
                 anniv = annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour);
             }
             
@@ -371,6 +371,13 @@ namespace TraiteurBernardWPF.Modele
                                 // Dans le cas du dessert du midi on affiche le dessert du soir dans le libelle
                                 case DESSERT_MIDI:
                                     (this.forceChange, this.Libelle) = (true, MenuDao.GetPlatFromTypeWeekAndDay(Plat.DESSERT_SOIR, this.Saisie.Semaine, this.Saisie.Jour));
+                                  /*  Console.WriteLine(annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour));
+                                    if(annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour))
+                                    {
+
+                                        this.forceChange = true;
+                                        this.Libelle += " + Portion anniversaire";
+                                    }*/
                                     break;
                             }
                         }
