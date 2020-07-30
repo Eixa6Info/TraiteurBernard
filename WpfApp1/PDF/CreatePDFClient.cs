@@ -14,6 +14,7 @@ using System.Text;
 using TraiteurBernardWPF.DAO;
 using TraiteurBernardWPF.Data;
 using TraiteurBernardWPF.Modele;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.PDF
 {
@@ -43,6 +44,7 @@ namespace TraiteurBernardWPF.PDF
         private static int semaine;
         private static int semaineN1;
         private static int personneIdRecup;
+        private static Personne personne;
         private static string nom;
         private static string tel;
         private static bool calculSemaine = true;
@@ -84,6 +86,8 @@ namespace TraiteurBernardWPF.PDF
             CreatePDFClient.tel = personne.Telephone;
 
             CreatePDFClient.personneIdRecup = personne.ID;
+
+            CreatePDFClient.personne = personne;
 
 
             // Si c'est pour la saisie ou le menu
@@ -935,24 +939,33 @@ namespace TraiteurBernardWPF.PDF
         private static void printSaisie(string tournee1, string tournee2, int annee, int semaine, bool composition = false)
         {
             BaseContext db = new BaseContext();
-         
+          //  AnnivClient annivClient = new AnnivClient();
+
             // Pour tous les jours on récupère toutes les saisies et toutes les saisies data 
             // de ce même jour
             for (int jour = 1; jour < 8; jour++)
             {
                 double column = columnSpace * jour;
                 List<Saisie> saisiesList;
+            //    bool anniv = false;
                 
                 // Les saisies
                 if (calculSemaine == false)
                 {
                     saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee(tournee1, tournee2, annee, semaineN1, jour, db);
+                    //anniv = annivClient.AnnvClientSaisie(CreatePDFClient.personne, annee, semaineN1, jour);
+                    
+                    
                 }
                 else
                 {
                     saisiesList = SaisieDAO.getAllFromYearWeekDayForTournee(tournee1, tournee2, annee, semaine, jour, db);
+                   // anniv = annivClient.AnnvClientSaisie(CreatePDFClient.personne, annee, semaine, jour);
+                  
                 }
-
+                
+                
+                
                 // Les données des saisies
                 List<SaisieData> saisiesDatas = new List<SaisieData>();
              
@@ -1013,6 +1026,14 @@ namespace TraiteurBernardWPF.PDF
                                     libelle = "Fromage";
                                 }
                             }
+
+                           /* if (anniv == true)
+                            {
+                                if (sd.Type == 6)
+                                {
+                                    libelle = libelle + " Gateau anniversaire";
+                                }
+                            }*/
                             repasIntituleQuantite.Add(libelle, quantite);
                         }
 

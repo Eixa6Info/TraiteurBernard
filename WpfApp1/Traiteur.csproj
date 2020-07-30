@@ -347,6 +347,7 @@
     <Compile Include="PDF\CreatePDFCuisineMarennes.cs" />
     <Compile Include="PDF\CreatePDFCuisine.cs" />
     <Compile Include="PDF\CreatePDFJambon.cs" />
+    <Compile Include="Utils\AnnivClient.cs" />
     <Compile Include="Utils\CalenderBackground.cs" />
     <Compile Include="Utils\GestionDeDateCalendrier.cs" />
     <Compile Include="Utils\GestionFichier.cs" />

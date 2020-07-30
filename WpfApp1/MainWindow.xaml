@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TraiteurBernardWPF"
         mc:Ignorable="d"
-        Title="Portage des repas" Height="500" Width="1000" Closing="Window_Closing">
+        Title="Portage des repas" Height="500" Width="1000" Closing="Window_Closing" Loaded="Window_Load">
 
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
@@ -42,7 +42,7 @@
                     <MenuItem Header="_Créer" Click="MenuItem_Menus_Creer_Click"/>
                     <MenuItem Header="_Lister" Click="MenuItem_Menus_Lister_Click" />
                     <MenuItem Header="_Génerer PDF" Click="MenuItem_Menus_Pdf_Click" />
-                </MenuItem> 
+                </MenuItem>
                 <MenuItem Header="_Saisies">
                     <MenuItem Header="_Créer / Modifier" Click="MenuItem_Saisies_Creer_Click"/>
                     <MenuItem Header="_Créer par tournée" Click="MenuItem_Saisies_Creer_Tournee_Click"/>
@@ -70,5 +70,15 @@
 
         </DockPanel>
         <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" Margin="10,0,2,0" VerticalAlignment="Stretch"/>
+        <Label  x:Name="annivLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="30,94,0,0" Grid.Row="1" VerticalAlignment="Top" Width="228" Height="30" FontSize="18" FontWeight="Bold"/>
+        <ListView x:Name="annivListBox" Grid.Column="1" HorizontalAlignment="Left" Height="226" Margin="30,94,0,0" Grid.Row="1" VerticalAlignment="Top" Width="228">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label x:Name="DateLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="30,19,0,0" Grid.Row="1" VerticalAlignment="Top" Width="242" FontSize="24" FontWeight="Bold"/>
+        <Label x:Name="TimeLabel" Grid.Column="1" HorizontalAlignment="Left" Margin="30,51,0,0" Grid.Row="1" VerticalAlignment="Top" Width="242" FontSize="24" FontWeight="Bold"/>
     </Grid>
 </Window>

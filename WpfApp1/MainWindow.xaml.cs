@@ -25,6 +25,10 @@ using com.sun.tools.apt;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
+using javax.sound.midi;
+using java.sql;
+using System.Globalization;
+using System.Windows.Threading;
 
 namespace TraiteurBernardWPF
 {
@@ -36,6 +40,7 @@ namespace TraiteurBernardWPF
     public partial class MainWindow : Window
     {
         int i = 0;
+        AnnivClient annivClient = new AnnivClient();
         public void CréationDuFichierXml()
         {
             XElement root = new XElement("nas",
@@ -84,6 +89,43 @@ namespace TraiteurBernardWPF
                 }
 
             }
+        }
+
+        private void Window_Load(object sender, RoutedEventArgs e)
+        {
+            
+            List<Personne> listAnnivPersonne = annivClient.AnnvClientAll();
+            String anniv = "";
+
+            foreach(var p in listAnnivPersonne)
+            {
+                annivListBox.Items.Add(p.ToString());
+            }
+
+            if(annivListBox.Items.Count != 0)
+            {
+                annivLabel.Content = "Anniversaire de : ";
+            }
+            else
+            {
+                annivLabel.Content = "Il n'y a pas d'anniversaire ";
+            }
+            InitLiveTimeLabel();
+        }
+
+        private void InitLiveTimeLabel()
+        {
+            // Date
+            DispatcherTimer LiveTime = new DispatcherTimer();
+            LiveTime.Interval = TimeSpan.FromSeconds(1);
+            LiveTime.Tick += timer_Tick;
+            LiveTime.Start();
+        }
+        void timer_Tick(object sender, EventArgs e)
+        {
+            DateTime date = DateTime.Now;
+            TimeLabel.Content = date.ToString("HH:mm", CultureInfo.CreateSpecificCulture("fr-FR"));
+            DateLabel.Content = date.ToString("dddd dd MMMM yyyy", CultureInfo.CreateSpecificCulture("fr-FR"));
         }
 
         private void DeleteTypeTournee()

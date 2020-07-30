@@ -26,6 +26,8 @@ namespace TraiteurBernardWPF.Utils
         public static Personne per;
         public static int semaine;
 
+        AnnivClient annivClient = new AnnivClient();
+
         private List<Saisie> saisieList;
 
         private List<ComboData> quantiteAvecSoirCombobox; // ComboBox pour le potage et l'entrée
@@ -173,15 +175,40 @@ namespace TraiteurBernardWPF.Utils
         /// <param name="saisie"></param>
         private void PopulateSaiseData(Saisie saisie)
         {
+          
             // Pour tous les types
             for (int i = 0; i < this.types.Length; i++)
             {
                 string libelle = MenuDao.GetPlatFromTypeWeekAndDay(this.typesBis[i], saisie.Semaine, saisie.Jour);
+                bool modifie = false;
                 if (this.types[i] == SaisieData.FROMAGE) libelle = "Fromage";
+                if (saisie.Personne.Tournee.ID == 3)
+                {
+                    if (annivClient.AnnvClientSaisie(saisie.Personne, saisie.Annee, saisie.Semaine, saisie.Jour + 1) == true)
+                    {
+                        if (this.types[i] == SaisieData.DESSERT_MIDI)
+                        {
+                            modifie = true;
+                            libelle = libelle + " + Portion anniversaire";
+                        }
+                    }
+                }
+                else
+                {
+                    if (annivClient.AnnvClientSaisie(saisie.Personne, saisie.Annee, saisie.Semaine, saisie.Jour) == true)
+                    {
+                        if (this.types[i] == SaisieData.DESSERT_MIDI)
+                        {
+                            modifie = true;
+                            libelle = libelle + " + Portion anniversaire";
+                        }
+                    }
+                }
+
                 SaisieData saisieData = new SaisieData
                 {
                     Libelle = libelle,
-                    Modifie = false,
+                    Modifie = modifie,
                     Quantite = new int[] {
                         SaisieData.PLAT_MIDI_1,
                         SaisieData.PLAT_MIDI_2,
@@ -324,7 +351,7 @@ namespace TraiteurBernardWPF.Utils
                     comboBox.SetValue(Grid.RowProperty, ligne);
                     
                     comboBox.TabIndex = tabindex;
-                    Console.WriteLine("le tab " + comboBox.TabIndex.ToString());
+                    
                     tabindex = tabindex + 7;
                     // On lie la valeur séléctionné à la propriété 'Quantite' de la saisiedata courante
                     comboBox.SetBinding(ComboBox.SelectedValueProperty, new Binding("Quantite")
@@ -334,7 +361,6 @@ namespace TraiteurBernardWPF.Utils
                         UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                     });
 
-                    Console.WriteLine("Le truck que je sais pas: " + l);
                     if (l == true)
                     {
                         comboBox.SetBinding(ComboBox.IsEnabledProperty, new Binding("Libelle")
@@ -550,8 +576,6 @@ namespace TraiteurBernardWPF.Utils
                             Mode = BindingMode.TwoWay,
                             UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
                         });
-
-
 
                         // On créait un multibinding pour envoyer des informations au converter qui va s'occuper de générer
                         // une couleur on fonction des propriétés de la saisiedata

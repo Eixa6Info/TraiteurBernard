@@ -15,6 +15,7 @@ using GregorianCalendar = System.Globalization.GregorianCalendar;
 using Calendar = System.Globalization.Calendar;
 using System.IO;
 using TraiteurBernardWPF.DAO;
+using System.Reflection;
 
 namespace TraiteurBernardWPF.Gui
 {
@@ -557,7 +558,9 @@ namespace TraiteurBernardWPF.Gui
             try
             {
                 background = new CalenderBackground(calendar);
-                background.AddOverlay("circle", Properties.Resources.imgCircle);
+                var outPutDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+                background.AddOverlay("trait", new Uri(Path.Combine(outPutDirectory, "Assets\\trait.png")).LocalPath);
+                background.AddOverlay("circle", new Uri(Path.Combine(outPutDirectory, "Assets\\circle.png")).LocalPath);
                 calendar.SelectedDates.Clear();
                 DataGrid gd = (DataGrid)sender;
                 row_selected = gd.SelectedItem as Personne;
@@ -599,10 +602,10 @@ namespace TraiteurBernardWPF.Gui
                             DateTime JourDeSaisie = GestionDeDateCalendrier.TrouverDateAvecNumJourEtNumSemaine(p.Annee, p.Semaine, resJour);
                             resMois = GestionDeDateCalendrier.TrouverLeMoisAvecNumSemaine(p.Semaine, p.Annee);
 
-                            calendar.SelectedDates.Add(JourDeSaisie);
+                            
                             //calendar.SelectedDates.Add(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day));
                             calendar.DisplayDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-
+                            background.AddDate(JourDeSaisie, "trait", true);
                             // Afficher sur le calendrier les jours de livraison par rapport au saisie
                             DateTime leJourDeLivraison = LivraisonDAO.JourDeLivraisonCal(p.Tournee.Nom, p.Annee, p.Semaine, JourDeSaisie);
 

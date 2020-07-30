@@ -7,11 +7,13 @@ using System.Data.Entity;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TraiteurBernardWPF.DAO;
+using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.Modele
 {
     public class SaisieData : INotifyPropertyChanged
     {
+        AnnivClient annivClient = new AnnivClient();
         public const int BAGUETTE = -1;
         public const int POTAGE = 0;
         public const int ENTREE_MIDI = 1;
@@ -214,26 +216,71 @@ namespace TraiteurBernardWPF.Modele
 
         private string GetDefaultValue(int type, bool customType = false)
         {
-            switch (this.Type)
+            bool anniv;
+            var menuDessertMidi = "";
+            if (this.Saisie.Personne.Tournee.ID == 3)
             {
-                case BAGUETTE:
-                case POTAGE:
-                case ENTREE_MIDI:
-                case PLAT_MIDI_1:
-                case PLAT_MIDI_2:
-                case PLAT_MIDI_3:
-                    return MenuDao.GetPlatFromTypeWeekAndDay(type, this.Saisie.Semaine, this.Saisie.Jour);
-                case FROMAGE:
-                    return "Fromage";
-                case DESSERT_MIDI:
-                case ENTREE_SOIR:
-                case PLAT_SOIR_1:
-                case DESSERT_SOIR:
-                    // Si c'est pas un type customisé alors c'est les types de bases, on fait donc (-1) pour eviter le décalage des ID
-                    return MenuDao.GetPlatFromTypeWeekAndDay(customType ? type : type - 1, this.Saisie.Semaine, this.Saisie.Jour);
-                default:
-                    return "erreur";
+                menuDessertMidi = MenuDao.GetPlatFromTypeWeekAndDay(type, this.Saisie.Semaine, this.Saisie.Jour + 1) + " + Portion anniversaire";
+                anniv = annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour + 1);
             }
+            else
+            {
+                menuDessertMidi = MenuDao.GetPlatFromTypeWeekAndDay(type, this.Saisie.Semaine, this.Saisie.Jour) + " + Portion anniversaire";
+                anniv = annivClient.AnnvClientSaisie(this.Saisie.Personne, this.Saisie.Annee, this.Saisie.Semaine, this.Saisie.Jour);
+            }
+            
+           
+            if (anniv == true)
+            {
+                
+
+                switch (this.Type)
+                {
+                    case BAGUETTE:
+                    case POTAGE:
+                    case ENTREE_MIDI:
+                    case PLAT_MIDI_1:
+                    case PLAT_MIDI_2:
+                    case PLAT_MIDI_3:
+                        return MenuDao.GetPlatFromTypeWeekAndDay(type, this.Saisie.Semaine, this.Saisie.Jour);
+                    case FROMAGE:
+                        return "Fromage";
+                    case DESSERT_MIDI:
+                        this.Modifie = true;
+                        return menuDessertMidi;
+                    case ENTREE_SOIR:
+                    case PLAT_SOIR_1:
+                    case DESSERT_SOIR:
+                        // Si c'est pas un type customisé alors c'est les types de bases, on fait donc (-1) pour eviter le décalage des ID
+                        return MenuDao.GetPlatFromTypeWeekAndDay(customType ? type : type - 1, this.Saisie.Semaine, this.Saisie.Jour);
+                    default:
+                        return "erreur";
+                }
+            }
+            else
+            {
+                switch (this.Type)
+                {
+                    case BAGUETTE:
+                    case POTAGE:
+                    case ENTREE_MIDI:
+                    case PLAT_MIDI_1:
+                    case PLAT_MIDI_2:
+                    case PLAT_MIDI_3:
+                        return MenuDao.GetPlatFromTypeWeekAndDay(type, this.Saisie.Semaine, this.Saisie.Jour);
+                    case FROMAGE:
+                        return "Fromage";
+                    case DESSERT_MIDI:
+                    case ENTREE_SOIR:
+                    case PLAT_SOIR_1:
+                    case DESSERT_SOIR:
+                        // Si c'est pas un type customisé alors c'est les types de bases, on fait donc (-1) pour eviter le décalage des ID
+                        return MenuDao.GetPlatFromTypeWeekAndDay(customType ? type : type - 1, this.Saisie.Semaine, this.Saisie.Jour);
+                    default:
+                        return "erreur";
+                }
+            }
+            
         }
 
 
@@ -275,7 +322,6 @@ namespace TraiteurBernardWPF.Modele
                             this.Modifie = false;
                             break;
                         }
-
                                                
                         // Si la quantité est >= 10, ça veut dire qu'on est sur un plat du soir et qu'on essaye de changer la valeur,
                         // on met donc la quantité à 1 et le flag Modifie à true
