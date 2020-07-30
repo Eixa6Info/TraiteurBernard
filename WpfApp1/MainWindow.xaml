@@ -60,6 +60,10 @@
                     <MenuItem Header="_Génerer PDF par clients" Click="MenuItem_Saisies_Pdf_Client_Click" />
                     <MenuItem Header="_Génerer les compositions" Click="MenuItem_Saisies_PdfCompositions_Click" />
                 </MenuItem>
+                <MenuItem Header="_Facturation">
+                    <MenuItem Header="_Client APA/MSA" Click="MenuItem_Facture_ClientAPAMSA_Click"/>
+                    <MenuItem Header="_Client" Click="MenuItem_Facture_Client_Normal_Click"/>
+                </MenuItem>
                 <MenuItem Header="_Options" HorizontalAlignment="Right">
                     <MenuItem Header="_Importer un fichier JSON" Click="ImporterJson" /> .
                     <MenuItem Header="_Exporter les Personnes en JSON" Click="ExporterJson" />
