@@ -45,6 +45,13 @@ namespace TraiteurBernardWPF.DAO
             db.Dispose();
             return req;
         }
+        internal static List<Personne> GetPersonnesWithTourneeNotAPANotMSA(int tournee, BaseContext db)
+        {
+            List<Personne> req = (from p in db.Personnes
+                                  where p.Tournee.ID == tournee && p.APA == false && p.MSA == false
+                                  select p).ToList();
+            return req;
+        }
 
     }
 }

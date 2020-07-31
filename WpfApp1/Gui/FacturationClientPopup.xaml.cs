@@ -64,12 +64,12 @@ namespace TraiteurBernardWPF.Gui
                     return;
                 }
 
-                var outputfile = CreatePDFFacturation.Start(595.27563F, 841.8898F, typeTournee, semaineStart, semaineEnd);
+               /* var outputfile = CreatePDFFacturation.Start(595.27563F, 841.8898F, typeTournee, semaineStart, semaineEnd);
                 if (!string.IsNullOrEmpty(outputfile))
                 {
                     System.Diagnostics.Process.Start(outputfile);
                 }
-                Close();
+                Close();*/
             }
             else
             {

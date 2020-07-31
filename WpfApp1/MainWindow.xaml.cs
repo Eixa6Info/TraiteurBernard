@@ -93,16 +93,16 @@ namespace TraiteurBernardWPF
 
         private void Window_Load(object sender, RoutedEventArgs e)
         {
-            
+
             List<Personne> listAnnivPersonne = annivClient.AnnvClientAll();
             String anniv = "";
 
-            foreach(var p in listAnnivPersonne)
+            foreach (var p in listAnnivPersonne)
             {
                 annivListBox.Items.Add(p.ToString());
             }
 
-            if(annivListBox.Items.Count != 0)
+            if (annivListBox.Items.Count != 0)
             {
                 annivLabel.Content = "Anniversaire de : ";
             }
@@ -578,7 +578,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf(1, DateTime.Now.Year) ;
+                SaisieCreerPopupWpf wpfPopup = new SaisieCreerPopupWpf(1, DateTime.Now.Year);
                 WinFormWpf.CornerTopLeftToParent(wpfPopup, this);
                 wpfPopup.ShowDialog();
             }
@@ -600,7 +600,7 @@ namespace TraiteurBernardWPF
         {
             try
             {
-                PdfCreerWpf wpf = new PdfCreerWpf(1,1);
+                PdfCreerWpf wpf = new PdfCreerWpf(1, 1);
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
@@ -747,7 +747,7 @@ namespace TraiteurBernardWPF
                 WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
-            catch(System.IO.IOException a)
+            catch (System.IO.IOException a)
             {
                 LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
                 Console.WriteLine(a.Message);
@@ -793,7 +793,7 @@ namespace TraiteurBernardWPF
             try
             {
                 SaisiePopUpTourneeWpf wpf = new SaisiePopUpTourneeWpf(1, DateTime.Now.Year, null);
-                WinFormWpf.CornerTopLeftToParent(wpf, this);               
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
                 wpf.ShowDialog();
             }
             catch (System.IO.IOException a)
@@ -811,10 +811,18 @@ namespace TraiteurBernardWPF
 
         private void MenuItem_Facture_Client_Normal_Click(object sender, RoutedEventArgs e)
         {
-            FacturationClientPopup wpf = new FacturationClientPopup();
-            WinFormWpf.CornerTopLeftToParent(wpf, this);
-            wpf.ShowDialog();
-          
+            try
+            {
+                PdfFacturationCreeWpf wpf = new PdfFacturationCreeWpf();
+                WinFormWpf.CornerTopLeftToParent(wpf, this);
+                wpf.ShowDialog();
+            }
+            catch (System.IO.IOException a)
+            {
+                LogHelper.WriteToFile(a.Message, "MainWindow.xaml.cs");
+                Console.WriteLine(a.Message);
+                return;
+            }
         }
     }
 }

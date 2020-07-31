@@ -339,6 +339,9 @@
     <Compile Include="Gui\PdfCreerSaisieClient.xaml.cs">
       <DependentUpon>PdfCreerSaisieClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\PdfFacturationCreeWpf.xaml.cs">
+      <DependentUpon>PdfFacturationCreeWpf.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\SaisieCreerCalendrierWpf.xaml.cs">
       <DependentUpon>SaisieCreerCalendrierWpf.xaml</DependentUpon>
     </Compile>
@@ -441,6 +444,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\PdfCreerWpf.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PdfFacturationCreeWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
