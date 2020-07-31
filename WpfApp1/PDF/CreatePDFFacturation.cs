@@ -105,7 +105,22 @@ namespace TraiteurBernardWPF.PDF
                 printSemaineFactureVille1ou2(annee, semaine);
             }
             // print
-            PrintPage();
+
+            var semaineStart = 31;
+            var semaineEnd = 34;
+            int nbrSemaine = semaineEnd - semaineStart;
+            for (int i = 0; i < semaineEnd - semaineStart; i += 3)
+            {
+                if (nbrSemaine >= 3)
+                {
+                    PrintPage(3);
+                    nbrSemaine -= 3;
+                }
+                else
+                {
+                    PrintPage(nbrSemaine);
+                }
+            }
 
 
             //Saving the document
@@ -120,6 +135,120 @@ namespace TraiteurBernardWPF.PDF
             return output;
         }
 
+        private static void PrintPage(int nombreDeSemaines)
+        {
+            getDocument();
+
+            double y = 100;
+            double x = 0;
+
+
+            List<string> listOfStrings = new List<string> { "client1", "client2", "client3", "client4", "client5", "client6", "client7", "client8" };
+
+
+            int nombreDeClients = listOfStrings.Count;
+            int hauteurClient = 3;
+
+            int largeurNom = 15;
+
+            double largeurSemaine = (100 - 15) / 3;
+
+            int hauteurHeader = 5;
+            int hauteurSubHeader = 4;
+            var customMaxX = nombreDeSemaines * largeurSemaine + largeurNom;
+            var customMaxY = 100 - hauteurHeader - hauteurSubHeader - nombreDeClients * hauteurClient;
+
+            // cadre horizontal haut
+            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+            // cadre vertical gauche
+            drawLine(getX(0), getX(0), getY(y), getY(customMaxY));
+
+            y -= hauteurHeader;
+            // ligne horizontal header
+            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+            // ligne vertical colonne noms
+            x += largeurNom;
+            drawLine(getX(x), getX(x), getY(100), getY(customMaxY));
+            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "Orange = APA", 10), getMiddelofYBetweenTowPoint(y + hauteurHeader, y, NORMAL, 10), "Orange = APA", 0, 0, 0);
+
+            // ligne horizontal sub header
+            y -= hauteurSubHeader;
+            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "NOMS", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "NOMS", 0, 0, 0);
+
+            var largeurSupp = largeurSemaine * 0.55;
+            var largeurMidi = largeurSemaine * 0.15;
+            var largeurSoir = largeurSemaine * 0.15;
+            var largeurBag = largeurSemaine * 0.15;
+
+            // écriture des mots statiques
+            for (int i = 0; i < nombreDeSemaines; i++)
+            {
+                // header
+                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x, x + largeurSemaine, BOLD, "Semaine " + i, 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader + hauteurHeader, y + hauteurSubHeader, NORMAL, 10), "Semaine " + i, 0, 0, 0);
+
+                // colonne SUPP
+                x += largeurSupp;
+                drawLine(getX(x), getX(x), getY(y + hauteurSubHeader), getY(customMaxY));
+                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurSupp, x, BOLD, "SUPP", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "SUPP", 0, 0, 0);
+
+                // colonne MIDI
+                x += largeurMidi;
+                drawLine(getX(x), getX(x), getY(y + hauteurSubHeader), getY(customMaxY));
+                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurMidi, x, BOLD, "MIDI", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "MIDI", 0, 0, 0);
+
+                // colonne SOIR
+                x += largeurSoir;
+                drawLine(getX(x), getX(x), getY(y + hauteurSubHeader), getY(customMaxY));
+                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurSoir, x, BOLD, "SOIR", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "SOIR", 0, 0, 0);
+
+                // colonne BAG
+                x += largeurBag;
+                drawLine(getX(x), getX(x), getY(y + hauteurSubHeader + hauteurHeader), getY(customMaxY));
+                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurBag, x, BOLD, "BAG", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "BAG", 0, 0, 0);
+            }
+
+
+
+            // remplissage avec des données
+            foreach (string theString in listOfStrings)
+            {
+                x = 0;
+                y -= hauteurClient;
+                x += largeurNom;
+                // ligne horizontal du client
+                drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+
+                // remplir 'NOMS'
+                PrintTextBetweenTowPoint(theString, getX(0), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+
+                // 
+                for (int i = 0; i < nombreDeSemaines; i++)
+                {
+
+
+                    // remplir 'SUPP'
+                    x += largeurSupp;
+                    PrintTextBetweenTowPoint("a", getX(x - largeurSupp), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+
+                    // remplir 'MIDI'
+                    x += largeurMidi;
+                    PrintTextBetweenTowPoint("b", getX(x - largeurMidi), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+
+                    // remplir 'SOIR'
+                    x += largeurSoir;
+                    PrintTextBetweenTowPoint("c", getX(x - largeurSoir), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+
+                    // remplir 'BAG'
+                    x += largeurBag;
+                    PrintTextBetweenTowPoint("d", getX(x - largeurBag), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+                }
+            }
+
+
+            //Close de la page
+            contentStream.close();
+        }
         private static void printSemaineFactureContrTournee(int annee, int semaine)
         {
             BaseContext db = new BaseContext();
