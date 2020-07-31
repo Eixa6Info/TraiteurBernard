@@ -811,7 +811,10 @@ namespace TraiteurBernardWPF
 
         private void MenuItem_Facture_Client_Normal_Click(object sender, RoutedEventArgs e)
         {
-
+            FacturationClientPopup wpf = new FacturationClientPopup();
+            WinFormWpf.CornerTopLeftToParent(wpf, this);
+            wpf.ShowDialog();
+          
         }
     }
 }

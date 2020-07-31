@@ -333,6 +333,9 @@
     <Compile Include="Gui\BoiteDialogueCompoWpf.xaml.cs">
       <DependentUpon>BoiteDialogueCompoWpf.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\FacturationClientPopup.xaml.cs">
+      <DependentUpon>FacturationClientPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\PdfCreerSaisieClient.xaml.cs">
       <DependentUpon>PdfCreerSaisieClient.xaml</DependentUpon>
     </Compile>
@@ -412,6 +415,10 @@
     <Page Include="Gui\ExporterJson.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Gui\FacturationClientPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Gui\ImporterJson.xaml">
       <SubType>Designer</SubType>

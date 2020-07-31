@@ -493,6 +493,15 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à La semaine de fin doit être supérieur ou égale à la semaine de début..
+        /// </summary>
+        internal static string MessagePopUpS2SuperieurS1 {
+            get {
+                return ResourceManager.GetString("MessagePopUpS2SuperieurS1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Le fichier de données est enregistré sur le NAS..
         /// </summary>
         internal static string MessagePopUpSauvegardeLocalToNas {
@@ -516,6 +525,24 @@ namespace TraiteurBernardWPF.Properties {
         internal static string MessagePopUpSemaineHorsAnnee {
             get {
                 return ResourceManager.GetString("MessagePopUpSemaineHorsAnnee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Vous devez renseigner une semaine de début et une semaine de fin..
+        /// </summary>
+        internal static string MessagePopUpSemaines {
+            get {
+                return ResourceManager.GetString("MessagePopUpSemaines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à La tournée est indispensable..
+        /// </summary>
+        internal static string MessagePopUpTournee {
+            get {
+                return ResourceManager.GetString("MessagePopUpTournee", resourceCulture);
             }
         }
         
