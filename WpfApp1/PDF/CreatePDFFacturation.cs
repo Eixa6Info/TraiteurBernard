@@ -46,6 +46,8 @@ namespace TraiteurBernardWPF.PDF
         private static double menuYTopNoDay;
         private static double menuYBottom;
 
+        private static int Annee;
+        private static TypeTournee Tournee;
         private static int Semaine;
         private static Dictionary<int, string> Comment;
         private static bool calculSemaine = true;
@@ -54,7 +56,7 @@ namespace TraiteurBernardWPF.PDF
         private static PDDocument document;
         private static PDPage blankPage;
         private static PDPageContentStream contentStream;
-        private static List<dynamic> ClientListCT = new List<dynamic>();
+
 
         private static PersonnesHelper personnesHelper = new PersonnesHelper();
 
@@ -80,7 +82,8 @@ namespace TraiteurBernardWPF.PDF
             menuYBottom = getY(1);
             Semaine = 1;
             Comment = null;
-
+            Annee = annee;
+            Tournee = tournee;
             namePdf = "Facturation_" + tournee + "_" + annee + ".pdf";
 
             //Demande a l'utilisateur de choisir ou enregistrer    
@@ -92,29 +95,17 @@ namespace TraiteurBernardWPF.PDF
             //Création du document
             document = new PDDocument();
 
-            if (tournee.ID == 3)
-            {
-                printSemaineFactureContrTournee(annee, semaine);
-            }
-            else if (tournee.ID == 4)
-            {
-                printSemaineFactureMarennes(annee, semaine);
-            }
-            else
-            {
-                printSemaineFactureVille1ou2(annee, semaine);
-            }
             // print
 
             var semaineStart = 31;
-            var semaineEnd = 34;
+            var semaineEnd = 36;
             int nbrSemaine = semaineEnd - semaineStart;
-            for (int i = 0; i < semaineEnd - semaineStart; i += 3)
+            for (int i = 0; i < semaineEnd - semaineStart; i += 5)
             {
-                if (nbrSemaine >= 3)
+                if (nbrSemaine >= 5)
                 {
-                    PrintPage(3);
-                    nbrSemaine -= 3;
+                    PrintPage(5);
+                    nbrSemaine -= 5;
                 }
                 else
                 {
@@ -129,35 +120,39 @@ namespace TraiteurBernardWPF.PDF
             //Closing the document
             document.close();
 
-            //vide les listes
-            ClientListCT.Clear();
 
             return output;
         }
 
+        private static int  GetNombreClient()
+        {
+            var db = new BaseContext();
+            var nb = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(Tournee.ID, db).Count;
+            db.Dispose();
+            return nb;
+        }
         private static void PrintPage(int nombreDeSemaines)
         {
             getDocument();
 
+
             double y = 100;
             double x = 0;
 
-
-            List<string> listOfStrings = new List<string> { "client1", "client2", "client3", "client4", "client5", "client6", "client7", "client8" };
-
-
-            int nombreDeClients = listOfStrings.Count;
+            //var db = new BaseContext();
+            int nombreDeClients = GetNombreClient();
             int hauteurClient = 3;
 
-            int largeurNom = 15;
+            int largeurNom = 14;
 
-            double largeurSemaine = (100 - 15) / 3;
+            double largeurSemaine = (100 - 15) / 5;
 
             int hauteurHeader = 5;
             int hauteurSubHeader = 4;
             var customMaxX = nombreDeSemaines * largeurSemaine + largeurNom;
             var customMaxY = 100 - hauteurHeader - hauteurSubHeader - nombreDeClients * hauteurClient;
 
+            int fontSize = 8;
             // cadre horizontal haut
             drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
             // cadre vertical gauche
@@ -168,7 +163,10 @@ namespace TraiteurBernardWPF.PDF
             drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
             // ligne vertical colonne noms
             x += largeurNom;
+            // gras
             drawLine(getX(x), getX(x), getY(100), getY(customMaxY));
+            drawLine(getX(x+0.1), getX(x + 0.1), getY(100), getY(customMaxY));
+
             drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "Orange = APA", 10), getMiddelofYBetweenTowPoint(y + hauteurHeader, y, NORMAL, 10), "Orange = APA", 0, 0, 0);
 
             // ligne horizontal sub header
@@ -176,10 +174,10 @@ namespace TraiteurBernardWPF.PDF
             drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
             drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "NOMS", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "NOMS", 0, 0, 0);
 
-            var largeurSupp = largeurSemaine * 0.55;
-            var largeurMidi = largeurSemaine * 0.15;
-            var largeurSoir = largeurSemaine * 0.15;
-            var largeurBag = largeurSemaine * 0.15;
+            var largeurSupp = largeurSemaine * 0.40;
+            var largeurMidi = largeurSemaine * 0.20;
+            var largeurSoir = largeurSemaine * 0.20;
+            var largeurBag = largeurSemaine * 0.20;
 
             // écriture des mots statiques
             for (int i = 0; i < nombreDeSemaines; i++)
@@ -204,53 +202,58 @@ namespace TraiteurBernardWPF.PDF
 
                 // colonne BAG
                 x += largeurBag;
+                // gras
                 drawLine(getX(x), getX(x), getY(y + hauteurSubHeader + hauteurHeader), getY(customMaxY));
+                drawLine(getX(x+0.1), getX(x+0.1), getY(y + hauteurSubHeader + hauteurHeader), getY(customMaxY));
                 drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurBag, x, BOLD, "BAG", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "BAG", 0, 0, 0);
             }
 
 
 
-            // remplissage avec des données
-            foreach (string theString in listOfStrings)
+            for (int i = 0; i < nombreDeSemaines; i++)
             {
-                x = 0;
-                y -= hauteurClient;
-                x += largeurNom;
-                // ligne horizontal du client
-                drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
 
-                // remplir 'NOMS'
-                PrintTextBetweenTowPoint(theString, getX(0), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
-
-                // 
-                for (int i = 0; i < nombreDeSemaines; i++)
+                foreach (var client in printSemaineFactureContrTournee(Annee, i))
                 {
-
+                    x = 0;
+                    y -= hauteurClient;
+                    x += largeurNom;
+                    // ligne horizontal du client
+                    drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+                    // remplir 'NOMS'
+                    PrintTextBetweenTowPoint(client.Nom.ToString(), getX(0), getX(x), getY(y + hauteurClient / 2), fontSize, NORMAL, 0, 0, 0);
 
                     // remplir 'SUPP'
                     x += largeurSupp;
-                    PrintTextBetweenTowPoint("a", getX(x - largeurSupp), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+                    PrintTextBetweenTowPoint(client.Supp.ToString(), getX(x - largeurSupp), getX(x), getY(y + hauteurClient / 2), fontSize, NORMAL, 0, 0, 0);
 
                     // remplir 'MIDI'
                     x += largeurMidi;
-                    PrintTextBetweenTowPoint("b", getX(x - largeurMidi), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+                    PrintTextBetweenTowPoint(client.Midi.ToString(), getX(x - largeurMidi), getX(x), getY(y + hauteurClient / 2), fontSize, NORMAL, 0, 0, 0);
 
                     // remplir 'SOIR'
                     x += largeurSoir;
-                    PrintTextBetweenTowPoint("c", getX(x - largeurSoir), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+                    PrintTextBetweenTowPoint(client.Soir.ToString(), getX(x - largeurSoir), getX(x), getY(y + hauteurClient / 2), fontSize, NORMAL, 0, 0, 0);
 
                     // remplir 'BAG'
                     x += largeurBag;
-                    PrintTextBetweenTowPoint("d", getX(x - largeurBag), getX(x), getY(y + hauteurClient / 2), 10, NORMAL, 0, 0, 0);
+                    PrintTextBetweenTowPoint(client.Bag.ToString(), getX(x - largeurBag), getX(x), getY(y + hauteurClient / 2), fontSize, NORMAL, 0, 0, 0);
+                    
+
                 }
             }
+
+
+         
 
 
             //Close de la page
             contentStream.close();
         }
-        private static void printSemaineFactureContrTournee(int annee, int semaine)
+
+        static List<dynamic> printSemaineFactureContrTournee(int annee, int semaine)
         {
+            List<dynamic> ClientListCT = new List<dynamic>();
             BaseContext db = new BaseContext();
             int nbMidi = 0;
             int nbSoir = 0;
@@ -272,8 +275,6 @@ namespace TraiteurBernardWPF.PDF
                             saisieDatasDeLaPersonne.Add(sdp);
                         }
                     }
-
-
 
                     for (int repas = -1; repas < 9; repas++)
                     {
@@ -367,15 +368,369 @@ namespace TraiteurBernardWPF.PDF
                 nbSupp = 0;
                 ClientListCT.Add(unClient);
             }
+            return ClientListCT;
         }
 
-        private static void printSemaineFactureMarennes(int annee, int semaine)
+        static List<dynamic> printSemaineFactureMarennes(int annee, int semaine)
         {
+            List<dynamic> ClientListMarennes = new List<dynamic>();
+            BaseContext db = new BaseContext();
+            int nbMidi = 0;
+            int nbSoir = 0;
+            int nbBag = 0;
+            int nbSupp = 0;
+            int calculeTypeMidi = 0;
+            int calculeTypeSoir = 0;
+            List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(4, db);
+            foreach (Personne p in personnes)
+            {
+                for (int jour = 1; jour < 8; jour++)
+                {
+                    List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, "Marennes", null, annee, semaine, jour, db);
+                    List<SaisieData> saisieDatasDeLaPersonne = new List<SaisieData>();
+                    foreach (Saisie saisie in saisiesDeLaPersonneListe)
+                    {
+                        foreach (SaisieData sdp in saisie.data)
+                        {
+                            saisieDatasDeLaPersonne.Add(sdp);
+                        }
+                    }
+
+                    for (int repas = -1; repas < 9; repas++)
+                    {
+
+                        foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisieDatasDeLaPersonne))
+                        {
+                            if (sd.Type == 1 || sd.Type == 2 || sd.Type == 3 || sd.Type == 4 || sd.Type == 6)
+                            {
+                                if (sd.Quantite == 1 || sd.Quantite == 10)
+                                {
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 2 || sd.Quantite == 20)
+                                {
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 3 || sd.Quantite == 30)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 4)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 5)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                            }
+                            if (sd.Type == 7 || sd.Type == 8 || sd.Type == 9)
+                            {
+                                if (sd.Quantite == 1)
+                                {
+                                    calculeTypeSoir++;
+                                }
+                                else if (sd.Quantite == 2)
+                                {
+                                    nbSupp++;
+                                    calculeTypeSoir++;
+                                }
+                                else if (sd.Quantite == 3)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeSoir++;
+                                }
+                            }
+                            if (sd.Type == -1)
+                            {
+                                if (sd.Quantite == 1 || sd.Quantite == -1)
+                                {
+                                    nbBag++;
+                                }
+                            }
+                        }
+                    }
+
+                    if (calculeTypeMidi == 3)
+                    {
+                        nbMidi++;
+                    }
+                    if (calculeTypeSoir == 3)
+                    {
+                        nbSoir++;
+                    }
+                    calculeTypeMidi = 0;
+                    calculeTypeSoir = 0;
+                }
+                object unClient = new
+                {
+                    Nom = p.Nom,
+                    Couleur = p.Couleur,
+                    Supp = nbSupp,
+                    Midi = nbMidi,
+                    Soir = nbSoir,
+                    Bag = nbBag,
+                };
+                nbMidi = 0;
+                nbSoir = 0;
+                nbBag = 0;
+                nbSupp = 0;
+                ClientListMarennes.Add(unClient);
+
+            }
+            return ClientListMarennes;
+        }
+
+        static List<dynamic> printSemaineFactureVille1(int annee, int semaine)
+        {
+            List<dynamic> ClientListVille1 = new List<dynamic>();
+            BaseContext db = new BaseContext();
+            int nbMidi = 0;
+            int nbSoir = 0;
+            int nbBag = 0;
+            int nbSupp = 0;
+            int calculeTypeMidi = 0;
+            int calculeTypeSoir = 0;
+            List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(1, db);
+            foreach (Personne p in personnes)
+            {
+                for (int jour = 1; jour < 8; jour++)
+                {
+                    List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, "ville 1", null, annee, semaine, jour, db);
+                    List<SaisieData> saisieDatasDeLaPersonne = new List<SaisieData>();
+                    foreach (Saisie saisie in saisiesDeLaPersonneListe)
+                    {
+                        foreach (SaisieData sdp in saisie.data)
+                        {
+                            saisieDatasDeLaPersonne.Add(sdp);
+                        }
+                    }
+
+                    for (int repas = -1; repas < 9; repas++)
+                    {
+
+                        foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisieDatasDeLaPersonne))
+                        {
+                            if (sd.Type == 1 || sd.Type == 2 || sd.Type == 3 || sd.Type == 4 || sd.Type == 6)
+                            {
+                                if (sd.Quantite == 1 || sd.Quantite == 10)
+                                {
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 2 || sd.Quantite == 20)
+                                {
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 3 || sd.Quantite == 30)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 4)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 5)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                            }
+                            if (sd.Type == 7 || sd.Type == 8 || sd.Type == 9)
+                            {
+                                if (sd.Quantite == 1)
+                                {
+                                    calculeTypeSoir++;
+                                }
+                                else if (sd.Quantite == 2)
+                                {
+                                    nbSupp++;
+                                    calculeTypeSoir++;
+                                }
+                                else if (sd.Quantite == 3)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeSoir++;
+                                }
+                            }
+                            if (sd.Type == -1)
+                            {
+                                if (sd.Quantite == 1 || sd.Quantite == -1)
+                                {
+                                    nbBag++;
+                                }
+                            }
+                        }
+                    }
+
+                    if (calculeTypeMidi == 3)
+                    {
+                        nbMidi++;
+                    }
+                    if (calculeTypeSoir == 3)
+                    {
+                        nbSoir++;
+                    }
+                    calculeTypeMidi = 0;
+                    calculeTypeSoir = 0;
+                }
+                object unClient = new
+                {
+                    Nom = p.Nom,
+                    Couleur = p.Couleur,
+                    Supp = nbSupp,
+                    Midi = nbMidi,
+                    Soir = nbSoir,
+                    Bag = nbBag,
+                };
+                nbMidi = 0;
+                nbSoir = 0;
+                nbBag = 0;
+                nbSupp = 0;
+                ClientListVille1.Add(unClient);
+            }
+            return ClientListVille1;
 
         }
 
-        private static void printSemaineFactureVille1ou2(int annee, int semaine)
+        static List<dynamic> printSemaineFactureVille2(int annee, int semaine)
         {
+            List<dynamic> ClientListVille2 = new List<dynamic>();
+            BaseContext db = new BaseContext();
+            int nbMidi = 0;
+            int nbSoir = 0;
+            int nbBag = 0;
+            int nbSupp = 0;
+            int calculeTypeMidi = 0;
+            int calculeTypeSoir = 0;
+            List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(2, db);
+            foreach (Personne p in personnes)
+            {
+                for (int jour = 1; jour < 8; jour++)
+                {
+                    List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, "ville 2", null, annee, semaine, jour, db);
+                    List<SaisieData> saisieDatasDeLaPersonne = new List<SaisieData>();
+                    foreach (Saisie saisie in saisiesDeLaPersonneListe)
+                    {
+                        foreach (SaisieData sdp in saisie.data)
+                        {
+                            saisieDatasDeLaPersonne.Add(sdp);
+                        }
+                    }
+
+                    for (int repas = -1; repas < 9; repas++)
+                    {
+
+                        foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisieDatasDeLaPersonne))
+                        {
+                            if (sd.Type == 1 || sd.Type == 2 || sd.Type == 3 || sd.Type == 4 || sd.Type == 6)
+                            {
+                                if (sd.Quantite == 1 || sd.Quantite == 10)
+                                {
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 2 || sd.Quantite == 20)
+                                {
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 3 || sd.Quantite == 30)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 4)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                                else if (sd.Quantite == 5)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeMidi++;
+                                }
+                            }
+                            if (sd.Type == 7 || sd.Type == 8 || sd.Type == 9)
+                            {
+                                if (sd.Quantite == 1)
+                                {
+                                    calculeTypeSoir++;
+                                }
+                                else if (sd.Quantite == 2)
+                                {
+                                    nbSupp++;
+                                    calculeTypeSoir++;
+                                }
+                                else if (sd.Quantite == 3)
+                                {
+                                    nbSupp++;
+                                    nbSupp++;
+                                    calculeTypeSoir++;
+                                }
+                            }
+                            if (sd.Type == -1)
+                            {
+                                if (sd.Quantite == 1 || sd.Quantite == -1)
+                                {
+                                    nbBag++;
+                                }
+                            }
+                        }
+                    }
+
+                    if (calculeTypeMidi == 3)
+                    {
+                        nbMidi++;
+                    }
+                    if (calculeTypeSoir == 3)
+                    {
+                        nbSoir++;
+                    }
+                    calculeTypeMidi = 0;
+                    calculeTypeSoir = 0;
+                }
+                object unClient = new
+                {
+                    Nom = p.Nom,
+                    Couleur = p.Couleur,
+                    Supp = nbSupp,
+                    Midi = nbMidi,
+                    Soir = nbSoir,
+                    Bag = nbBag,
+                };
+                nbMidi = 0;
+                nbSoir = 0;
+                nbBag = 0;
+                nbSupp = 0;
+                ClientListVille2.Add(unClient);
+            }
+            return ClientListVille2;
 
         }
 
