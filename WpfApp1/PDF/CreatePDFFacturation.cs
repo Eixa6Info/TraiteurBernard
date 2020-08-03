@@ -57,6 +57,7 @@ namespace TraiteurBernardWPF.PDF
         private static PDPage blankPage;
         private static PDPageContentStream contentStream;
 
+        private static int nombreClientParListe = 29;
 
         private static PersonnesHelper personnesHelper = new PersonnesHelper();
 
@@ -100,7 +101,10 @@ namespace TraiteurBernardWPF.PDF
             var semaineStart = 31;
             var semaineEnd = 36;
             int nbrSemaine = semaineEnd - semaineStart;
-            for (int i = 0; i < semaineEnd - semaineStart; i += 5)
+
+            PrintPages(nbrSemaine);
+
+           /* for (int i = 0; i < semaineEnd - semaineStart; i += 5)
             {
                 if (nbrSemaine >= 5)
                 {
@@ -111,7 +115,7 @@ namespace TraiteurBernardWPF.PDF
                 {
                     PrintPage(nbrSemaine);
                 }
-            }
+            }*/
 
 
             //Saving the document
@@ -131,17 +135,47 @@ namespace TraiteurBernardWPF.PDF
             db.Dispose();
             return nb;
         }
-        private static void PrintPage(int nombreDeSemaines)
+
+        private static void PrintPages(int nbrSemaines)
+        {
+            int nombreDeClients = GetNombreClient();
+            int nombreClientsParPage = nombreClientParListe;
+
+            for(int i = 0; i < nombreDeClients; i+=nombreClientsParPage)
+            {
+                // methode qui coupe liste
+                if(nombreDeClients - i >= nombreClientsParPage)
+                {
+                    PrintPage(1, i, i + nombreClientsParPage);
+                }
+                else
+                {
+                    PrintPage(1, i, nombreDeClients - i);
+
+                }
+            }
+
+        }
+
+        private static List<dynamic> GetData()
+        {
+
+            return null;
+
+        }
+
+        private static void PrintPage(int nombreDeSemaines, int start, int end)
         {
             getDocument();
+
+         
 
 
             double y = 100;
             double x = 0;
 
             //var db = new BaseContext();
-            int nombreDeClients = GetNombreClient();
-            int hauteurClient = 3;
+           
 
             int largeurNom = 14;
 
@@ -149,18 +183,26 @@ namespace TraiteurBernardWPF.PDF
 
             int hauteurHeader = 5;
             int hauteurSubHeader = 4;
+
+            double hauteurClient = (100 - hauteurHeader - hauteurSubHeader) / nombreClientParListe;
             var customMaxX = nombreDeSemaines * largeurSemaine + largeurNom;
-            var customMaxY = 100 - hauteurHeader - hauteurSubHeader - nombreDeClients * hauteurClient;
+            var customMaxY = (100 - hauteurHeader - hauteurSubHeader) - nombreClientParListe * hauteurClient;
+
 
             int fontSize = 8;
             // cadre horizontal haut
-            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+            drawLine(getX(0), getX(100), getY(y), getY(y));
+            // cadre horizontal bas
+            drawLine(getX(0), getX(100), getY(customMaxY), getY(customMaxY));
             // cadre vertical gauche
             drawLine(getX(0), getX(0), getY(y), getY(customMaxY));
+            // cadre vertical droite
+            drawLine(getX(100), getX(100), getY(y), getY(customMaxY));
+
 
             y -= hauteurHeader;
             // ligne horizontal header
-            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+            drawLine(getX(0), getX(100), getY(y), getY(y));
             // ligne vertical colonne noms
             x += largeurNom;
             // gras
@@ -171,7 +213,7 @@ namespace TraiteurBernardWPF.PDF
 
             // ligne horizontal sub header
             y -= hauteurSubHeader;
-            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+            drawLine(getX(0), getX(100), getY(y), getY(y));
             drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "NOMS", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "NOMS", 0, 0, 0);
 
             var largeurSupp = largeurSemaine * 0.40;
@@ -209,19 +251,26 @@ namespace TraiteurBernardWPF.PDF
             }
 
 
-
+            var currentY = y;
             for (int i = 0; i < nombreDeSemaines; i++)
             {
+                y = currentY;
 
-                foreach (var client in printSemaineFactureContrTournee(Annee, i))
+                foreach (var client in printSemaineFactureContrTournee(Annee, i, start, end))
                 {
                     x = 0;
                     y -= hauteurClient;
                     x += largeurNom;
-                    // ligne horizontal du client
-                    drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
-                    // remplir 'NOMS'
-                    PrintTextBetweenTowPoint(client.Nom.ToString(), getX(0), getX(x), getY(y + hauteurClient / 2), fontSize, NORMAL, 0, 0, 0);
+                    x += i * largeurSemaine;
+
+                    if (i == 0)
+                    {
+                        // ligne horizontal du client
+                        drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+                        // remplir 'NOMS'
+                        PrintTextBetweenTowPoint(client.Nom.ToString(), getX(0), getX(x), getY(y + hauteurClient / 2), fontSize, NORMAL, 0, 0, 0);
+                    }
+                  
 
                     // remplir 'SUPP'
                     x += largeurSupp;
@@ -244,14 +293,14 @@ namespace TraiteurBernardWPF.PDF
             }
 
 
-         
 
+            
 
             //Close de la page
             contentStream.close();
         }
 
-        static List<dynamic> printSemaineFactureContrTournee(int annee, int semaine)
+        static List<dynamic> printSemaineFactureContrTournee(int annee, int semaine, int start, int end)
         {
             List<dynamic> ClientListCT = new List<dynamic>();
             BaseContext db = new BaseContext();
@@ -262,8 +311,13 @@ namespace TraiteurBernardWPF.PDF
             int calculeTypeMidi = 0;
             int calculeTypeSoir = 0;
             List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(3, db);
-            foreach (Personne p in personnes)
+
+            for(int count = start; count < end; count++)
             {
+                if (!(personnes.Count > end)) return null;
+                    
+               var p = personnes[count];
+            
                 for (int jour = 1; jour < 8; jour++)
                 {
                     List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, "contre-tournée", null, annee, semaine, jour, db);
@@ -371,7 +425,7 @@ namespace TraiteurBernardWPF.PDF
             return ClientListCT;
         }
 
-        static List<dynamic> printSemaineFactureMarennes(int annee, int semaine)
+        static List<dynamic> printSemaineFactureMarennes(int annee, int semaine, int start, int end)
         {
             List<dynamic> ClientListMarennes = new List<dynamic>();
             BaseContext db = new BaseContext();
@@ -382,8 +436,11 @@ namespace TraiteurBernardWPF.PDF
             int calculeTypeMidi = 0;
             int calculeTypeSoir = 0;
             List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(4, db);
-            foreach (Personne p in personnes)
+            for (int count = start; count < end; count++)
             {
+                if (!(personnes.Count > end)) return null;
+
+                var p = personnes[count];
                 for (int jour = 1; jour < 8; jour++)
                 {
                     List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, "Marennes", null, annee, semaine, jour, db);
@@ -492,7 +549,7 @@ namespace TraiteurBernardWPF.PDF
             return ClientListMarennes;
         }
 
-        static List<dynamic> printSemaineFactureVille1(int annee, int semaine)
+        static List<dynamic> printSemaineFactureVille1(int annee, int semaine, int start, int end)
         {
             List<dynamic> ClientListVille1 = new List<dynamic>();
             BaseContext db = new BaseContext();
@@ -503,8 +560,11 @@ namespace TraiteurBernardWPF.PDF
             int calculeTypeMidi = 0;
             int calculeTypeSoir = 0;
             List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(1, db);
-            foreach (Personne p in personnes)
+            for (int count = start; count < end; count++)
             {
+                if (!(personnes.Count > end)) return null;
+
+                var p = personnes[count];
                 for (int jour = 1; jour < 8; jour++)
                 {
                     List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, "ville 1", null, annee, semaine, jour, db);
@@ -613,7 +673,7 @@ namespace TraiteurBernardWPF.PDF
 
         }
 
-        static List<dynamic> printSemaineFactureVille2(int annee, int semaine)
+        static List<dynamic> printSemaineFactureVille2(int annee, int semaine, int start, int end)
         {
             List<dynamic> ClientListVille2 = new List<dynamic>();
             BaseContext db = new BaseContext();
@@ -624,8 +684,11 @@ namespace TraiteurBernardWPF.PDF
             int calculeTypeMidi = 0;
             int calculeTypeSoir = 0;
             List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(2, db);
-            foreach (Personne p in personnes)
+            for (int count = start; count < end; count++)
             {
+                if (!(personnes.Count > end)) return null;
+
+                var p = personnes[count];
                 for (int jour = 1; jour < 8; jour++)
                 {
                     List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, "ville 2", null, annee, semaine, jour, db);
