@@ -81,7 +81,7 @@ namespace TraiteurBernardWPF.PDF
             menuYTopNoLivraison = getY(100);
             menuYTopNoDay = getY(99);
             menuYBottom = getY(1);
-            Semaine = 1;
+            Semaine = semaine;
             Comment = null;
             Annee = annee;
             Tournee = tournee;
@@ -98,8 +98,8 @@ namespace TraiteurBernardWPF.PDF
 
             // print
 
-            var semaineStart = 31;
-            var semaineEnd = 36;
+            var semaineStart = semaine;
+            var semaineEnd = semaine + 5;
             int nbrSemaine = semaineEnd - semaineStart;
 
             PrintPages(nbrSemaine);
@@ -146,11 +146,11 @@ namespace TraiteurBernardWPF.PDF
                 // methode qui coupe liste
                 if(nombreDeClients - i >= nombreClientsParPage)
                 {
-                    PrintPage(1, i, i + nombreClientsParPage);
+                    PrintPage(nbrSemaines, i, i + nombreClientsParPage - 1);
                 }
                 else
                 {
-                    PrintPage(1, i, nombreDeClients - i);
+                    PrintPage(nbrSemaines, i, nombreDeClients - 1);
 
                 }
             }
@@ -225,7 +225,7 @@ namespace TraiteurBernardWPF.PDF
             for (int i = 0; i < nombreDeSemaines; i++)
             {
                 // header
-                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x, x + largeurSemaine, BOLD, "Semaine " + i, 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader + hauteurHeader, y + hauteurSubHeader, NORMAL, 10), "Semaine " + i, 0, 0, 0);
+                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x, x + largeurSemaine, BOLD, "Semaine " + ((int)Semaine + i), 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader + hauteurHeader, y + hauteurSubHeader, NORMAL, 10), "Semaine " + ((int)Semaine + i), 0, 0, 0);
 
                 // colonne SUPP
                 x += largeurSupp;
@@ -256,7 +256,7 @@ namespace TraiteurBernardWPF.PDF
             {
                 y = currentY;
 
-                foreach (var client in printSemaineFactureContrTournee(Annee, i, start, end))
+                foreach (var client in printSemaineFactureContrTournee(Annee, Semaine + i, start, end))
                 {
                     x = 0;
                     y -= hauteurClient;
@@ -311,11 +311,11 @@ namespace TraiteurBernardWPF.PDF
             int calculeTypeMidi = 0;
             int calculeTypeSoir = 0;
             List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(3, db);
+            
+            if (personnes.Count - 1 < end) return null;
 
-            for(int count = start; count < end; count++)
+            for (int count = start; count <= end; count++)
             {
-                if (!(personnes.Count > end)) return null;
-                    
                var p = personnes[count];
             
                 for (int jour = 1; jour < 8; jour++)
