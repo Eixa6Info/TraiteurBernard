@@ -48,21 +48,39 @@ namespace TraiteurBernardWPF.Gui
 
         private void Valider(object sender, RoutedEventArgs e)
         {
+            if(txtAnnee.Text == "" || txtSemaine.Text == "")
+            {
+                MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpInfoIndispensableIncorrecte, Properties.Resources.MessagePopUpInfoIndispensableIncorrecte, MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+                return;
+            }
+
             if (short.Parse(txtSemaine.Text) > 52)
             {
                 MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpSemaine, Properties.Resources.MessagePopUpErrorSemaineSup52, MessageBoxButton.OK);
                 WinFormWpf.CenterToParent(wpf, this);
                 wpf.ShowDialog();
+                return;
                 // MessagePopUpErrorSemaineSup52
             }
-            else
+
+            if(cbTournee.SelectedItem as TypeTournee == null)
             {
-                var outputfile = CreatePDFFacturation.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), short.Parse(txtAnnee.Text), cbTournee.SelectedItem as TypeTournee);
-                if (!string.IsNullOrEmpty(outputfile))
-                {
-                    System.Diagnostics.Process.Start(outputfile);
-                }
+                MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpInfoIndispensable, Properties.Resources.MessagePopUpTournee, MessageBoxButton.OK);
+                WinFormWpf.CenterToParent(wpf, this);
+                wpf.ShowDialog();
+                return;
+                
             }
+            
+            Close();
+            var outputfile = CreatePDFFacturation.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), short.Parse(txtAnnee.Text), cbTournee.SelectedItem as TypeTournee);
+            if (!string.IsNullOrEmpty(outputfile))
+            {
+                System.Diagnostics.Process.Start(outputfile);
+            }
+            
         }
         /// <summary>
         /// Verifier le format de la semaine (que des nombres)

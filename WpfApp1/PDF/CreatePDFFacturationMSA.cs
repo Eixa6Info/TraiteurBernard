@@ -25,7 +25,7 @@ using TraiteurBernardWPF.Utils;
 
 namespace TraiteurBernardWPF.PDF
 {
-    class CreatePDFFacturation
+    class CreatePDFFacturationMSA
     {
         /**
             * Variable pour le placement
@@ -71,7 +71,7 @@ namespace TraiteurBernardWPF.PDF
                  * @return boolean
                  * @throws Exception ...
                  */
-        public static string Start(float width, float height, int semaine, int annee, TypeTournee tournee)
+        public static string Start(float width, float height, int annee)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -83,11 +83,9 @@ namespace TraiteurBernardWPF.PDF
             menuYTopNoLivraison = getY(100);
             menuYTopNoDay = getY(99);
             menuYBottom = getY(1);
-            Semaine = semaine;
             Comment = null;
             Annee = annee;
-            Tournee = tournee;
-            namePdf = "Facturation_" + tournee + "_" + annee + ".pdf";
+            namePdf = "Facturation_MSA_" + annee + ".pdf";
 
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
@@ -100,11 +98,8 @@ namespace TraiteurBernardWPF.PDF
 
             // print
 
-            var semaineStart = semaine;
-            var semaineEnd = semaine + 5;
-            int nbrSemaine = semaineEnd - semaineStart;
 
-            PrintPages(nbrSemaine);
+            PrintPage();
 
             //Saving the document
             document.save(output);
@@ -123,10 +118,10 @@ namespace TraiteurBernardWPF.PDF
             return nb;
         }
 
-        private static void PrintPages(int nbrSemaines)
+        private static void PrintPages()
         {
 
-            var data = GetData(nbrSemaines, Annee);
+           /* var data = GetData(nbrSemaines, Annee);
             data = data.OrderBy(d => d.Couleur).ThenBy(d => d.Nom).ToList();
 
             int nombreDeClients = data.Count;
@@ -144,163 +139,159 @@ namespace TraiteurBernardWPF.PDF
                     PrintPage(nbrSemaines, i, nombreDeClients - 1, data);
 
                 }
-            }
+            }*/
 
         }
 
-        private static void PrintPage(int nombreDeSemaines, int start, int end, List<dynamic> data)
+        private static void PrintPage()
         {
             getDocument();
 
             double y = 100;
             double x = 0;
 
-            //var db = new BaseContext();
+            double debutHeader = 90;
 
-            int largeurNom = 14;
+            double espaceTexte = 2;
 
-            double largeurSemaine = (100 - 15) / 5;
+            y = debutHeader;
+            PrintTextBetweenTowPoint("CONSEIL DEPARTEMENTAL DE LA CHARENTE MARITIME", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            PrintTextBetweenTowPoint("Service GSP - Direction de l'automonie", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            PrintTextBetweenTowPoint("85 Bouleward de la République CS 60003", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            PrintTextBetweenTowPoint("17076 LA ROCHELLE CEDEX 9", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            drawText(NORMAL, 10, getX(0), getY(y), "49 route de Meursac", 0, 0, 0);
+            //PrintTextBetweenTowPoint("49 route de Meursac", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            drawText(NORMAL, 10, getX(0), getY(y), "17600 SABLONCEAUX - Tél. 05.46.02.83.62", 0, 0, 0);
+            //PrintTextBetweenTowPoint("17600 SABLONCEAUX - Tél. 05.46.02.83.62", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            drawText(NORMAL, 10, getX(0), getY(y), "SIRET : 878 657 361 00018", 0, 0, 0);
+            //PrintTextBetweenTowPoint("SIRET : 878 657 361 00018", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            drawText(NORMAL, 10, getX(0), getY(y), "APE : 5621Z", 0, 0, 0);
+            //PrintTextBetweenTowPoint("APE : 5621Z", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            drawText(NORMAL, 10, getX(0), getY(y), "E-mail : eric.benard17@orange.fr", 0, 0, 0);
+            y -= espaceTexte;
+            //PrintTextBetweenTowPoint("E-mail : eric.benard17@orange.fr", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+            drawText(NORMAL, 10, getX(0), getY(y), "Internet : www.traiteur-ericbenard.com", 0, 0, 0);
+            y -= espaceTexte;
+            //PrintTextBetweenTowPoint("Internet : www.traiteur-ericbenard.com", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+            y -= espaceTexte;
+            PrintTextBetweenTowPoint("FACTURE APA PORTAGE DE REPAS", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
+            y -= espaceTexte;
+            PrintTextBetweenTowPoint("Juillet 2020 (variable)", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
+            drawText(NORMAL, 10, getX(0), getY(y), "Dat facture ! 30/06/2020", 0, 0, 0);
+            //PrintTextBetweenTowPoint("Dat facture ! 30/06/2020", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
+            y -= espaceTexte;
 
-            int hauteurHeader = 5;
-            int hauteurSubHeader = 4;
+            // horizontales
+            drawLine(getX(0), getX(100), getY(y), getY(y));
+            drawLine(getX(0), getX(100), getY(0), getY(0));
 
-            double hauteurClient = (100 - hauteurHeader - hauteurSubHeader) / nombreClientParListe;
-            var customMaxX = nombreDeSemaines * largeurSemaine + largeurNom;
-            var customMaxY = (100 - hauteurHeader - hauteurSubHeader) - nombreClientParListe * hauteurClient;
+            //verticales
+            drawLine(getX(0), getX(0), getY(y), getY(0));
+            drawLine(getX(100), getX(100), getY(y), getY(0));
 
-            int fontSize = 8;
+            // header
 
-            var largeurSupp = largeurSemaine * 0.40;
-            var largeurMidi = largeurSemaine * 0.20;
-            var largeurSoir = largeurSemaine * 0.20;
-            var largeurBag = largeurSemaine * 0.20;
+            double hauteurHeaderTableau = 4;
+            double largeurBeneficiaire = 100 / 3;
+            double largeurDroitMsa = 100 / 3;
+            double largeurCalculMontant = 100 / 3;
+            double hauteurDeuxiemeHeaderTableau = 12;
+            double largeurNom = largeurBeneficiaire / 2;
+            double largeurPrenom = largeurBeneficiaire / 2;
+            double largeurNbrPortage = largeurBeneficiaire / 4;
+            double largeurMontantMensuel = largeurBeneficiaire / 4;
+            double largeurRepasMidi = largeurBeneficiaire / 4;
+            double largeurRepasSoir = largeurBeneficiaire / 4;
+            double largeurBag = largeurCalculMontant / 3;
+            double largeurNbrPortageEff = largeurCalculMontant / 3;
+            double largeurMontantMSADepar = largeurCalculMontant / 3;
 
-            //var data = GetData(nbrSemaines, Annee, Semaine);
+            double hauteurClient = 3;
+            // PREMIER HEADER BENEFICIAIRES / DROITS MSA / CALCUL DU MONTANT
 
-            var clients = new List<dynamic>();
+            // verticales
+            x = largeurBeneficiaire;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("BENEFICIAIRES", getX(0), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurDroitMsa;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("DROITS MSA", getX(x - largeurBeneficiaire), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurCalculMontant;
+            PrintTextBetweenTowPoint("CALCUL DU MONTANT", getX(x - largeurBeneficiaire), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
 
-            y = y - hauteurHeader - hauteurSubHeader;
+            //horizontale
+            y -= hauteurHeaderTableau;
+            drawLine(getX(0), getX(100), getY(y), getY(y));
 
-            for (int i = 0; i < nombreDeSemaines; i++)
-            {
-                y = 100 - hauteurHeader - hauteurSubHeader;
+            // DEUXIEME HEADER
+            
+            // verticales
+            x = largeurNom;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("Nom", getX(0), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurPrenom;
+            PrintTextBetweenTowPoint("Prénom", getX(x - largeurPrenom), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
 
-                int count = 0;
-                for (int j = start; j <= end; j++)
-                {
-                    var client = data[j];
+            x += largeurNbrPortage;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("Nombre de portage maximum mensuel", getX(x - largeurNbrPortage), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurMontantMensuel;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("Monstant mensuel", getX(x - largeurMontantMensuel), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurRepasMidi;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("Repas midi", getX(x - largeurRepasMidi), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurRepasSoir;
+            PrintTextBetweenTowPoint("Repas soir", getX(x - largeurRepasSoir), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+           
+            x += largeurBag;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("Bag", getX(x - largeurBag), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurNbrPortageEff;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("Nombre de portage effectué", getX(x - largeurNbrPortageEff), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurMontantMSADepar;
+            drawLine(getX(x), getX(x), getY(y), getY(0));
+            PrintTextBetweenTowPoint("Montant APA dû par le département", getX(x - largeurMontantMSADepar), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            //horizontale
+            y -= hauteurDeuxiemeHeaderTableau;
+            drawLine(getX(0), getX(100), getY(y), getY(y));
 
-                    x = 0;
-                    y -= hauteurClient;
-                    x += largeurNom;
-                    x += i * largeurSemaine;
+            // DONNEES
+            // horizontale
+            y -= hauteurClient;
+            drawLine(getX(0), getX(100), getY(y), getY(y));
+            // verticale
+            x = largeurNom;
+            PrintTextBetweenTowPoint("ARLUISON", getX(x - largeurNom), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurPrenom;
+            PrintTextBetweenTowPoint("Georges", getX(x - largeurPrenom), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurNbrPortage;
+            PrintTextBetweenTowPoint("19", getX(x - largeurNbrPortage), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurMontantMensuel;
+            PrintTextBetweenTowPoint("", getX(x - largeurMontantMensuel), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurRepasMidi;
+            PrintTextBetweenTowPoint("31", getX(x - largeurRepasMidi), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurRepasSoir;
+            PrintTextBetweenTowPoint("26", getX(x - largeurRepasSoir), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
 
-                    if (i == 0)
-                    {
-                        contentStream.setNonStrokingColor(client.Couleur.Item1, client.Couleur.Item2, client.Couleur.Item3);
-                        contentStream.fillRect((float)getX(0), (float)getY(y), (float)getX(largeurNom - 1.2), (float)getY(hauteurClient));
-                        // remplir 'NOMS'
-                        PrintTextBetweenTowPoint(client.Nom.ToString(), getX(0), getX(largeurNom), getY(y + hauteurClient / 3), fontSize, NORMAL, 0, 0, 0);
-                    }
 
-                    if (((List<dynamic>)client.Semaines).Any(c => c.Semaine == Semaine + i))
-                    {
-                        var detail = ((List<dynamic>)client.Semaines).Find(c => c.Semaine == Semaine + i);
-                        // remplir 'SUPP'
-                        x += largeurSupp;
-                        PrintTextBetweenTowPoint(detail.Supp.ToString(), getX(x - largeurSupp), getX(x), getY(y + hauteurClient / 3), fontSize, NORMAL, 0, 0, 0);
 
-                        // remplir 'MIDI'
-                        x += largeurMidi;
-                        // surlignage du midi
-                        contentStream.setNonStrokingColor(96, 163, 188);
-                        contentStream.fillRect((float)getX(x - largeurMidi), (float)getY(y), (float)getX(largeurMidi), (float)getY(hauteurClient));
-                        PrintTextBetweenTowPoint(detail.Midi.ToString(), getX(x - largeurMidi), getX(x), getY(y + hauteurClient / 3), fontSize, NORMAL, 0, 0, 0);
 
-                        // remplir 'SOIR'
-                        x += largeurSoir;
-                        // surlignage du soir
-                        contentStream.setNonStrokingColor(164, 176, 190);
-                        contentStream.fillRect((float)getX(x - largeurSoir), (float)getY(y), (float)getX(largeurSoir), (float)getY(hauteurClient));
-                        PrintTextBetweenTowPoint(detail.Soir.ToString(), getX(x - largeurSoir), getX(x), getY(y + hauteurClient / 3), fontSize, NORMAL, 0, 0, 0);
-
-                        // remplir 'BAG'
-                        x += largeurBag;
-                        PrintTextBetweenTowPoint(detail.Bag.ToString(), getX(x - largeurBag), getX(x), getY(y + hauteurClient / 3), fontSize, NORMAL, 0, 0, 0);
-                    }
-
-                }
-            }
-
-            // On dessigne ls traits des clients (masque les couleurs qui debordent
-            y = 100 - hauteurSubHeader - hauteurHeader;
-            for (int i = start; i <= end; i++)
-            {
-                y -= hauteurClient;
-                // ligne horizontal du client
-                drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
-            }
-
-            y = 100;
-            x = 0;
-
-            // cadre horizontal haut
-            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
-            // cadre horizontal bas
-            drawLine(getX(0), getX(customMaxX), getY(customMaxY), getY(customMaxY));
-            // cadre vertical gauche
-            drawLine(getX(0), getX(0), getY(y), getY(customMaxY));
-            // cadre vertical droite
-            // drawLine(getX(100), getX(100), getY(y), getY(customMaxY));
-
-            y -= hauteurHeader;
-            // ligne horizontal header
-            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
-            // ligne vertical colonne noms
-            x += largeurNom;
-            // gras
-            drawLine(getX(x), getX(x), getY(100), getY(customMaxY));
-            drawLine(getX(x + 0.1), getX(x + 0.1), getY(100), getY(customMaxY));
-
-            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "Orange = APA", 10), getMiddelofYBetweenTowPoint(y + hauteurHeader, y, NORMAL, 10), "Orange = APA", 0, 0, 0);
 
             // ligne horizontal sub header
-            y -= hauteurSubHeader;
-            drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
-            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "NOMS", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "NOMS", 0, 0, 0);
+            /*  y -= hauteurSubHeader;
+              drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
+              drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "NOMS", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "NOMS", 0, 0, 0);*/
 
-            // écriture des mots statiques
-            for (int i = 0; i < nombreDeSemaines; i++)
-            {
-                // header
-                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x, x + largeurSemaine, BOLD, "Semaine " + ((int)Semaine + i), 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader + hauteurHeader, y + hauteurSubHeader, NORMAL, 10), "Semaine " + ((int)Semaine + i), 0, 0, 0);
-
-                // colonne SUPP
-                x += largeurSupp;
-                drawLine(getX(x), getX(x), getY(y + hauteurSubHeader), getY(customMaxY));
-                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurSupp, x, BOLD, "SUPP", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "SUPP", 0, 0, 0);
-
-                // colonne MIDI
-                x += largeurMidi;
-                drawLine(getX(x), getX(x), getY(y + hauteurSubHeader), getY(customMaxY));
-                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurMidi, x, BOLD, "MIDI", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "MIDI", 0, 0, 0);
-
-                // colonne SOIR
-                x += largeurSoir;
-                drawLine(getX(x), getX(x), getY(y + hauteurSubHeader), getY(customMaxY));
-                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurSoir, x, BOLD, "SOIR", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "SOIR", 0, 0, 0);
-
-                // colonne BAG
-                x += largeurBag;
-                // gras
-                if (i != nombreDeSemaines)
-                {
-                    drawLine(getX(x), getX(x), getY(y + hauteurSubHeader + hauteurHeader), getY(customMaxY));
-                    drawLine(getX(x + 0.1), getX(x + 0.1), getY(y + hauteurSubHeader + hauteurHeader), getY(customMaxY));
-                }
-
-                drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurBag, x, BOLD, "BAG", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "BAG", 0, 0, 0);
-            }
 
             //Close de la page
             contentStream.close();
@@ -484,100 +475,7 @@ namespace TraiteurBernardWPF.PDF
             return data;
         }
 
-        private static void PrintPage()
-        {
-            getDocument();
-
-            // Echelle de la partie des compositions (100 par défaut)
-            var echelle = 100;
-
-            // Valeurs de Y
-            var Y_AU_PLUS_HAUT = 100;
-            var Y_AU_PLUS_BAS = 0;
-
-            // Valeurs de X
-            var X_AU_PLUS_A_GAUCHE = 0;
-            var X_AU_PLUS_A_DROITE = 100;
-
-            // Décalage x et y de la partie des compositions (0 par défaut)
-            var xDecalage = 0;
-            var yDecalage = 0;
-
-            // Paramètres pour le header
-
-            double y = 100;
-            double x = 0;
-
-            // #### CADRE ####
-            // droite et gauche
-            drawLine(getX(0), getX(0), getY(100), getY(0));
-            drawLine(getX(100), getX(100), getY(100), getY(0));
-            // haut et bas
-            drawLine(getX(100), getX(0), getY(y), getY(y));
-            drawLine(getX(100), getX(0), getY(0), getY(0));
-
-            // #### HEADER ####
-            var hauteurDuHeader = 6;
-            y -= hauteurDuHeader;
-            drawLine(getX(0), getX(100), getY(y), getY(y));
-            drawText(BOLD, 10, getMiddelofXBetweenTowPoint(0, 100, BOLD, "Header", 10), getMiddelofYBetweenTowPoint(100, y, BOLD, 10), "Header", 0, 0, 0);
-
-            // #### SUBHEADER ####
-            var hauteurDuSubHeader = 4;
-            y -= hauteurDuSubHeader;
-            drawLine(getX(0), getX(100), getY(y), getY(y));
-
-            // #### COLONNE CLIENT ####
-            var largeurDuClient = 40;
-            x += largeurDuClient;
-            drawLine(getX(x), getX(x), getY(y + hauteurDuSubHeader), getY(0));
-            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "Client", 10), getMiddelofYBetweenTowPoint(y + hauteurDuSubHeader, y, NORMAL, 10), "Client", 0, 0, 0);
-
-            // #### COLONNE AUTRE ####
-            var largeurDeAutre = 40;
-            x += largeurDeAutre;
-            drawLine(getX(x), getX(x), getY(y + hauteurDuSubHeader), getY(0));
-            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurDeAutre, x, BOLD, "Autre", 10), getMiddelofYBetweenTowPoint(y + hauteurDuSubHeader, y, NORMAL, 10), "Autre", 0, 0, 0);
-
-            // #### COLONNE TOTAL ####
-            var largeurTotaux = 20;
-            x += largeurTotaux;
-            drawLine(getX(x), getX(x), getY(y + hauteurDuSubHeader), getY(0));
-            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(x - largeurTotaux, x, BOLD, "Totaux", 10), getMiddelofYBetweenTowPoint(y + hauteurDuSubHeader, y, NORMAL, 10), "Totaux", 0, 0, 0);
-
-            var nombreLignesMax = 10;
-            double hauteurLigne = y / nombreLignesMax;
-
-            List<string> listOfStrings = new List<string> {
-        "Bonjour",
-        "a",
-        "tous",
-        "je",
-        "suis",
-        "un",
-        "simple",
-        "client"
-      };
-            // #### On remplit les cases
-            foreach (string theString in listOfStrings)
-            {
-                x = 0;
-                y -= hauteurLigne;
-                drawLine(getX(X_AU_PLUS_A_DROITE), getX(X_AU_PLUS_A_GAUCHE), getY(y), getY(y));
-                x += largeurDuClient;
-                // Nom client
-                PrintTextBetweenTowPoint(theString, getX(0), getX(x), getY(y + hauteurLigne / 2), 10, NORMAL, 0, 0, 0);
-                x += largeurDeAutre;
-                // Autre case
-                PrintTextBetweenTowPoint("autre", getX(x - largeurDeAutre), getX(x), getY(y + hauteurLigne / 2), 10, NORMAL, 0, 0, 0);
-                x += largeurTotaux;
-                // Totaux client
-                PrintTextBetweenTowPoint("totaux", getX(x - largeurTotaux), getX(x), getY(y + hauteurLigne / 2), 10, NORMAL, 0, 0, 0);
-            }
-
-            //Close de la page
-            contentStream.close();
-        }
+     
 
         private static void PrintTextBetweenTowPoint(String str, double x, double maxX, double y, double fontSize, PDType1Font font, int R, int G, int B)
         {
@@ -585,7 +483,7 @@ namespace TraiteurBernardWPF.PDF
 
             if (x + width < maxX)
             {
-                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFFacturation.maxX * 100), (maxX / CreatePDFFacturation.maxX * 100), font, str, fontSize), y, str, R, G, B);
+                drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFFacturationMSA.maxX * 100), (maxX / CreatePDFFacturationMSA.maxX * 100), font, str, fontSize), y, str, R, G, B);
             }
             else
             {
@@ -652,7 +550,7 @@ namespace TraiteurBernardWPF.PDF
                         if (s.Length > maxLength.Length) maxLength = s;
                     }
 
-                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFFacturation.maxX * 100), (maxX / CreatePDFFacturation.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
+                    drawText(font, fontSize, getMiddelofXBetweenTowPoint((x / CreatePDFFacturationMSA.maxX * 100), (maxX / CreatePDFFacturationMSA.maxX * 100), font, maxLength, fontSize), getY((y / maxY * 100)) + height, strings, R, G, B);
                 }
             }
         }

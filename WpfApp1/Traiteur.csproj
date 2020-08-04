@@ -328,6 +328,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DAO\TourneeDAO.cs" />
     <Compile Include="DAO\LivraisonDAO.cs" />
     <Compile Include="DAO\PersonneDAO.cs" />
     <Compile Include="Gui\BoiteDialogueCompoWpf.xaml.cs">
@@ -353,6 +354,7 @@
     <Compile Include="PDF\CreatePDFClient.cs" />
     <Compile Include="PDF\CreatePDFCuisineMarennes.cs" />
     <Compile Include="PDF\CreatePDFCuisine.cs" />
+    <Compile Include="PDF\CreatePDFFacturationMSA.cs" />
     <Compile Include="PDF\CreatePDFFacturation.cs" />
     <Compile Include="PDF\CreatePDFJambon.cs" />
     <Compile Include="Utils\AnnivClient.cs" />

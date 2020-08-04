@@ -806,7 +806,11 @@ namespace TraiteurBernardWPF
 
         private void MenuItem_Facture_ClientAPAMSA_Click(object sender, RoutedEventArgs e)
         {
-
+            var outputfile = CreatePDFFacturationMSA.Start(595.27563F, 841.8898F, 2020);
+            if (!string.IsNullOrEmpty(outputfile))
+            {
+                System.Diagnostics.Process.Start(outputfile);
+            }
         }
 
         private void MenuItem_Facture_Client_Normal_Click(object sender, RoutedEventArgs e)
