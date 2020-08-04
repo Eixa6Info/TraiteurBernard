@@ -259,7 +259,6 @@ namespace TraiteurBernardWPF.PDF
             drawLine(getX(x), getX(x), getY(y), getY(0));
             PrintTextBetweenTowPoint("Nombre de portage effectué", getX(x - largeurNbrPortageEff), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
             x += largeurMontantMSADepar;
-            drawLine(getX(x), getX(x), getY(y), getY(0));
             PrintTextBetweenTowPoint("Montant APA dû par le département", getX(x - largeurMontantMSADepar), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
             //horizontale
             y -= hauteurDeuxiemeHeaderTableau;
@@ -282,6 +281,12 @@ namespace TraiteurBernardWPF.PDF
             PrintTextBetweenTowPoint("31", getX(x - largeurRepasMidi), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
             x += largeurRepasSoir;
             PrintTextBetweenTowPoint("26", getX(x - largeurRepasSoir), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurBag;
+            PrintTextBetweenTowPoint("7", getX(x - largeurBag), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+            x += largeurNbrPortageEff;
+            PrintTextBetweenTowPoint("19", getX(x - largeurNbrPortageEff), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0); 
+            x += largeurMontantMSADepar;
+            PrintTextBetweenTowPoint("", getX(x - largeurMontantMSADepar), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
 
 
 
