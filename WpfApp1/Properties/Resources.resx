@@ -255,6 +255,9 @@
   <data name="MessagePopUpInfoIndispensableIncorrecte" xml:space="preserve">
     <value>Informations indispensables ou incorrecte</value>
   </data>
+  <data name="MessagePopUpMois" xml:space="preserve">
+    <value>Le mois est indispensable.</value>
+  </data>
   <data name="MessagePopUpNasExistePas" xml:space="preserve">
     <value>Vous n'avez pas accès au NAS voulez-vous travailler en local ?</value>
   </data>

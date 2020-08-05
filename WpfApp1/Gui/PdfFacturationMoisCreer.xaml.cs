@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,13 +23,12 @@ namespace TraiteurBernardWPF.Gui
     /// <summary>
     /// Logique d'interaction pour PdfFacturationCreeWpf.xaml
     /// </summary>
-    public partial class PdfFacturationCreeWpf : Window
+    public partial class PdfFacturationMoisCreeWpf : Window
     {
         private BaseContext db = new BaseContext();
-        public PdfFacturationCreeWpf()
+        public PdfFacturationMoisCreeWpf()
         {
             InitializeComponent();
-            txtSemaine.Text = GestionDeDateCalendrier.TrouverLeNumSemaineAvecMois(DateTime.Now).ToString();
             txtAnnee.Text = DateTime.Now.Year.ToString();
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -44,11 +44,14 @@ namespace TraiteurBernardWPF.Gui
                 data.Add(tt);
             }
             cbTournee.ItemsSource = data;
+
+            var dateFormatInfo = CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat;
+            cbMois.ItemsSource = dateFormatInfo.MonthNames.Take(12).ToArray();
         }
 
         private void Valider(object sender, RoutedEventArgs e)
         {
-            if(txtAnnee.Text == "" || txtSemaine.Text == "")
+            if (txtAnnee.Text == "")
             {
                 MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpInfoIndispensableIncorrecte, Properties.Resources.MessagePopUpInfoIndispensableIncorrecte, MessageBoxButton.OK);
                 WinFormWpf.CenterToParent(wpf, this);
@@ -56,16 +59,15 @@ namespace TraiteurBernardWPF.Gui
                 return;
             }
 
-            if (short.Parse(txtSemaine.Text) > 52)
+            if (cbMois.SelectedItem == null)
             {
-                MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpSemaine, Properties.Resources.MessagePopUpErrorSemaineSup52, MessageBoxButton.OK);
+                MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpInfoIndispensable, Properties.Resources.MessagePopUpMois, MessageBoxButton.OK);
                 WinFormWpf.CenterToParent(wpf, this);
                 wpf.ShowDialog();
                 return;
-                // MessagePopUpErrorSemaineSup52
             }
 
-            if(cbTournee.SelectedItem as TypeTournee == null)
+            if (cbTournee.SelectedItem as TypeTournee == null)
             {
                 MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpInfoIndispensable, Properties.Resources.MessagePopUpTournee, MessageBoxButton.OK);
                 WinFormWpf.CenterToParent(wpf, this);
@@ -73,9 +75,11 @@ namespace TraiteurBernardWPF.Gui
                 return;
                 
             }
+
+            
             
             Close();
-            var outputfile = CreatePDFFacturation.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), short.Parse(txtAnnee.Text), cbTournee.SelectedItem as TypeTournee, checkMsa.IsChecked ?? false, checkApa.IsChecked ?? false);
+            var outputfile = CreatePDFFacturationMSAAPA.Start(595.27563F, 841.8898F, cbTournee.SelectedItem as TypeTournee, short.Parse(txtAnnee.Text), checkMsa.IsChecked ?? false, checkApa.IsChecked ?? false);
             if (!string.IsNullOrEmpty(outputfile))
             {
                 System.Diagnostics.Process.Start(outputfile);

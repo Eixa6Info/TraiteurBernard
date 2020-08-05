@@ -475,6 +475,15 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Le mois est indispensable..
+        /// </summary>
+        internal static string MessagePopUpMois {
+            get {
+                return ResourceManager.GetString("MessagePopUpMois", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Vous n&apos;avez pas accès au NAS voulez-vous travailler en local ?.
         /// </summary>
         internal static string MessagePopUpNasExistePas {

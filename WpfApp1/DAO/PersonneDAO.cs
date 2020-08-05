@@ -53,5 +53,16 @@ namespace TraiteurBernardWPF.DAO
             return req;
         }
 
+        internal static List<Personne> GetPersonneWithTourneeMSA(int tournee)
+        {
+            BaseContext db = new BaseContext();
+
+            List<Personne> req = (from p in db.Personnes
+                                  where p.Tournee.ID == tournee && p.MSA == true
+                                  select p).ToList();
+            db.Dispose();
+            return req;
+        }
+
     }
 }

@@ -340,6 +340,9 @@
     <Compile Include="Gui\PdfCreerSaisieClient.xaml.cs">
       <DependentUpon>PdfCreerSaisieClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Gui\PdfFacturationMoisCreer.xaml.cs">
+      <DependentUpon>PdfFacturationMoisCreer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Gui\PdfFacturationCreeWpf.xaml.cs">
       <DependentUpon>PdfFacturationCreeWpf.xaml</DependentUpon>
     </Compile>
@@ -354,7 +357,7 @@
     <Compile Include="PDF\CreatePDFClient.cs" />
     <Compile Include="PDF\CreatePDFCuisineMarennes.cs" />
     <Compile Include="PDF\CreatePDFCuisine.cs" />
-    <Compile Include="PDF\CreatePDFFacturationMSA.cs" />
+    <Compile Include="PDF\CreatePDFFacturationMSAAPA.cs" />
     <Compile Include="PDF\CreatePDFFacturation.cs" />
     <Compile Include="PDF\CreatePDFJambon.cs" />
     <Compile Include="Utils\AnnivClient.cs" />
@@ -448,6 +451,10 @@
     <Page Include="Gui\PdfCreerWpf.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Gui\PdfFacturationMoisCreer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Gui\PdfFacturationCreeWpf.xaml">
       <SubType>Designer</SubType>

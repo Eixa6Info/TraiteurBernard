@@ -60,6 +60,9 @@ namespace TraiteurBernardWPF.PDF
         private static PDPageContentStream contentStream;
 
         private static int nombreClientParListe = 29;
+        private static bool Msa;
+        private static bool Apa;
+
 
         private static PersonnesHelper personnesHelper = new PersonnesHelper();
 
@@ -71,7 +74,7 @@ namespace TraiteurBernardWPF.PDF
                  * @return boolean
                  * @throws Exception ...
                  */
-        public static string Start(float width, float height, int semaine, int annee, TypeTournee tournee)
+        public static string Start(float width, float height, int semaine, int annee, TypeTournee tournee, bool msa, bool apa)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -88,7 +91,9 @@ namespace TraiteurBernardWPF.PDF
             Annee = annee;
             Tournee = tournee;
             namePdf = "Facturation_" + tournee + "_" + annee + ".pdf";
-
+            Msa = msa;
+            Apa = apa;
+            Console.WriteLine(Msa + " et " + Apa);
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
             {
@@ -331,7 +336,16 @@ namespace TraiteurBernardWPF.PDF
             int nbSupp = 0;
             int calculeTypeMidi = 0;
             int calculeTypeSoir = 0;
-            List<Personne> personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(Tournee.ID, db);
+            
+            List<Personne> personnes = null;
+
+            if(!Msa && !Apa)
+            {
+                personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(Tournee.ID, db);
+            }
+            else {
+                personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(Tournee.ID, db);
+            }
 
             foreach (var p in personnes)
             {
