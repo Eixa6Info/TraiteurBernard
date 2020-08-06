@@ -79,7 +79,7 @@ namespace TraiteurBernardWPF.Gui
             
             
             Close();
-            var outputfile = CreatePDFFacturationMSAAPA.Start(595.27563F, 841.8898F, cbTournee.SelectedItem as TypeTournee, short.Parse(txtAnnee.Text), checkMsa.IsChecked ?? false, checkApa.IsChecked ?? false);
+            var outputfile = CreatePDFFacturationMSAAPA.Start(595.27563F, 841.8898F, cbTournee.SelectedItem as TypeTournee, cbMois.SelectedIndex ,short.Parse(txtAnnee.Text), checkMsa.IsChecked ?? false, checkApa.IsChecked ?? false);
             if (!string.IsNullOrEmpty(outputfile))
             {
                 System.Diagnostics.Process.Start(outputfile);

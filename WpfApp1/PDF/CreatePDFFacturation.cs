@@ -267,7 +267,7 @@ namespace TraiteurBernardWPF.PDF
             drawLine(getX(x), getX(x), getY(100), getY(customMaxY));
             drawLine(getX(x + 0.1), getX(x + 0.1), getY(100), getY(customMaxY));
 
-            drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "Orange = APA", 10), getMiddelofYBetweenTowPoint(y + hauteurHeader, y, NORMAL, 10), "Orange = APA", 0, 0, 0);
+            //drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "Orange = APA", 10), getMiddelofYBetweenTowPoint(y + hauteurHeader, y, NORMAL, 10), "Orange = APA", 0, 0, 0);
 
             // ligne horizontal sub header
             y -= hauteurSubHeader;
@@ -343,8 +343,14 @@ namespace TraiteurBernardWPF.PDF
             {
                 personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(Tournee.ID, db);
             }
-            else {
-                personnes = PersonneDAO.GetPersonnesWithTourneeNotAPANotMSA(Tournee.ID, db);
+            else if(Msa && Apa){
+                personnes = PersonneDAO.GetPersonneWithTourneeMSAAPA(Tournee.ID);
+            } else if (Msa && !Apa)
+            {
+                personnes = PersonneDAO.GetPersonneWithTourneeMSA(Tournee.ID);
+            } else
+            {
+                personnes = PersonneDAO.GetPersonneWithTourneeAPA(Tournee.ID);
             }
 
             foreach (var p in personnes)

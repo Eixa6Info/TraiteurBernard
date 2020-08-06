@@ -64,5 +64,27 @@ namespace TraiteurBernardWPF.DAO
             return req;
         }
 
+        internal static List<Personne> GetPersonneWithTourneeAPA(int tournee)
+        {
+            BaseContext db = new BaseContext();
+
+            List<Personne> req = (from p in db.Personnes
+                                  where p.Tournee.ID == tournee && p.APA == true
+                                  select p).ToList();
+            db.Dispose();
+            return req;
+        }
+
+        internal static List<Personne> GetPersonneWithTourneeMSAAPA(int tournee)
+        {
+            BaseContext db = new BaseContext();
+
+            List<Personne> req = (from p in db.Personnes
+                                  where p.Tournee.ID == tournee && p.APA == true && p.MSA == true
+                                  select p).ToList();
+            db.Dispose();
+            return req;
+        }
+
     }
 }

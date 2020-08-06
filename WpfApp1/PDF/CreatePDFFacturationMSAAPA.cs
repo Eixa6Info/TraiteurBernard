@@ -61,8 +61,9 @@ namespace TraiteurBernardWPF.PDF
         private static bool Msa;
         private static bool Apa;
         private static string Intitule;
+        private static int Mois;
 
-        private static int nombreClientParListe = 1;
+        private static int nombreClientParListe = 29;
 
         private static PersonnesHelper personnesHelper = new PersonnesHelper();
 
@@ -74,7 +75,7 @@ namespace TraiteurBernardWPF.PDF
                  * @return boolean
                  * @throws Exception ...
                  */
-        public static string Start(float width, float height, TypeTournee tournee, int annee, bool msa, bool apa)
+        public static string Start(float width, float height, TypeTournee tournee, int mois, int annee, bool msa, bool apa)
         {
 
             //Récuperation du format de la page en fonction de A3 ou A4
@@ -93,6 +94,7 @@ namespace TraiteurBernardWPF.PDF
             namePdf = "Facturation_" + Intitule + "_" + annee + ".pdf";
             Msa = msa;
             Apa = apa;
+            Mois = mois + 1;
 
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
@@ -161,40 +163,46 @@ namespace TraiteurBernardWPF.PDF
 
             double espaceTexte = 2;
 
-            y = debutHeader;
-            PrintTextBetweenTowPoint("CONSEIL DEPARTEMENTAL DE LA CHARENTE MARITIME", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            PrintTextBetweenTowPoint("Service GSP - Direction de l'automonie", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            PrintTextBetweenTowPoint("85 Bouleward de la République CS 60003", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            PrintTextBetweenTowPoint("17076 LA ROCHELLE CEDEX 9", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            drawText(NORMAL, 10, getX(0), getY(y), "49 route de Meursac", 0, 0, 0);
-            //PrintTextBetweenTowPoint("49 route de Meursac", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            drawText(NORMAL, 10, getX(0), getY(y), "17600 SABLONCEAUX - Tél. 05.46.02.83.62", 0, 0, 0);
-            //PrintTextBetweenTowPoint("17600 SABLONCEAUX - Tél. 05.46.02.83.62", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            drawText(NORMAL, 10, getX(0), getY(y), "SIRET : 878 657 361 00018", 0, 0, 0);
-            //PrintTextBetweenTowPoint("SIRET : 878 657 361 00018", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            drawText(NORMAL, 10, getX(0), getY(y), "APE : 5621Z", 0, 0, 0);
-            //PrintTextBetweenTowPoint("APE : 5621Z", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            drawText(NORMAL, 10, getX(0), getY(y), "E-mail : eric.benard17@orange.fr", 0, 0, 0);
-            y -= espaceTexte;
-            //PrintTextBetweenTowPoint("E-mail : eric.benard17@orange.fr", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
-            drawText(NORMAL, 10, getX(0), getY(y), "Internet : www.traiteur-ericbenard.com", 0, 0, 0);
-            y -= espaceTexte;
-            //PrintTextBetweenTowPoint("Internet : www.traiteur-ericbenard.com", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
-            y -= espaceTexte;
-            PrintTextBetweenTowPoint("FACTURE " + Intitule + " PORTAGE DE REPAS", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
-            y -= espaceTexte;
-            PrintTextBetweenTowPoint("Juillet 2020 (variable)", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
-            drawText(NORMAL, 10, getX(0), getY(y), "Dat facture ! 30/06/2020", 0, 0, 0);
-            //PrintTextBetweenTowPoint("Dat facture ! 30/06/2020", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
-            y -= espaceTexte;
+            // On dessine le header sur la première page seulement
+            if(start == 0)
+            {
+                y = debutHeader;
+                PrintTextBetweenTowPoint("CONSEIL DEPARTEMENTAL DE LA CHARENTE MARITIME", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                PrintTextBetweenTowPoint("Service GSP - Direction de l'automonie", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                PrintTextBetweenTowPoint("85 Bouleward de la République CS 60003", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                PrintTextBetweenTowPoint("17076 LA ROCHELLE CEDEX 9", getX(50), getX(100), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                drawText(NORMAL, 10, getX(0), getY(y), "49 route de Meursac", 0, 0, 0);
+                //PrintTextBetweenTowPoint("49 route de Meursac", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                drawText(NORMAL, 10, getX(0), getY(y), "17600 SABLONCEAUX - Tél. 05.46.02.83.62", 0, 0, 0);
+                //PrintTextBetweenTowPoint("17600 SABLONCEAUX - Tél. 05.46.02.83.62", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                drawText(NORMAL, 10, getX(0), getY(y), "SIRET : 878 657 361 00018", 0, 0, 0);
+                //PrintTextBetweenTowPoint("SIRET : 878 657 361 00018", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                drawText(NORMAL, 10, getX(0), getY(y), "APE : 5621Z", 0, 0, 0);
+                //PrintTextBetweenTowPoint("APE : 5621Z", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                drawText(NORMAL, 10, getX(0), getY(y), "E-mail : eric.benard17@orange.fr", 0, 0, 0);
+                y -= espaceTexte;
+                //PrintTextBetweenTowPoint("E-mail : eric.benard17@orange.fr", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+                drawText(NORMAL, 10, getX(0), getY(y), "Internet : www.traiteur-ericbenard.com", 0, 0, 0);
+                y -= espaceTexte;
+                //PrintTextBetweenTowPoint("Internet : www.traiteur-ericbenard.com", getX(0), getX(30), getY(y), 10, NORMAL, 0, 0, 0);
+                y -= espaceTexte;
+                PrintTextBetweenTowPoint("FACTURE " + Intitule + " PORTAGE DE REPAS", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
+                y -= espaceTexte;
+                PrintTextBetweenTowPoint(System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(CultureInfo.GetCultureInfo("fr-FR").DateTimeFormat.GetMonthName(Mois)) + " 2020", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
+                drawText(NORMAL, 10, getX(0), getY(y), "Date facture : " + DateTime.Now.ToString("dd/MM/yyyy"), 0, 0, 0);
+                //PrintTextBetweenTowPoint("Dat facture ! 30/06/2020", getX(25), getX(75), getY(y), 10, BOLD, 0, 0, 0);
+                y -= espaceTexte;
+            }
+            
+
 
             // horizontales
             drawLine(getX(0), getX(100), getY(y), getY(y));
@@ -230,7 +238,7 @@ namespace TraiteurBernardWPF.PDF
             PrintTextBetweenTowPoint("BENEFICIAIRES", getX(0), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
             x += largeurDroitMsa;
             drawLine(getX(x), getX(x), getY(y), getY(0));
-            PrintTextBetweenTowPoint("DROITS MSA", getX(x - largeurBeneficiaire), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            PrintTextBetweenTowPoint("DROITS " + Intitule, getX(x - largeurBeneficiaire), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
             x += largeurCalculMontant;
             PrintTextBetweenTowPoint("CALCUL DU MONTANT", getX(x - largeurBeneficiaire), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
 
@@ -265,8 +273,15 @@ namespace TraiteurBernardWPF.PDF
             x += largeurNbrPortageEff;
             drawLine(getX(x), getX(x), getY(y), getY(0));
             PrintTextBetweenTowPoint("Nombre de portage effectué", getX(x - largeurNbrPortageEff), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            
+            
+            
             x += largeurMontantMSADepar;
-            PrintTextBetweenTowPoint("Montant APA dû par le département", getX(x - largeurMontantMSADepar), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+            PrintTextBetweenTowPoint("Montant " + Intitule + " dû par le département", getX(x - largeurMontantMSADepar), getX(x), getMiddelofYBetweenTowPoint(y, y - hauteurDeuxiemeHeaderTableau, BOLD, 10), 10, BOLD, 0, 0, 0);
+
+            drawLine(getX(x - largeurMontantMSADepar / 2), getX(x - largeurMontantMSADepar / 2), getY(y - hauteurDeuxiemeHeaderTableau), getY(0));
+
+
             //horizontale
             y -= hauteurDeuxiemeHeaderTableau;
             drawLine(getX(0), getX(100), getY(y), getY(y));
@@ -274,58 +289,97 @@ namespace TraiteurBernardWPF.PDF
             // DONNEES
             // horizontale
 
+            string previousNom = "";
+            string currentNom = "";
+
             for (int j = start; j <= end; j++)
             {
-                var client = data[j];
 
-                y -= hauteurClient;
+                var dataClient = data[j];
+
+                int incrementFamily = 0;
+                bool flag = true;
+
+                dynamic dataClientAdditionFamille = null;
+
+                //dataClientAdditionFamille.Test++;
+
+
+                while (flag)
+                {
+                    y -= hauteurClient;
+
+                    x = largeurNom;
+                    PrintTextBetweenTowPoint(data[j].Nom, getX(x - largeurNom), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                    x += largeurPrenom;
+                    PrintTextBetweenTowPoint(data[j].Prenom, getX(x - largeurPrenom), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                    x += largeurNbrPortage + largeurMontantMensuel + largeurRepasMidi + largeurRepasSoir + largeurBag + largeurNbrPortageEff + largeurMontantMSADepar / 2;
+                    PrintTextBetweenTowPoint(data[j].MontantDepartement.ToString(), getX(x - largeurMontantMSADepar / 2), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                    x = largeurNom + largeurPrenom;
+
+                    if (data.Count > j + ++incrementFamily)
+                    {
+                        //Console.WriteLine(client.Nom + " et " + data[j + incrementFamily].Nom  + " et " + incrementFamily);
+                        if (data[j].Nom != data[j + incrementFamily].Nom)
+                        {
+                            flag = false;
+                        }
+                        else
+                        {
+                            j++;
+                            var nextFamilyMember = data[j];
+                            dataClient = new
+                            {
+                                Nom = nextFamilyMember.Nom,
+                                Prenom = nextFamilyMember.Prenom,
+                                NbPortageMaxMensuel = nextFamilyMember.NbPortageMaxMensuel + dataClient.NbPortageMaxMensuel,
+                                MontantMensuel = nextFamilyMember.MontantMensuel + dataClient.MontantMensuel,
+                                RepasMidi = nextFamilyMember.RepasMidi + dataClient.RepasMidi,
+                                RepasSoir = nextFamilyMember.RepasSoir + dataClient.RepasSoir,
+                                Bag = nextFamilyMember.Bag + dataClient.Bag,
+                                NombrePortageEffectue = nextFamilyMember.NombrePortageEffectue + dataClient.NombrePortageEffectue,
+                                MontantDepartement = nextFamilyMember.MontantDepartement + dataClient.MontantDepartement
+                            };
+
+                        }
+                    }
+                    else
+                    {
+                        flag = false;
+                    }
+
+                  
+                }
+
+
                 drawLine(getX(0), getX(100), getY(y), getY(y));
+
                 // verticale
-                x = largeurNom;
-                PrintTextBetweenTowPoint(client.Nom, getX(x - largeurNom), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
-                x += largeurPrenom;
-                PrintTextBetweenTowPoint(client.Prenom, getX(x - largeurPrenom), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+
                 x += largeurNbrPortage;
-                PrintTextBetweenTowPoint(client.NbPortageMaxMensuel.ToString(), getX(x - largeurNbrPortage), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                PrintTextBetweenTowPoint(dataClient.NbPortageMaxMensuel.ToString(), getX(x - largeurNbrPortage), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient * incrementFamily, BOLD, 10), 10, BOLD, 0, 0, 0);
                 x += largeurMontantMensuel;
-                PrintTextBetweenTowPoint(client.MontantMensuel.ToString(), getX(x - largeurMontantMensuel), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                PrintTextBetweenTowPoint(dataClient.MontantMensuel.ToString(), getX(x - largeurMontantMensuel), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient * incrementFamily, BOLD, 10), 10, BOLD, 0, 0, 0);
                 x += largeurRepasMidi;
-                PrintTextBetweenTowPoint(client.RepasMidi.ToString(), getX(x - largeurRepasMidi), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                PrintTextBetweenTowPoint(dataClient.RepasMidi.ToString(), getX(x - largeurRepasMidi), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient * incrementFamily, BOLD, 10), 10, BOLD, 0, 0, 0);
                 x += largeurRepasSoir;
-                PrintTextBetweenTowPoint(client.RepasSoir.ToString(), getX(x - largeurRepasSoir), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                PrintTextBetweenTowPoint(dataClient.RepasSoir.ToString(), getX(x - largeurRepasSoir), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient * incrementFamily, BOLD, 10), 10, BOLD, 0, 0, 0);
                 x += largeurBag;
-                PrintTextBetweenTowPoint(client.Bag.ToString(), getX(x - largeurBag), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
+                PrintTextBetweenTowPoint(dataClient.Bag.ToString(), getX(x - largeurBag), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient * incrementFamily, BOLD, 10), 10, BOLD, 0, 0, 0);
                 x += largeurNbrPortageEff;
-                PrintTextBetweenTowPoint("19", getX(x - largeurNbrPortageEff), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
-                x += largeurMontantMSADepar;
-                PrintTextBetweenTowPoint("", getX(x - largeurMontantMSADepar), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient, BOLD, 10), 10, BOLD, 0, 0, 0);
-                /*
-                    Nom = p.Nom,
-                    Prenom = p.Prenom,
-                    Couleur = couleur,
-                    NbPortageMaxMensuel = 0,
-                    MontantMensuel = 0,
-                    RepasMidi = nbMidi,
-                    RepasSoir = nbSoir,
-                    Bag = nbBag
-                */
+                PrintTextBetweenTowPoint(dataClient.NombrePortageEffectue.ToString(), getX(x - largeurNbrPortageEff), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient * incrementFamily, BOLD, 10), 10, BOLD, 0, 0, 0);
+               
+                if(incrementFamily >= 2)
+                {
+                    x += largeurMontantMSADepar;
+                    PrintTextBetweenTowPoint(dataClient.MontantDepartement.ToString(), getX(x - largeurMontantMSADepar / 2), getX(x), getMiddelofYBetweenTowPoint(y, y + hauteurClient * incrementFamily, BOLD, 10), 10, BOLD, 0, 0, 0);
+                }
+               
+
             }
 
-
-           
-
-
-
-
-
-            // ligne horizontal sub header
-            /*  y -= hauteurSubHeader;
-              drawLine(getX(0), getX(customMaxX), getY(y), getY(y));
-              drawText(NORMAL, 10, getMiddelofXBetweenTowPoint(0, x, BOLD, "NOMS", 10), getMiddelofYBetweenTowPoint(y + hauteurSubHeader, y, NORMAL, 10), "NOMS", 0, 0, 0);*/
-
-
-                //Close de la page
-                contentStream.close();
+            //Close de la page
+            contentStream.close();
         }
 
         static List<dynamic> GetData()
@@ -350,11 +404,24 @@ namespace TraiteurBernardWPF.PDF
             int nbMidi = 0;
             int nbSoir = 0;
             int nbBag = 0;
+            int nbrPortageEffectue = 0;
+
             int nbSupp = 0;
             int calculeTypeMidi = 0;
             int calculeTypeSoir = 0;
-            //List<Personne> personnes = PersonneDAO.GetPersonneWithTourneeMSA(Tournee.ID);
-            List<Personne> personnes = PersonneDAO.GetPersonneWithTourneeMSA(Tournee.ID);
+
+            List<Personne> personnes = null;
+
+            if(Intitule == "MSA")
+            {
+                 personnes = PersonneDAO.GetPersonneWithTourneeMSA(Tournee.ID);
+            }
+            else
+            {
+                 personnes = PersonneDAO.GetPersonneWithTourneeAPA(Tournee.ID);
+            }
+
+            var joursLivraisons = Tournee.JoursLivraisonsRepas;
 
             foreach (var p in personnes)
             {
@@ -381,15 +448,27 @@ namespace TraiteurBernardWPF.PDF
 
                     }
                 }
-
                 
-                var firstDayOfMonth = new DateTime(2020, 6, 1);
+                var firstDayOfMonth = new DateTime(2020, Mois, 1);
                 var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
                 var incrementDate = firstDayOfMonth;
 
-                for(int i = firstDayOfMonth.Day; i < lastDayOfMonth.Day; i++)
+                //IDictionary<string, int> quantiteLivraison = new Dictionary<string, int>();
+                List<string> livraisons = new List<string> { };
+
+                for (int i = firstDayOfMonth.Day; i < lastDayOfMonth.Day; i++)
                 {
+
+                    string dayOfWeek = incrementDate.ToString("dddd", new System.Globalization.CultureInfo("fr-FR"));
+
+                    if(incrementDate.DayOfWeek == DayOfWeek.Monday)
+                    {
+                        nbrPortageEffectue += livraisons.Count;
+                        livraisons = new List<string> { };
+                    }
+
+                  
 
                     //List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, TourneeDAO.GetStringFromId(Tournee.ID), null, Annee, incrementDate.DayOfYear / 7, incrementDate.Day, db);
                     List<Saisie> saisiesDeLaPersonneListe = SaisieDAO.getAllFromYearWeekDayForTourneeForPersonne(p, TourneeDAO.GetStringFromId(Tournee.ID), null, Annee, GetIso8601WeekOfYear(incrementDate) , (int)incrementDate.DayOfWeek + 1, db);
@@ -476,6 +555,17 @@ namespace TraiteurBernardWPF.PDF
                     {
                         nbSoir++;
                     }
+
+                    if(calculeTypeMidi == 3 || calculeTypeSoir == 3)
+                    {
+                        var detailLivraison = joursLivraisons.First(jl => new string[] { jl.JourRepas1, jl.JourRepas2, jl.JourRepas3 }.Contains(dayOfWeek));
+
+                        if (!livraisons.Contains(detailLivraison.JourLivraison))
+                        {
+                            livraisons.Add(detailLivraison.JourLivraison);
+                        }
+                    }
+
                     calculeTypeMidi = 0;
                     calculeTypeSoir = 0;
 
@@ -487,16 +577,20 @@ namespace TraiteurBernardWPF.PDF
 
                 if (nbSupp > 0 || nbMidi > 0 || nbSoir > 0 || nbBag > 0)
                 {
+                   
+
                     dynamic detailPersonne = new
                     {
                         Nom = p.Nom,
                         Prenom = p.Prenom,
                         Couleur = couleur,
-                        NbPortageMaxMensuel = 0,
+                        NbPortageMaxMensuel = Intitule == "MSA" ? p.MSALivraisonMax : p.APALivraisonMax,
                         MontantMensuel = 0,
                         RepasMidi = nbMidi,
                         RepasSoir = nbSoir,
-                        Bag = nbBag
+                        Bag = nbBag,
+                        NombrePortageEffectue = nbrPortageEffectue,
+                        MontantDepartement = Intitule == "MSA" ? nbrPortageEffectue * 3.14 : nbrPortageEffectue * 3.14
 
                     };
                     data.Add(detailPersonne);
@@ -507,6 +601,7 @@ namespace TraiteurBernardWPF.PDF
                 nbBag = 0;
                 nbSupp = 0;
                 couleur = (255, 255, 255);
+                nbrPortageEffectue = 0;
 
 
             }
