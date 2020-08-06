@@ -394,11 +394,29 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Impossible de générer un PDF avec les données actuelles..
+        /// </summary>
+        internal static string MessagePopUpDonnes {
+            get {
+                return ResourceManager.GetString("MessagePopUpDonnes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Problème avec le fichier de données ! Contacter EIXA6 Informatique.
         /// </summary>
         internal static string MessagePopUpEixa6Alerte {
             get {
                 return ResourceManager.GetString("MessagePopUpEixa6Alerte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Données manquantes..
+        /// </summary>
+        internal static string MessagePopUpErrorDonnes {
+            get {
+                return ResourceManager.GetString("MessagePopUpErrorDonnes", resourceCulture);
             }
         }
         

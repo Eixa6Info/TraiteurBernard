@@ -96,19 +96,24 @@ namespace TraiteurBernardWPF.PDF
             Apa = apa;
             Mois = mois + 1;
 
+            var data = GetData();
+
+            if (data.Count == 0)
+            {
+                return "pas de données";
+            }
+
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
             {
                 return "";
             }
 
+
             //Création du document
             document = new PDDocument();
 
-            // print
-
-
-            PrintPages();
+            PrintPages(data);
 
             //Saving the document
             document.save(output);
@@ -127,10 +132,9 @@ namespace TraiteurBernardWPF.PDF
             return nb;
         }
 
-        private static void PrintPages()
+        private static void PrintPages(List<dynamic> data)
         {
 
-            var data = GetData();
             data = data.OrderBy(d => d.Couleur).ThenBy(d => d.Nom).ToList();
 
             int nombreDeClients = data.Count;
@@ -481,7 +485,7 @@ namespace TraiteurBernardWPF.PDF
                         }
                     }
 
-                    for (int repas = -1; repas < 9; repas++)
+                    for (int repas = -1; repas < 10; repas++)
                     {
                         // sur dimanche ca passe pas ici (saisieDataDeLaPersonne) est vide
                         foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisieDatasDeLaPersonne))

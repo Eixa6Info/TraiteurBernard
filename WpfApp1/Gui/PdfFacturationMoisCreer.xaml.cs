@@ -75,13 +75,20 @@ namespace TraiteurBernardWPF.Gui
                 return;
                 
             }
-
             
             
             Close();
+
             var outputfile = CreatePDFFacturationMSAAPA.Start(595.27563F, 841.8898F, cbTournee.SelectedItem as TypeTournee, cbMois.SelectedIndex ,short.Parse(txtAnnee.Text), checkMsa.IsChecked ?? false, checkApa.IsChecked ?? false);
             if (!string.IsNullOrEmpty(outputfile))
             {
+                if(outputfile == "pas de données")
+                {
+                    MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpErrorDonnes, Properties.Resources.MessagePopUpDonnes, MessageBoxButton.OK);
+                    WinFormWpf.CenterToParent(wpf, this);
+                    wpf.ShowDialog();
+                    return;
+                }
                 System.Diagnostics.Process.Start(outputfile);
             }
             

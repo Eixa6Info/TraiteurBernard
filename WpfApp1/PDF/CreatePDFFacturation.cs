@@ -93,7 +93,17 @@ namespace TraiteurBernardWPF.PDF
             namePdf = "Facturation_" + tournee + "_" + annee + ".pdf";
             Msa = msa;
             Apa = apa;
-            Console.WriteLine(Msa + " et " + Apa);
+
+            var semaineStart = semaine;
+            var semaineEnd = semaine + 5;
+            int nbrSemaine = semaineEnd - semaineStart;
+            var data = GetData(nbrSemaine, Annee);
+
+            if (data.Count == 0)
+            {
+                return "pas de données";
+            }
+
             //Demande a l'utilisateur de choisir ou enregistrer    
             if (!getPath())
             {
@@ -103,13 +113,7 @@ namespace TraiteurBernardWPF.PDF
             //Création du document
             document = new PDDocument();
 
-            // print
-
-            var semaineStart = semaine;
-            var semaineEnd = semaine + 5;
-            int nbrSemaine = semaineEnd - semaineStart;
-
-            PrintPages(nbrSemaine);
+            PrintPages(data, nbrSemaine);
 
             //Saving the document
             document.save(output);
@@ -128,10 +132,9 @@ namespace TraiteurBernardWPF.PDF
             return nb;
         }
 
-        private static void PrintPages(int nbrSemaines)
+        private static void PrintPages(List<dynamic> data, int nbrSemaines)
         {
 
-            var data = GetData(nbrSemaines, Annee);
             data = data.OrderBy(d => d.Couleur).ThenBy(d => d.Nom).ToList();
 
             int nombreDeClients = data.Count;
@@ -401,9 +404,8 @@ namespace TraiteurBernardWPF.PDF
                             }
                         }
 
-                        for (int repas = -1; repas < 9; repas++)
+                        for (int repas = -1; repas <= 9; repas++)
                         {
-
                             foreach (SaisieData sd in SaisieDataDAO.SortByTypeFromList(repas, saisieDatasDeLaPersonne))
                             {
                                 if (sd.Type == 1 || sd.Type == 2 || sd.Type == 3 || sd.Type == 4 || sd.Type == 6)

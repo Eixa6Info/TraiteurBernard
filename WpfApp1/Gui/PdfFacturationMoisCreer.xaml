@@ -16,6 +16,6 @@
         <Button Content="Fermer"  HorizontalAlignment="Right" Height="26" Margin="0,0,97,10" VerticalAlignment="Bottom" Width="75"  Click="Fermer"/>
         <TextBox x:Name="txtAnnee" materialDesign:HintAssist.Hint="Annee"  materialDesign:HintAssist.IsFloating="True" HorizontalAlignment="Left" Height="40" Margin="10,15,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="179"/>
         <RadioButton x:Name="checkMsa" Content="MSA" HorizontalAlignment="Left" Margin="142,80,0,0" VerticalAlignment="Top"/>
-        <RadioButton x:Name="checkApa" Content="APA" HorizontalAlignment="Left" Margin="91,80,0,0" VerticalAlignment="Top"/>
+        <RadioButton x:Name="checkApa"  IsChecked="True" Content="APA" HorizontalAlignment="Left" Margin="91,80,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

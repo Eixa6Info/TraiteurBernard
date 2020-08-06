@@ -228,8 +228,14 @@
   <data name="MessagePopUpDelMenu" xml:space="preserve">
     <value>Vous êtes sur le point de supprimer ce menu, voulez vous continuer ?</value>
   </data>
+  <data name="MessagePopUpDonnes" xml:space="preserve">
+    <value>Impossible de générer un PDF avec les données actuelles.</value>
+  </data>
   <data name="MessagePopUpEixa6Alerte" xml:space="preserve">
     <value>Problème avec le fichier de données ! Contacter EIXA6 Informatique</value>
+  </data>
+  <data name="MessagePopUpErrorDonnes" xml:space="preserve">
+    <value>Données manquantes.</value>
   </data>
   <data name="MessagePopUpErrorIndiIncorrecte" xml:space="preserve">
     <value>La semaine et la personne sont indispensables et la semaine doit être impaire et pas supérieure à 53.</value>

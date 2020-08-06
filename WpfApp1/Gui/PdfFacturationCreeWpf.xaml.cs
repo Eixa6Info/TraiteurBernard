@@ -78,6 +78,14 @@ namespace TraiteurBernardWPF.Gui
             var outputfile = CreatePDFFacturation.Start(595.27563F, 841.8898F, short.Parse(txtSemaine.Text), short.Parse(txtAnnee.Text), cbTournee.SelectedItem as TypeTournee, checkMsa.IsChecked ?? false, checkApa.IsChecked ?? false);
             if (!string.IsNullOrEmpty(outputfile))
             {
+                if (outputfile == "pas de données")
+                {
+                    MessageBoxWpf wpf = new MessageBoxWpf(Properties.Resources.MessagePopUpErrorDonnes, Properties.Resources.MessagePopUpDonnes, MessageBoxButton.OK);
+                    WinFormWpf.CenterToParent(wpf, this);
+                    wpf.ShowDialog();
+                    return;
+                }
+
                 System.Diagnostics.Process.Start(outputfile);
             }
             
