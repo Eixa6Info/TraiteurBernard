@@ -359,7 +359,7 @@ namespace TraiteurBernardWPF.PDF
             foreach (var p in personnes)
             {
 
-                if (p.Couleur != null)
+                if (p.Couleur != null && Tournee.ID == 3)
                 {
                     switch (p.Couleur)
                     {
