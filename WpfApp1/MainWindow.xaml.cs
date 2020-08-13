@@ -29,6 +29,7 @@ using javax.sound.midi;
 using java.sql;
 using System.Globalization;
 using System.Windows.Threading;
+using System.Reflection;
 
 namespace TraiteurBernardWPF
 {

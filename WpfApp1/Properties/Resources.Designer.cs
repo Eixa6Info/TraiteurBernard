@@ -304,7 +304,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier lock est present il quitte l&apos;application..
+        ///   Recherche une chaîne localisée semblable à Le fichier lock est présent il quitte l&apos;application..
         /// </summary>
         internal static string MessageLogFichierLockKo {
             get {
@@ -313,7 +313,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier lock est present il force le lancement de l&apos;application..
+        ///   Recherche une chaîne localisée semblable à Le fichier lock est présent il force le lancement de l&apos;application..
         /// </summary>
         internal static string MessageLogFichierLockOk {
             get {
@@ -340,7 +340,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml n&apos;est pas present il travail en local..
+        ///   Recherche une chaîne localisée semblable à Le fichier nas.xml n&apos;est pas présent il travaille en local..
         /// </summary>
         internal static string MessageLogXmlYesLocal {
             get {
@@ -394,7 +394,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Impossible de générer un PDF avec les données actuelles..
+        ///   Recherche une chaîne localisée semblable à Impossible de générer un PDF avec des données incomplètes.
         /// </summary>
         internal static string MessagePopUpDonnes {
             get {
@@ -457,7 +457,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le numéro de la semaine doit être inférieur ou égal à 52..
+        ///   Recherche une chaîne localisée semblable à Le numéro de la semaine doit être inférieur ou égal à 52.
         /// </summary>
         internal static string MessagePopUpErrorSemaineSup52 {
             get {
@@ -466,7 +466,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Un autre utilisateur travail sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tous perdre est envisageable..
+        ///   Recherche une chaîne localisée semblable à Un autre utilisateur travaille sur le fichier de base de données. Voulez-vous quand même travailler sur le même fichier ? Un risque de tout perdre est envisageable..
         /// </summary>
         internal static string MessagePopUpFicherLockExiste {
             get {
@@ -484,7 +484,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Informations indispensables ou incorrecte.
+        ///   Recherche une chaîne localisée semblable à Informations indispensables ou incorrectes.
         /// </summary>
         internal static string MessagePopUpInfoIndispensableIncorrecte {
             get {
@@ -520,7 +520,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à La semaine de fin doit être supérieur ou égale à la semaine de début..
+        ///   Recherche une chaîne localisée semblable à La semaine de fin doit être supérieure ou égale à la semaine de début.
         /// </summary>
         internal static string MessagePopUpS2SuperieurS1 {
             get {
@@ -529,7 +529,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Le fichier de données est enregistré sur le NAS..
+        ///   Recherche une chaîne localisée semblable à Le fichier de données est enregistré sur le NAS.
         /// </summary>
         internal static string MessagePopUpSauvegardeLocalToNas {
             get {
@@ -547,7 +547,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Vous ne pouvez prendre un numéro de semaine supérieur à 52. Choisissez une autre semaine..
+        ///   Recherche une chaîne localisée semblable à Vous ne pouvez prendre un numéro de semaine supérieur à 52. Choisissez une autre semaine.
         /// </summary>
         internal static string MessagePopUpSemaineHorsAnnee {
             get {
@@ -556,7 +556,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Vous devez renseigner une semaine de début et une semaine de fin..
+        ///   Recherche une chaîne localisée semblable à Vous devez renseigner une semaine de début et une semaine de fin.
         /// </summary>
         internal static string MessagePopUpSemaines {
             get {
@@ -574,7 +574,7 @@ namespace TraiteurBernardWPF.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Vous devez selectioner le type de personnes (Actif/Inactif)..
+        ///   Recherche une chaîne localisée semblable à Vous devez selectioner le type de personnes (Actif/Inactif).
         /// </summary>
         internal static string MessagePopUpTypeIndi {
             get {

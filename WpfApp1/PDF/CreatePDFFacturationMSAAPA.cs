@@ -594,7 +594,7 @@ namespace TraiteurBernardWPF.PDF
                         RepasSoir = nbSoir,
                         Bag = nbBag,
                         NombrePortageEffectue = nbrPortageEffectue,
-                        MontantDepartement = Intitule == "MSA" ? nbrPortageEffectue * 3.14 : nbrPortageEffectue * 3.14
+                        MontantDepartement = Intitule == "MSA" ? nbrPortageEffectue * (p.MSAMontantMax / p.MSALivraisonMax) : nbrPortageEffectue * (p.APAMontantMax / p.APALivraisonMax)
 
                     };
                     data.Add(detailPersonne);
