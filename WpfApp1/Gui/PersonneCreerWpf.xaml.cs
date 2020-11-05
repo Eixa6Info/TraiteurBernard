@@ -70,7 +70,8 @@ namespace TraiteurBernardWPF.Gui
         {
             bool retval = false;
 
-            if (txtNom.Text.Length != 0 && txtPrenom.Text.Length != 0 && cbTournee.SelectedItem != null && cbTourneeCouleur.SelectedItem != null)
+            if (txtNom.Text.Length != 0 && txtPrenom.Text.Length != 0 && cbTournee.SelectedItem != null 
+                && cbTourneeCouleur.SelectedItem != null)
             {
                 retval = true;
             }
@@ -136,6 +137,7 @@ namespace TraiteurBernardWPF.Gui
                 {
                     cbTourneeCouleur.SelectedIndex = 1;
                 }
+               
             }
         }
 
@@ -347,13 +349,21 @@ namespace TraiteurBernardWPF.Gui
                 cbTourneeCouleur.Visibility = Visibility.Hidden;
             }
 
-            if (cbTournee.SelectedIndex == 0)
+            // FBR 5/11/2020 : je ne comprends pas la couleur affectée à "ville1" et ville2"
+            // de plus, comment sait on la correspondance entre 0/1 et ville1/ville2 ?
+            // pour Marennes, rien du tout
+            if (cbTournee.SelectedIndex == 0) // ville1
             {
                 cbTourneeCouleur.SelectedValue = "Vert";
             }
-            else if (cbTournee.SelectedIndex == 1)
+            else if (cbTournee.SelectedIndex == 1) // ville2
             {
                 cbTourneeCouleur.SelectedValue = "Jaune";
+            }
+            else
+            {
+                // par défaut, pour contre-tournée et Marennes
+                cbTourneeCouleur.SelectedIndex = 0;
             }
         }
 

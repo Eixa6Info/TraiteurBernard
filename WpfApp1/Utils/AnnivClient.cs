@@ -14,6 +14,7 @@ namespace TraiteurBernardWPF.Utils
         public bool AnnvClientSaisie(Personne personne, int annee, int semaine, int jour)
         {
             string iDate = personne.DateNaissance;
+            if (iDate == null) return false;  // les anniversaires ne sont pas forcément renseignés...
             string[] Date = iDate.Split('/');
             int i = 0;
             int day = 0;
