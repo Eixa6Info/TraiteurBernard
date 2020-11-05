@@ -70,8 +70,7 @@ namespace TraiteurBernardWPF.Gui
         {
             bool retval = false;
 
-            if (txtNom.Text.Length != 0 && txtPrenom.Text.Length != 0 && cbTournee.SelectedItem != null 
-                && cbTourneeCouleur.SelectedItem != null)
+            if (txtNom.Text.Length != 0 && txtPrenom.Text.Length != 0 && cbTournee.SelectedItem != null )// && cbTourneeCouleur.SelectedItem != null)
             {
                 retval = true;
             }
@@ -136,8 +135,7 @@ namespace TraiteurBernardWPF.Gui
                 if(cbTourneeCouleur.Text == "")
                 {
                     cbTourneeCouleur.SelectedIndex = 1;
-                }
-               
+                } 
             }
         }
 
@@ -360,11 +358,7 @@ namespace TraiteurBernardWPF.Gui
             {
                 cbTourneeCouleur.SelectedValue = "Jaune";
             }
-            else
-            {
-                // par défaut, pour contre-tournée et Marennes
-                cbTourneeCouleur.SelectedIndex = 0;
-            }
+           
         }
 
         private void cbTourneeCouleur_SelectionChanged(object sender, SelectionChangedEventArgs e)
